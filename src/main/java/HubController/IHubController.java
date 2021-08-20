@@ -40,11 +40,14 @@ import cdp4common.types.ContainerList;
 import cdp4dal.Session;
 import cdp4dal.dal.Credentials;
 
+/**
+ * The {@linkplain IHubController} is the interface definition for {@linkplain HubController}
+ */
 public interface IHubController
 {
     /**
      * @param credentials
-     * @return 
+     * @return A {@link Boolean} indicating whether opening the session succeeded
      */
     Boolean Open(Credentials credentials);
 

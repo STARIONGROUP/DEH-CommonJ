@@ -34,13 +34,26 @@ import java.awt.Font;
 
 import javax.swing.JTree;
 import javax.swing.JLabel;
-import org.junit.Ignore;
 
-@Ignore
+/**
+ * The {@link HubBrowserPanel} is the main panel view for the Hub controls like session controls and tree views.
+ * This view is meant to be integrated into another container view specific to DST * 
+ */
 @SuppressWarnings("serial")
 public class HubBrowserPanel extends JPanel 
 {
-    public JButton ConnectButton;
+    /**
+     * Backing field for {@link ConnectButton}
+     */
+    private JButton connectButton;
+    
+    /**
+     * Gets the connect button
+     */
+    public JButton ConnectButton()
+    {
+        return this.connectButton;
+    }
     
     /**
      * Initializes a new {@link HubBrowserPanel}
@@ -72,10 +85,10 @@ public class HubBrowserPanel extends JPanel
         SessionControlContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         add(SessionControlContainer, gbc_SessionControlContainer);        
 
-        this.ConnectButton = new JButton("Connect");
-        this.ConnectButton.setToolTipText("Connect to a Hub data source");
-        this.ConnectButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        SessionControlContainer.add(this.ConnectButton);
+        this.connectButton = new JButton("Connect");
+        this.connectButton.setToolTipText("Connect to a Hub data source");
+        this.connectButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        SessionControlContainer.add(this.connectButton);
         
         JPanel HubBrowserHeaderContainer = new JPanel();
         FlowLayout flowLayout = (FlowLayout) HubBrowserHeaderContainer.getLayout();

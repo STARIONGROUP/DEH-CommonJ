@@ -47,6 +47,9 @@ import cdp4dal.SessionImpl;
 import cdp4dal.dal.Credentials;
 import cdp4servicesdal.CdpServicesDal;
 
+/**
+ * Definition of the {@link HubController} which is responsible to provides {@link Session} related functionalities
+ */
 public final class HubController implements IHubController 
 {
     /**
@@ -95,7 +98,7 @@ public final class HubController implements IHubController
      * Opens the {@linkplain Session}
      * 
      * @param credentials the {@link Credentials}
-     * @param dalType the {@link DalTypeEnum} DAL type to use
+     * @return A {@link Boolean} indicating whether opening the session succeeded
      */
     @Override
     public Boolean Open(Credentials credentials)
@@ -109,6 +112,7 @@ public final class HubController implements IHubController
 
     /**
      *  Gets the {@link EngineeringModelSetup}s contained in the site directory
+     *  
      * @return A {@link ContainerList} of {@link EngineeringModelSetup}
      */
     @Override
@@ -126,7 +130,8 @@ public final class HubController implements IHubController
 
     /**
      * Retrieves the <{@link SiteDirectory} that is loaded in the <{@link Session}
-     * @return
+     * 
+     * @return the {@link SiteDirectory}
      */
     @Override
     public SiteDirectory GetSiteDirectory()
@@ -141,7 +146,7 @@ public final class HubController implements IHubController
     
     /**
      * Gets the active person
-     * @return {@link Person}
+     * @return The active {@link Person}
      */
     @Override
     public Person GetActivePerson()
@@ -184,6 +189,7 @@ public final class HubController implements IHubController
     
     /**
      * Reloads the {@link Session}
+     * 
      * @return A value indicating whether the {@link future} completed with success
      */
     @Override
@@ -194,6 +200,7 @@ public final class HubController implements IHubController
 
     /**
      * Reloads the {@link Session}
+     * 
      * @return A value indicating whether the {@link future} completed with success
      */
     @Override
@@ -203,8 +210,9 @@ public final class HubController implements IHubController
     }
     
     /**
-     * Calls the {@link future} and return a {@link Boolean}
-     * @param future
+     * Calls the {@link future} wrapped in try block and return a {@link Boolean}
+     * 
+     * @param future a {@link CompletableFuture}
      * @return A value indicating whether the {@link future} completed with success
      */
     private Boolean RefreshOrReload(CompletableFuture<Void> future)

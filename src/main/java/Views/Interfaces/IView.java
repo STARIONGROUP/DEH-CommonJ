@@ -50,5 +50,4 @@ public interface IView<TViewModel extends IViewModel>
      * @return An {@link IViewModel}
      */
     TViewModel GetDataContext();
-
 }
