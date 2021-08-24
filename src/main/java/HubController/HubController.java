@@ -32,7 +32,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableMap;
 
-import Enumerators.DalTypeEnum;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
@@ -95,6 +94,16 @@ public final class HubController implements IHubController
     private Session session;
 
     /**
+     * Sets the session
+     * 
+     * @param Session the Session to assign
+     */
+    public void SetSession(Session session)
+    {
+        this.session = session;
+    }
+    
+    /**
      * Opens the {@linkplain Session}
      * 
      * @param credentials the {@link Credentials}
@@ -146,6 +155,7 @@ public final class HubController implements IHubController
     
     /**
      * Gets the active person
+     * 
      * @return The active {@link Person}
      */
     @Override

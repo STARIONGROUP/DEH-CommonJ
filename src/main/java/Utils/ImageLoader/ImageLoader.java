@@ -37,7 +37,7 @@ import org.apache.logging.log4j.Logger;
 public final class ImageLoader
 {
     /**
-     * The {@link Logger} og this class
+     * The {@link Logger} log4J this class
      */
     private static final Logger Logger = LogManager.getLogger(); 
     
@@ -75,30 +75,5 @@ public final class ImageLoader
     public static ImageIcon GetIcon()
     {
         return GetIcon("icon32.png");
-    }
-
-    /**
-     * The {@link CombinePaths} combines path like Path.Combine does
-     * 
-     * @return a path as {@link String}
-     */
-    public static final String PathCombine(String ... paths)
-    {
-      if ( paths.length == 0)
-      {
-        return "";
-      }
-
-      File combined = new File(paths[0]);
-
-      int i = 1;
-      
-      while ( i < paths.length)
-      {
-        combined = new File(combined, paths[i]);
-        ++i;
-      }
-   
-      return combined.getPath();      
     }
 }

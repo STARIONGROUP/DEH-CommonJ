@@ -28,7 +28,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.ImmutableMap;
 
-import Enumerators.DalTypeEnum;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;

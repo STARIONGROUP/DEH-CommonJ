@@ -80,28 +80,6 @@ public final class NavigationService implements INavigationService
     {
         window.SetDataContext(viewModel);        
         ((JFrame) window).setVisible(true);
-    }    
-
-    /**
-     * Shows a window and associate its view model to it
-     * 
-     * @param window the {@linkplain IView} window instance
-     * @param viewModel the {@linkplain IViewModel} class to associate with the view
-     */
-    @Override
-    public void Show(Class<IView<? extends IViewModel>> window, Class<IViewModel> viewModel)
-    {
-        try
-        {               
-            IView<?> windowInstance = window.newInstance();
-            IViewModel viewModelInstance = AppContainer.Container.getComponent(viewModel);
-            windowInstance.SetDataContext(viewModelInstance);        
-            ((JFrame) windowInstance).setVisible(true);  
-        } 
-        catch (Exception e)
-        {
-            logger.throwing(e);
-        }
     }
 
     /**
@@ -116,7 +94,7 @@ public final class NavigationService implements INavigationService
                 
         if(viewModel == null)
         {
-            String errorMessage = String.format("failed to get view model from name/key %", viewModelName);
+            String errorMessage = String.format("failed to get view model from name/key %s", viewModelName);
             logger.error(errorMessage, viewModelName);
             throw new org.picocontainer.PicoCompositionException(errorMessage);
         }

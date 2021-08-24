@@ -1,5 +1,5 @@
 /*
- * IView.java
+ * ImageLoaderTestFixture.java
  *
  * Copyright (c) 2015-2019 RHEA System S.A.
  *
@@ -21,35 +21,23 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Views.Interfaces;
+package Utils.ImageLoader;
 
-import ViewModels.Interfaces.IViewModel;
+import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * The <code>IView</code> is the base interface that defines a view as bind-able to a view model
- * 
- * @param <code>TViewModel</code> defines the type of the view model that can be bound to the view
- */
-public interface IView<TViewModel extends IViewModel> 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import Utils.ImageLoader.ImageLoader;
+
+class ImageLoaderTestFixture
 {
-	/**
-	 * Binds the <code>TViewModel viewModel</code> to the implementing view
-	 * 
-	 * @param <code>viewModel</code> the view model to bind
-	 */
-	void Bind(TViewModel viewModel);
-	
-	/**
-	 * Sets the DataContext
-	 * 
-	 * @param viewModel the {@link IViewModel} to assign
-	 */
-	void SetDataContext(IViewModel viewModel);
-	
-    /**
-     * Gets the DataContext
-     * 
-     * @return An {@link IViewModel}
-     */
-    TViewModel GetDataContext();
+    @Test
+    void VerifyGetIcon()
+    {
+        assertNull(ImageLoader.GetIcon(null));
+        assertNotNull(ImageLoader.GetIcon("icon32.png"));
+        assertNotNull(ImageLoader.GetIcon());
+    }
+
 }

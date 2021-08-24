@@ -27,25 +27,14 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.appender.rolling.action.IfAccumulatedFileCount;
-
-import Enumerators.DalTypeEnum;
 import ViewModels.Interfaces.IHubLoginViewModel;
 import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IDialog;
-import Views.Interfaces.IView;
-import cdp4common.sitedirectorydata.DomainOfExpertise;
-import cdp4common.sitedirectorydata.EngineeringModelSetup;
-import cdp4common.sitedirectorydata.IterationSetup;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -58,7 +47,6 @@ import java.util.stream.Stream;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 

@@ -26,6 +26,7 @@ package ViewModels;
 import java.awt.event.ActionEvent;
 import java.net.URI;
 import java.text.MessageFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -42,7 +43,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.primitives.Chars;
 
-import Enumerators.DalTypeEnum;
 import HubController.IHubController;
 import ViewModels.Interfaces.IHubLoginViewModel;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
@@ -177,9 +177,8 @@ public class HubLoginViewModel implements IHubLoginViewModel
         {
             @Override
             public int compare(EngineeringModelSetup model0, EngineeringModelSetup model1) 
-            {
-                
-                return model0.getName().compareToIgnoreCase(model1.getName());
+            {                
+                return model0.getShortName().compareToIgnoreCase(model1.getShortName());
             }
         });
         
@@ -195,14 +194,21 @@ public class HubLoginViewModel implements IHubLoginViewModel
     @Override
     public Stream<String> GetIterations(String selectedEngineeringModelSetupName)
     {
-        EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get().filter(x -> x.getShortName() == selectedEngineeringModelSetupName).findFirst().get();
+        EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
+                .filter(x -> x.getShortName() == selectedEngineeringModelSetupName)
+                .findFirst()
+                .get();
         
         this.iterationSetups = () -> engineeringModelSetup
             .getIterationSetup()
             .stream()
             .sorted(Comparator.comparingInt(IterationSetup :: getIterationNumber));
         
-        return this.iterationSetups.get().map(x -> MessageFormat.format("Iteration {0} {1} {2}", x.getIterationNumber(), x.getFrozenOn(), x.getDescription()));
+        return this.iterationSetups.get().map(x -> 
+            MessageFormat.format("Iteration {0} {1} {2}", 
+                    x.getIterationNumber(), 
+                    x.getFrozenOn().format(DateTimeFormatter.ofPattern("dd-MMM-yy HH:mm:ss")), 
+                    x.getDescription()));
     }
 
     /**
@@ -214,7 +220,9 @@ public class HubLoginViewModel implements IHubLoginViewModel
     @Override
     public Pair<Stream<String>, String> GetDomainOfExpertise(String selectedEngineeringModelSetupName)
     {
-        EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get().filter(x -> x.getShortName() == selectedEngineeringModelSetupName).findFirst().get();
+        EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
+                .filter(x -> x.getShortName() == selectedEngineeringModelSetupName)
+                .findFirst().get();
         
         Participant participant = engineeringModelSetup
                 .getParticipant()
@@ -255,7 +263,10 @@ public class HubLoginViewModel implements IHubLoginViewModel
     @Override
     public boolean OpenIteration(String engineeringModelSetupName, String iterationSetupDisplayString, String domainOfExpertiseName)
     {
-        EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get().filter(x -> x.getShortName() == engineeringModelSetupName).findFirst().get();
+        EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
+                .filter(x -> x.getShortName() == engineeringModelSetupName)
+                .findFirst()
+                .get();
         
         Integer selectedIterationNumber = this.ParseIterationSetupDisplayString(iterationSetupDisplayString);
 

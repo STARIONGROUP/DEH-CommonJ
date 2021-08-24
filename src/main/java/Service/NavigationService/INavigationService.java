@@ -36,14 +36,6 @@ public interface INavigationService
      * Shows a window and associate its view model to it
      * 
      * @param window the {@linkplain IView} window instance
-     * @param viewModel the {@linkplain IViewModel} class to associate with the view
-     */
-    void Show(Class<IView<? extends IViewModel>> window, Class<IViewModel> viewModel);
-
-    /**
-     * Shows a window and associate its view model to it
-     * 
-     * @param window the {@linkplain IView} window instance
      * @param viewModel the {@linkplain IViewModel} to associate with the view
      */
     void Show(IView<? extends IViewModel> window, IViewModel viewModel);
