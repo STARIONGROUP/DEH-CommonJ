@@ -9,12 +9,12 @@ REM Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski
 REM
 REM This file is part of DEH-CommonJ
 REM
-REM The DEH-MDSYSML is free software; you can redistribute it and/or
+REM The DEH-CommonJ is free software; you can redistribute it and/or
 REM modify it under the terms of the GNU Lesser General Public
 REM License as published by the Free Software Foundation; either
 REM version 3 of the License, or (at your option) any later version.
 REM
-REM The DEH-MDSYSML is distributed in the hope that it will be useful,
+REM The DEH-CommonJ is distributed in the hope that it will be useful,
 REM but WITHOUT ANY WARRANTY; without even the implied warranty of
 REM MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 REM Lesser General Public License for more details.
