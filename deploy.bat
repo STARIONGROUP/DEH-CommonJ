@@ -1,6 +1,28 @@
 
 @ECHO OFF
 
+REM deploy.bat
+REM
+REM Copyright (c) 2020-2021 RHEA System S.A.
+REM
+REM Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+REM
+REM This file is part of DEH-CommonJ
+REM
+REM The DEH-MDSYSML is free software; you can redistribute it and/or
+REM modify it under the terms of the GNU Lesser General Public
+REM License as published by the Free Software Foundation; either
+REM version 3 of the License, or (at your option) any later version.
+REM
+REM The DEH-MDSYSML is distributed in the hope that it will be useful,
+REM but WITHOUT ANY WARRANTY; without even the implied warranty of
+REM MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+REM Lesser General Public License for more details.
+REM
+REM You should have received a copy of the GNU Lesser General Public License
+REM along with this program; if not, write to the Free Software Foundation,
+REM Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 echo ^=================================================================================
 echo ^=                   ALMOST-AUTO-DEPLOY for the DEH-MDSYSML Adapter              =
 echo ^=                                                                               =
