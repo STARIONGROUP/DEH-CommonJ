@@ -28,6 +28,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.*;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.CompletableFuture;
@@ -68,11 +70,11 @@ class HubControllerTestFixture
     }
 
     @Test
-    void VerifyGetEngineeringModels()
+    void VerifyGetEngineeringModels() throws Exception
     {
         assertNull(this.controller.GetEngineeringModels());
         
-        this.controller.SetSession(this.session);
+        this.SetSession();
         SiteDirectory siteDirectory = new SiteDirectory();
         ContainerList<EngineeringModelSetup> engineeringModelSetups = new ContainerList<EngineeringModelSetup>(siteDirectory);
         engineeringModelSetups.add(new EngineeringModelSetup());
@@ -82,19 +84,19 @@ class HubControllerTestFixture
     }
     
     @Test
-    void VerifyGetActivePerson()
+    void VerifyGetActivePerson() throws Exception
     {
         assertNull(this.controller.GetActivePerson());
-        this.controller.SetSession(this.session);
+        this.SetSession();
         Person person = new Person();
         when(this.session.getActivePerson()).thenReturn(person);
         assertSame(person, this.controller.GetActivePerson());
     }
     
     @Test
-    void VerifyGetIteration()
+    void VerifyGetIteration() throws Exception
     {
-        this.controller.SetSession(this.session);
+        this.SetSession();
         when(this.session.read(any(Iteration.class), any(DomainOfExpertise.class))).thenReturn(CompletableFuture.completedFuture(null));
         
         ImmutableMap<Iteration, Pair<DomainOfExpertise, Participant>> map = ImmutableMap.<Iteration, Pair<DomainOfExpertise, Participant>>builder()
@@ -103,13 +105,13 @@ class HubControllerTestFixture
         
         when(this.session.getOpenIterations()).thenReturn(map);
         assertDoesNotThrow(() -> this.controller.GetIteration(new Iteration(), new DomainOfExpertise()));
-        assertTrue(this.controller.IsSessionOpen());
+        assertTrue(this.controller.GetIsSessionOpen());
     }
     
     @Test
-    void VerifyReloadOrRefresh()
+    void VerifyReloadOrRefresh() throws Exception
     {
-        this.controller.SetSession(this.session);
+        this.SetSession();
         assertThrows(NullPointerException.class, () -> this.controller.Reload());
         assertThrows(NullPointerException.class, () -> this.controller.Refresh());
 
@@ -117,12 +119,13 @@ class HubControllerTestFixture
         when(this.session.refresh()).thenReturn(CompletableFuture.completedFuture(null));
 
         assertTrue(this.controller.Reload());
+        assertTrue(this.controller.Refresh());
     }
     
     @Test
-    void VerifyOpenIteration() throws URISyntaxException
+    void VerifyOpenIteration() throws Exception
     {
-        this.controller.SetSession(this.session);
+        this.SetSession();
         Assembler assembler = new Assembler(new URI("http://tes.t"));
         when(this.session.getAssembler()).thenReturn(assembler);
         when(this.session.getCredentials()).thenReturn(new Credentials("a", "p", new URI("http://tes.t"), null));
@@ -133,5 +136,44 @@ class HubControllerTestFixture
     void VerifyGetCurrentDomainOfexpertise()
     {
         assertNull(this.controller.GetCurrentDomainOfExpertise());
-    }    
+    }
+    
+    @Test
+    void VerifyGetDataSourceUri() throws Exception
+    {
+        assertEquals("", this.controller.GetDataSourceUri());
+        this.SetSession();
+        when(this.session.getDataSourceUri()).thenReturn("t");
+        assertEquals("t", this.controller.GetDataSourceUri());
+    }
+    
+    @Test
+    void VerifyClose() throws Exception
+    {
+        this.controller.Close();
+        this.SetSession();
+        Method setIsSessionOpenMethod = HubController.class.getDeclaredMethod("SetIsSessionOpen", Boolean.class);
+        setIsSessionOpenMethod.setAccessible(true);
+        setIsSessionOpenMethod.invoke(this.controller, true);
+        assertTrue(this.controller.GetIsSessionOpen());
+        assertDoesNotThrow(() -> this.controller.Close());
+        assertTrue(this.controller.GetIsSessionOpen());        
+        when(this.session.close()).thenReturn(CompletableFuture.completedFuture(null)); 
+        assertDoesNotThrow(() -> this.controller.Close());       
+    }
+    
+    private void SetSession() throws Exception
+    {
+        try
+        {
+            Field sessionField = HubController.class.getDeclaredField("session");
+            sessionField.setAccessible(true);
+            sessionField.set(this.controller, this.session);     
+        } 
+        catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exception)
+        {
+            exception.printStackTrace();
+            throw exception;
+        }
+    }
 }

@@ -23,6 +23,7 @@
  */
 package HubController;
 
+import java.text.MessageFormat;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -32,6 +33,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableMap;
 
+import Reactive.ObservableValue;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
@@ -45,6 +47,14 @@ import cdp4dal.Session;
 import cdp4dal.SessionImpl;
 import cdp4dal.dal.Credentials;
 import cdp4servicesdal.CdpServicesDal;
+import io.reactivex.Emitter;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.operators.observable.ObservableAll;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Definition of the {@link HubController} which is responsible to provides {@link Session} related functionalities
@@ -55,13 +65,14 @@ public final class HubController implements IHubController
      * The current class logger
      */
     private Logger logger = LogManager.getLogger();
+    
     /**
      * Backing field for {@link IsSessionOpen}
      */ 
     private DomainOfExpertise currentDomainOfExpertise;
     
     /**
-     * A value indicating whether the session is open
+     * Gets the current {@linkplain DomainOfExpertise}
      */
     @Override
     public DomainOfExpertise GetCurrentDomainOfExpertise()
@@ -71,37 +82,67 @@ public final class HubController implements IHubController
 
     /**
      * Backing field for {@link IsSessionOpen}
-     */ 
-    private Boolean isSessionOpen;
+     */
+    private Boolean isSessionOpen = false;
     
     /**
-     * A value indicating whether the session is open
+     * Gets a value indicating whether the session is open
+     * 
+     * @return a {@linkplain Boolean}
      */
     @Override
-    public Boolean IsSessionOpen()
+    public Boolean GetIsSessionOpen()
     {
         return this.isSessionOpen;
     }
-           
+    
     /**
-     * Gets or sets the open {@link Iteration}
+     * Backing field for {@linkplain IsSessionOpenObservable()}
      */
-    public Iteration openIteration;
+    private ObservableValue<Boolean> isSessionOpenObservable = new ObservableValue<Boolean>();
+    
+    /**
+     * Gets the {@linkplain Observable} from {@linkplain isSessionOpen} boolean field
+     * 
+     * @return an {@linkplain Observable} wrapping a value indicating whether the {@linkplain Session} is open
+     */
+    @Override
+    public Observable<Boolean> GetIsSessionOpenObservable()
+    {
+        return this.isSessionOpenObservable.Observable();
+    }
+    
+    /**
+     * Sets the {@linkplain isSessionOpen} and call OnNext on {@linkplain isSessionOpenObservable}
+     * 
+     * @param value the {@linkplain Boolean} new value
+     */
+    private void SetIsSessionOpen(Boolean value)
+    {
+        this.isSessionOpen = value;
+        this.isSessionOpenObservable.Value(value);
+    }
+    
+    /**
+     * Sets the open {@link Iteration}
+     */
+    private Iteration openIteration;
+    
+    /**
+     * Gets the open {@link Iteration}
+     * 
+     * @return an {@linkplain Iteration}
+     */
+    @Override
+    public Iteration GetOpenIteration()
+    {
+        return this.openIteration;
+    }
             
     /**
      * The {@link Session} that is used to communicate with the data-store
      */
     private Session session;
-
-    /**
-     * Sets the session
-     * 
-     * @param Session the Session to assign
-     */
-    public void SetSession(Session session)
-    {
-        this.session = session;
-    }
     
     /**
      * Opens the {@linkplain Session}
@@ -120,7 +161,7 @@ public final class HubController implements IHubController
     }    
 
     /**
-     *  Gets the {@link EngineeringModelSetup}s contained in the site directory
+     * Gets the {@link EngineeringModelSetup}s contained in the site directory
      *  
      * @return A {@link ContainerList} of {@link EngineeringModelSetup}
      */
@@ -154,6 +195,22 @@ public final class HubController implements IHubController
     }
     
     /**
+     * Gets the data source URI as string of the current {@linkplain Session}
+     * 
+     * @return a string representation of the URI or a empty string
+     */
+    @Override
+    public String GetDataSourceUri()
+    {
+        if (this.session != null)
+        {
+            return this.session.getDataSourceUri();
+        }
+        
+        return "";
+    }
+    
+    /**
      * Gets the active person
      * 
      * @return The active {@link Person}
@@ -171,6 +228,7 @@ public final class HubController implements IHubController
     
     /**
      * Reads an {@link Iteration} and set the active {@link DomainOfExpertise} for the {@link Iteration}
+     * 
      * @param The {@link Iteration} to read
      * @param The {@link Domain} that reads the {@link Iteration}
      */
@@ -182,7 +240,7 @@ public final class HubController implements IHubController
         this.openIteration = iterationDomainAndParticipant.keySet().stream().findFirst().get();
         this.currentDomainOfExpertise = iterationDomainAndParticipant.entrySet().stream().findFirst().get().getValue().getKey();
         
-        this.isSessionOpen = this.openIteration != null;
+        this.SetIsSessionOpen(this.openIteration != null);
     }
 
     /**
@@ -196,6 +254,31 @@ public final class HubController implements IHubController
         return this.session.getOpenIterations();
     }
 
+    /**
+     * Closes the connection to the data-source
+     */
+    @Override
+    public void Close()
+    {
+        if (!this.isSessionOpen)
+        {
+            this.logger.info("At first a connection should be opened.");
+            return;
+        }
+
+        try
+        {
+            this.session.close().join();
+            this.session = null;
+            this.SetIsSessionOpen(false);
+            this.currentDomainOfExpertise = null;
+            this.openIteration = null;
+        }
+        catch (Exception exception)
+        {
+            this.logger.error(MessageFormat.format("During close operation an error has occured: {0}", exception));
+        }
+    }
     
     /**
      * Reloads the {@link Session}

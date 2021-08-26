@@ -74,7 +74,7 @@ class NavigationServiceTestFixture
         return new IDialog<IViewModel, Boolean>() {
 
             @Override
-            public void Bind(IViewModel viewModel) { }
+            public void Bind() { }
 
             @Override
             public void SetDataContext(IViewModel viewModel) { }
@@ -106,7 +106,7 @@ class NavigationServiceTestFixture
     private abstract class FakeWindow extends JFrame implements IView<IViewModel>
     {
         @Override
-        public void Bind(IViewModel viewModel) { }
+        public void Bind() { }
 
         @Override
         public void SetDataContext(IViewModel viewModel) { }

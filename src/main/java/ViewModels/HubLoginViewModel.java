@@ -26,6 +26,7 @@ package ViewModels;
 import java.awt.event.ActionEvent;
 import java.net.URI;
 import java.text.MessageFormat;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -194,6 +195,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
     @Override
     public Stream<String> GetIterations(String selectedEngineeringModelSetupName)
     {
+        this.logger.error(MessageFormat.format("DEBUG GetIterations(selectedEngineeringModelSetupName = {0})", selectedEngineeringModelSetupName));
         EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
                 .filter(x -> x.getShortName() == selectedEngineeringModelSetupName)
                 .findFirst()
@@ -206,9 +208,25 @@ public class HubLoginViewModel implements IHubLoginViewModel
         
         return this.iterationSetups.get().map(x -> 
             MessageFormat.format("Iteration {0} {1} {2}", 
-                    x.getIterationNumber(), 
-                    x.getFrozenOn().format(DateTimeFormatter.ofPattern("dd-MMM-yy HH:mm:ss")), 
+                    x.getIterationNumber(),
+                    this.GetFormatedIterationFrozenOnDateTime(x.getFrozenOn()),
                     x.getDescription()));
+    }
+
+    /**
+     * Gets a formated string built with the {@linkplain frozenOn} {@linkplain OffsetDateTime}
+     * 
+     * @param frozenOn the {@linkplain OffsetDateTime} to format
+     * @return a {@linkplain String} containing the {@linkplain iterationSetup} formated or an empty String
+     */
+    private String GetFormatedIterationFrozenOnDateTime(OffsetDateTime frozenOn)
+    {
+        if (frozenOn != null)
+        {
+            return frozenOn.format(DateTimeFormatter.ofPattern("dd-MMM-yy HH:mm:ss"));
+        }
+        
+        return "active";
     }
 
     /**

@@ -43,7 +43,7 @@ echo ==================================^> call mvn package DEH-CommonJ
 echo ===============================================================^>
 echo.
 
-call mvn package
+call mvn package -Dmaven.test.skip=true
 echo Exit Code = %ERRORLEVEL%
 if not "%ERRORLEVEL%" == "0" exit /b
 
@@ -74,7 +74,7 @@ echo ==================================^> call mvn package DEH-MDSYSML
 echo ===============================================================^>
 echo.
 
-call mvn package
+call mvn package -Dmaven.test.skip=true
 echo Exit Code = %ERRORLEVEL%
 if not "%ERRORLEVEL%" == "0" GOTO ExitStatement
 

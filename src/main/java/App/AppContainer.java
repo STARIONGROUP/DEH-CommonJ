@@ -26,24 +26,15 @@ package App;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.behaviors.Caching;
-import org.picocontainer.behaviors.ImplementationHiding;
 import HubController.HubController;
 import HubController.IHubController;
 import Service.NavigationService.INavigationService;
 import Service.NavigationService.NavigationService;
-import ViewModels.HubLoginViewModel;
-import ViewModels.Interfaces.IHubLoginViewModel;
-import ViewModels.Interfaces.IViewModel;
+import ViewModels.*;
+import ViewModels.Interfaces.*;
 
 import static org.picocontainer.Characteristics.CACHE;
 import static org.picocontainer.Characteristics.NO_CACHE;
-
-import java.util.Properties;
-
-import javax.swing.JOptionPane;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * The {@linkplain AppContainer} provides the IOC container for DI for this Application
@@ -60,10 +51,11 @@ public final class AppContainer
 	 */
 	static
 	{
-	    Container = new DefaultPicoContainer(new Caching());
+        Container = new DefaultPicoContainer(new Caching());
         Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class.getSimpleName(), HubLoginViewModel.class);
         Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class, HubLoginViewModel.class);
-		Container.as(CACHE).addComponent(IHubController.class, HubController.class);
-		Container.as(NO_CACHE).addComponent(INavigationService.class, NavigationService.class);
+        Container.as(CACHE).addComponent(IHubController.class, HubController.class);
+        Container.as(NO_CACHE).addComponent(INavigationService.class, NavigationService.class);
+        Container.as(NO_CACHE).addComponent(IHubBrowserHeaderViewModel.class, HubBrowserHeaderViewModel.class);
 	}
 }

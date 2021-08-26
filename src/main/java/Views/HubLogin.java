@@ -35,6 +35,8 @@ import org.apache.logging.log4j.Logger;
 import ViewModels.Interfaces.IHubLoginViewModel;
 import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IDialog;
+import net.bytebuddy.asm.Advice.This;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -63,7 +65,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
     /**
      * The current class log4J {@linkplain Logger}
      */
-    private static final Logger logger = LogManager.getLogger();
+    private final Logger logger = LogManager.getLogger();
     
     /**
      * Backing field for {@linkplain GetDialogResult()}
@@ -71,12 +73,16 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
     private Boolean dialogResult;
 
     /**
+     * This view attached {@linkplain IViewModel}
+     */
+    private IHubLoginViewModel dataContext;
+    
+    /**
      * UI Elements declarations
      */
     private final JPanel contentPanel = new JPanel();
     private JButton okButton;
     private JButton cancelButton;
-    private IHubLoginViewModel dataContext;
     private JTextField loginField;
     private JPanel sessionPanelContainer;
     private JPanel loginPanelContainer;
@@ -344,8 +350,13 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
            return null;
         }
     }
-
-    private void Bind()
+    
+    /**
+     * Binds the <code>TViewModel viewModel</code> to the implementing view
+     * 
+     * @param <code>viewModel</code> the view model to bind
+     */
+    public void Bind()
     {
         this.addressComboBox.addActionListener(new ActionListener() 
         {
@@ -429,7 +440,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
         catch (Exception exception)
         {
             logger.catching(exception);
-            JOptionPane.showMessageDialog(this.sessionPanelContainer, MessageFormat.format("An error occured: {0}. Have a look at the Cameo/MagicDraw log for detail.", exception.getMessage()));
+            JOptionPane.showMessageDialog(this.sessionPanelContainer, MessageFormat.format("An error occured: {0}. Have a look at the Cameo/MagicDraw log for detail.", exception));
         }
     }
     
@@ -466,28 +477,31 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
         }
         catch (Exception exception)
         {
-            JOptionPane.showMessageDialog(this.sessionPanelContainer, MessageFormat.format("An error occured: {0}. Have a look at the Cameo/MagicDraw log for detail.", exception.getMessage()));
+            this.logger.catching(exception);
+            JOptionPane.showMessageDialog(this.sessionPanelContainer, MessageFormat.format("An error occured: {0}. Have a look at the Cameo/MagicDraw log for detail.", exception));
         }
     }
     
-    @Override
+    /**
+     * Sets the DataContext
+     * 
+     * @param viewModel the {@link IViewModel} to assign
+     */
     public void SetDataContext(IViewModel viewModel)
     {
         this.dataContext = (IHubLoginViewModel) viewModel;
         this.Bind();
     }
-
+    
+    /**
+    * Gets the DataContext
+    * 
+    * @return An {@link IViewModel}
+    */
     @Override
     public IHubLoginViewModel GetDataContext()
     {
         return this.dataContext;
-    }
-
-    @Override
-    public void Bind(IHubLoginViewModel viewModel)
-    {
-        // TODO Auto-generated method stub
-        
     }
 
     /**

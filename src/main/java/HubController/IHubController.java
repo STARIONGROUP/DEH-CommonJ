@@ -38,6 +38,7 @@ import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4common.types.ContainerList;
 import cdp4dal.Session;
 import cdp4dal.dal.Credentials;
+import io.reactivex.Observable;
 
 /**
  * The {@linkplain IHubController} is the interface definition for {@linkplain HubController}
@@ -45,19 +46,25 @@ import cdp4dal.dal.Credentials;
 public interface IHubController
 {
     /**
-     * @param credentials
-     * @return A {@link Boolean} indicating whether opening the session succeeded
+     * Loads an {@link Iteration} with the selected {@link DomainOfExpertise}
+     * 
+     * @param engineeringModelSetup
+     * @param iterationSetup
+     * @param domainOfExpertise
+     * @return A value indicating whether the operation went well
      */
-    Boolean Open(Credentials credentials);
+    boolean OpenIteration(EngineeringModelSetup engineeringModelSetup, IterationSetup iterationSetup, DomainOfExpertise domainOfExpertise);
 
     /**
      * Reloads the {@link Session}
+     * 
      * @return A value indicating whether the {@link future} completed with success
      */
     Boolean Refresh();
 
     /**
      * Reloads the {@link Session}
+     * 
      * @return A value indicating whether the {@link future} completed with success
      */
     Boolean Reload();
@@ -71,46 +78,76 @@ public interface IHubController
 
     /**
      * Reads an {@link Iteration} and set the active {@link DomainOfExpertise} for the {@link Iteration}
+     * 
      * @param The {@link Iteration} to read
      * @param The {@link Domain} that reads the {@link Iteration}
      */
     void GetIteration(Iteration iteration, DomainOfExpertise domain);
 
     /**
-     * Retrieves the <{@link SiteDirectory} that is loaded in the <{@link Session}
-     * @return {@link SiteDirectory}
-     */
-    SiteDirectory GetSiteDirectory();
-    
-    /**
      * Gets the active person
-     * @return {@link Person}
+     * 
+     * @return The active {@link Person}
      */
     Person GetActivePerson();
 
     /**
-     *  Gets the {@link EngineeringModelSetup}s contained in the site directory
+     * Retrieves the <{@link SiteDirectory} that is loaded in the <{@link Session}
+     * 
+     * @return the {@link SiteDirectory}
+     */
+    SiteDirectory GetSiteDirectory();
+
+    /**
+     * Gets the {@link EngineeringModelSetup}s contained in the site directory
+     *  
      * @return A {@link ContainerList} of {@link EngineeringModelSetup}
      */
     ContainerList<EngineeringModelSetup> GetEngineeringModels();
 
     /**
-     * A value indicating whether the session is open
+     * Opens the {@linkplain Session}
+     * 
+     * @param credentials the {@link Credentials}
+     * @return A {@link Boolean} indicating whether opening the session succeeded
      */
-    Boolean IsSessionOpen();
+    Boolean Open(Credentials credentials);
 
     /**
-     * A value indicating whether the session is open
+     * Gets the open {@link Iteration}
+     * 
+     * @return an {@linkplain Iteration}
+     */
+    Iteration GetOpenIteration();
+
+    /**
+     * Gets the {@linkplain Observable} from {@linkplain isSessionOpen} boolean field
+     * 
+     * @return an {@linkplain Observable} wrapping a value indicating whether the {@linkplain Session} is open
+     */
+    Observable<Boolean> GetIsSessionOpenObservable();
+
+    /**
+     * Gets a value indicating whether the session is open
+     * 
+     * @return a {@linkplain Boolean}
+     */
+    Boolean GetIsSessionOpen();
+
+    /**
+     * Gets the current {@linkplain DomainOfExpertise}
      */
     DomainOfExpertise GetCurrentDomainOfExpertise();
 
-    /**     * 
-     * Loads an {@link Iteration} with the selected {@link DomainOfExpertise}
+    /**
+     * Gets the data source URI as string of the current {@linkplain Session}
      * 
-     * @param engineeringModelSetup
-     * @param iterationSetup
-     * @param domainOfExpertise
-     * @return A value indicating whether the operation went well
+     * @return a string representation of the URI or a empty string
      */
-    boolean OpenIteration(EngineeringModelSetup engineeringModelSetup, IterationSetup iterationSetup, DomainOfExpertise domainOfExpertise);
+    String GetDataSourceUri();
+
+    /**
+     * Closes the connection to the data-source
+     */
+    void Close();    
 }
