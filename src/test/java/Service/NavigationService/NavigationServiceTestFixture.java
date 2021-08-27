@@ -31,6 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import App.AppContainer;
+import Services.NavigationService.NavigationService;
 import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IDialog;
 import Views.Interfaces.IView;

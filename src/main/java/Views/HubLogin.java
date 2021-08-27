@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerenï¿½, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -83,6 +83,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
     private final JPanel contentPanel = new JPanel();
     private JButton okButton;
     private JButton cancelButton;
+    private JButton saveUriButton;
     private JTextField loginField;
     private JPanel sessionPanelContainer;
     private JPanel loginPanelContainer;
@@ -182,13 +183,14 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
                     this.loginPanelContainer.add(this.addressComboBox, gbc_addressComboBox);
                 }
                 {
-                    JButton btnNewButton = new JButton("\uD83D\uDCBE");
-                    GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-                    gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-                    gbc_btnNewButton.insets = new Insets(10, 10, 10, 10);
-                    gbc_btnNewButton.gridx = 2;
-                    gbc_btnNewButton.gridy = 1;
-                    this.loginPanelContainer.add(btnNewButton, gbc_btnNewButton);
+                    this.saveUriButton = new JButton("\uD83D\uDCBE");
+                    this.saveUriButton.setToolTipText("Save the current selected address");
+                    GridBagConstraints gbc_SaveUriButton = new GridBagConstraints();
+                    gbc_SaveUriButton.fill = GridBagConstraints.BOTH;
+                    gbc_SaveUriButton.insets = new Insets(10, 10, 10, 10);
+                    gbc_SaveUriButton.gridx = 2;
+                    gbc_SaveUriButton.gridy = 1;
+                    this.loginPanelContainer.add(this.saveUriButton, gbc_SaveUriButton);
                 }
                 {
                     JLabel lblNewLabel_4 = new JLabel("Login");
@@ -323,6 +325,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
             getContentPane().add(buttonPane, BorderLayout.SOUTH);
             {
                 this.okButton = new JButton("Next");
+                okButton.setToolTipText("Continue with the current login / Session information");
                 okButton.setBounds(50, 125, 150, 50);
                 okButton.setActionCommand("OK");
                 buttonPane.add(okButton);
@@ -330,6 +333,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
             }
             {
                 this.cancelButton = new JButton("Cancel");
+                cancelButton.setToolTipText("Close this dialog and abort the connection");
                 this.cancelButton.setActionCommand("Cancel");
                 buttonPane.add(this.cancelButton);
             }
@@ -364,6 +368,15 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
             public void actionPerformed(ActionEvent e) 
             {
                 dataContext.WhenAddressComboxIsEdited(addressComboBox, e);
+            }
+        });
+        
+        this.saveUriButton.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                dataContext.DoSaveTheCurrentSelectedUri((String)addressComboBox.getSelectedItem());
             }
         });
         

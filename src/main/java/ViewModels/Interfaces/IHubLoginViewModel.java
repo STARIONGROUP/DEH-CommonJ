@@ -35,6 +35,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
+import io.reactivex.Observable;
 
 /**
  * The <code>IHubLoginViewModel</code> if the interface definition for the <code>HubLoginViewModel</code>
@@ -44,7 +45,7 @@ public interface IHubLoginViewModel extends IViewModel
     /**
      * Gets the addresses
      * 
-     * @return a Collection of string
+     * @return a collection of string
      */
     List<String> GetAddresses();
     
@@ -102,4 +103,11 @@ public interface IHubLoginViewModel extends IViewModel
      * @return A value indicating whether the operation went well
      */
     boolean OpenIteration(String engineeringModelSetupName, String iterationSetupDisplayString, String domainOfExpertiseName);
+
+    /**
+     * Saves the current Uri in the user preference
+     * 
+     * @param uri the string uri to save
+     */
+    void DoSaveTheCurrentSelectedUri(String uri);
 }
