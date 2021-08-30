@@ -472,7 +472,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
             }
             else
             {
-                JOptionPane.showMessageDialog(this.loginPanelContainer, "Please select an valid server address to continue");
+                JOptionPane.showMessageDialog(this.loginPanelContainer, "Please select a valid server address to continue");
             }
         }
         catch (Exception exception)
