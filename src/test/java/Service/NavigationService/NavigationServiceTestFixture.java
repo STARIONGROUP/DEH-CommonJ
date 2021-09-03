@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam GerenÃ©, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -31,6 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import App.AppContainer;
+import Services.NavigationService.NavigationService;
 import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IDialog;
 import Views.Interfaces.IView;

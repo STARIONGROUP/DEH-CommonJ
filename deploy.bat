@@ -26,8 +26,8 @@ REM Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 echo ^=================================================================================
 echo ^=                   ALMOST-AUTO-DEPLOY for the DEH-MDSYSML Adapter              =
 echo ^=                                                                               =
-echo ^= \-p ===> Generate DEH-MDSYSML plugin                                          =
-echo ^= \-i ===> Install the generated DEH-MDSYSML plugin                             =
+echo ^= \-p ===^> Generate DEH-MDSYSML plugin                                          =
+echo ^= \-i ===^> Install the generated DEH-MDSYSML plugin                             =
 echo ^=================================================================================
 
 if /I "%1" == "-p" goto PackPlugin

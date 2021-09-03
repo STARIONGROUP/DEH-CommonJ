@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam GerenÃ©, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -28,8 +28,8 @@ import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.behaviors.Caching;
 import HubController.HubController;
 import HubController.IHubController;
-import Service.NavigationService.INavigationService;
-import Service.NavigationService.NavigationService;
+import Services.UserPreferenceService.*;
+import Services.NavigationService.*;
 import ViewModels.*;
 import ViewModels.Interfaces.*;
 
@@ -57,5 +57,6 @@ public final class AppContainer
         Container.as(CACHE).addComponent(IHubController.class, HubController.class);
         Container.as(NO_CACHE).addComponent(INavigationService.class, NavigationService.class);
         Container.as(NO_CACHE).addComponent(IHubBrowserHeaderViewModel.class, HubBrowserHeaderViewModel.class);
+        Container.as(NO_CACHE).addComponent(IUserPreferenceService.class, UserPreferenceService.class);
 	}
 }

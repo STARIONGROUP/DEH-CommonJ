@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam GerenÃ©, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -29,22 +29,19 @@ import java.text.MessageFormat;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.primitives.Chars;
-
 import HubController.IHubController;
+import Services.UserPreferenceService.IUserPreferenceService;
 import ViewModels.Interfaces.IHubLoginViewModel;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
@@ -66,6 +63,11 @@ public class HubLoginViewModel implements IHubLoginViewModel
      * The {@link IHubController}
      */
     private IHubController hubController;
+    
+    /**
+     * The {@linkplain IUserPreferenceService}
+     */
+    private IUserPreferenceService userPreferenceService;
     
     /**
      * Backing field for {@link GetIsLoginSuccessful}
@@ -108,6 +110,8 @@ public class HubLoginViewModel implements IHubLoginViewModel
     
     /**
      * Get the collection of server addresses
+     * 
+     * @return a Collection of string
      */
     public List<String> GetAddresses()
     {
@@ -117,12 +121,15 @@ public class HubLoginViewModel implements IHubLoginViewModel
     /** 
      * Initializes a new {@link HubLoginViewModel}
      * 
-     * @param hubController
+     * @param hubController the {@linkplain IHubController}
+     * @param userPreferenceService the {@linkplain IUserPreferenceService}
      */
-    public HubLoginViewModel(IHubController hubController)
+    public HubLoginViewModel(IHubController hubController, IUserPreferenceService userPreferenceService)
     {
         this.hubController = hubController;
-        this.addresses.addAll(Arrays.asList("http://localhost:5000", "https://public.cdp4.org"));        
+        this.userPreferenceService = userPreferenceService;
+        
+        this.addresses.addAll(this.userPreferenceService.GetUserPreference().SavedServerUri);        
     }
     
     /**
@@ -141,7 +148,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
         }
         else if("comboBoxEdited".equals(e.getActionCommand())) 
         {
-            int indexInSource = addresses.indexOf(selectedItem);
+            int indexInSource = this.addresses.indexOf(selectedItem);
             if (indexInSource > -1)
             {
                 addressComboBox.setSelectedIndex(indexInSource);   
@@ -149,10 +156,24 @@ public class HubLoginViewModel implements IHubLoginViewModel
             else
             {
                 addressComboBox.addItem(selectedItem);
+                addressComboBox.setSelectedItem(selectedItem);  
+                this.addresses.add(selectedItem);
             }
         }               
     }
-
+    
+    /**
+     * Saves the current Uri in the user preference
+     * 
+     * @param uri the string uri to save
+     */
+    @Override
+    public void DoSaveTheCurrentSelectedUri(String uri)
+    {
+        this.userPreferenceService.GetUserPreference().SavedServerUri.add(uri);
+        this.userPreferenceService.Save();
+    }
+    
     /**
      * Opens the {@link Session}
      * 

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam GerenÃ©, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -47,6 +47,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import HubController.IHubController;
+import Services.UserPreferenceService.IUserPreferenceService;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
@@ -62,6 +63,7 @@ class HubLoginViewModelTestFixture
     private HubLoginViewModel viewModel;
     private DomainOfExpertise domainOfExpertise;
     private IterationSetup iterationSetup;
+    private IUserPreferenceService userPreferenceService;
 
         @BeforeEach
     void setUp() throws Exception
@@ -100,7 +102,8 @@ class HubLoginViewModelTestFixture
         engineeringModelSetups.add(engineeringModelSetup2);
         when(this.hubController.GetEngineeringModels()).thenReturn(engineeringModelSetups);
         
-        this.viewModel = new HubLoginViewModel(this.hubController);
+        this.userPreferenceService = mock(IUserPreferenceService.class);
+        this.viewModel = new HubLoginViewModel(this.hubController, this.userPreferenceService);
         when(this.hubController.GetActivePerson()).thenReturn(activePerson);
     }
     
