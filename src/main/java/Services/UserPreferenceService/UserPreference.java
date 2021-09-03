@@ -1,5 +1,5 @@
 /*
- * package-info.java
+ * UserPreference.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -7,12 +7,12 @@
  *
  * This file is part of DEH-CommonJ
  *
- * The DEH-CommonJ is free software; you can redistribute it and/or
+ * The DEH-MDSYSML is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * The DEH-CommonJ is distributed in the hope that it will be useful,
+ * The DEH-MDSYSML is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
@@ -21,7 +21,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+package Services.UserPreferenceService;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- *
+ * The {@linkplain UserPreference} holds different preferences for the user saved as Json and handled by the {@linkplain UserPreferenceService} 
  */
-package App;
+public class UserPreference
+{
+    /**
+     * Gets or sets server Uri
+     */
+    public List<String> SavedServerUri = new ArrayList<String>();
+}

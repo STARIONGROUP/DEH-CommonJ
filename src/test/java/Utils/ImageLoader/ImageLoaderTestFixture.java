@@ -1,5 +1,5 @@
 /*
- * package-info.java
+ * ImageLoaderTestFixture.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,7 +21,23 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-/**
- *
- */
-package App;
+package Utils.ImageLoader;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import Utils.ImageLoader.ImageLoader;
+
+class ImageLoaderTestFixture
+{
+    @Test
+    void VerifyGetIcon()
+    {
+        assertNull(ImageLoader.GetIcon(null));
+        assertNotNull(ImageLoader.GetIcon("icon32.png"));
+        assertNotNull(ImageLoader.GetIcon());
+    }
+
+}
