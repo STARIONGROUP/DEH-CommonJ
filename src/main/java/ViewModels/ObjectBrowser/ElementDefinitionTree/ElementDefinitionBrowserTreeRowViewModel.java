@@ -33,19 +33,31 @@ import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterV
 import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
 import cdp4common.commondata.ClassKind;
 
-public class ElementDefinitionBrowserTreeRowViewModel implements RowModel, IElementDefinitionRowViewModel
+public class ElementDefinitionBrowserTreeRowViewModel implements RowModel
 {
     /**
      * The current class logger
      */
     private final Logger logger = LogManager.getLogger();
     
+    /**
+     * Gets column count for this tree grid needed to generate all the specified columns and also to compute rows values 
+     * 
+     * @return the total number of column
+     */
     @Override
     public int getColumnCount()
     {
         return 11;
     }
 
+    /**
+     * Gets the value for the provided {@linkplain column} and {@linkplain rowViewModel}
+     * 
+     * @param rowViewModel the row
+     * @param column the column
+     * @return an {@linkplain Object} holding the value
+     */
     @Override
     public Object getValueFor(Object rowViewModel, int column)
     {
@@ -101,6 +113,12 @@ public class ElementDefinitionBrowserTreeRowViewModel implements RowModel, IElem
         return "-";
     }
 
+    /**
+     * Gets the column {@linkplain Class} for the specified {@linkplain column}
+     * 
+     * @param column the column index
+     * @return the {@linkplain Class}/ type of value the column holds   
+     */
     @Override
     public Class<?> getColumnClass(int column)
     {
@@ -123,15 +141,35 @@ public class ElementDefinitionBrowserTreeRowViewModel implements RowModel, IElem
         return null;
     }
 
+    /**
+     * Gets a value indicating whether the specified (by the provided {@linkplain node} and {@linkplain column}) cell is editable
+     * 
+     * @param node the row view model
+     * @param column the column index
+     * @return a {@linkplain boolean}
+     */
     @Override
     public boolean isCellEditable(Object node, int column)
     {
         return false;
     }
 
+
+    /**
+     * Sets the value provided by {@linkplain value} to the node view model, typically it should call a setter on the row view model
+     * 
+     * @param node the row view model
+     * @param column the column index
+     */
     @Override
     public void setValueFor(Object node, int column, Object value) { }
 
+    /**
+     * Gets the column name based on its index
+     * 
+     * @param column the column index
+     * @return a {@linkplain String} holding the column name
+     */
     @Override
     public String getColumnName(int column)
     {

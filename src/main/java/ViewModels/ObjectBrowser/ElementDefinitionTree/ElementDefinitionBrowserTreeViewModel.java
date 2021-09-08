@@ -34,96 +34,22 @@ import HubController.IHubController;
 import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 import ViewModels.ObjectBrowser.Rows.*;
+import ViewModels.ObjectBrowser.BrowserTreeViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.IterationRowViewModel;
 import cdp4common.engineeringmodeldata.Iteration;
 
-public class ElementDefinitionBrowserTreeViewModel implements TreeModel, IElementDefinitionBrowserViewModel
+/**
+ * The {@linkplain ElementDefinitionBrowserTreeRowViewModel} is the {@linkplain TreeModel} for the element definition browser
+ */
+public class ElementDefinitionBrowserTreeViewModel extends BrowserTreeViewModel
 {
-    /**
-     * The current class logger
-     */
-    private final Logger logger = LogManager.getLogger();
-    
-    /**
-     * The root node of one {@linkplain ElementDefinitionBrowserTree}
-     */
-    private IterationRowViewModel iterationRowViewModel;
-    
     /**
      * Initializes a new {@linkplain ElementDefinitionBrowserTreeViewModel}
      * 
      * @param iteration the {@linkplain Iteration}
-     * @param hubController the {@linkplain IHubController}
      */
-    public ElementDefinitionBrowserTreeViewModel(Iteration iteration, IHubController hubController)
+    public ElementDefinitionBrowserTreeViewModel(Iteration iteration)
     {
-        this.iterationRowViewModel = new IterationRowViewModel(iteration);
-        hubController.GetIsSessionOpenObservable().subscribe(x -> 
-            {
-                if(x == false)
-                {
-                    this.iterationRowViewModel = null;
-                }
-            });        
-    }
-
-    @Override
-    public Object getRoot()
-    {
-        return this.iterationRowViewModel;
-    }
-
-    @Override
-    public Object getChild(Object rowViewModel, int index)
-    {        
-        if (rowViewModel instanceof IHaveContainedRows<?>) 
-        {            
-            return ((IHaveContainedRows<?>)rowViewModel).GetContainedRows().get(index);
-        }
-        
-        return null;
-    }
-
-    @Override
-    public int getChildCount(Object rowViewModel)
-    {                
-        if (rowViewModel instanceof IHaveContainedRows<?>)
-        {
-            return ((IHaveContainedRows<?>)rowViewModel).GetContainedRows().size();
-        }
-        
-        return 0;
-    }
-
-    @Override
-    public boolean isLeaf(Object rowViewModel)
-    {
-        return rowViewModel instanceof IHaveContainedRows<?> && ((IHaveContainedRows<?>)rowViewModel).GetContainedRows().isEmpty();
-    }
-
-    @Override
-    public void valueForPathChanged(TreePath path, Object newValue) { }
-
-    @Override
-    public int getIndexOfChild(Object parent, Object child)
-    {
-        if(parent == null || child == null)
-        {
-            return 0;
-        }
-        
-        return ((IHaveContainedRows<?>)parent).GetContainedRows().indexOf(child);
-    }
-
-    @Override
-    public void addTreeModelListener(TreeModelListener l)
-    {
-        // TODO Auto-generated method stub        
-    }
-
-    @Override
-    public void removeTreeModelListener(TreeModelListener l)
-    {
-        // TODO Auto-generated method stub
+        super(iteration);
     }
 }

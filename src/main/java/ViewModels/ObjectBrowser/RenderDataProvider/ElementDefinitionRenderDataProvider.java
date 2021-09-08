@@ -38,6 +38,10 @@ import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterV
 import ViewModels.ObjectBrowser.Rows.ThingRowViewModel;
 import cdp4common.commondata.ClassKind;
 
+/**
+ * The {@linkplain ElementDefinitionRenderDataProvider} is the {@linkplain RenderDataProvider} for the element definition tree
+ * It is used mainly for styling the tree
+ */
 public class ElementDefinitionRenderDataProvider implements RenderDataProvider
 {
     /**
@@ -45,6 +49,12 @@ public class ElementDefinitionRenderDataProvider implements RenderDataProvider
      */
     private final Logger logger = LogManager.getLogger();
     
+    /**
+     * Gets the specified row view model node name
+     * 
+     * @param rowViewModel the row view model to get the name from
+     * @return a {@linkplain String}
+     */
     @Override
     public String getDisplayName(Object rowViewModel)
     {
@@ -57,30 +67,63 @@ public class ElementDefinitionRenderDataProvider implements RenderDataProvider
         return "undefined";
     }
 
+    /**
+     * Gets an value indicating to the tree whether the display name for this object should use HTMLrendering
+     * 
+     * @param rowViewModel the row view model
+     * @return a {@linkplain boolean}
+     */
     @Override
-    public boolean isHtmlDisplayName(Object o)
+    public boolean isHtmlDisplayName(Object rowViewModel)
     {
         return false;
     }
 
+    /**
+     * Gets the background color to be used for rendering this node. Returns
+     * null if the standard table background or selected color should be used.
+     * 
+     * @param rowViewModel the row view model
+     * @return a {@linkplain Color}
+     */
     @Override
-    public Color getBackground(Object o)
+    public Color getBackground(Object rowViewModel)
     {
         return Color.WHITE;
     }
 
+    /**
+     * Gets the foreground color to be used for rendering this node. Returns
+     * null if the standard table foreground or selected color should be used.
+     * 
+     * @param rowViewModel the row view model
+     * @return a {@linkplain Color}
+     */
     @Override
-    public Color getForeground(Object o)
+    public Color getForeground(Object rowViewModel)
     {
         return null;
     }
 
+    /**
+     * Gets a description for this object suitable for use in a tool tip. 
+     * 
+     * @param rowViewModel the row view model
+     * @return a {@linkplain String}
+     */
     @Override
-    public String getTooltipText(Object o)
+    public String getTooltipText(Object rowViewModel)
     {
         return null;
     }
 
+    /**
+     * Gets the background color to be used for rendering this node. Returns
+     * null if the standard table background or selected color should be used.
+     * 
+     * @param rowViewModel the row view model
+     * @return a {@linkplain Color}
+     */
     @Override
     public Icon getIcon(Object rowViewModel)
     {

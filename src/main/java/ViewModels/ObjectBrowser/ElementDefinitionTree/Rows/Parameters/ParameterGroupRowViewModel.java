@@ -27,7 +27,10 @@ import java.util.ArrayList;
 
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
+import cdp4common.engineeringmodeldata.ElementUsage;
+import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.engineeringmodeldata.ParameterGroup;
+import cdp4common.engineeringmodeldata.ParameterOverride;
 
 /**
  * The {@linkplain ParameterGroupRowViewModel} is the row view model that represents {@linkplain ParameterGroup}
@@ -38,6 +41,11 @@ public class ParameterGroupRowViewModel extends OwnedDefinedThingRowViewModel<Pa
      * The {@linkplain ArrayList} of {@linkplain OwnedDefinedThingRowViewModel<?>}
      */
     private ArrayList<OwnedDefinedThingRowViewModel<?>> containedRows = new ArrayList<OwnedDefinedThingRowViewModel<?>>();
+    
+    /**
+     * The optional {@linkplain ElementUsage} container, in case the represented group row is a child of an Element Usage row
+     */
+    private ElementUsage elementUsageContainer;
 
     /**
      * Gets the contained row the implementing view model has
@@ -54,10 +62,12 @@ public class ParameterGroupRowViewModel extends OwnedDefinedThingRowViewModel<Pa
      * Initializes a new {@linkplain ParameterGroupRowViewModel}
      * 
      * @param parameterGroup the {@linkplain ParameterGroup} that this view model represents
+     * @param elmentUsage a optional {@linkplain ElementUsage} in case the represented group row is a child of an Element Usage row
      */
-    public ParameterGroupRowViewModel(ParameterGroup parameterGroup)
+    public ParameterGroupRowViewModel(ParameterGroup parameterGroup, ElementUsage elementUsage)
     {
         super(parameterGroup);
+        this.elementUsageContainer = elementUsage;
         this.UpdateProperties();
     }
     
@@ -79,12 +89,34 @@ public class ParameterGroupRowViewModel extends OwnedDefinedThingRowViewModel<Pa
     {
         this.containedRows.clear();
         
-        this.GetThing().getContainedParameter()
-            .stream()
-            .forEach(x -> this.containedRows.add(new ParameterRowViewModel(x)));
-        
+        if(this.elementUsageContainer != null)
+        {
+            for (Parameter parameter : this.GetThing().getContainedParameter())
+            {
+                ParameterOverride parameterOverride = this.elementUsageContainer.getParameterOverride()
+                        .stream()
+                        .filter(x -> x.getParameter().getIid() == parameter.getIid())
+                        .findFirst()
+                        .orElse(null);
+                
+                if(parameterOverride != null)
+                {
+                    this.containedRows.add(new ParameterOverrideRowViewModel(parameterOverride));
+                }
+                else
+                {
+                    this.containedRows.add(new ParameterRowViewModel(parameter));
+                }
+            }
+        }
+        else
+        {
+            this.GetThing().getContainedParameter()
+                .stream()
+                .forEach(x -> this.containedRows.add(new ParameterRowViewModel(x)));
+        }
         this.GetThing().getContainedGroup(false)
             .stream()
-            .forEach(x -> this.containedRows.add(new ParameterGroupRowViewModel(x)));
+            .forEach(x -> this.containedRows.add(new ParameterGroupRowViewModel(x, this.elementUsageContainer)));
     }    
 }

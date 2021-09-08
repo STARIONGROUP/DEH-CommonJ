@@ -48,6 +48,7 @@ import org.junit.jupiter.api.Test;
 
 import HubController.IHubController;
 import Services.UserPreferenceService.IUserPreferenceService;
+import Services.UserPreferenceService.UserPreference;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
@@ -103,6 +104,9 @@ class HubLoginViewModelTestFixture
         when(this.hubController.GetEngineeringModels()).thenReturn(engineeringModelSetups);
         
         this.userPreferenceService = mock(IUserPreferenceService.class);
+        UserPreference userPreference = new UserPreference();
+        userPreference.SavedServerUri.add("a");
+        when(this.userPreferenceService.GetUserPreference()).thenReturn(userPreference);
         this.viewModel = new HubLoginViewModel(this.hubController, this.userPreferenceService);
         when(this.hubController.GetActivePerson()).thenReturn(activePerson);
     }

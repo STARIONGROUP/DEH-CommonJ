@@ -36,7 +36,7 @@ class ImageLoaderTestFixture
     @Test
     void VerifyGetIcon()
     {
-        assertNull(ImageLoader.GetIcon((ClassKind)null));
+        assertNotNull(ImageLoader.GetIcon(ClassKind.ActualFiniteState));
         assertNotNull(ImageLoader.GetIcon("icon32.png"));
         assertNotNull(ImageLoader.GetIcon());
     }

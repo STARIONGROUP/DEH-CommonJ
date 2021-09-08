@@ -55,6 +55,9 @@ public class ObjectBrowserViewModel implements IObjectBrowserViewModel
      */
     private IHubController hubController;
     
+    /**
+     * The {@linkplain ObservableValue} of {@linkplain OutlineModel} for the element definition tree
+     */
     private ObservableValue<OutlineModel> elementDefinitionTree = new ObservableValue<OutlineModel>();
     
     /***
@@ -72,31 +75,24 @@ public class ObjectBrowserViewModel implements IObjectBrowserViewModel
      * Initializes a new {@link HubLoginViewModel}
      * 
      * @param hubController the {@linkplain IHubController}
-     * @param elementDefinitionBrowserViewModel the {@linkplain IElementDefinitionBrowserViewModel}
-     * @param elementDefinitionRowViewModel the {@linkplain IElementDefinitionRowViewModel}
      */
     public ObjectBrowserViewModel(IHubController hubController)
     {
         this.hubController = hubController;
-
         this.hubController.GetIsSessionOpenObservable().subscribe(x -> this.UpdateElementDefinitionTree(x));
-        
-        CDPMessageBus.getCurrent().listen(SessionEvent.class, null, null)
-            .filter(x -> x.status == SessionStatus.END_UPDATE)
-            .subscribe(x -> this.UpdateElementDefinitionTree(true));
     }
 
     /**
-     * @param isConnected
+     * Updates the {@linkplain ElementDefinitionTree}
      * 
-     * @return
+     * @param isConnected a value indicating whether the session is open
      */
     private void UpdateElementDefinitionTree(Boolean isConnected)
     {
         if(isConnected)
         {
             elementDefinitionTree.Value(DefaultOutlineModel.createOutlineModel(
-                    new ElementDefinitionBrowserTreeViewModel(this.hubController.GetOpenIteration(), this.hubController), 
+                    new ElementDefinitionBrowserTreeViewModel(this.hubController.GetOpenIteration()), 
                     new ElementDefinitionBrowserTreeRowViewModel(), true));
         }
     }    

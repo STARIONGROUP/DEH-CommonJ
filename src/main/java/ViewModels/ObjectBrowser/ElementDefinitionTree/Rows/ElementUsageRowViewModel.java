@@ -64,7 +64,8 @@ public class ElementUsageRowViewModel extends ElementBaseRowViewModel<ElementUsa
         
         this.GetThing().getElementDefinition().getParameterGroup()
             .stream()
-            .forEach(x -> this.containedRows.add(new ParameterGroupRowViewModel(x)));
+            .filter(x -> x.getContainingGroup() == null)
+            .forEach(x -> this.containedRows.add(new ParameterGroupRowViewModel(x, this.GetThing())));
         
         this.GetThing().getElementDefinition().getParameter()
             .stream()
