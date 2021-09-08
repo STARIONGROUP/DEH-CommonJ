@@ -32,6 +32,8 @@ import Services.UserPreferenceService.*;
 import Services.NavigationService.*;
 import ViewModels.*;
 import ViewModels.Interfaces.*;
+import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeRowViewModel;
+import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeViewModel;
 
 import static org.picocontainer.Characteristics.CACHE;
 import static org.picocontainer.Characteristics.NO_CACHE;
@@ -48,15 +50,29 @@ public final class AppContainer
 	
 	/**
 	 * Private set for {@linkplain Container}
+	 * 
+	 * Registers all the dependencies such as services, view models 
 	 */
 	static
 	{
         Container = new DefaultPicoContainer(new Caching());
-        Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class.getSimpleName(), HubLoginViewModel.class);
-        Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class, HubLoginViewModel.class);
         Container.as(CACHE).addComponent(IHubController.class, HubController.class);
         Container.as(NO_CACHE).addComponent(INavigationService.class, NavigationService.class);
-        Container.as(NO_CACHE).addComponent(IHubBrowserHeaderViewModel.class, HubBrowserHeaderViewModel.class);
         Container.as(NO_CACHE).addComponent(IUserPreferenceService.class, UserPreferenceService.class);
+        RegisterViewModels();
 	}
+
+    /**
+     * Registers the view models that need to be resolved.
+     * @implNote
+     * Dialogs that need to be set visible through the {@linkplain INavigationService} 
+     * needs their view model to be registered in the container with the key to be a string reflecting the interface class name
+     */
+    private static void RegisterViewModels()
+    {
+        Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class.getSimpleName(), HubLoginViewModel.class);
+        Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class, HubLoginViewModel.class);
+        Container.as(NO_CACHE).addComponent(IHubBrowserHeaderViewModel.class, HubBrowserHeaderViewModel.class);
+        Container.as(NO_CACHE).addComponent(IObjectBrowserViewModel.class, ObjectBrowserViewModel.class);        
+    }
 }

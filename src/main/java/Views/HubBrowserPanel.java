@@ -33,6 +33,9 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.JTree;
+
+import Views.ObjectBrowser.ObjectBrowser;
+
 import javax.swing.JLabel;
 
 /**
@@ -60,6 +63,21 @@ public class HubBrowserPanel extends JPanel
     public HubBrowserHeader getHubBrowserHeader()
     {
         return this.hubBrowserHeader;
+    }    
+    
+    /**
+     * The {@linkplain ObjectBrowser}
+     */
+    private ObjectBrowser objectBrowser;
+    
+    /**
+     * Gets the {@linkplain ObjectBrowser}
+     * 
+     * @return the {@linkplain ObjectBrowser}
+     */
+    public ObjectBrowser getObjectBrowser()
+    {
+        return this.objectBrowser;
     }
     
     /**
@@ -120,6 +138,7 @@ public class HubBrowserPanel extends JPanel
         HubBrowserHeaderContainer.setLayout(gbl_HubBrowserHeaderContainer);
         
         GridBagConstraints hubBrowserHeaderConstraint = new GridBagConstraints();
+        hubBrowserHeaderConstraint.insets = new Insets(0, 10, 0, 10);
         hubBrowserHeaderConstraint.fill = GridBagConstraints.BOTH;
         hubBrowserHeaderConstraint.anchor = GridBagConstraints.NORTHWEST;
         hubBrowserHeaderConstraint.gridx = 0;
@@ -133,9 +152,9 @@ public class HubBrowserPanel extends JPanel
         gbc_HubBrowserTreeViewsContainer.fill = GridBagConstraints.BOTH;
         gbc_HubBrowserTreeViewsContainer.gridx = 0;
         gbc_HubBrowserTreeViewsContainer.gridy = 2;
-        add(HubBrowserTreeViewsContainer, gbc_HubBrowserTreeViewsContainer);
+        this.add(HubBrowserTreeViewsContainer, gbc_HubBrowserTreeViewsContainer);
         
-        JTree tree = new JTree();
-        HubBrowserTreeViewsContainer.addTab("Element Definitions tree", null, tree, null);
+        this.objectBrowser = new ObjectBrowser();
+        HubBrowserTreeViewsContainer.addTab("Element Definitions tree", null, this.objectBrowser, null);
     }
 }

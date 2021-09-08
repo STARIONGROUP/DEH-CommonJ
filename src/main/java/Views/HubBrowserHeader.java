@@ -70,12 +70,11 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         setLayout(gridBagLayout);
         
         JLabel lblNewLabel = new JLabel("Model:");
-        lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
         gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
-        gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-        gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+        gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+        gbc_lblNewLabel.insets = new Insets(5, 0, 5, 5);
         gbc_lblNewLabel.gridx = 0;
         gbc_lblNewLabel.gridy = 0;
         add(lblNewLabel, gbc_lblNewLabel);
@@ -92,7 +91,7 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
         gbc_lblNewLabel_2.fill = GridBagConstraints.VERTICAL;
-        gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
+        gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
         gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
         gbc_lblNewLabel_2.gridx = 2;
         gbc_lblNewLabel_2.gridy = 0;
@@ -107,7 +106,6 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         add(this.dataSourceLabel, gbc_dataSourceLabel);
         
         JLabel lblNewLabel_1 = new JLabel("Iteration:");
-        lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
         lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
         gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
@@ -130,7 +128,7 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
         gbc_lblNewLabel_3.fill = GridBagConstraints.VERTICAL;
-        gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
+        gbc_lblNewLabel_3.anchor = GridBagConstraints.WEST;
         gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
         gbc_lblNewLabel_3.gridx = 2;
         gbc_lblNewLabel_3.gridy = 1;

@@ -61,7 +61,7 @@ import javax.swing.JPasswordField;
  */
 @SuppressWarnings("serial")
 public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boolean>
-{   
+{
     /**
      * The current class log4J {@linkplain Logger}
      */
@@ -410,10 +410,11 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
                 CloseDialog(false);
             }
         });
-        
+            
         
         this.okButton.addActionListener(new ActionListener() 
         {                    
+            @Override
             public void actionPerformed(ActionEvent e) 
             {
                 if(!dataContext.GetIsLoginSuccessful())

@@ -65,7 +65,7 @@ class HubLoginViewModelTestFixture
     private IterationSetup iterationSetup;
     private IUserPreferenceService userPreferenceService;
 
-        @BeforeEach
+    @BeforeEach
     void setUp() throws Exception
     {
         this.hubController = mock(IHubController.class);
