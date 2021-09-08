@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerenï¿½, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -27,10 +27,12 @@ import org.netbeans.swing.outline.OutlineModel;
 
 import io.reactivex.Observable;
 
+/**
+ * The {@linkplain IObjectBrowserViewModel} is the interface definition for the {@linkplain ObjectBrowserViewModel}. It is registered in the container.
+ */
 public interface IObjectBrowserViewModel extends IViewModel
 {
-
-    /***
+    /**
      * Gets the {@linkplain OutlineModel} for the treeview
      * 
      * @return An {@linkplain Observable} of {@linkplain OutlineModel}

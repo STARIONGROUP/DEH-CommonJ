@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerenï¿½, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -152,42 +152,82 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
         return isEmpty.hide();
     }
 
+    /**
+     * Gets the number of element of this collection
+     * 
+     * @return the number of element as {@linkplain int}
+     */
     @Override
     public int size()
     {
         return this.value.size();
     }
 
+    /**
+     * Gets a value indicating whether this collection has not element
+     * 
+     * @return an assert
+     */
     @Override
     public boolean isEmpty()
     {
         return this.value.size() == 0;
     }
 
+    /**
+     * Asserts that this collection contains the provided {@linkplain Object}
+     * 
+     * @param object the {@linkplain Object} that could be present in this collection
+     * @return an assert
+     */
     @Override
     public boolean contains(Object object)
     {
         return this.value.contains(object);
     }
 
+    /**
+     * Gets an {@linkplain Iterator} from this collection
+     * 
+     * @return a {@linkplain Iterator} of {@linkplain TValue}
+     */
     @Override
     public Iterator<TValue> iterator()
     {
         return this.value.iterator();
     }
 
+    /**
+     * Converts this collection to an array
+     * 
+     * @return an array of {@linkplain Object}
+     */
     @Override
     public Object[] toArray()
     {
         return this.value.toArray();
     }
 
+    /**
+     * Converts this collection to an array of the type provided by {@linkplain T}
+     * 
+     * @param TObject the runtime type of the array to contain the collection
+     * @param array an initial array used to provided the type and an array of start, 
+     * if it is not big enough an other one of the same type will be return
+     * @return an array of {@linkplain T}
+     */
     @Override
     public <T> T[] toArray(T[] array)
     {
         return this.value.toArray(array);
     }
 
+    /**
+     * Verify that the items in the provided {@linkplain Collection} are all contained also in ths collection
+     * 
+     *  @param collection the {@linkplain Collection} of item to check existence
+     *  @return an assert
+     */
     @Override
     public boolean containsAll(Collection<?> collection)
     {
@@ -201,6 +241,13 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
         return result;
     }
 
+    /**
+     * Adds all the items in the provided {@linkplain collection} to this collection.
+     * It fire the {@linkplain itemAdded} {@linkplain Observable}
+     * 
+     * @param collection the {@linkplain Collection} of item to add
+     * @return an assert indicating whether all items were added successfully
+     */
     @Override
     public boolean addAll(Collection<? extends TValue> collection)
     {
@@ -214,6 +261,13 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
         return result;
     }
 
+    /**
+     * Removes all the items in the provided {@linkplain collection} to this collection.
+     * It fire the {@linkplain itemRemoved} {@linkplain Observable}
+     * 
+     * @param collection the {@linkplain Collection} of item to remove
+     * @return an assert indicating whether all items were removed successfully
+     */
     @Override
     public boolean removeAll(Collection<?> collection)
     {
@@ -227,12 +281,22 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
         return result;
     }
 
+    /**
+     * Retains only the elements in this list that are contained in the specified collection. 
+     * In other words, removes from this list all of its elements that are not contained in the specified collection.
+     * 
+     * @param collection the {@linkplain Collection} of item to retain
+     * @return a {@linkplain boolean} holding true if this list changed as a result of the call
+     */
     @Override
     public boolean retainAll(Collection<?> collection)
     {
         return this.value.retainAll(collection);
     }
 
+    /**
+     * Clear this collection. It fires the {@linkplain isEmpty}     * 
+     */
     @Override
     public void clear()
     {
@@ -240,74 +304,131 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
         this.FiresIsEmpty();
     }
     
+    /**
+     * Initializes a new {@linkplain ObservableCollection} with an empty {@linkplain Collection}
+     */
     public ObservableCollection()
     {
         this.value = new ArrayList<TValue>();
     }
 
+    /**
+     * Inserts all of the elements in the specified collection into this. list at the specified position.
+     * Does not fire the {@linkplain itemAdded} {@linkplain Observable}
+     * 
+     * @param collection the {@linkplain Collection} of item to add
+     * @param index the {@linkplain index} where to add the new items
+     * @return an assert indicating whether all items were added successfully
+     */
     @Override
-    public boolean addAll(int index, Collection<? extends TValue> c)
+    public boolean addAll(int index, Collection<? extends TValue> collection)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return this.value.addAll(index, collection);
     }
 
+    /**
+     * Gets the item located at the specified index
+     * 
+     * @param index the index where the item to return is located
+     * @return the value extracted from this collection
+     */
     @Override
     public TValue get(int index)
     {
         return this.value.get(index);
     }
 
+    /**
+     * Replaces the element at the specified position in this list with the specified element.
+     * 
+     * @param index the index where the old item is located
+     * @return the old value removed from this collection
+     */
     @Override
     public TValue set(int index, TValue element)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return this.value.set(index, element);
     }
 
+    /**
+     * Inserts the specified element at the specified position in this collection
+     * 
+     * @param index the index at which the specified element is to be inserted
+     * @param element the element to be added
+     */
     @Override
     public void add(int index, TValue element)
     {
-        // TODO Auto-generated method stub
-        
+        this.value.add(index, element);
     }
 
+    /**
+     * Remove the element at the specified position in this collection
+     * 
+     * @param index the index at which the specified element is to be removed
+     * @return the value removed
+     */
     @Override
     public TValue remove(int index)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return this.value.remove(index);
     }
 
+    /**
+     * Gets the index of the provided element. Return -1 if not found
+     * 
+     * @param the {@linkplain Object} element to find the index of
+     * @return the 0 based index
+     */
     @Override
-    public int indexOf(Object o)
+    public int indexOf(Object element)
     {
-        return this.value.indexOf(0);
+        return this.value.indexOf(element);
     }
 
+    /**
+     * Returns the index of the last occurrence of the specified element in this collection
+     * 
+     * @param element the {@linkplain Object} element to find the index of
+     * @return the 0 based index
+     */
     @Override
-    public int lastIndexOf(Object o)
+    public int lastIndexOf(Object element)
     {
-        return this.value.lastIndexOf(o);    }
+        return this.value.lastIndexOf(element);    
+    }
 
+    /**
+     * Returns a list iterator over the elements in this list
+     * 
+     * @return a list iterator over the elements in this list
+     */
     @Override
     public ListIterator<TValue> listIterator()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return this.value.listIterator();
     }
 
+    /**
+     * Returns a list iterator over the elements in this list starting at the specified position
+     * 
+     * @return a list iterator over the elements in this list
+     */
     @Override
     public ListIterator<TValue> listIterator(int index)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return this.value.listIterator(index);
     }
 
+    /**
+     * Gets a subsequence of item from this collection
+     * 
+     *  @param fromIndex the lower bound index
+     *  @param toIndex the upper bound index
+     */
     @Override
     public List<TValue> subList(int fromIndex, int toIndex)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return this.value.subList(fromIndex, toIndex);
     }
 }

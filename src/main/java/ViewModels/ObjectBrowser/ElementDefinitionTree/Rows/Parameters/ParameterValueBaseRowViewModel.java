@@ -236,8 +236,7 @@ public abstract class ParameterValueBaseRowViewModel<TParameter extends Paramete
                     default:
                         valueRow.SetName(this.GetThing().getParameterType().getName());
                         break;
-                }
-                
+                }                
                 
                 this.containedRows.add(valueRow);
             }

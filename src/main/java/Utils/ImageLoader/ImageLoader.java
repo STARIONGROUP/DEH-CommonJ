@@ -77,7 +77,6 @@ public final class ImageLoader
         return GetIcon(ImageLoader.class.getResource(RootFolder+subfolder+fileName), fileName);
     }
 
-    
     /**
      * The {@link GetIcon} gets the icon with the provided {@link fileName} that is in Utils.ImageLoader.Images
      * 

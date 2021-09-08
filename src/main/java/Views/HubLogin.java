@@ -92,7 +92,6 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
     private JComboBox<String> engineeringModelSetupComboBox;
     private JComboBox<String> iterationComboBox;
     private JComboBox<String> domainComboBox;
-
          
     /**
      * Initializes a new {@link HubLogin}
@@ -410,8 +409,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
                 CloseDialog(false);
             }
         });
-            
-        
+
         this.okButton.addActionListener(new ActionListener() 
         {                    
             @Override
