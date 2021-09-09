@@ -25,8 +25,6 @@ package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 
 import java.util.ArrayList;
 
-import org.junit.experimental.theories.PotentialAssignment.CouldNotGenerateValueException;
-
 import Utils.ValueSetUtils;
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 import ViewModels.ObjectBrowser.Interfaces.IValueSetRowViewModel;
