@@ -7,12 +7,12 @@
  *
  * This file is part of DEH-MDSYSML
  *
- * The DEH-MDSYSML is free software; you can redistribute it and/or
+ * The DEH-CommonJ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * The DEH-MDSYSML is distributed in the hope that it will be useful,
+ * The DEH-CommonJ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
@@ -27,6 +27,7 @@ import HubController.IHubController;
 import Services.NavigationService.INavigationService;
 import ViewModels.Interfaces.IHubBrowserHeaderViewModel;
 import ViewModels.Interfaces.IHubBrowserPanelViewModel;
+import ViewModels.Interfaces.IObjectBrowserViewModel;
 import Views.HubLogin;
 
 /**
@@ -43,7 +44,7 @@ public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
      * The {@linkplain IHubController}
      */
     private IHubController hubController;
-
+    
     /**
      * the {@linkplain IHubBrowserHeaderViewModel}
      */
@@ -61,16 +62,34 @@ public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
     }
 
     /**
+     * the {@linkplain IHubBrowserHeaderViewModel}
+     */
+    private IObjectBrowserViewModel objectBrowserViewModel;
+    
+    /**
+     * Gets the {@linkplain IObjectBrowserViewModel}
+     * 
+     * @return the {@linkplain IObjectBrowserViewModel}
+     */
+    @Override
+    public IObjectBrowserViewModel GetObjectBrowserViewModel()
+    {
+        return this.objectBrowserViewModel;
+    }
+
+    /**
      * Initializes a new {@link HubBrowserPanelViewModel}
      * @param navigationService the {@linkplain INavigationService}
      * @param hubController the {@linkplain IHubController}
      * @param hubBrowserHeaderViewModel the {@linkplain IHubBrowserHeaderViewModel}
      */
-    public HubBrowserPanelViewModel(INavigationService navigationService, IHubController hubController, IHubBrowserHeaderViewModel hubBrowserHeaderViewModel)
+    public HubBrowserPanelViewModel(INavigationService navigationService, IHubController hubController, 
+            IHubBrowserHeaderViewModel hubBrowserHeaderViewModel, IObjectBrowserViewModel objectBrowserViewModel)
     {
         this.navigationService = navigationService;
         this.hubController = hubController;
         this.hubBrowserHeaderViewModel = hubBrowserHeaderViewModel;
+        this.objectBrowserViewModel = objectBrowserViewModel;
     }
 
     /**

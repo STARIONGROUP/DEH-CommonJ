@@ -37,12 +37,12 @@ public class ObservableValue<TValue>
     /**
      * The {@linkplain TValue} value
      */
-    private TValue value;
+    protected TValue value;
     
     /**
      * The {@linkplain PublisherSubject} that serves to raise the OnNext event
      */
-    private PublishSubject<TValue> subject = PublishSubject.create();
+    protected PublishSubject<TValue> subject = PublishSubject.create();
 
     /**
      * Gets the {@linkplain TValue}
@@ -61,8 +61,15 @@ public class ObservableValue<TValue>
      */
     public void Value(TValue value) 
     {
-        this.value = value;
-        subject.onNext(value);
+        try
+        {
+            this.value = value;
+            subject.onNext(value);
+            
+        } catch (Exception exception)
+        {
+            subject.onError(exception);
+        }        
     }
 
     /**
