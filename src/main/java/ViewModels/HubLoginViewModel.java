@@ -57,7 +57,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
     /**
      * The current class logger
      */
-    private final Logger logger = LogManager.getLogger(); 
+    private final Logger logger = LogManager.getLogger();
     
     /**
      * The {@link IHubController}
@@ -216,7 +216,6 @@ public class HubLoginViewModel implements IHubLoginViewModel
     @Override
     public Stream<String> GetIterations(String selectedEngineeringModelSetupName)
     {
-        this.logger.error(MessageFormat.format("DEBUG GetIterations(selectedEngineeringModelSetupName = {0})", selectedEngineeringModelSetupName));
         EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
                 .filter(x -> x.getShortName() == selectedEngineeringModelSetupName)
                 .findFirst()

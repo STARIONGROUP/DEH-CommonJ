@@ -23,13 +23,15 @@
  */
 package Utils.ImageLoader;
 
-import java.io.File;
 import java.net.URL;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import cdp4common.commondata.ClassKind;
 
 /**
  * The {@link ImageLoader} provides helper methods for dealing with image resource
@@ -42,20 +44,48 @@ public final class ImageLoader
     private static final Logger Logger = LogManager.getLogger(); 
     
     /**
-     * The {@link RootFolder} where the images are
+     * The root folder name where the images are
      */
     private final static String RootFolder = "Images/";
-        
+    
     /**
-     * The {@link GetIcon} gets the icon with the provided {@link fileName} that is in Utils.ImageLoader.Images
+     * The {@linkplain Thing} folder name where the images are
+     */
+    public final static String ThingFolder = "Thing/";
+    
+    /**
+     * The {@link GetIcon} gets the icon with the provided fileName that is in Utils.ImageLoader.Images
      * 
-     * @param {@link fileName} the file name of the requested image
+     * @param fileName the file name of the requested image
      * @return a {@link ImageIcon}
      */
     public static ImageIcon GetIcon(String fileName)
     {
-        URL imageUrl = ImageLoader.class.getResource(RootFolder+fileName);
+        return GetIcon(ImageLoader.class.getResource(RootFolder+fileName), fileName);
+    }
         
+    /**
+     * The {@link GetIcon} gets the icon with the provided {@link fileName} that is in Utils.ImageLoader.Images
+     * and the specified sub folder
+     * 
+     * @param subfolder the sub folder where the requested image resides
+     * @param fileName the file name of the requested image
+     * @return a {@link ImageIcon}
+     */
+    public static ImageIcon GetIcon(String subfolder, String fileName)
+    {
+        return GetIcon(ImageLoader.class.getResource(RootFolder+subfolder+fileName), fileName);
+    }
+
+    /**
+     * The {@link GetIcon} gets the icon with the provided {@link fileName} that is in Utils.ImageLoader.Images
+     * 
+     * @param imageUrl the file URL of the requested image
+     * @param fileName the file name of the requested image
+     * @return a {@link ImageIcon}
+     */
+    public static ImageIcon GetIcon(URL imageUrl, String fileName)
+    {
         if (imageUrl != null) 
         {
             return new ImageIcon(imageUrl, "");
@@ -66,7 +96,7 @@ public final class ImageLoader
             return null;
         }
     }
-
+        
     /**
      * The {@link GetIcon} gets the main icon in 32x32
      * 
@@ -75,5 +105,61 @@ public final class ImageLoader
     public static ImageIcon GetIcon()
     {
         return GetIcon("icon32.png");
+    }
+
+    /**
+     * Gets an {@linkplain Icon} that represents the provided {@linkplain ClassKind} 
+     * 
+     * @param classKind the {@linkplain ClassKind}
+     * @return an {@linkplain Icon}
+     */
+    public static Icon GetIcon(ClassKind classKind)
+    {
+        String iconFileName;
+        
+        switch(classKind)
+        {
+            case ElementBase:
+                iconFileName = "elementdefinition.png";
+                break;
+            case ElementDefinition:
+                iconFileName = "elementdefinition.png";
+                break;
+            case ElementUsage:
+                iconFileName = "elementusage.png";
+                break;
+            case Parameter:
+                iconFileName = "parameter.png";
+                break;
+            case ParameterBase:
+                iconFileName = "parameter.png";
+                break;
+            case ParameterGroup:
+                iconFileName = "parametergroup.png";
+                break;
+            case ParameterOrOverrideBase:
+                iconFileName = "parameter.png";
+                break;
+            case ParameterOverride:
+                iconFileName = "parameteroverride.png";
+                break;
+            case ParameterSubscription:
+                iconFileName = "parametersubscription.png";
+                break;
+            case Iteration:
+                iconFileName = "iteration.png";
+                break;
+            case Option:
+                iconFileName = "option.png";
+                break;
+            case ActualFiniteState:
+                iconFileName = "actualfinitestate.png";
+                break;
+            default:
+                iconFileName = "iteration.png";
+                break;
+        }
+        
+        return GetIcon(ThingFolder, iconFileName);
     }
 }

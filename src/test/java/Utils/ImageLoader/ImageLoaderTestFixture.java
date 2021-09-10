@@ -29,15 +29,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Utils.ImageLoader.ImageLoader;
+import cdp4common.commondata.ClassKind;
 
 class ImageLoaderTestFixture
 {
     @Test
     void VerifyGetIcon()
     {
-        assertNull(ImageLoader.GetIcon(null));
+        assertNotNull(ImageLoader.GetIcon(ClassKind.ActualFiniteState));
         assertNotNull(ImageLoader.GetIcon("icon32.png"));
         assertNotNull(ImageLoader.GetIcon());
     }
-
 }

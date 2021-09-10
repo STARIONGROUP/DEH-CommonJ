@@ -28,10 +28,12 @@ echo ^=                   ALMOST-AUTO-DEPLOY for the DEH-MDSYSML Adapter        
 echo ^=                                                                               =
 echo ^= \-p ===^> Generate DEH-MDSYSML plugin                                          =
 echo ^= \-i ===^> Install the generated DEH-MDSYSML plugin                             =
+echo ^= \-d ===^> Run Cameo                                                            =
 echo ^=================================================================================
 
 if /I "%1" == "-p" goto PackPlugin
 if /I "%1" == "-i" goto Install
+if /I "%1" == "-d" goto RunCameo
 
 REM 1. Set the class path
 REM set CLASSPATH=C:\CODE\DEHP\DEH-MDSYSML\lib\;bin\;%USERPROFILE%\.m2\repository;C:\CODE\DEHP\DEH-CommonJ;
@@ -86,6 +88,17 @@ echo ===============================================================^>
 echo.
 
 SET COPYCMD=/Y && move /Y "target\DEHMDSYSMLPlugin.jar" "C:\Program Files\Cameo Systems Modeler Demo\plugins\com.rheagroup.dehmdsysml"
+echo Exit Code = %ERRORLEVEL%
+if not "%ERRORLEVEL%" == "0" GOTO ExitStatement
+
+:RunCameo
+REM 8. Run Cameo
+echo.
+echo ==================================^> Run Cameo
+echo ===============================================================^>
+echo.
+call "C:\Program Files\Cameo Systems Modeler Demo\bin\csm.exe"
+
 GOTO ExitStatement
 
 :ExitStatement
