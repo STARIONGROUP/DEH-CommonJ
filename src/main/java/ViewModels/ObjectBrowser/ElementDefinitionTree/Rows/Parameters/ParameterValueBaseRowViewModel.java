@@ -30,17 +30,16 @@ import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 import ViewModels.ObjectBrowser.Interfaces.IValueSetRowViewModel;
 import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
 import cdp4common.commondata.Thing;
+import cdp4common.commondata.ClassKind;
 import cdp4common.engineeringmodeldata.ActualFiniteState;
 import cdp4common.engineeringmodeldata.Option;
 import cdp4common.engineeringmodeldata.ParameterBase;
 import cdp4common.engineeringmodeldata.ParameterSwitchKind;
 import cdp4common.engineeringmodeldata.ParameterValueSetBase;
 import cdp4common.engineeringmodeldata.ValueSet;
-import cdp4common.sitedirectorydata.ArrayParameterType;
 import cdp4common.sitedirectorydata.CompoundParameterType;
 import cdp4common.sitedirectorydata.ParameterType;
 import cdp4common.sitedirectorydata.SampledFunctionParameterType;
-import cdp4common.types.OrderedItemList;
 
 /**
  * The {@linkplain ParameterValueBaseRowViewModel} is the base abstract row view model for {@linkplain ParameterValueRowViewModel} 
@@ -208,34 +207,15 @@ public abstract class ParameterValueBaseRowViewModel<TParameter extends Paramete
             {
                 ParameterValueRowViewModel<TParameter> valueRow = new ParameterValueRowViewModel<TParameter>(this.GetThing(), valueSet, index);
                 
-                switch(parameterType.getClassKind())
+                if(parameterType instanceof CompoundParameterType)
                 {
-                    case ArrayParameterType:
-                        String name = this.GetThing().getParameterType().getName();
-                        int previousDimension = 0;
-                        OrderedItemList<Integer> dimensions = ((ArrayParameterType)parameterType).getDimension();
-                        
-                        for(int dimension : dimensions)
-                        {
-                            if(index <= dimension || index <= previousDimension + dimension)
-                            {
-                                name = String.format("{%s;%s}", dimensions.indexOf(dimension) + 1, index + 1);
-                                break;
-                            }
-                                                        
-                            previousDimension += dimension;
-                        }
-                            
-                        valueRow.SetName(name);
-                        break;
-                    case CompoundParameterType:
-                        valueRow.SetName(((CompoundParameterType)parameterType).getComponent().get(index).getShortName());
-                        break;
-                    default:
-                        valueRow.SetName(this.GetThing().getParameterType().getName());
-                        break;
-                }                
-                
+                    valueRow.SetName(((CompoundParameterType)parameterType).getComponent().get(index).getShortName());
+                }
+                else
+                {
+                    valueRow.SetName(this.GetThing().getParameterType().getName());
+                }
+
                 this.containedRows.add(valueRow);
             }
         }

@@ -28,14 +28,15 @@ import org.netbeans.swing.outline.OutlineModel;
 import io.reactivex.Observable;
 
 /**
- * The {@linkplain IObjectBrowserViewModel} is the interface definition for the {@linkplain ObjectBrowserViewModel}. It is registered in the container.
+ * The {@linkplain IObjectBrowserViewModel} is the interface definition for the {@linkplain ObjectBrowserViewModel} 
+ * such as the {@linkplain ElementDefinitionBrowserViewModel} or the {@linkplain RequirementBrowserViewModel}
  */
 public interface IObjectBrowserViewModel extends IViewModel
-{
+{    
     /**
-     * Gets the {@linkplain OutlineModel} for the treeview
+     * Gets the {@linkplain OutlineModel} for the element definition tree view
      * 
      * @return An {@linkplain Observable} of {@linkplain OutlineModel}
      */
-    Observable<OutlineModel> ElementDefinitionTree();
+    Observable<OutlineModel> BrowserTreeModel();
 }

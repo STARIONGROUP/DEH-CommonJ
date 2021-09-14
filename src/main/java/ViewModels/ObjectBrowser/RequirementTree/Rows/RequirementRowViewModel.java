@@ -1,5 +1,5 @@
 /*
- * IElementDefinitionBrowserViewModel.java
+ * RequirementRowViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,12 +21,23 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.Interfaces;
+package ViewModels.ObjectBrowser.RequirementTree.Rows;
+
+import cdp4common.engineeringmodeldata.Requirement;
 
 /**
- * The {@linkplain IElementDefinitionBrowserViewModel} is the main interface definition for the {@linkplain ElementDefinitionBrowserViewModel}.
- * It's meant to be use in the IoC
+ * The {@linkplain RequirementRowViewModel} is the row view model that represents a {@linkplain RequirementRowViewModel} 
  */
-public interface IElementDefinitionBrowserViewModel extends IObjectBrowserViewModel
+public class RequirementRowViewModel extends RequirementBaseTreeElementViewModel<Requirement>
 {
+    /**
+     * Initializes a new {@linkplain RequirementRowViewModel}
+     * 
+     * @param requirement the represented {@linkplain Requirement}
+     */
+    public RequirementRowViewModel(Requirement requirement)
+    {
+        super(requirement);
+        this.UpdateProperties();
+    }    
 }

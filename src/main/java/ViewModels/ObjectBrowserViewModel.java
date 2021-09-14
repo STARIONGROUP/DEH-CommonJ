@@ -25,50 +25,42 @@ package ViewModels;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.netbeans.swing.outline.DefaultOutlineModel;
 import org.netbeans.swing.outline.OutlineModel;
 
 import HubController.IHubController;
 import Reactive.ObservableValue;
-import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
-import ViewModels.Interfaces.IElementDefinitionRowViewModel;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
-import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeRowViewModel;
-import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeViewModel;
-import cdp4dal.CDPMessageBus;
-import cdp4dal.events.SessionEvent;
-import cdp4dal.events.SessionStatus;
 import io.reactivex.Observable;
 
 /**
  * The {@linkplain ObjectBrowserViewModel} is the main view model for the {@linkplain ObjectBrowser} providing the collections to display in the {@linkplain ObjectBrowser}
  */
-public class ObjectBrowserViewModel implements IObjectBrowserViewModel
+public abstract class ObjectBrowserViewModel implements IObjectBrowserViewModel
 {
     /**
      * The current class logger
      */
-    private final Logger logger = LogManager.getLogger();
+    protected final Logger logger = LogManager.getLogger();
     
     /**
      * The {@link IHubController}
      */
-    private IHubController hubController;
+    protected IHubController hubController;
     
     /**
      * The {@linkplain ObservableValue} of {@linkplain OutlineModel} for the element definition tree
      */
-    private ObservableValue<OutlineModel> elementDefinitionTree = new ObservableValue<OutlineModel>();
+    protected ObservableValue<OutlineModel> browserTreeModel = new ObservableValue<OutlineModel>();
     
     /***
-     * Gets the {@linkplain OutlineModel} for the tree view
+     * Gets the {@linkplain OutlineModel} for the element definition tree view
      * 
      * @return An {@linkplain Observable} of {@linkplain OutlineModel}
      */
     @Override
-    public Observable<OutlineModel> ElementDefinitionTree()
+    public Observable<OutlineModel> BrowserTreeModel()
     {
-        return elementDefinitionTree.Observable();
+        return browserTreeModel.Observable();
     }
     
     /** 
@@ -79,21 +71,13 @@ public class ObjectBrowserViewModel implements IObjectBrowserViewModel
     public ObjectBrowserViewModel(IHubController hubController)
     {
         this.hubController = hubController;
-        this.hubController.GetIsSessionOpenObservable().subscribe(x -> this.UpdateElementDefinitionTree(x));
+        this.hubController.GetIsSessionOpenObservable().subscribe(x -> this.UpdateBrowserTrees(x));
     }
 
     /**
-     * Updates the {@linkplain ElementDefinitionTree}
+     * Updates this view model {@linkplain TreeModel}
      * 
      * @param isConnected a value indicating whether the session is open
      */
-    private void UpdateElementDefinitionTree(Boolean isConnected)
-    {
-        if(isConnected)
-        {
-            elementDefinitionTree.Value(DefaultOutlineModel.createOutlineModel(
-                    new ElementDefinitionBrowserTreeViewModel(this.hubController.GetOpenIteration()), 
-                    new ElementDefinitionBrowserTreeRowViewModel(), true));
-        }
-    }    
+    protected abstract void UpdateBrowserTrees(Boolean isConnected);    
 }

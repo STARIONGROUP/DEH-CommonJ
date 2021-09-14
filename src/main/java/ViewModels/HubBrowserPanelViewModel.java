@@ -25,9 +25,11 @@ package ViewModels;
 
 import HubController.IHubController;
 import Services.NavigationService.INavigationService;
+import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
 import ViewModels.Interfaces.IHubBrowserHeaderViewModel;
 import ViewModels.Interfaces.IHubBrowserPanelViewModel;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
+import ViewModels.Interfaces.IRequirementBrowserViewModel;
 import Views.HubLogin;
 
 /**
@@ -60,21 +62,37 @@ public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
     {
         return this.hubBrowserHeaderViewModel;
     }
-
-    /**
-     * the {@linkplain IHubBrowserHeaderViewModel}
-     */
-    private IObjectBrowserViewModel objectBrowserViewModel;
     
     /**
-     * Gets the {@linkplain IObjectBrowserViewModel}
+     * the {@linkplain IHubBrowserHeaderViewModel} for the element definition tree
+     */
+    private IObjectBrowserViewModel elementDefinitionBrowserViewModel;
+    
+    /**
+     * Gets the {@linkplain IObjectBrowserViewModel} for the element definition tree
      * 
      * @return the {@linkplain IObjectBrowserViewModel}
      */
     @Override
-    public IObjectBrowserViewModel GetObjectBrowserViewModel()
+    public IObjectBrowserViewModel GetElementDefinitionBrowserViewModel()
     {
-        return this.objectBrowserViewModel;
+        return this.elementDefinitionBrowserViewModel;
+    }
+
+    /**
+     * the {@linkplain IHubBrowserHeaderViewModel} for the requirement tree
+     */
+    private IObjectBrowserViewModel requirementBrowserViewModel;
+    
+    /**
+     * Gets the {@linkplain IObjectBrowserViewModel} for the requirement tree
+     * 
+     * @return the {@linkplain IObjectBrowserViewModel}
+     */
+    @Override
+    public IObjectBrowserViewModel GetRequirementBrowserViewModel()
+    {
+        return this.requirementBrowserViewModel;
     }
 
     /**
@@ -82,14 +100,18 @@ public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
      * @param navigationService the {@linkplain INavigationService}
      * @param hubController the {@linkplain IHubController}
      * @param hubBrowserHeaderViewModel the {@linkplain IHubBrowserHeaderViewModel}
+     * @param requirementBrowserViewModel the {@linkplain IRequirementBrowserViewModel}
+     * @param elementDefinitionBrowserViewModel the {@linkplain IElementDefinitionBrowserViewModel}
      */
     public HubBrowserPanelViewModel(INavigationService navigationService, IHubController hubController, 
-            IHubBrowserHeaderViewModel hubBrowserHeaderViewModel, IObjectBrowserViewModel objectBrowserViewModel)
+            IHubBrowserHeaderViewModel hubBrowserHeaderViewModel, IRequirementBrowserViewModel requirementBrowserViewModel,
+            IElementDefinitionBrowserViewModel elementDefinitionBrowserViewModel)
     {
         this.navigationService = navigationService;
         this.hubController = hubController;
         this.hubBrowserHeaderViewModel = hubBrowserHeaderViewModel;
-        this.objectBrowserViewModel = objectBrowserViewModel;
+        this.elementDefinitionBrowserViewModel = elementDefinitionBrowserViewModel;
+        this.requirementBrowserViewModel = requirementBrowserViewModel;
     }
 
     /**

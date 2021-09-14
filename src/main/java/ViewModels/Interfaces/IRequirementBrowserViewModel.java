@@ -1,5 +1,5 @@
 /*
- * IElementDefinitionBrowserViewModel.java
+ * IRequirementBrowserViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -24,9 +24,9 @@
 package ViewModels.Interfaces;
 
 /**
- * The {@linkplain IElementDefinitionBrowserViewModel} is the main interface definition for the {@linkplain ElementDefinitionBrowserViewModel}.
+ * The {@linkplain IRequirementBrowserViewModel} is the main interface definition for the {@linkplain RequirementBrowserViewModel}.
  * It's meant to be use in the IoC
  */
-public interface IElementDefinitionBrowserViewModel extends IObjectBrowserViewModel
+public interface IRequirementBrowserViewModel extends IObjectBrowserViewModel
 {
 }

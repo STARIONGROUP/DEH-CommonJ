@@ -30,14 +30,15 @@ import javax.swing.tree.TreePath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.IterationRowViewModel;
+import HubController.IHubController;
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
+import ViewModels.ObjectBrowser.Rows.IterationRowViewModel;
 import cdp4common.engineeringmodeldata.Iteration;
 
 /**
  * The {@linkplain BrowserTreeViewModel} is the base {@linkplain TreeModel} for the {@linkplain ObjectBrowser}
  */
-public abstract class BrowserTreeViewModel implements TreeModel
+public abstract class BrowserTreeViewModel<TIterationRowViewModel extends IterationRowViewModel<?>> implements TreeModel
 {
     /**
      * The current class logger
@@ -47,16 +48,17 @@ public abstract class BrowserTreeViewModel implements TreeModel
     /**
      * The root node of one {@linkplain ElementDefinitionBrowserTree}
      */
-    private IterationRowViewModel iterationRowViewModel;
+    private TIterationRowViewModel iterationRowViewModel;
     
     /**
      * Initializes a new {@linkplain BrowserTreeViewModel}
      * 
-     * @param iteration the {@linkplain Iteration}
+     * @param iterationRowViewModel the {@linkplain Iteration} row view model
+     * @param hubController the {@linkplain IHubController}
      */
-    public BrowserTreeViewModel(Iteration iteration)
+    public BrowserTreeViewModel(TIterationRowViewModel iterationRowViewModel)
     {
-        this.iterationRowViewModel = new IterationRowViewModel(iteration);     
+        this.iterationRowViewModel = iterationRowViewModel;
     }
 
     /**
@@ -97,7 +99,7 @@ public abstract class BrowserTreeViewModel implements TreeModel
      */
     @Override
     public int getChildCount(Object rowViewModel)
-    {                
+    {
         if (rowViewModel instanceof IHaveContainedRows<?>)
         {
             return ((IHaveContainedRows<?>)rowViewModel).GetContainedRows().size();

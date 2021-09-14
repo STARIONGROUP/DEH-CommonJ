@@ -155,6 +155,12 @@ public final class ImageLoader
             case ActualFiniteState:
                 iconFileName = "actualfinitestate.png";
                 break;
+            case Requirement:
+                iconFileName = "requirement.png";
+                break;
+            case RequirementsGroup:
+                iconFileName = "parametergroup.png";
+                break;
             default:
                 iconFileName = "iteration.png";
                 break;

@@ -29,7 +29,7 @@ import javax.swing.JScrollPane;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
 import ViewModels.Interfaces.IViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeViewModel;
-import ViewModels.ObjectBrowser.RenderDataProvider.ElementDefinitionRenderDataProvider;
+import ViewModels.ObjectBrowser.RenderDataProvider.ObjectBrowserRenderDataProvider;
 import Views.Interfaces.IView;
 
 import org.apache.logging.log4j.LogManager;
@@ -101,7 +101,7 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserViewMod
         this.objectBrowserTree = new Outline();
         this.objectBrowserTree.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.objectBrowserTree.setBackground(Color.WHITE);
-        this.objectBrowserTree.setRenderDataProvider(new ElementDefinitionRenderDataProvider()); 
+        this.objectBrowserTree.setRenderDataProvider(new ObjectBrowserRenderDataProvider()); 
         this.objectBrowserTree.setRootVisible (true);
         GridBagConstraints gbc_scrollView = new GridBagConstraints();
         gbc_scrollView.fill = GridBagConstraints.BOTH;
@@ -119,7 +119,11 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserViewMod
     @Override
     public void Bind()
     {
-        this.dataContext.ElementDefinitionTree().subscribe(x -> this.objectBrowserTree.setModel(x));
+        this.dataContext.BrowserTreeModel().subscribe(x -> 
+        {
+            this.objectBrowserTree.setVisible(true);
+            this.objectBrowserTree.setModel(x);
+        });
     }
     
     /**
