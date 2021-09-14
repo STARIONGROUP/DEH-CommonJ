@@ -34,8 +34,10 @@ import org.junit.jupiter.api.Test;
 
 import HubController.IHubController;
 import Services.NavigationService.INavigationService;
+import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
 import ViewModels.Interfaces.IHubBrowserHeaderViewModel;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
+import ViewModels.Interfaces.IRequirementBrowserViewModel;
 import Views.HubLogin;
 
 class HubBrowserPanelViewModelTestFixture
@@ -43,7 +45,8 @@ class HubBrowserPanelViewModelTestFixture
     private INavigationService navigationService;
     private IHubController hubController;
     private IHubBrowserHeaderViewModel hubBrowserHeaderViewModel;
-    private IObjectBrowserViewModel objectBrowserViewModel;
+    private IElementDefinitionBrowserViewModel elementDefinitionBrowser;
+    private IRequirementBrowserViewModel requirementBrowser;
 
     /**
      * @throws java.lang.Exception
@@ -54,13 +57,15 @@ class HubBrowserPanelViewModelTestFixture
         this.navigationService = mock(INavigationService.class);
         this.hubController = mock(IHubController.class);
         this.hubBrowserHeaderViewModel = mock(IHubBrowserHeaderViewModel.class);
-        this.objectBrowserViewModel = mock(IObjectBrowserViewModel.class);
+        this.elementDefinitionBrowser = mock(IElementDefinitionBrowserViewModel.class);
+        this.requirementBrowser = mock(IRequirementBrowserViewModel.class);
     }
 
     @Test
     void VerifyConnectButtonAction()
     {
-        HubBrowserPanelViewModel viewModel = new HubBrowserPanelViewModel(this.navigationService, this.hubController, this.hubBrowserHeaderViewModel, this.objectBrowserViewModel);
+        HubBrowserPanelViewModel viewModel = new HubBrowserPanelViewModel(this.navigationService, 
+                this.hubController, this.hubBrowserHeaderViewModel, this.requirementBrowser, this.elementDefinitionBrowser);
         assertDoesNotThrow(() -> viewModel.Connect());
         verify(this.navigationService, times(1)).ShowDialog(any(HubLogin.class));
     }    

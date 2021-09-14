@@ -1,9 +1,9 @@
 /*
- * ElementDefinitionBrowserViewModel.java
+ * RequirementBrowserTreeViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -21,28 +21,28 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.ElementDefinitionTree;
+package ViewModels.ObjectBrowser.RequirementTree;
 
 import javax.swing.tree.TreeModel;
 
 import HubController.IHubController;
 import ViewModels.ObjectBrowser.BrowserTreeViewModel;
-import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.IterationElementDefinitionRowViewModel;
+import ViewModels.ObjectBrowser.RequirementTree.Rows.IterationRequirementRowViewModel;
 import cdp4common.engineeringmodeldata.Iteration;
 
 /**
- * The {@linkplain ElementDefinitionBrowserTreeRowViewModel} is the {@linkplain TreeModel} for the element definition browser
+ * The {@linkplain RequirementBrowserTreeViewModel} is the {@linkplain TreeModel} for the requirement specification browser
  */
-public class ElementDefinitionBrowserTreeViewModel extends BrowserTreeViewModel<IterationElementDefinitionRowViewModel>
+public class RequirementBrowserTreeViewModel extends BrowserTreeViewModel<IterationRequirementRowViewModel>
 {
     /**
-     * Initializes a new {@linkplain ElementDefinitionBrowserTreeViewModel}
+     * Initializes a new {@linkplain RequirementBrowserTreeViewModel}
      * 
      * @param iteration the {@linkplain Iteration}
      * @param hubController the {@linkplain IHubController}
      */
-    public ElementDefinitionBrowserTreeViewModel(Iteration iteration)
+    public RequirementBrowserTreeViewModel(Iteration iteration)
     {
-        super(new IterationElementDefinitionRowViewModel(iteration));
+        super(new IterationRequirementRowViewModel(iteration));
     }
 }

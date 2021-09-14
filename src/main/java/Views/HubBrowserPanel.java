@@ -34,7 +34,9 @@ import java.awt.Font;
 
 import javax.swing.JTree;
 
+import Utils.ImageLoader.ImageLoader;
 import Views.ObjectBrowser.ObjectBrowser;
+import cdp4common.commondata.ClassKind;
 
 import javax.swing.JLabel;
 
@@ -66,18 +68,33 @@ public class HubBrowserPanel extends JPanel
     }    
     
     /**
-     * The {@linkplain ObjectBrowser}
+     * The element definitions {@linkplain ObjectBrowser}
      */
-    private ObjectBrowser objectBrowser;
+    private ObjectBrowser elementDefinitionBrowser;
     
     /**
-     * Gets the {@linkplain ObjectBrowser}
+     * Gets the element definitions {@linkplain ObjectBrowser} 
      * 
      * @return the {@linkplain ObjectBrowser}
      */
-    public ObjectBrowser getObjectBrowser()
+    public ObjectBrowser GetElementDefinitionBrowser()
     {
-        return this.objectBrowser;
+        return this.elementDefinitionBrowser;
+    }
+    
+    /**
+     * The requirement specifications {@linkplain ObjectBrowser}
+     */
+    private ObjectBrowser requirementBrowser;
+    
+    /**
+     * Gets the requirement specifications {@linkplain ObjectBrowser} 
+     * 
+     * @return the {@linkplain ObjectBrowser}
+     */
+    public ObjectBrowser GetRequirementBrowser()
+    {
+        return this.requirementBrowser;
     }
     
     /**
@@ -154,7 +171,10 @@ public class HubBrowserPanel extends JPanel
         gbc_HubBrowserTreeViewsContainer.gridy = 2;
         this.add(HubBrowserTreeViewsContainer, gbc_HubBrowserTreeViewsContainer);
         
-        this.objectBrowser = new ObjectBrowser();
-        HubBrowserTreeViewsContainer.addTab("Element Definitions tree", null, this.objectBrowser, null);
+        this.elementDefinitionBrowser = new ObjectBrowser();
+        HubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
+        
+        this.requirementBrowser = new ObjectBrowser();
+        HubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
     }
 }
