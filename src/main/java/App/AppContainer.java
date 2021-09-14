@@ -32,6 +32,8 @@ import Services.UserPreferenceService.*;
 import Services.NavigationService.*;
 import ViewModels.*;
 import ViewModels.Interfaces.*;
+import ViewModels.ObjectBrowser.ElementDefinitionBrowserViewModel;
+import ViewModels.ObjectBrowser.RequirementBrowserViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeViewModel;
 
@@ -73,6 +75,7 @@ public final class AppContainer
         Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class.getSimpleName(), HubLoginViewModel.class);
         Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class, HubLoginViewModel.class);
         Container.as(NO_CACHE).addComponent(IHubBrowserHeaderViewModel.class, HubBrowserHeaderViewModel.class);
-        Container.as(NO_CACHE).addComponent(IObjectBrowserViewModel.class, ObjectBrowserViewModel.class);        
+        Container.as(NO_CACHE).addComponent(IElementDefinitionBrowserViewModel.class, ElementDefinitionBrowserViewModel.class);        
+        Container.as(NO_CACHE).addComponent(IRequirementBrowserViewModel.class, RequirementBrowserViewModel.class);        
     }
 }

@@ -1,9 +1,9 @@
 /*
- * IElementDefinitionRowViewModel.java
+ * package-info.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam GerenÃ©, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -21,8 +21,4 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.Interfaces;
-
-public interface IElementDefinitionRowViewModel extends IViewModel
-{
-}
+package ViewModels.ObjectBrowser.RequirementTree;

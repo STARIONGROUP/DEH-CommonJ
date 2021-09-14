@@ -35,14 +35,15 @@ import Utils.ImageLoader.ImageLoader;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ActualFiniteStateRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.OptionRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterValueRowViewModel;
+import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementBaseTreeElementViewModel;
 import ViewModels.ObjectBrowser.Rows.ThingRowViewModel;
 import cdp4common.commondata.ClassKind;
 
 /**
- * The {@linkplain ElementDefinitionRenderDataProvider} is the {@linkplain RenderDataProvider} for the element definition tree
+ * The {@linkplain ObjectBrowserRenderDataProvider} is the {@linkplain RenderDataProvider} for the element definition tree
  * It is used mainly for styling the tree
  */
-public class ElementDefinitionRenderDataProvider implements RenderDataProvider
+public class ObjectBrowserRenderDataProvider implements RenderDataProvider
 {
     /**
      * The current class logger
@@ -60,6 +61,12 @@ public class ElementDefinitionRenderDataProvider implements RenderDataProvider
     {
         if(rowViewModel instanceof ThingRowViewModel<?>)
         {
+            if(rowViewModel instanceof RequirementBaseTreeElementViewModel)
+            {
+                RequirementBaseTreeElementViewModel<?> row = (RequirementBaseTreeElementViewModel<?>)rowViewModel;
+                return row.GetShortName();
+            }
+            
             ThingRowViewModel<?> row = (ThingRowViewModel<?>)rowViewModel;
             return row.GetName();
         }

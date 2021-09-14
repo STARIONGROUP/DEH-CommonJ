@@ -55,11 +55,18 @@ public interface IHubBrowserPanelViewModel extends IViewModel
      * Closes the {@linkplain Session}
      */
     void Disconnect();
-
+    
     /**
-     * Gets the {@linkplain IObjectBrowserViewModel}
+     * Gets the {@linkplain IObjectBrowserViewModel} for the element definitions tree
      * 
      * @return the {@linkplain IObjectBrowserViewModel}
      */
-    IObjectBrowserViewModel GetObjectBrowserViewModel();
+    IObjectBrowserViewModel GetElementDefinitionBrowserViewModel();
+
+    /**
+     * Gets the {@linkplain IObjectBrowserViewModel} for the requirements tree
+     * 
+     * @return the {@linkplain IObjectBrowserViewModel}
+     */
+    IObjectBrowserViewModel GetRequirementBrowserViewModel();
 }

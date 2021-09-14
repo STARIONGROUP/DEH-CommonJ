@@ -21,7 +21,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows;
+package ViewModels.ObjectBrowser.Rows;
 
 import java.util.ArrayList;
 
@@ -29,26 +29,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import Reactive.ObservableCollection;
+import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.ElementDefinitionRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
-import ViewModels.ObjectBrowser.Rows.ThingRowViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
+import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.types.OrderedItemList;
 
 /**
- * The {@linkplain IterationRowViewModel} is the row view model that represents an {@linkplain Iteration}
+ * The {@linkplain IterationRowViewModel} is the base abstract row view model that represents an {@linkplain Iteration}
  */
-public class IterationRowViewModel extends ThingRowViewModel<Iteration> implements IHaveContainedRows<ElementDefinitionRowViewModel>
-{
-    /**
-     * The current class logger
-     */
-    private final Logger logger = LogManager.getLogger();
-    
+public abstract class IterationRowViewModel<TContainedRows extends IRowViewModel> extends ThingRowViewModel<Iteration> implements IHaveContainedRows<TContainedRows>
+{    
     /**
      * The {@linkplain ObservableCollection} of {@linkplain ElementDefinitionRowViewModel}
      */
-//    private ObservableCollection<ElementDefinitionRowViewModel> containedRows = new ObservableCollection<ElementDefinitionRowViewModel>();
-    private ArrayList<ElementDefinitionRowViewModel> containedRows = new ArrayList<ElementDefinitionRowViewModel>();
+    protected ArrayList<TContainedRows> containedRows = new ArrayList<TContainedRows>();
     
     /**
      * Gets the contained row the implementing view model has
@@ -56,8 +52,7 @@ public class IterationRowViewModel extends ThingRowViewModel<Iteration> implemen
      * @return An {@linkplain ObservableCollection} of {@linkplain TRowViewModel}
      */
     @Override
-//    public ObservableCollection<ElementDefinitionRowViewModel> GetContainedRows()
-    public ArrayList<ElementDefinitionRowViewModel> GetContainedRows()
+    public ArrayList<TContainedRows> GetContainedRows()
     {
         return this.containedRows;
     }
@@ -70,7 +65,6 @@ public class IterationRowViewModel extends ThingRowViewModel<Iteration> implemen
     public IterationRowViewModel(Iteration thing)
     {
         super(thing);
-        this.UpdateProperties();
     }
 
     /**
@@ -79,7 +73,6 @@ public class IterationRowViewModel extends ThingRowViewModel<Iteration> implemen
     @Override
     public void UpdateProperties()
     {
-        this.SetName("ElementDefinitions");
         this.ComputeContainedRows();
     }
     
@@ -90,8 +83,5 @@ public class IterationRowViewModel extends ThingRowViewModel<Iteration> implemen
     public void ComputeContainedRows()
     {
         this.containedRows.clear();
-        this.GetThing().getElement()
-            .stream()
-            .forEach(x -> this.containedRows.add(new ElementDefinitionRowViewModel(x)));
     }
 }

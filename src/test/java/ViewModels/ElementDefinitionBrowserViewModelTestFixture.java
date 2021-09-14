@@ -39,10 +39,12 @@ import org.netbeans.swing.outline.OutlineModel;
 
 import HubController.IHubController;
 import Reactive.ObservableValue;
+import ViewModels.ObjectBrowser.ElementDefinitionBrowserViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.ElementDefinitionRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.ElementUsageRowViewModel;
-import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.IterationRowViewModel;
+import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.IterationElementDefinitionRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterGroupRowViewModel;
+import ViewModels.ObjectBrowser.Rows.IterationRowViewModel;
 import cdp4common.engineeringmodeldata.ActualFiniteState;
 import cdp4common.engineeringmodeldata.ActualFiniteStateList;
 import cdp4common.engineeringmodeldata.ElementDefinition;
@@ -62,7 +64,7 @@ import cdp4common.sitedirectorydata.TextParameterType;
 import cdp4common.types.OrderedItemList;
 import cdp4common.types.ValueArray;
 
-class ObjectBrowserViewModelTestFixture
+class ElementDefinitionBrowserViewModelTestFixture
 {
     private Iteration iteration;
     private IHubController hubController;
@@ -91,7 +93,7 @@ class ObjectBrowserViewModelTestFixture
         ObservableValue<Boolean> isSessionOpen = new ObservableValue<Boolean>(false);
         when(this.hubController.GetIsSessionOpenObservable()).thenReturn(isSessionOpen.Observable());
         when(this.hubController.GetOpenIteration()).thenReturn(this.iteration);
-        this.viewModel = new ObjectBrowserViewModel(this.hubController);
+        this.viewModel = new ElementDefinitionBrowserViewModel(this.hubController);
         isSessionOpen.Value(true);
     }
 
@@ -260,7 +262,7 @@ class ObjectBrowserViewModelTestFixture
         
         try
         {
-            Field elementDefinitionTreeField = ObjectBrowserViewModel.class.getDeclaredField("elementDefinitionTree");
+            Field elementDefinitionTreeField = ObjectBrowserViewModel.class.getDeclaredField("browserTreeModel");
             elementDefinitionTreeField.setAccessible(true);
             model = (ObservableValue<OutlineModel>) elementDefinitionTreeField.get(this.viewModel);
         }
@@ -273,7 +275,7 @@ class ObjectBrowserViewModelTestFixture
         assertNotNull(model.Value());
         Object root = model.Value().getRoot();
         assertEquals(IterationRowViewModel.class, root.getClass());
-        IterationRowViewModel iterationRowViewModel = (IterationRowViewModel)root;
+        IterationElementDefinitionRowViewModel iterationRowViewModel = (IterationElementDefinitionRowViewModel)root;
         Assert.isNonEmpty(iterationRowViewModel.GetContainedRows());
         assertEquals(2, iterationRowViewModel.GetContainedRows().size());
         ElementDefinitionRowViewModel elementDefinitionRowViewModel0 = iterationRowViewModel.GetContainedRows().get(0);
