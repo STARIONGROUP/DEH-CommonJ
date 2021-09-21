@@ -24,20 +24,28 @@
 
 package HubController;
 
+import java.util.function.Predicate;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.ImmutableMap;
 
+import Utils.Ref;
+import cdp4common.commondata.DefinedThing;
+import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.sitedirectorydata.Category;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
 import cdp4common.sitedirectorydata.Participant;
 import cdp4common.sitedirectorydata.Person;
+import cdp4common.sitedirectorydata.ReferenceDataLibrary;
 import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4common.types.ContainerList;
 import cdp4dal.Session;
 import cdp4dal.dal.Credentials;
+import cdp4dal.operations.ThingTransaction;
 import io.reactivex.Observable;
 
 /**
@@ -149,5 +157,28 @@ public interface IHubController
     /**
      * Closes the connection to the data-source
      */
-    void Close();    
+    void Close();
+
+    /**
+     * Gets the thing by predicate on {@linkplain Thing} from the chain of rdls
+     * 
+     * @param predicate the predicate on {@linkplain Thing}
+     * @return An assert whether the thing has been found
+     */
+    public <TThing extends DefinedThing> boolean TryGetThingFromChainOfRdlBy(Predicate<? super Thing> predicate, Ref<TThing> thing);
+
+    /**
+     * Gets the DEHP {@linkplain ReferenceDataLibraries} or the open model one
+     * 
+     * @return the {@linkplain ReferenceDataLibraries}
+     */
+    ReferenceDataLibrary GetDehpOrModelReferenceDataLibrary();
+
+    /**
+     * Try to create or update the things in the specified {@linkplain ThingTransaction}
+     * 
+     * @param transaction the {@linkplain ThingTransaction}
+     * @return a value indicating whether the transaction has been committed with success
+     */
+    boolean TryWrite(ThingTransaction transaction);    
 }

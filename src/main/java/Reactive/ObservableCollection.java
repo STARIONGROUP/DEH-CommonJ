@@ -60,7 +60,7 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
      * Field holding a value indicating whether the collection is empty or not
      */
     private boolean isEmptyValue;
-    
+
     /**
      * Adds a new {@linkplain TValue} to the {@linkplain ObservableCollection}
      * 
@@ -306,10 +306,25 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
     
     /**
      * Initializes a new {@linkplain ObservableCollection} with an empty {@linkplain Collection}
+     * 
+     * @param type the enclosed type of this {@linkplain ObservableValue}
      */
-    public ObservableCollection()
+    public ObservableCollection(Class<TValue> type)
     {
+        this.SetType(type);
         this.value = new ArrayList<TValue>();
+    }
+    
+    /**
+     * Initializes a new {@linkplain ObservableCollection} with an empty {@linkplain Collection}
+     * 
+     * @param initializingCollection a base collection to fill the represented collection
+     * @param type the enclosed type of this {@linkplain ObservableValue}
+     */
+    public ObservableCollection(Collection<TValue> initializingCollection, Class<TValue> type)
+    {
+        this.SetType(type);
+        this.value = new ArrayList<TValue>(initializingCollection);
     }
 
     /**

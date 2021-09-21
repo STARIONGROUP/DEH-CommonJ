@@ -89,7 +89,7 @@ class RequirementBrowserViewModelTestFixture
         this.requirementGroup0.getGroup().add(this.requirementGroup1);
         this.iteration.getRequirementsSpecification().add(this.requirementSpecification0);
 
-        final ObservableValue<Boolean> isSessionOpen = new ObservableValue<>(false);
+        final ObservableValue<Boolean> isSessionOpen = new ObservableValue<Boolean>(false, Boolean.class);
         when(this.hubController.GetIsSessionOpenObservable()).thenReturn(isSessionOpen.Observable());
         when(this.hubController.GetOpenIteration()).thenReturn(this.iteration);
         this.viewModel = new RequirementBrowserViewModel(this.hubController);
