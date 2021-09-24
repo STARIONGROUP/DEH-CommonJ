@@ -82,7 +82,7 @@ class hubBrowserHeaderViewModelTestFixture
         when(this.hubController.GetActivePerson()).thenReturn(person);
         when(this.hubController.GetCurrentDomainOfExpertise()).thenReturn(domain);
         
-        this.isSessionOpen = new ObservableValue<Boolean>(false);
+        this.isSessionOpen = new ObservableValue<Boolean>(false, Boolean.class);
         when(this.hubController.GetIsSessionOpenObservable()).thenReturn(this.isSessionOpen.Observable());
         
         this.viewModel = new HubBrowserHeaderViewModel(this.hubController);

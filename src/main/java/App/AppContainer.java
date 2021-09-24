@@ -53,7 +53,7 @@ public final class AppContainer
 	/**
 	 * Private set for {@linkplain Container}
 	 * 
-	 * Registers all the dependencies such as services, view models 
+	 * Registers all the dependencies such as services, view models and begins the life-cycle of the IoC
 	 */
 	static
 	{
@@ -62,13 +62,15 @@ public final class AppContainer
         Container.as(NO_CACHE).addComponent(INavigationService.class, NavigationService.class);
         Container.as(NO_CACHE).addComponent(IUserPreferenceService.class, UserPreferenceService.class);
         RegisterViewModels();
+        Container.start();
 	}
 
     /**
      * Registers the view models that need to be resolved.
      * @implNote
      * Dialogs that need to be set visible through the {@linkplain INavigationService} 
-     * needs their view model to be registered in the container with the key to be a string reflecting the interface class name
+     * needs their view model to be registered in the container with the key to be a string reflecting the interface class name.
+     * The same rules applies to {@linkplain MappingRule}
      */
     private static void RegisterViewModels()
     {
