@@ -42,7 +42,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     /**
      * Backing field for {@linkplain GetEngineeringModelName}
      */
-    private ObservableValue<String> engineeringModelName = new ObservableValue<String>();
+    private ObservableValue<String> engineeringModelName = new ObservableValue<String>(String.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain engineeringModelName} {@linkplain ObservableValue}
@@ -58,7 +58,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     /**
      * Backing field for {@linkplain GetDataSource}
      */
-    private ObservableValue<String> dataSource = new ObservableValue<String>();
+    private ObservableValue<String> dataSource = new ObservableValue<String>(String.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain dataSource} {@linkplain ObservableValue}
@@ -74,7 +74,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     /**
      * Backing field for {@linkplain GetIterationNumber}
      */
-    private ObservableValue<String> iterationNumber = new ObservableValue<String>();
+    private ObservableValue<String> iterationNumber = new ObservableValue<String>(String.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain iterationNumber} {@linkplain ObservableValue}
@@ -90,7 +90,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     /**
      * Backing field for {@linkplain GetPersonName}
      */
-    private ObservableValue<String> personName = new ObservableValue<String>();
+    private ObservableValue<String> personName = new ObservableValue<String>(String.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain personName} {@linkplain ObservableValue}
@@ -106,7 +106,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     /**
      * Backing field for {@linkplain GetDomainOfExpertiseName}
      */
-    private ObservableValue<String> domainOfExpertiseName = new ObservableValue<String>();
+    private ObservableValue<String> domainOfExpertiseName = new ObservableValue<String>(String.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain domainOfExpertiseName} {@linkplain ObservableValue}

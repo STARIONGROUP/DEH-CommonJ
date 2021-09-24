@@ -90,7 +90,7 @@ class ElementDefinitionBrowserViewModelTestFixture
     {        
         this.SetUpModel();
         this.hubController = mock(IHubController.class);
-        ObservableValue<Boolean> isSessionOpen = new ObservableValue<Boolean>(false);
+        ObservableValue<Boolean> isSessionOpen = new ObservableValue<Boolean>(false, Boolean.class);
         when(this.hubController.GetIsSessionOpenObservable()).thenReturn(isSessionOpen.Observable());
         when(this.hubController.GetOpenIteration()).thenReturn(this.iteration);
         this.viewModel = new ElementDefinitionBrowserViewModel(this.hubController);
@@ -274,7 +274,7 @@ class ElementDefinitionBrowserViewModelTestFixture
         
         assertNotNull(model.Value());
         Object root = model.Value().getRoot();
-        assertEquals(IterationRowViewModel.class, root.getClass());
+        assertEquals(IterationElementDefinitionRowViewModel.class, root.getClass());
         IterationElementDefinitionRowViewModel iterationRowViewModel = (IterationElementDefinitionRowViewModel)root;
         Assert.isNonEmpty(iterationRowViewModel.GetContainedRows());
         assertEquals(2, iterationRowViewModel.GetContainedRows().size());

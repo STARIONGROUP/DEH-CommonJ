@@ -23,6 +23,8 @@
  */
 package Reactive;
 
+import java.lang.reflect.Type;
+
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -34,6 +36,32 @@ import io.reactivex.subjects.PublishSubject;
  */
 public class ObservableValue<TValue>
 {
+    /**
+     * Holds the current generic {@linkplain Type} of this {@linkplain ObservableValue}
+     */
+    protected Class<?> type;
+    
+    /**
+     * Gets the enclosed type of this {@linkplain ObservableValue}
+     * 
+     * @return the {@linkplain Type}
+     */
+    public Class<?> GetType()
+    {
+        return this.type;
+    }
+
+
+    /**
+     * Sets the enclosed type of this {@linkplain ObservableValue}
+     * 
+     * @param the {@linkplain Type}
+     */
+    protected void SetType(Class<?> type)
+    {
+        this.type = type;       
+    }
+        
     /**
      * The {@linkplain TValue} value
      */
@@ -63,12 +91,21 @@ public class ObservableValue<TValue>
     {
         try
         {
+            if(value == null)
+            {
+                subject.onNext(this.value);
+            }
+            
             this.value = value;
             subject.onNext(value);
             
-        } catch (Exception exception)
+        } 
+        catch (Exception exception)
         {
-            subject.onError(exception);
+            PublishSubject<TValue> newSubject = GetNewSubject();
+            this.subject.onErrorResumeNext(newSubject);
+            this.subject.onError(exception);
+            this.subject = newSubject;
         }        
     }
 
@@ -86,16 +123,38 @@ public class ObservableValue<TValue>
      * Initializes a new {@linkplain ObservableValue} with a initial value for the {@linkplain value}
      * 
      * @param initialValue the initial value for the {@linkplain value}
+     * @param type the enclosed type of this {@linkplain ObservableValue}
      */
-    public ObservableValue(TValue initialValue)
+    public ObservableValue(TValue initialValue, Class<TValue> type)
     {
+        this(type);
         this.Value(initialValue);
     }
 
     /**
+     * Initializes a {@linkplain ObservableValue}
+     * 
+     * @param type the enclosed type of this {@linkplain ObservableValue}
+     */
+    public ObservableValue(Class<TValue> type)
+    {
+        this.type = type;
+    }
+    
+    /**
      * Initializes a default {@linkplain ObservableValue}
      */
-    public ObservableValue()
+    protected ObservableValue()
     {
+    }
+
+    /**
+     * Gets a new {@linkplain PublishSubject}
+     * 
+     * @return a {@linkplain PublishSubject}
+     */
+    private PublishSubject<TValue> GetNewSubject()
+    {
+        return PublishSubject.create();
     }
 }

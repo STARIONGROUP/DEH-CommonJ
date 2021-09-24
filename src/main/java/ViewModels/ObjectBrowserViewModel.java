@@ -50,7 +50,7 @@ public abstract class ObjectBrowserViewModel implements IObjectBrowserViewModel
     /**
      * The {@linkplain ObservableValue} of {@linkplain OutlineModel} for the element definition tree
      */
-    protected ObservableValue<OutlineModel> browserTreeModel = new ObservableValue<OutlineModel>();
+    protected ObservableValue<OutlineModel> browserTreeModel = new ObservableValue<OutlineModel>(OutlineModel.class);
     
     /***
      * Gets the {@linkplain OutlineModel} for the element definition tree view

@@ -24,8 +24,14 @@
 package HubController;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -34,27 +40,19 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.ImmutableMap;
 
 import Reactive.ObservableValue;
+import Utils.Ref;
+import cdp4common.commondata.DefinedThing;
+import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
-import cdp4common.sitedirectorydata.DomainOfExpertise;
-import cdp4common.sitedirectorydata.EngineeringModelSetup;
-import cdp4common.sitedirectorydata.IterationSetup;
-import cdp4common.sitedirectorydata.Participant;
-import cdp4common.sitedirectorydata.Person;
-import cdp4common.sitedirectorydata.SiteDirectory;
+import cdp4common.sitedirectorydata.*;
 import cdp4common.types.ContainerList;
 import cdp4dal.Session;
 import cdp4dal.SessionImpl;
 import cdp4dal.dal.Credentials;
+import cdp4dal.operations.ThingTransaction;
 import cdp4servicesdal.CdpServicesDal;
-import io.reactivex.Emitter;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.operators.observable.ObservableAll;
-import io.reactivex.subjects.PublishSubject;
 
 /**
  * Definition of the {@link HubController} which is responsible to provides {@link Session} related functionalities
@@ -99,7 +97,7 @@ public final class HubController implements IHubController
     /**
      * Backing field for {@linkplain IsSessionOpenObservable()}
      */
-    private ObservableValue<Boolean> isSessionOpenObservable = new ObservableValue<Boolean>();
+    private ObservableValue<Boolean> isSessionOpenObservable = new ObservableValue<Boolean>(Boolean.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain isSessionOpen} boolean field
@@ -143,6 +141,43 @@ public final class HubController implements IHubController
      * The {@link Session} that is used to communicate with the data-store
      */
     private Session session;
+    
+    /**
+     * Gets the open {@linkplain ReferenceDataLibraries}
+     * 
+     * @return a {@linkplain Collection} of {@linkplain ReferenceDataLibraries}
+     */
+    public Collection<ReferenceDataLibrary> OpenReferenceDataLibraries()
+    {
+        if(this.isSessionOpen)
+        {
+            return this.session.getOpenReferenceDataLibraries();
+        }
+        
+        return new ArrayList<ReferenceDataLibrary>();
+    }
+    
+    /**
+     * Gets the DEHP {@linkplain ReferenceDataLibraries} or the open model one
+     * 
+     * @return the {@linkplain ReferenceDataLibrary}
+     */
+    @Override
+    public ReferenceDataLibrary GetDehpOrModelReferenceDataLibrary()
+    {
+        Optional<ReferenceDataLibrary> optionalLibrary = this.OpenReferenceDataLibraries().stream()
+                .filter(x -> x.getShortName().toUpperCase().contains("DEHP")).findFirst();
+        
+        if(optionalLibrary.isPresent())
+        {
+            ReferenceDataLibrary library = optionalLibrary.get();
+            this.session.read(library).join();
+            return library;
+        }
+        
+        return this.GetOpenIteration().getContainerOfType(EngineeringModel.class)
+                .getEngineeringModelSetup().getRequiredRdl().stream().findFirst().orElse(null);
+    }
     
     /**
      * Opens the {@linkplain Session}
@@ -349,7 +384,7 @@ public final class HubController implements IHubController
                     this.session.getAssembler().getCache(), this.session.getCredentials().getUri());
 
             model.getIteration().add(iteration);
-            
+
             this.GetIteration(iteration, domainOfExpertise);
             return true;
         }
@@ -357,6 +392,95 @@ public final class HubController implements IHubController
         {
             this.logger.catching(exception);
             return false;
-        }        
+        }
+    }
+
+    /**
+     * Gets the thing by predicate on {@linkplain Thing} from the chain of rdls
+     * 
+     * @param predicate the predicate on {@linkplain Thing}
+     * @return An assert whether the thing has been found
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public <TThing extends DefinedThing> boolean TryGetThingFromChainOfRdlBy(Predicate<? super Thing> predicate, Ref<TThing> thing)
+    {
+        Function<? super ReferenceDataLibrary, ? extends Stream<?>> collectionSelector = null;
+        
+        if(thing.GetType() == Category.class)
+        {
+            collectionSelector = x -> x.queryCategoriesFromChainOfRdls().stream();
+        }
+        else if(thing.GetType() == Rule.class)
+        {
+            collectionSelector = x -> x.queryRulesFromChainOfRdls().stream();
+        }
+        else if(thing.GetType() == Constant.class)
+        {
+            collectionSelector = x -> x.queryConstantsFromChainOfRdls().stream();
+        }
+        else if(thing.GetType() == FileType.class)
+        {
+            collectionSelector = x -> x.queryFileTypesFromChainOfRdls().stream();
+        }
+        else if(thing.GetType() == Glossary.class)
+        {
+            collectionSelector = x -> x.queryGlossariesFromChainOfRdls().stream();
+        }
+        else if(thing.GetType() == MeasurementScale.class)
+        {
+            collectionSelector = x -> x.queryMeasurementScalesFromChainOfRdls().stream();
+        }
+        else if(thing.GetType() == MeasurementUnit.class)
+        {
+            collectionSelector = x -> x.queryMeasurementUnitsFromChainOfRdls().stream();
+        }
+        else if(thing.GetType() == ReferenceSource.class)
+        {
+            collectionSelector = x -> x.queryReferenceSourcesFromChainOfRdls().stream();
+        }
+        else if(thing.GetType() == UnitPrefix.class)
+        {
+            collectionSelector = x -> x.queryUnitPrefixesFromChainOfRdls().stream();
+        }
+        else if(thing.GetType() == ParameterType.class)
+        {
+            collectionSelector = x -> x.queryParameterTypesFromChainOfRdls().stream();
+        }
+
+        if (collectionSelector == null)
+        {
+            return false;
+        }
+
+        Optional<Object> optionalThing = this.OpenReferenceDataLibraries().stream().flatMap(collectionSelector).filter((Predicate<? super Object>) predicate).findFirst();
+        
+        if (optionalThing.isPresent() && optionalThing.getClass().isAssignableFrom(thing.GetType()))
+        {
+            thing.Set((TThing)optionalThing.get());
+        }
+
+        return thing.HasValue();
+    }
+
+    /**
+     * Try to create or update the things in the specified {@linkplain ThingTransaction}
+     * 
+     * @param transaction the {@linkplain ThingTransaction}
+     * @return a value indicating whether the transaction has been committed with success
+     */
+    @Override
+    public boolean TryWrite(ThingTransaction transaction)
+    {
+        try
+        {
+            this.session.write(transaction.finalizeTransaction());
+            return true;
+        } 
+        catch (Exception exception)
+        {
+            this.logger.catching(exception);
+            return false;
+        }
     }
 }
