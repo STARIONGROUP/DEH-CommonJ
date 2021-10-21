@@ -23,11 +23,33 @@
  */
 package Utils.Tasks;
 
+/**
+ * The {@linkplain TaskStatus} enumeration status on a {@linkplain Task} status
+ */
 public enum TaskStatus
 {
+    /**
+     * The {@linkplain Task} is not running
+     */
     Iddle,
+    
+    /**
+     * The {@linkplain Task} is running
+     */
     Running,
+    
+    /**
+     * The {@linkplain Task} has been cancelled
+     */
     Cancelled,
+    
+    /**
+     * The {@linkplain Task} is completed
+     */
     Completed,
+    
+    /**
+     * The {@linkplain Task} hasn't run until completion, an exception was raised most likely
+     */
     Faulted
 }
