@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 
+import org.apache.logging.log4j.LogManager;
+
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -44,7 +46,12 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
     /**
      * The {@linkplain PublisherSubject} that serves to raise the OnNext event when an item is added to the collection
      */
-    protected PublishSubject<TValue> itemAdded = PublishSubject.create();
+    protected PublishSubject<TValue> itemAdded = PublishSubject.create();    
+
+    /**
+     * The {@linkplain PublisherSubject} that serves to raise the OnNext event when a collection of items have been added to the collection
+     */
+    protected PublishSubject<Collection<TValue>> itemsAdded = PublishSubject.create();
     
     /**
      * The {@linkplain PublisherSubject} that serves to raise the OnNext event when an item is removed from the collection
@@ -115,6 +122,7 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
     private void FiresIsEmpty()
     {
         boolean newValue = this.value.isEmpty();
+        
         if (this.isEmptyValue != newValue)
         {
             this.isEmptyValue = newValue;
@@ -123,13 +131,23 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
     }
     
     /**
-     * Gets the {@linkplain Observable} that fires when ever the collection gets one new item
+     * Gets the {@linkplain Observable} that fires when ever the collection gets one new item added
      * 
      * @return An {@linkplain Observable} of {@linkplain TValue}
      */
     public Observable<TValue> ItemAdded()
     {
         return itemAdded.hide();
+    }
+        
+    /**
+     * Gets the {@linkplain Observable} that fires when ever the collection gets a collection of new item added
+     * 
+     * @return An {@linkplain Observable} of {@linkplain Collection} of {@linkplain TValue}
+     */
+    public Observable<Collection<TValue>> ItemsAdded()
+    {
+        return itemsAdded.hide();
     }
     
     /**
@@ -243,11 +261,12 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
 
     /**
      * Adds all the items in the provided {@linkplain collection} to this collection.
-     * It fire the {@linkplain itemAdded} {@linkplain Observable}
+     * It fire the {@linkplain itemsAdded} {@linkplain Observable}
      * 
      * @param collection the {@linkplain Collection} of item to add
      * @return an assert indicating whether all items were added successfully
      */
+    @SuppressWarnings("unchecked")
     @Override
     public boolean addAll(Collection<? extends TValue> collection)
     {
@@ -257,7 +276,8 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
         {
             result &= this.add(value);
         }
-        
+
+        this.itemsAdded.onNext((Collection<TValue>) collection);  
         return result;
     }
 
@@ -302,6 +322,16 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
     {
         this.value.clear();
         this.FiresIsEmpty();
+    }
+
+    /**
+     * Initializes a new {@linkplain ObservableCollection} with an empty {@linkplain Collection}
+     * 
+     * @param type the enclosed type of this {@linkplain ObservableValue}
+     */
+    public ObservableCollection()
+    {
+        this.value = new ArrayList<TValue>();
     }
     
     /**

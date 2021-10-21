@@ -24,6 +24,7 @@
 
 package HubController;
 
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -45,6 +46,7 @@ import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4common.types.ContainerList;
 import cdp4dal.Session;
 import cdp4dal.dal.Credentials;
+import cdp4dal.exceptions.TransactionException;
 import cdp4dal.operations.ThingTransaction;
 import io.reactivex.Observable;
 
@@ -68,14 +70,14 @@ public interface IHubController
      * 
      * @return A value indicating whether the {@link future} completed with success
      */
-    Boolean Refresh();
+    boolean Refresh();
 
     /**
      * Reloads the {@link Session}
      * 
      * @return A value indicating whether the {@link future} completed with success
      */
-    Boolean Reload();
+    boolean Reload();
 
     /**
      * Reads an {@link Iteration} and set the active @link DomainOfExpertise for the Iteration
@@ -165,7 +167,7 @@ public interface IHubController
      * @param predicate the predicate on {@linkplain Thing}
      * @return An assert whether the thing has been found
      */
-    public <TThing extends DefinedThing> boolean TryGetThingFromChainOfRdlBy(Predicate<? super Thing> predicate, Ref<TThing> thing);
+    <TThing extends Object> boolean TryGetThingFromChainOfRdlBy(Predicate<TThing> predicate, Ref<TThing> thing);
 
     /**
      * Gets the DEHP {@linkplain ReferenceDataLibraries} or the open model one
@@ -180,5 +182,29 @@ public interface IHubController
      * @param transaction the {@linkplain ThingTransaction}
      * @return a value indicating whether the transaction has been committed with success
      */
-    boolean TryWrite(ThingTransaction transaction);    
+    boolean TryWrite(ThingTransaction transaction);
+
+    /**
+     * Refresh the specified library local cache by reading it
+     * 
+     * @param library the {@linkplain ReferenceDataLibrary} to refresh
+     */
+    void RefreshReferenceDataLibrary(ReferenceDataLibrary library);
+
+    /**
+     * Gets the {@linkplain Thing} by it's Iid from the cache
+     * 
+     * @param <TThing> the type of {@linkplain Thing} to retrieve
+     * @param iid the Iid of the {@linkplain Thing} to retrieve from the cache
+     * @param refThing the {@linkplain Ref} of {@linkplain TThing} as ref parameter
+     */
+    <TThing extends Thing> boolean TryGetThingById(UUID iid, Ref<TThing> refThing);
+
+    /**
+     * Initializes a new {@linkplain ThingTransaction} based on the current open {@linkplain Iteration}
+     * 
+     * @return a {@linkplain Pair} of {@linkplain Iteration} cloned and its {@linkplain ThingTransaction}
+     * @throws TransactionException
+     */
+    Pair<Iteration, ThingTransaction> GetIterationTransaction() throws TransactionException;    
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -26,6 +26,7 @@ package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterGroupRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterOverrideRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterRowViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import cdp4common.engineeringmodeldata.ElementUsage;
 
 /**
@@ -37,10 +38,11 @@ public class ElementUsageRowViewModel extends ElementBaseRowViewModel<ElementUsa
      * Initializes a new {@linkplain ElementDefinitionRowViewModel}
      * 
      * @param elementUsage the represented {@linkplain ElementDefinition}
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public ElementUsageRowViewModel(ElementUsage elementUsage)
+    public ElementUsageRowViewModel(ElementUsage elementUsage, IRowViewModel parentViewModel)
     {
-        super(elementUsage);
+        super(elementUsage, parentViewModel);
         this.UpdateProperties();
     }
     
@@ -65,15 +67,15 @@ public class ElementUsageRowViewModel extends ElementBaseRowViewModel<ElementUsa
         this.GetThing().getElementDefinition().getParameterGroup()
             .stream()
             .filter(x -> x.getContainingGroup() == null)
-            .forEach(x -> this.containedRows.add(new ParameterGroupRowViewModel(x, this.GetThing())));
+            .forEach(x -> this.containedRows.add(new ParameterGroupRowViewModel(x, this.GetThing(), this)));
         
         this.GetThing().getElementDefinition().getParameter()
             .stream()
             .filter(x -> this.GetThing().getParameterOverride().stream().noneMatch(o -> o.getParameter().getIid() == x.getIid()))
-            .forEach(x -> this.containedRows.add(new ParameterRowViewModel(x)));
+            .forEach(x -> this.containedRows.add(new ParameterRowViewModel(x, this)));
         
         this.GetThing().getParameterOverride()
             .stream()
-            .forEach(x -> this.containedRows.add(new ParameterOverrideRowViewModel(x)));
+            .forEach(x -> this.containedRows.add(new ParameterOverrideRowViewModel(x, this)));
     }
 }

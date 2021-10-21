@@ -27,7 +27,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import Reactive.ObservableCollection;
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IValueSetRowViewModel;
 import cdp4common.engineeringmodeldata.ActualFiniteState;
 import cdp4common.engineeringmodeldata.ActualFiniteStateList;
@@ -51,10 +53,11 @@ public abstract class ParameterBaseRowViewModel<TParameter extends ParameterBase
      * Initializes a new {@linkplain ParameterBaseRowViewModel}
      * 
      * @param elementDefinition the represented {@linkplain ParameterBase}
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    protected ParameterBaseRowViewModel(TParameter parameterBase)
+    protected ParameterBaseRowViewModel(TParameter parameterBase, IRowViewModel parentViewModel)
     {
-        super(parameterBase);
+        super(parameterBase, parentViewModel);
     }
 
     /**
@@ -132,7 +135,7 @@ public abstract class ParameterBaseRowViewModel<TParameter extends ParameterBase
             .distinct()
             .forEach(x -> 
             {
-                OptionRowViewModel<TParameter> optionRow = new OptionRowViewModel<TParameter>(this.GetThing(), x);                
+                OptionRowViewModel<TParameter> optionRow = new OptionRowViewModel<TParameter>(this.GetThing(), x, this);                
                 this.ComputeContainedRowsWithStateAndOptionRows(optionRow, null);
                 this.containedRows.add(optionRow);
             });
@@ -145,11 +148,11 @@ public abstract class ParameterBaseRowViewModel<TParameter extends ParameterBase
      */
     private void ComputeStateDependencies(OptionRowViewModel<TParameter> optionRow)
     {
-        ArrayList<IValueSetRowViewModel> containedRows = optionRow == null ? this.containedRows : optionRow.GetContainedRows();
+        ObservableCollection<IValueSetRowViewModel> containedRows = optionRow == null ? this.containedRows : optionRow.GetContainedRows();
         
         for (ActualFiniteState actualFiniteState : this.stateDependencies)
         {
-            ActualFiniteStateRowViewModel<TParameter> stateRow = new ActualFiniteStateRowViewModel<TParameter>(this.GetThing(), actualFiniteState);
+            ActualFiniteStateRowViewModel<TParameter> stateRow = new ActualFiniteStateRowViewModel<TParameter>(this.GetThing(), actualFiniteState, this);
             this.ComputeContainedRowsWithStateAndOptionRows(optionRow, stateRow);
             containedRows.add(stateRow);
         }

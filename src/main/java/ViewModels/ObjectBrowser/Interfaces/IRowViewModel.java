@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam GerenÃ©, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -28,4 +28,17 @@ package ViewModels.ObjectBrowser.Interfaces;
  */
 public interface IRowViewModel
 {
+    /**
+     * Gets the parent row view model of the current row
+     * 
+     * @return an {@linkplain IRowViewModel}
+     */
+    IRowViewModel GetParent();
+
+    /**
+     * Sets a value whether this row is highlighted
+     * 
+     * @param isHighlighted the {@linkplain boolean} value
+     */
+    void SetIsHighlighted(boolean isHighlighted);
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -22,9 +22,15 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package ViewModels.ObjectBrowser.ElementDefinitionTree;
+import javax.swing.event.TableModelEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.netbeans.swing.outline.Outline;
 import org.netbeans.swing.outline.RowModel;
 
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterValueBaseRowViewModel;
@@ -34,6 +40,29 @@ import cdp4common.commondata.ClassKind;
 
 public class ElementDefinitionBrowserTreeRowViewModel implements RowModel
 {
+//    public Outline tree;
+//
+//    /** listener on node properties changes, recreates displayed data */
+//    private PropertyChangeListener pcl = new PropertyChangeListener() {
+//        @Override
+//        public void propertyChange(PropertyChangeEvent evt)
+//        {
+//            if (!SwingUtilities.isEventDispatchThread()) {
+//                SwingUtilities.invokeLater(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        propertyChange(evt);
+//                    }
+//                });
+//                return;
+//            }
+//            
+//            tree.tableChanged(new TableModelEvent(tree.getModel(), TableModelEvent.HEADER_ROW, row,
+//                            TableModelEvent.ALL_COLUMNS, TableModelEvent.UPDATE));
+//            
+//        }
+//    };
+//    
     /**
      * The current class logger
      */

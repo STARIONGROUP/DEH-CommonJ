@@ -25,6 +25,8 @@ package ViewModels.ObjectBrowser.RequirementTree.Rows;
 
 import ViewModels.ObjectBrowser.Rows.IterationRowViewModel;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4dal.CDPMessageBus;
+import cdp4dal.events.ObjectChangedEvent;
 
 /**
  * The {@linkplain IterationRequirementRowViewModel} is the row view model for the Requirement Specification tree that represents an {@linkplain Iteration}
@@ -62,6 +64,6 @@ public final class IterationRequirementRowViewModel extends IterationRowViewMode
         
         this.GetThing().getRequirementsSpecification()
             .stream()
-            .forEach(x -> this.containedRows.add(new RequirementSpecificationRowViewModel(x)));
+            .forEach(x -> this.containedRows.add(new RequirementSpecificationRowViewModel(x, this)));
     }    
 }

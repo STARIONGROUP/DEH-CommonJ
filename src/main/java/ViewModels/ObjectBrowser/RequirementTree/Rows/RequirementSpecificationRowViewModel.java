@@ -23,6 +23,7 @@
  */
 package ViewModels.ObjectBrowser.RequirementTree.Rows;
 
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import cdp4common.engineeringmodeldata.RequirementsSpecification;
 
 /**
@@ -34,10 +35,11 @@ public class RequirementSpecificationRowViewModel extends RequirementContainerRo
      * Initializes a new {@linkplain RequirementSpecificationRowViewModel}
      * 
      * @param requirementSpecification the {@linkplain RequirementsSpecification} represented by this row view model
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public RequirementSpecificationRowViewModel(RequirementsSpecification requirementSpecification)
+    public RequirementSpecificationRowViewModel(RequirementsSpecification requirementSpecification, IRowViewModel parentViewModel)
     {
-        super(requirementSpecification);
+        super(requirementSpecification, parentViewModel);
         this.UpdateProperties();
     }    
     
@@ -58,15 +60,15 @@ public class RequirementSpecificationRowViewModel extends RequirementContainerRo
     public void ComputeContainedRows()
     {
         super.ComputeContainedRows();
-    
+        
         this.GetThing().getRequirement()
             .stream()
             .filter(x -> x.getGroup() == null)
-            .forEach(x -> this.containedRows.add(new RequirementRowViewModel(x)));
+            .forEach(x -> this.containedRows.add(new RequirementRowViewModel(x, this)));
         
         this.GetThing().getGroup()
             .stream()
             .filter(x -> x.getContainer() == this.GetThing())
-            .forEach(x -> this.containedRows.add(new RequirementGroupRowViewModel(x, this.GetThing().getRequirement())));
+            .forEach(x -> this.containedRows.add(new RequirementGroupRowViewModel(x, this.GetThing().getRequirement(), this)));
     }
 }

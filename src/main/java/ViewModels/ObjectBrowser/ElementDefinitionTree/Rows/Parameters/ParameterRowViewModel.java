@@ -23,6 +23,7 @@
  */
 package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import cdp4common.engineeringmodeldata.Parameter;
 
 /**
@@ -34,10 +35,11 @@ public class ParameterRowViewModel extends ParameterBaseRowViewModel<Parameter>
      * Initializes a new {@linkplain ParameterRowViewModel}
      * 
      * @param parameter the {@linkplain Parameter} that this view model represents
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public ParameterRowViewModel(Parameter parameter)
+    public ParameterRowViewModel(Parameter parameter, IRowViewModel parentViewModel)
     {
-        super(parameter);
+        super(parameter, parentViewModel);
         this.UpdateProperties();
     }
 }

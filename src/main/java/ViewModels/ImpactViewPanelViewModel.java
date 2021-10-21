@@ -1,5 +1,5 @@
 /*
- * IValueSetRowViewModel.java
+ * ImpactViewPanelViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,11 +21,35 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.Interfaces;
+package ViewModels;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import HubController.IHubController;
 
 /**
- * The {@linkplain IValueSetRowViewModel} is the interface definition for all row view model that are related to {@linkplain IValueSet}
+ * The {@linkplain ImpactViewPanelViewModel} is the main view model for the impact view panel
  */
-public interface IValueSetRowViewModel extends IRowViewModel, IHaveContainedRows<IValueSetRowViewModel>
+public abstract class ImpactViewPanelViewModel
 {
+    /**
+     * The current instance class {@linkplain Logger}
+     */
+    protected Logger Logger = LogManager.getLogger();
+    
+    /**
+     * The {@linkplain IHubController}
+     */
+    protected IHubController HubController;
+
+    /**
+     * Initializes a new {@linkplain ImpactViewPanelViewModel}
+     * 
+     * @param hubController the {@linkplain IHubController}
+     */
+    public ImpactViewPanelViewModel(IHubController hubController)
+    {
+        this.HubController = hubController;
+    }
 }

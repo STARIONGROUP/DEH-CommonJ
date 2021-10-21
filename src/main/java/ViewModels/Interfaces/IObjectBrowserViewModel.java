@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -25,6 +25,7 @@ package ViewModels.Interfaces;
 
 import org.netbeans.swing.outline.OutlineModel;
 
+import ViewModels.ObjectBrowser.Interfaces.IThingRowViewModel;
 import io.reactivex.Observable;
 
 /**
@@ -32,11 +33,25 @@ import io.reactivex.Observable;
  * such as the {@linkplain ElementDefinitionBrowserViewModel} or the {@linkplain RequirementBrowserViewModel}
  */
 public interface IObjectBrowserViewModel extends IViewModel
-{    
+{
     /**
      * Gets the {@linkplain OutlineModel} for the element definition tree view
      * 
      * @return An {@linkplain Observable} of {@linkplain OutlineModel}
      */
     Observable<OutlineModel> BrowserTreeModel();
+
+    /**
+     * Gets the a value indicating whether the tree should be visible
+     * 
+     * @return a {@linkplain Boolean}
+     */
+    Observable<Boolean> IsTheTreeVisible();
+
+    /**
+     * Handles changes in the row selections in the tree
+     * 
+     * @param rowViewModel the view model {@linkplain IThingRowViewModel} of the selected row
+     */
+    void OnSelectionChanged(IThingRowViewModel<?> rowViewModel);
 }

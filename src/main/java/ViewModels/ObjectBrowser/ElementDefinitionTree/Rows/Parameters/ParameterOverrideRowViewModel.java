@@ -23,6 +23,7 @@
  */
 package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import cdp4common.engineeringmodeldata.ParameterOverride;
 
 /**
@@ -34,10 +35,11 @@ public class ParameterOverrideRowViewModel extends ParameterBaseRowViewModel<Par
      * Initializes a new {@linkplain ParameterRowViewModel}
      * 
      * @param parameterOverride the {@linkplain ParameterOverride} that this view model represents
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public ParameterOverrideRowViewModel(ParameterOverride parameterOverride)
+    public ParameterOverrideRowViewModel(ParameterOverride parameterOverride, IRowViewModel parentViewModel)
     {
-        super(parameterOverride);
+        super(parameterOverride, parentViewModel);
         this.UpdateProperties();
     }
 }

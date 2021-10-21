@@ -24,6 +24,7 @@
 package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IValueSetRowViewModel;
 import cdp4common.engineeringmodeldata.ParameterBase;
 import cdp4common.engineeringmodeldata.ValueSet;
@@ -67,10 +68,11 @@ public class ParameterValueRowViewModel<TParameter extends ParameterBase> extend
      * Initializes a new {@linkplain ParameterValueRowViewModel}
      * 
      * @param parameter the {@linkplain ParameterBase} represented by this row view model
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public ParameterValueRowViewModel(TParameter parameter, ValueSet valueSet, int valueSetIndex)
+    public ParameterValueRowViewModel(TParameter parameter, ValueSet valueSet, int valueSetIndex, IRowViewModel parentViewModel)
     {
-        super(parameter);
+        super(parameter, parentViewModel);
         this.valueSetIndex = valueSetIndex;
         this.valueSet = valueSet;
         this.UpdateProperties();

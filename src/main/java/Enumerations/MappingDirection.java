@@ -1,5 +1,5 @@
 /*
- * IValueSetRowViewModel.java
+ * MappingDirection.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,11 +21,20 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.Interfaces;
+package Enumerations;
 
 /**
- * The {@linkplain IValueSetRowViewModel} is the interface definition for all row view model that are related to {@linkplain IValueSet}
+ * The {@linkplain MappingDirection} enumerates the possible mapping direction
  */
-public interface IValueSetRowViewModel extends IRowViewModel, IHaveContainedRows<IValueSetRowViewModel>
+public enum MappingDirection
 {
+    /**
+     * Represents the direction from the dst to the Hub
+     */
+    FromDstToHub,
+    
+    /**
+     * Represents the direction from the Hub to the dst
+     */
+    FromHubToDst
 }

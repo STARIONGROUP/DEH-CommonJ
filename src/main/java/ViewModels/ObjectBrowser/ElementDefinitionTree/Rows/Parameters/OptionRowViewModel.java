@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -26,6 +26,7 @@ package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 import java.util.ArrayList;
 
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IValueSetRowViewModel;
 import cdp4common.engineeringmodeldata.Option;
 import cdp4common.engineeringmodeldata.ParameterBase;
@@ -55,10 +56,11 @@ public class OptionRowViewModel<TParameter extends ParameterBase> extends Parame
      * Initializes a new {@linkplain OptionRowViewModel}
      * 
      * @param option the {@linkplain Option} represented by this row view model
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    protected OptionRowViewModel(TParameter parameter, Option option)
+    protected OptionRowViewModel(TParameter parameter, Option option, IRowViewModel parentViewModel)
     {
-        super(parameter);
+        super(parameter, parentViewModel);
         this.option = option;
         this.SetName(this.option.getName());
     }
