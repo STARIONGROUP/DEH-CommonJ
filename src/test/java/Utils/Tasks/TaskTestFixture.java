@@ -29,6 +29,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Utils.Ref;
+import io.reactivex.disposables.Disposable;
 
 class TaskTestFixture
 {
@@ -45,7 +46,7 @@ class TaskTestFixture
     {
         final Ref<Boolean> refCompleted = new Ref<Boolean>(Boolean.class, false);
         
-        Task.Run(() -> 
+        Task.Run(() ->
         {
             try
             {
@@ -125,4 +126,41 @@ class TaskTestFixture
         Thread.sleep(2 * 1000);
         assertEquals(TaskStatus.Faulted, refCompleted.Get());
     }
+    
+    @Test
+    void VerifyCancel() throws InterruptedException
+    {
+        final Ref<Boolean> refCompleted = new Ref<Boolean>(Boolean.class, false);
+        
+        ObservableTask<Boolean> task = Task.Create(() -> 
+        {
+            try
+            {
+                System.out.println("called");
+                Thread.sleep(50 * 1000);
+                return true;
+            } 
+            catch (InterruptedException exception)
+            {
+                exception.printStackTrace();
+                return false;
+            } 
+        }, Boolean.class);
+        
+        task.Observable()
+        .subscribe(x -> 
+        {
+            refCompleted.Set(x.GetResult());   
+        });
+        
+        task.Run();
+        Thread.sleep(1000);
+        task.Cancel();
+
+        Thread.sleep(1000);
+        assertEquals(null, refCompleted.Get());
+        assertEquals(TaskStatus.Cancelled, task.Task.GetStatus());
+        assertEquals(null, refCompleted.Get());
+    }
 }
+

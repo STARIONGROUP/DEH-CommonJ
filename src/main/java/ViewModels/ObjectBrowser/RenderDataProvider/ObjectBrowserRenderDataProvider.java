@@ -95,12 +95,20 @@ public class ObjectBrowserRenderDataProvider implements RenderDataProvider
      */
     @Override
     public Color getBackground(Object rowViewModel)
-    {        
-        if (rowViewModel instanceof ThingRowViewModel && ((ThingRowViewModel<?>)rowViewModel).GetIsHighlighted())
+    {
+        if (rowViewModel instanceof ThingRowViewModel<?>)
         {
-            return Color.YELLOW;
+            if(((ThingRowViewModel<?>)rowViewModel).GetIsSelected())
+            {
+                return new Color(104, 143, 184);
+            }
+            if(((ThingRowViewModel<?>)rowViewModel).GetIsHighlighted())
+            {
+                return Color.YELLOW;
+            }
+            
         }
-
+        
         return Color.WHITE;
     }
 

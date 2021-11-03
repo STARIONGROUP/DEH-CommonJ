@@ -1,5 +1,5 @@
 /*
- * IThingRowViewModel.java
+ * package-info.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,31 +21,4 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.Interfaces;
-
-/**
- * The {@linkplain IRowViewModel} is the base interface definition for all object browser row view model
- */
-public interface IRowViewModel
-{
-    /**
-     * Gets the parent row view model of the current row
-     * 
-     * @return an {@linkplain IRowViewModel}
-     */
-    IRowViewModel GetParent();
-
-    /**
-     * Gets a value indicating whether the current row is expanded
-     * 
-     * @return a {@linkplain boolean}
-     */
-    boolean GetIsExpanded();
-    
-    /**
-     * Sets a value indicating whether the current row is expanded
-     * 
-     * @return a {@linkplain boolean}
-     */
-    void SetIsExpanded(boolean isExpanded);
-}
+package Utils.Operators;

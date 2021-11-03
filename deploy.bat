@@ -23,18 +23,25 @@ REM You should have received a copy of the GNU Lesser General Public License
 REM along with this program; if not, write to the Free Software Foundation,
 REM Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-echo ^=================================================================================
-echo ^=                   ALMOST-AUTO-DEPLOY for the DEH-MDSYSML Adapter              =
-echo ^=                                                                               =
-echo ^= \-w ===^> Adds a pause for Eclipse generation of plugin classes                =
-echo ^= \-p ===^> Generate DEH-MDSYSML plugin                                          =
-echo ^= \-i ===^> Install the generated DEH-MDSYSML plugin                             =
-echo ^= \-d ===^> Run Cameo                                                            =
-echo ^=================================================================================
+echo ^=======================================================================================================
+echo ^=                   ALMOST-AUTO-DEPLOY for the DEH-MDSYSML Adapter                                    =
+echo ^=                                                                                                     =
+echo ^= --First argument--                                                                                  =
+echo ^= \-c ===^> sets the target to be Cameo System Modeler instead of the default target: MagicDraw \-m     =
+echo ^= --Second argument--                                                                                  =
+echo ^= \-p ===^> Generate DEH-MDSYSML plugin                                                                =
+echo ^= \-i ===^> Install the generated DEH-MDSYSML plugin                                                   =
+echo ^= \-c ===^> Run Cameo                                                                                  =
+echo ^= \-m ===^> Run MagicDraw                                                                              =
+echo ^=======================================================================================================
 
-if /I "%1" == "-p" goto PackPlugin
-if /I "%1" == "-i" goto Install
-if /I "%1" == "-d" goto RunCameo
+set target = "m"
+if /I "%1" == "-c" set target="c"
+if /I "%1" == "-m" set target="m"
+if /I "%2" == "-p" goto PackPlugin
+if /I "%2" == "-i" goto Install
+if /I "%2" == "-c" goto RunCameo
+if /I "%2" == "-m" goto RunMagicDraw
 
 REM 1. Set the class path
 REM set CLASSPATH=C:\CODE\DEHP\DEH-MDSYSML\lib\;bin\;%USERPROFILE%\.m2\repository;C:\CODE\DEHP\DEH-CommonJ;
@@ -92,9 +99,16 @@ echo ==================================^> Install the plugin
 echo ===============================================================^>
 echo.
 
-SET COPYCMD=/Y && move /Y "target\DEHMDSYSMLPlugin.jar" "C:\Program Files\Cameo Systems Modeler Demo\plugins\com.rheagroup.dehmdsysml"
+set targetPath=C:\MagicDraw\MagicDraw
+if %target% == "c" set targetPath=C:\Program Files\Cameo Systems Modeler Demo
+echo "%targetPath%\plugins\com.rheagroup.dehmdsysml"
+
+SET COPYCMD=/Y && move /Y "target\DEHMDSYSMLPlugin.jar" "%targetPath%\plugins\com.rheagroup.dehmdsysml"
 echo Exit Code = %ERRORLEVEL%
 if not "%ERRORLEVEL%" == "0" GOTO ExitStatement
+
+if %target% == "m" goto RunMagicDraw
+if %target% == "c" goto RunCameo
 
 :RunCameo
 REM 8. Run Cameo
@@ -103,6 +117,16 @@ echo ==================================^> Run Cameo
 echo ===============================================================^>
 echo.
 call "C:\Program Files\Cameo Systems Modeler Demo\bin\csm.exe"
+
+GOTO ExitStatement
+
+:RunMagicDraw
+REM 8. Run MagicDraw
+echo.
+echo ==================================^> Run MagicDraw
+echo ===============================================================^>
+echo.
+call "C:\MagicDraw\MagicDraw\bin\magicdraw.exe"
 
 GOTO ExitStatement
 

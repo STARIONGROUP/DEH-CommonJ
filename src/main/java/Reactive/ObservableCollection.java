@@ -28,10 +28,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.RandomAccess;
+import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
 
+import cdp4common.ChangeKind;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -41,7 +44,7 @@ import io.reactivex.subjects.PublishSubject;
  * 
  * @param TValue the type of the collection this holds
  */
-public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TValue>> implements List<TValue>, RandomAccess, Cloneable
+public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TValue>> implements List<TValue>, Collection<TValue>, RandomAccess, Cloneable
 {
     /**
      * The {@linkplain PublisherSubject} that serves to raise the OnNext event when an item is added to the collection
@@ -64,6 +67,11 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
     protected PublishSubject<Boolean> isEmpty = PublishSubject.create();
 
     /**
+     * The {@linkplain PublisherSubject} that serves to raise the OnNext event whenever the collection changed like an addition or a removal of item(s) or that it is empty
+     */
+    protected PublishSubject<ChangeKind> changed = PublishSubject.create();
+    
+    /**
      * Field holding a value indicating whether the collection is empty or not
      */
     private boolean isEmptyValue;
@@ -79,6 +87,7 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
     {
         boolean result = this.value.add(value);
         this.itemAdded.onNext(value);
+        this.changed.onNext(ChangeKind.UPDATE);
         this.FiresIsEmpty();
         return result;
     }
@@ -110,6 +119,7 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
         if(result)
         {
             this.itemRemoved.onNext(value);
+            this.changed.onNext(ChangeKind.DELETE);
             this.FiresIsEmpty();
         }
         
@@ -127,7 +137,18 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
         {
             this.isEmptyValue = newValue;
             this.isEmpty.onNext(newValue);
+            this.changed.onNext(ChangeKind.NONE);
         }
+    }
+    
+    /**
+     * Gets the {@linkplain Observable} that fires when ever the collection changed like an addition or a removal of item(s) or that it is empty
+     * 
+     * @return An {@linkplain Observable} of {@linkplain ChangeKind}
+     */
+    public Observable<ChangeKind> Changed()
+    {
+        return changed.hide();
     }
     
     /**
@@ -475,5 +496,35 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
     public List<TValue> subList(int fromIndex, int toIndex)
     {
         return this.value.subList(fromIndex, toIndex);
+    }
+
+    /**
+     * Removes all of the elements of this collection that satisfy the given
+     * predicate.  Errors or runtime exceptions thrown during iteration or by
+     * the predicate are relayed to the caller. Overriden so it can fire {@linkplain IsEmpty}
+     * 
+     * @param filter a predicate which returns {@code true} for elements to be removed
+     * @return {@code true} if any elements were removed
+     */
+    @Override
+    public boolean removeIf(Predicate<? super TValue> filter)
+    {
+        Objects.requireNonNull(filter);
+        
+        ArrayList<TValue> toRemove = new ArrayList<TValue>();
+        
+        final Iterator<TValue> iterator = iterator();
+        
+        while (iterator.hasNext()) 
+        {
+            TValue currentItem = iterator.next();
+            
+            if (filter.test(currentItem)) 
+            {
+                toRemove.add(currentItem);
+            }
+        }
+        
+        return this.removeAll(toRemove);
     }
 }

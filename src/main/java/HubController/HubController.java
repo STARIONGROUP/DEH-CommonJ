@@ -102,7 +102,7 @@ public class HubController implements IHubController
     }
     
     /**
-     * Backing field for {@linkplain IsSessionOpenObservable()}
+     * Backing field for {@linkplain IsSessionOpenObservable}
      */
     private ObservableValue<Boolean> isSessionOpenObservable = new ObservableValue<Boolean>(Boolean.class);
     
@@ -115,6 +115,23 @@ public class HubController implements IHubController
     public Observable<Boolean> GetIsSessionOpenObservable()
     {
         return this.isSessionOpenObservable.Observable();
+    }
+        
+    /**
+     * Backing field for {@linkplain GetSessionEventObservable}
+     */
+    private ObservableValue<Boolean> sessionEvent = new ObservableValue<Boolean>(false, Boolean.class);
+    
+
+    /**
+     * Gets the {@linkplain Observable} from {@linkplain isSessionOpen} boolean field
+     * 
+     * @return an {@linkplain Observable} wrapping a value indicating whether the session has been refreshed or reloaded
+     */
+    @Override
+    public Observable<Boolean> GetSessionEventObservable()
+    {
+        return this.sessionEvent.Observable();
     }
     
     /**
@@ -328,7 +345,10 @@ public class HubController implements IHubController
     @Override
     public boolean Reload()
     {
-        return this.RefreshOrReload(this.session.reload());
+        boolean result = this.RefreshOrReload(this.session.reload());
+        this.sessionEvent.Value(result);
+
+        return result;
     }
 
     /**
@@ -339,7 +359,10 @@ public class HubController implements IHubController
     @Override
     public boolean Refresh()
     {
-        return this.RefreshOrReload(this.session.refresh());
+        boolean result = this.RefreshOrReload(this.session.refresh());
+        this.sessionEvent.Value(result);
+        
+        return result;
     }
     
     /**

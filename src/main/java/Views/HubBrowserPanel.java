@@ -28,17 +28,19 @@ import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
+
 import java.awt.Insets;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
-import javax.swing.JTree;
-
 import Utils.ImageLoader.ImageLoader;
 import Views.ObjectBrowser.ObjectBrowser;
 import cdp4common.commondata.ClassKind;
-
-import javax.swing.JLabel;
+import javax.swing.JSpinner;
+import javax.swing.JCheckBox;
+import javax.swing.JProgressBar;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 /**
  * The {@link HubBrowserPanel} is the main panel view for the Hub controls like session controls and tree views.
@@ -47,10 +49,6 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class HubBrowserPanel extends JPanel 
 {
-    /**
-     * Backing field for {@link ConnectButton}
-     */
-    private JButton connectButton;
     
     /**
      * The {@linkplain HubBrowserHeader}
@@ -98,11 +96,18 @@ public class HubBrowserPanel extends JPanel
     }
     
     /**
-     * Gets the connect button
+     * The {@linkplain SessionControlPanel} view
      */
-    public JButton ConnectButton()
+    private SessionControlPanel sessionControlPanel;
+        
+    /**
+     * Gets the {@linkplain SessionControlPanel} view
+     * 
+     * @return a {@linkplain SessionControlPanel}
+     */
+    public SessionControlPanel GetSessionControlPanel()
     {
-        return this.connectButton;
+        return this.sessionControlPanel;
     }
     
     /**
@@ -120,9 +125,9 @@ public class HubBrowserPanel extends JPanel
     {
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0};
-        gridBagLayout.rowHeights = new int[] {40, 80, 187};
+        gridBagLayout.rowHeights = new int[] {40, 80, 187, 0};
         gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 2.0};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 2.0, 0.0};
         setLayout(gridBagLayout);
         
         JPanel SessionControlContainer = new JPanel();
@@ -132,13 +137,11 @@ public class HubBrowserPanel extends JPanel
         gbc_SessionControlContainer.fill = GridBagConstraints.HORIZONTAL;
         gbc_SessionControlContainer.gridx = 0;
         gbc_SessionControlContainer.gridy = 0;
+        add(SessionControlContainer, gbc_SessionControlContainer);
         SessionControlContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        add(SessionControlContainer, gbc_SessionControlContainer);        
-
-        this.connectButton = new JButton("Connect");
-        this.connectButton.setToolTipText("Connect to a Hub data source");
-        this.connectButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        SessionControlContainer.add(this.connectButton);
+        
+        sessionControlPanel = new SessionControlPanel();
+        SessionControlContainer.add(sessionControlPanel);
         
         JPanel HubBrowserHeaderContainer = new JPanel();
         GridBagConstraints gbc_HubBrowserHeaderContainer = new GridBagConstraints();
@@ -172,6 +175,7 @@ public class HubBrowserPanel extends JPanel
         this.add(HubBrowserTreeViewsContainer, gbc_HubBrowserTreeViewsContainer);
         
         this.elementDefinitionBrowser = new ObjectBrowser();
+        elementDefinitionBrowser.setBackground(Color.WHITE);
         HubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
         
         this.requirementBrowser = new ObjectBrowser();

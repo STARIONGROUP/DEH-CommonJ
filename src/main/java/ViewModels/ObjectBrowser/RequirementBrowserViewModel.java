@@ -32,7 +32,7 @@ import ViewModels.ObjectBrowser.RequirementTree.RequirementBrowserTreeRowViewMod
 import ViewModels.ObjectBrowser.RequirementTree.RequirementBrowserTreeViewModel;
 
 /**
- * The {@linkplain RequirementBrowserViewModel} is the 
+ * The {@linkplain RequirementBrowserViewModel} is the view model for the {@linkplain RequirementsSpecification} browser
  */
 public final class RequirementBrowserViewModel extends ObjectBrowserViewModel implements IRequirementBrowserViewModel
 {
