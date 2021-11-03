@@ -1,5 +1,5 @@
 /*
- * IValueSetRowViewModel.java
+ * TaskStatus.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,11 +21,35 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.Interfaces;
+package Utils.Tasks;
 
 /**
- * The {@linkplain IValueSetRowViewModel} is the interface definition for all row view model that are related to {@linkplain IValueSet}
+ * The {@linkplain TaskStatus} enumeration status on a {@linkplain Task} status
  */
-public interface IValueSetRowViewModel extends IRowViewModel, IHaveContainedRows<IValueSetRowViewModel>
+public enum TaskStatus
 {
+    /**
+     * The {@linkplain Task} is not running
+     */
+    Iddle,
+    
+    /**
+     * The {@linkplain Task} is running
+     */
+    Running,
+    
+    /**
+     * The {@linkplain Task} has been cancelled
+     */
+    Cancelled,
+    
+    /**
+     * The {@linkplain Task} is completed
+     */
+    Completed,
+    
+    /**
+     * The {@linkplain Task} hasn't run until completion, an exception was raised most likely
+     */
+    Faulted
 }

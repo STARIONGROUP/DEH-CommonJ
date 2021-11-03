@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -23,6 +23,7 @@
  */
 package ViewModels.ObjectBrowser.Rows;
 
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import cdp4common.ModelCode;
 import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Thing;
@@ -114,10 +115,11 @@ public abstract class OwnedDefinedThingRowViewModel<TThing extends Thing> extend
      * Initializes a new {@linkplain DefinedThingRowsViewModel} 
      * 
      * @param thing the {@linkplain TThing}
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    protected OwnedDefinedThingRowViewModel(TThing thing)
+    protected OwnedDefinedThingRowViewModel(TThing thing, IRowViewModel parentViewModel)
     {
-        super(thing);
+        super(thing, parentViewModel);
     }
     
     /**

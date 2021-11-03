@@ -25,8 +25,10 @@ package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 
 import java.util.ArrayList;
 
+import Reactive.ObservableCollection;
 import Utils.ValueSetUtils;
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IValueSetRowViewModel;
 import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
 import cdp4common.commondata.Thing;
@@ -155,7 +157,7 @@ public abstract class ParameterValueBaseRowViewModel<TParameter extends Paramete
     /**
      * The {@linkplain ArrayList} of {@linkplain IValueSetRowViewModel}
      */
-    protected ArrayList<IValueSetRowViewModel> containedRows = new ArrayList<IValueSetRowViewModel>();
+    protected ObservableCollection<IValueSetRowViewModel> containedRows = new ObservableCollection<IValueSetRowViewModel>();
 
     /**
      * Gets the contained row the implementing view model has
@@ -163,7 +165,7 @@ public abstract class ParameterValueBaseRowViewModel<TParameter extends Paramete
      * @return An {@linkplain ArrayList} of {@linkplain IValueSetRowViewModel}
      */
     @Override
-    public ArrayList<IValueSetRowViewModel> GetContainedRows()
+    public ObservableCollection<IValueSetRowViewModel> GetContainedRows()
     {
         return this.containedRows;
     }
@@ -172,10 +174,11 @@ public abstract class ParameterValueBaseRowViewModel<TParameter extends Paramete
      * Initializes a new {@linkplain ParameterValueBaseRowViewModel}
      * 
      * @param thing the represented {@linkplain Thing} either an value set option row, an actual finite state row or a value from a value set
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    protected ParameterValueBaseRowViewModel(TParameter thing)
+    protected ParameterValueBaseRowViewModel(TParameter thing, IRowViewModel parentViewModel)
     {
-        super(thing);
+        super(thing, parentViewModel);
     }
     
 
@@ -205,7 +208,7 @@ public abstract class ParameterValueBaseRowViewModel<TParameter extends Paramete
         {
             for (int index = 0; index < numberOfValue; index ++)
             {
-                ParameterValueRowViewModel<TParameter> valueRow = new ParameterValueRowViewModel<TParameter>(this.GetThing(), valueSet, index);
+                ParameterValueRowViewModel<TParameter> valueRow = new ParameterValueRowViewModel<TParameter>(this.GetThing(), valueSet, index, this);
                 
                 if(parameterType instanceof CompoundParameterType)
                 {

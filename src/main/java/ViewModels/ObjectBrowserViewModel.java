@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -30,6 +30,7 @@ import org.netbeans.swing.outline.OutlineModel;
 import HubController.IHubController;
 import Reactive.ObservableValue;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IThingRowViewModel;
 import io.reactivex.Observable;
 
 /**
@@ -62,8 +63,24 @@ public abstract class ObjectBrowserViewModel implements IObjectBrowserViewModel
     {
         return browserTreeModel.Observable();
     }
+        
+    /**
+     * The {@linkplain ObservableValue} of {@linkplain Boolean} for the {@linkplain IsTheTreeVisible}
+     */
+    protected ObservableValue<Boolean> isTheTreeVisible = new ObservableValue<Boolean>(false, Boolean.class);
     
-    /** 
+    /**
+     * Gets the a value indicating whether the tree should be visible
+     * 
+     * @return a {@linkplain Boolean}
+     */
+    @Override
+    public Observable<Boolean> IsTheTreeVisible()
+    {
+        return isTheTreeVisible.Observable();
+    }
+    
+    /**
      * Initializes a new {@link HubLoginViewModel}
      * 
      * @param hubController the {@linkplain IHubController}
@@ -79,5 +96,13 @@ public abstract class ObjectBrowserViewModel implements IObjectBrowserViewModel
      * 
      * @param isConnected a value indicating whether the session is open
      */
-    protected abstract void UpdateBrowserTrees(Boolean isConnected);    
+    protected abstract void UpdateBrowserTrees(Boolean isConnected);
+
+    /**
+     * Handles changes in the row selections in the tree
+     * 
+     * @param rowViewModel the view model {@linkplain ThingRowViewModel} of the selected row
+     */
+    @Override
+    public void OnSelectionChanged(IThingRowViewModel<?> rowViewModel) { }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -43,6 +43,21 @@ public abstract class ThingRowViewModel<TThing extends Thing> implements IRowVie
     protected final Logger logger = LogManager.getLogger();
     
     /**
+     * The parent row view model of the current row
+     */
+    private IRowViewModel parent;
+    
+    /**
+     * Gets the parent row view model of the current row
+     * 
+     * @return an {@linkplain IRowViewModel}
+     */
+    public IRowViewModel GetParent()
+    {
+        return this.parent;
+    }
+       
+    /**
      * The {@linkplain Thing}
      */
     private TThing thing;
@@ -61,6 +76,33 @@ public abstract class ThingRowViewModel<TThing extends Thing> implements IRowVie
      * The {@linkplain String} name
      */
     private String name;
+
+    /**
+     * The value indicating whether this row should be highlighted in the tree
+     */
+    private boolean isHighlighted;
+    
+    /**
+     * Sets a value whether this row is highlighted
+     * 
+     * @param isHighlighted the {@linkplain boolean} value
+     */
+    @Override
+    public void SetIsHighlighted(boolean isHighlighted)
+    {
+        this.logger.debug(String.format("Highlighting ? %s the %s", isHighlighted, this.GetName()));
+        this.isHighlighted = isHighlighted;
+    }
+    
+    /**
+     * Gets a value indicating whether this row should be highlighted in the tree
+     * 
+     * @return a {@linkplain boolean}
+     */
+    public boolean GetIsHighlighted()
+    {
+        return this.isHighlighted;
+    }
     
     /**
      * Gets the {@linkplain name} of the represented {@linkplain TThing} to display 
@@ -81,14 +123,30 @@ public abstract class ThingRowViewModel<TThing extends Thing> implements IRowVie
     {
         this.name = name;
     }
+    
     /**
      * Initializes a new {@linkplain ThingRowViewModel}
      * 
      * @param thing the {@linkplain TThing}
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    protected ThingRowViewModel(TThing thing)
+    protected ThingRowViewModel(TThing thing, IRowViewModel parentViewModel)
     {
         this.thing = thing;
+        this.parent = parentViewModel;
+    }
+    
+    /**
+     * Updates the reference to the represented thing and highlights the row and recompute the properties
+     * 
+     * @param thing the new {@linkplain Thing}
+     */
+    public void UpdateThing(TThing thing)
+    {
+        this.logger.debug(String.format("UpdateThing for %s", this.GetName()));
+        this.thing = thing;
+        this.isHighlighted = true;
+        this.UpdateProperties();
     }
     
     /**

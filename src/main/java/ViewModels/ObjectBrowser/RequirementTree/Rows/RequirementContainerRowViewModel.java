@@ -23,6 +23,7 @@
  */
 package ViewModels.ObjectBrowser.RequirementTree.Rows;
 
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import cdp4common.engineeringmodeldata.RequirementsContainer;
 /**
  * The {@linkplain RequirementsContainerRowViewModel} is the abstract view model that represents a {@linkplain RequirementsContainer}, 
@@ -33,11 +34,12 @@ public class RequirementContainerRowViewModel<TRequirementElement extends Requir
     /**
      * Initializes a new {@linkplain RequirementContainerRowViewModel} 
      * 
-     * @param requirementElement
+     * @param requirementElement the {@linkplain TRequirementElement} that this view model represents
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    protected RequirementContainerRowViewModel(TRequirementElement requirementElement)
+    protected RequirementContainerRowViewModel(TRequirementElement requirementElement, IRowViewModel parentViewModel)
     {
-        super(requirementElement);
+        super(requirementElement, parentViewModel);
     }
     
     /**

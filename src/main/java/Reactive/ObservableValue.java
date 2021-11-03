@@ -77,7 +77,7 @@ public class ObservableValue<TValue>
      * 
      * @return the value
      */
-    public TValue Value() 
+    public TValue Value()
     {
         return value;
     }

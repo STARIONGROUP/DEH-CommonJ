@@ -32,6 +32,8 @@ import javax.swing.border.EmptyBorder;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import Utils.ImageLoader.ImageLoader;
 import ViewModels.Interfaces.IHubLoginViewModel;
 import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IDialog;
@@ -103,6 +105,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
         setModal(true);
         setBounds(100, 100, 549, 504);
         setMinimumSize(getSize());
+        this.setIconImage(ImageLoader.GetIcon("icon16.png").getImage());
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);

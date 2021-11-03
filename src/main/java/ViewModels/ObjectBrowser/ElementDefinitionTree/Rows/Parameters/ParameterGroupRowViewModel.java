@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -25,7 +25,9 @@ package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 
 import java.util.ArrayList;
 
+import Reactive.ObservableCollection;
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
 import cdp4common.engineeringmodeldata.ElementUsage;
 import cdp4common.engineeringmodeldata.Parameter;
@@ -40,7 +42,7 @@ public class ParameterGroupRowViewModel extends OwnedDefinedThingRowViewModel<Pa
     /**
      * The {@linkplain ArrayList} of {@linkplain OwnedDefinedThingRowViewModel<?>}
      */
-    private ArrayList<OwnedDefinedThingRowViewModel<?>> containedRows = new ArrayList<OwnedDefinedThingRowViewModel<?>>();
+    private ObservableCollection<OwnedDefinedThingRowViewModel<?>> containedRows = new ObservableCollection<OwnedDefinedThingRowViewModel<?>>();
     
     /**
      * The optional {@linkplain ElementUsage} container, in case the represented group row is a child of an Element Usage row
@@ -53,7 +55,7 @@ public class ParameterGroupRowViewModel extends OwnedDefinedThingRowViewModel<Pa
      * @return An {@linkplain ArrayList} of {@linkplain OwnedDefinedThingRowViewModel<?>}
      */
     @Override
-    public ArrayList<OwnedDefinedThingRowViewModel<?>> GetContainedRows()
+    public ObservableCollection<OwnedDefinedThingRowViewModel<?>> GetContainedRows()
     {
         return this.containedRows;
     }
@@ -63,10 +65,11 @@ public class ParameterGroupRowViewModel extends OwnedDefinedThingRowViewModel<Pa
      * 
      * @param parameterGroup the {@linkplain ParameterGroup} that this view model represents
      * @param elmentUsage a optional {@linkplain ElementUsage} in case the represented group row is a child of an Element Usage row
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public ParameterGroupRowViewModel(ParameterGroup parameterGroup, ElementUsage elementUsage)
+    public ParameterGroupRowViewModel(ParameterGroup parameterGroup, ElementUsage elementUsage, IRowViewModel parentViewModel)
     {
-        super(parameterGroup);
+        super(parameterGroup, parentViewModel);
         this.elementUsageContainer = elementUsage;
         this.UpdateProperties();
     }
@@ -101,11 +104,11 @@ public class ParameterGroupRowViewModel extends OwnedDefinedThingRowViewModel<Pa
                 
                 if(parameterOverride != null)
                 {
-                    this.containedRows.add(new ParameterOverrideRowViewModel(parameterOverride));
+                    this.containedRows.add(new ParameterOverrideRowViewModel(parameterOverride, this));
                 }
                 else
                 {
-                    this.containedRows.add(new ParameterRowViewModel(parameter));
+                    this.containedRows.add(new ParameterRowViewModel(parameter, this));
                 }
             }
         }
@@ -113,10 +116,10 @@ public class ParameterGroupRowViewModel extends OwnedDefinedThingRowViewModel<Pa
         {
             this.GetThing().getContainedParameter()
                 .stream()
-                .forEach(x -> this.containedRows.add(new ParameterRowViewModel(x)));
+                .forEach(x -> this.containedRows.add(new ParameterRowViewModel(x, this)));
         }
         this.GetThing().getContainedGroup(false)
             .stream()
-            .forEach(x -> this.containedRows.add(new ParameterGroupRowViewModel(x, this.elementUsageContainer)));
+            .forEach(x -> this.containedRows.add(new ParameterGroupRowViewModel(x, this.elementUsageContainer, this)));
     }    
 }

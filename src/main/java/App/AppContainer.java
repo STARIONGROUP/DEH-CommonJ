@@ -70,7 +70,7 @@ public final class AppContainer
      * @implNote
      * Dialogs that need to be set visible through the {@linkplain INavigationService} 
      * needs their view model to be registered in the container with the key to be a string reflecting the interface class name.
-     * The same rules applies to {@linkplain MappingRule}
+     * The same rules applies to {@linkplain MappingRule} except that the key is the rule class simple name
      */
     private static void RegisterViewModels()
     {

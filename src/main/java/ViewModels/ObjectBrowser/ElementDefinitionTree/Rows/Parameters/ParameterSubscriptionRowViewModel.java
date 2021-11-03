@@ -23,6 +23,7 @@
  */
 package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import cdp4common.engineeringmodeldata.ParameterSubscription;
 
 /**
@@ -34,10 +35,11 @@ public class ParameterSubscriptionRowViewModel extends ParameterBaseRowViewModel
      * Initializes a new {@linkplain ParameterRowViewModel}
      * 
      * @param parameterSubscription the {@linkplain ParameterSubscription} that this view model represents
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public ParameterSubscriptionRowViewModel(ParameterSubscription parameterSubscription)
+    public ParameterSubscriptionRowViewModel(ParameterSubscription parameterSubscription, IRowViewModel parentViewModel)
     {
-        super(parameterSubscription);
+        super(parameterSubscription, parentViewModel);
         this.UpdateProperties();
     }
 }
