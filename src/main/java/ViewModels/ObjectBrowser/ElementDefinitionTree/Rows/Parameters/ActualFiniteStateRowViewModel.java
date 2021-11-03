@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -26,6 +26,7 @@ package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 import java.util.ArrayList;
 
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IValueSetRowViewModel;
 import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
 import cdp4common.engineeringmodeldata.ActualFiniteState;
@@ -56,10 +57,11 @@ public class ActualFiniteStateRowViewModel<TParameter extends ParameterBase> ext
      * Initializes a new {@linkplain ActualFiniteStateRowViewModel}
      * 
      * @param actualFiniteState the {@linkplain ActualFiniteState} represented by this view model
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public ActualFiniteStateRowViewModel(TParameter parameter, ActualFiniteState actualFiniteState)
+    public ActualFiniteStateRowViewModel(TParameter parameter, ActualFiniteState actualFiniteState, IRowViewModel parentViewModel)
     {
-        super(parameter);
+        super(parameter, parentViewModel);
         this.state = actualFiniteState;
         this.SetName(actualFiniteState.getName());
     }

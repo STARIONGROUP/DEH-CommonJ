@@ -23,6 +23,11 @@
  */
 package Services.MappingEngineService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import cdp4common.commondata.ShortNamedThing;
+
 /**
  * The {@linkplain MappingRule} class is the abstract base class for all mapping rules implemented in dst adapters. 
  * It allows the concrete mapping rules to be processed by the {@linkplain MappingEngine}
@@ -32,6 +37,11 @@ package Services.MappingEngineService;
  */
 public abstract class MappingRule<TInput extends Object, TOutput> implements IMappingRule<TInput, TOutput>
 {
+    /**
+     * The current class logger
+     */
+    protected Logger logger = LogManager.getLogger();
+    
     /**
      * Transforms a object of type {@linkplain TInput} to another one of type {@linkplain TOutput}
      * 
@@ -53,4 +63,29 @@ public abstract class MappingRule<TInput extends Object, TOutput> implements IMa
     {
         return (TInput) input;
     }
+    
+    /**
+     * Compares the two specified things to determine if they have the same shortName. 
+     * Please note that the provided elementName will be used after being processed by {@linkplain GetShortName}
+     * 
+     * @param shortNamedThing the 10-25 {@linkplain ShortNamedThing}
+     * @param elementName the dst element name as {@linkplain String}
+     * @return a value indicating whether the two element have the same short name
+     */
+    protected boolean AreShortNamesEquals(ShortNamedThing shortNamedThing, String elementName)
+    {
+        return shortNamedThing.getShortName().compareToIgnoreCase(this.GetShortName(elementName)) == 0;
+    }
+
+    /**
+     * Gets the short name of the specified {@linkplain NamedElement}
+     * 
+     * @param elementName the dst element name as {@linkplain String}
+     * @return a string containing the short name
+     */
+    protected String GetShortName(String elementName)
+    {
+        return elementName.replaceAll("[^a-zA-Z0-9]|\\s", "");
+    }
+
 }

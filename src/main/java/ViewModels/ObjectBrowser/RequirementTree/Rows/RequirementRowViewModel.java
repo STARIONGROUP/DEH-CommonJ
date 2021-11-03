@@ -23,6 +23,7 @@
  */
 package ViewModels.ObjectBrowser.RequirementTree.Rows;
 
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import cdp4common.engineeringmodeldata.Requirement;
 
 /**
@@ -34,10 +35,11 @@ public class RequirementRowViewModel extends RequirementBaseTreeElementViewModel
      * Initializes a new {@linkplain RequirementRowViewModel}
      * 
      * @param requirement the represented {@linkplain Requirement}
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public RequirementRowViewModel(Requirement requirement)
+    public RequirementRowViewModel(Requirement requirement, IRowViewModel parentViewModel)
     {
-        super(requirement);
+        super(requirement, parentViewModel);
         this.UpdateProperties();
     }    
 }

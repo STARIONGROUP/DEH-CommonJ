@@ -50,6 +50,7 @@ import Service.MappingEngineService.TestRules.DumbRule;
 import Service.MappingEngineService.TestRules.Sphere;
 import Service.MappingEngineService.TestRules.SphereCollectionTestRule;
 import Service.MappingEngineService.TestRules.SphereTestRule;
+import Service.MappingEngineService.TestRules.SphereTypedCollection;
 import Services.MappingEngineService.IMappingEngineService;
 import Services.MappingEngineService.MappingEngineService;
 
@@ -79,7 +80,7 @@ class MappingEngineServiceTestFixture
     {
         Type arrayListType = ((ParameterizedType)new SphereCollectionTestRule().getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         assertNotNull(this.engine);
-        assertEquals(3, this.engine.Rules.size());
+        assertEquals(4, this.engine.Rules.size());
         ArrayList<String> keys = new ArrayList<String>(this.engine.Rules.keySet());
         
         assertTrue(keys.indexOf(arrayListType.toString()) > -1);
@@ -115,5 +116,21 @@ class MappingEngineServiceTestFixture
         assertDoesNotThrow(() -> this.engine.Map((Collection<Sphere>)sphereCollectionToMap));
         Object mapResultFromSphereCollection = this.engine.Map((Collection<Sphere>)sphereCollectionToMap);
         assertNull(mapResultFromSphereCollection);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    void VerifyMapFromTypedCollectionThing()
+    {
+        SphereTypedCollection collection = new SphereTypedCollection();
+        collection.add(new Sphere());
+        collection.add(new Sphere());
+        collection.add(new Sphere());
+        Object mapResultFromSphereList = this.engine.Map(collection);
+        assertNotNull(mapResultFromSphereList);
+        assertTrue(mapResultFromSphereList instanceof ArrayList<?>);
+        ArrayList<Box> result = (ArrayList<Box>)mapResultFromSphereList;
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(x -> x.GetHeight() == 42 && x.GetLength() == 42));
     }
 }

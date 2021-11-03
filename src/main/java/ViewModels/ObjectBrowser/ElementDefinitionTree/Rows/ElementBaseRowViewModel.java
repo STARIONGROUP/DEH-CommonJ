@@ -25,7 +25,9 @@ package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows;
 
 import java.util.ArrayList;
 
+import Reactive.ObservableCollection;
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
 import cdp4common.engineeringmodeldata.ElementBase;
 
@@ -37,7 +39,7 @@ public abstract class ElementBaseRowViewModel<TElement extends ElementBase> exte
     /**
      * The {@linkplain ArrayList} of {@linkplain OwnedDefinedThingRowViewModel}
      */
-    protected ArrayList<OwnedDefinedThingRowViewModel<?>> containedRows = new ArrayList<OwnedDefinedThingRowViewModel<?>>();
+    protected ObservableCollection<OwnedDefinedThingRowViewModel<?>> containedRows = new ObservableCollection<OwnedDefinedThingRowViewModel<?>>();
 
     /**
      * Gets the contained row the implementing view model has
@@ -45,7 +47,7 @@ public abstract class ElementBaseRowViewModel<TElement extends ElementBase> exte
      * @return An {@linkplain ArrayList} of {@linkplain OwnedDefinedThingRowViewModel}
      */
     @Override
-    public ArrayList<OwnedDefinedThingRowViewModel<?>> GetContainedRows()
+    public ObservableCollection<OwnedDefinedThingRowViewModel<?>> GetContainedRows()
     {
         return this.containedRows;
     }
@@ -54,9 +56,10 @@ public abstract class ElementBaseRowViewModel<TElement extends ElementBase> exte
      * Initializes a new {@linkplain ElementBaseRowViewModel}
      * 
      * @param elementBase the represented {@linkplain ElementBase}
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    protected ElementBaseRowViewModel(TElement elementBase)
+    protected ElementBaseRowViewModel(TElement elementBase, IRowViewModel parentViewModel)
     {
-        super(elementBase);
+        super(elementBase, parentViewModel);
     }
 }

@@ -25,18 +25,22 @@ package ViewModels.ObjectBrowser.RequirementTree.Rows;
 
 import java.util.ArrayList;
 
-import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
+import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRowsOfRequirementRelatedThings;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
 import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Definition;
 import cdp4common.commondata.Thing;
 import cdp4common.types.ContainerList;
 import java.util.Locale;
+import java.util.stream.Collectors;
+
+import Reactive.ObservableCollection;
 
 /**
  * The {@linkplain RequirementBaseTreeElementViewModel} is the base row view model for all row view model that are contained in the Requirement tree
  */
-public abstract class RequirementBaseTreeElementViewModel<TThing extends Thing> extends OwnedDefinedThingRowViewModel<TThing> implements IHaveContainedRows<RequirementBaseTreeElementViewModel<?>>
+public abstract class RequirementBaseTreeElementViewModel<TThing extends Thing> extends OwnedDefinedThingRowViewModel<TThing> implements IHaveContainedRowsOfRequirementRelatedThings<RequirementBaseTreeElementViewModel<?>>
 {
     /**
      * The definition the represented {@linkplain TThing}
@@ -55,7 +59,7 @@ public abstract class RequirementBaseTreeElementViewModel<TThing extends Thing> 
     /**
      * The {@linkplain ArrayList} of {@linkplain OwnedDefinedThingRowViewModel}
      */
-    protected ArrayList<RequirementBaseTreeElementViewModel<?>> containedRows = new ArrayList<RequirementBaseTreeElementViewModel<?>>();
+    protected ObservableCollection<RequirementBaseTreeElementViewModel<?>> containedRows = new ObservableCollection<RequirementBaseTreeElementViewModel<?>>();
 
     /**
      * Gets the contained row the implementing view model has
@@ -63,19 +67,48 @@ public abstract class RequirementBaseTreeElementViewModel<TThing extends Thing> 
      * @return An {@linkplain ArrayList} of {@linkplain OwnedDefinedThingRowViewModel}
      */
     @Override
-    public ArrayList<RequirementBaseTreeElementViewModel<?>> GetContainedRows()
+    public ObservableCollection<RequirementBaseTreeElementViewModel<?>> GetContainedRows()
     {
         return this.containedRows;
     }
+    
+    /**
+     * Gets all the contained rows of the provided type
+     * 
+     * @param <TRequirementBaseRowViewModel> the type of rows to get e.g. {@linkplain RequirementRowViewModel} or {@linkplain RequirementGroupRowViewModel}
+     * @param clazz the {@linkplain Class} of the {@linkplain TRequirementBaseRowViewModel}
+     * @return an {@linkplain ObservableCollection} of {@linkplain TRequirementBaseRowViewModel}
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public <TRequirementBaseRowViewModel extends RequirementBaseTreeElementViewModel<?>> ObservableCollection<TRequirementBaseRowViewModel> GetAllContainedRowsOfType(Class<TRequirementBaseRowViewModel> clazz)
+    {
+        ObservableCollection<TRequirementBaseRowViewModel> result = new ObservableCollection<TRequirementBaseRowViewModel>();
         
+        result.addAll(this.containedRows.stream()
+                            .filter(x -> clazz.isAssignableFrom(x.getClass()))
+                            .map(x -> (TRequirementBaseRowViewModel)x).collect(Collectors.toList()));
+        
+        if(this.containedRows.stream().anyMatch(x -> x.containedRows.size() > 0))
+        {
+            result.addAll(
+                    this.containedRows.stream()
+                        .flatMap(x -> x.GetAllContainedRowsOfType(clazz).stream())
+                        .collect(Collectors.toList()));
+        }
+
+        return result;
+    }
+    
     /**
      * Initializes a new {@linkplain RequirementBaseTreeElementViewModel}
      * 
      * @param thing the {@linkplain TThing} that is represented
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    protected RequirementBaseTreeElementViewModel(TThing thing)
+    protected RequirementBaseTreeElementViewModel(TThing thing, IRowViewModel parentViewModel)
     {
-        super(thing);
+        super(thing, parentViewModel);
     }
     
     /**
@@ -104,9 +137,9 @@ public abstract class RequirementBaseTreeElementViewModel<TThing extends Thing> 
             }
             else
             {
-                definition = definitions.stream()
+                definitions.stream()
                         .findFirst()
-                        .orElse(null);
+                        .ifPresent(x -> this.definition = x.getContent());
             }
         }
     }

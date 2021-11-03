@@ -1,5 +1,5 @@
 /*
- * IValueSetRowViewModel.java
+ * SphereCollectionTestRule.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,11 +21,33 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.Interfaces;
+package Service.MappingEngineService.TestRules;
 
-/**
- * The {@linkplain IValueSetRowViewModel} is the interface definition for all row view model that are related to {@linkplain IValueSet}
- */
-public interface IValueSetRowViewModel extends IRowViewModel, IHaveContainedRows<IValueSetRowViewModel>
+import java.util.ArrayList;
+
+import Reactive.ObservableCollection;
+import Services.MappingEngineService.MappingRule;
+
+public final class SphereTypedCollectionTestRule extends MappingRule<SphereTypedCollection, ArrayList<Box>>
 {
+    /**
+     * Transforms a object of type {@linkplain TInput} to another one of type {@linkplain TOutput}
+     * 
+     * @param input the input object to transform
+     * @param clazz the input object type
+     * @return a {@linkplain TOutput} object
+     */
+    @Override
+    public ArrayList<Box> Transform(Object input)
+    {
+        SphereTypedCollection spheres = this.CastInput(input);
+        ArrayList<Box> output = new ArrayList<Box>();
+        
+        for (Sphere sphere : spheres)
+        {
+            output.add(new Box(42, 42));
+        }
+        
+        return output;
+    }
 }

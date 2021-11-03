@@ -28,6 +28,7 @@ import ViewModels.ObjectBrowserViewModel;
 import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeViewModel;
+import io.reactivex.Observable;
 
 import org.netbeans.swing.outline.OutlineModel;
 import org.netbeans.swing.outline.DefaultOutlineModel;
@@ -60,6 +61,8 @@ public final class ElementDefinitionBrowserViewModel extends ObjectBrowserViewMo
             this.browserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
                     new ElementDefinitionBrowserTreeViewModel(this.hubController.GetOpenIteration()), 
                     new ElementDefinitionBrowserTreeRowViewModel(), true));
-        }    
+        }
+
+        this.isTheTreeVisible.Value(isConnected);
     }
 }

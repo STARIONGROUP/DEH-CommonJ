@@ -60,5 +60,7 @@ public final class RequirementBrowserViewModel extends ObjectBrowserViewModel im
                     new RequirementBrowserTreeViewModel(this.hubController.GetOpenIteration()), 
                     new RequirementBrowserTreeRowViewModel(), true));
         }
+
+        this.isTheTreeVisible.Value(isConnected);
     }
 }

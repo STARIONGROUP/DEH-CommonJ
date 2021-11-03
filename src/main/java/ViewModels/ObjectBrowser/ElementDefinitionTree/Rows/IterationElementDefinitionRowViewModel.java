@@ -62,6 +62,6 @@ public final class IterationElementDefinitionRowViewModel extends IterationRowVi
         
         this.GetThing().getElement()
             .stream()
-            .forEach(x -> this.containedRows.add(new ElementDefinitionRowViewModel(x)));
+            .forEach(x -> this.containedRows.add(new ElementDefinitionRowViewModel(x, this)));
     }    
 }

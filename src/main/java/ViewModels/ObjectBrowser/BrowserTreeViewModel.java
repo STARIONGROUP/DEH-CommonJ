@@ -49,7 +49,7 @@ public abstract class BrowserTreeViewModel<TIterationRowViewModel extends Iterat
      * The root node of one {@linkplain ElementDefinitionBrowserTree}
      */
     private TIterationRowViewModel iterationRowViewModel;
-    
+
     /**
      * Initializes a new {@linkplain BrowserTreeViewModel}
      * 

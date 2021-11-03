@@ -23,10 +23,9 @@
  */
 package ViewModels.ObjectBrowser.RequirementTree.Rows;
 
-import cdp4common.engineeringmodeldata.RequirementsSpecification;
-
 import java.util.List;
 
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import cdp4common.engineeringmodeldata.Requirement;
 import cdp4common.engineeringmodeldata.RequirementsGroup;
 
@@ -45,10 +44,11 @@ public class RequirementGroupRowViewModel extends RequirementContainerRowViewMod
      * 
      * @param requirementElement the represented {@linkplain RequirementsGroup}
      * @param requirements the collection of {@linkplain Requirement} that possibly belong to the represented {@linkplain RequirementGroupRowViewModel}
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public RequirementGroupRowViewModel(RequirementsGroup requirementElement, List<Requirement> requirements)
+    public RequirementGroupRowViewModel(RequirementsGroup requirementElement, List<Requirement> requirements, IRowViewModel parentViewModel)
     {
-        super(requirementElement);
+        super(requirementElement, parentViewModel);
         this.requirements = requirements;
         this.UpdateProperties();
     }    
@@ -73,12 +73,12 @@ public class RequirementGroupRowViewModel extends RequirementContainerRowViewMod
         
         this.requirements
             .stream()
-            .filter(x -> x.getGroup() == this.GetThing())
-            .forEach(x -> this.containedRows.add(new RequirementRowViewModel(x)));
+            .filter(x -> x.getGroup().getIid().equals(this.GetThing().getIid()))
+            .forEach(x -> this.containedRows.add(new RequirementRowViewModel(x, this)));
 
         this.GetThing().getGroup()
             .stream()
             .filter(x -> x.getContainerOfType(RequirementsGroup.class) == this.GetThing())
-            .forEach(x -> this.containedRows.add(new RequirementGroupRowViewModel(x, requirements)));
+            .forEach(x -> this.containedRows.add(new RequirementGroupRowViewModel(x, requirements, this)));
     }
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -23,28 +23,22 @@
  */
 package ViewModels.ObjectBrowser.Rows;
 
-import java.util.ArrayList;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import Reactive.ObservableCollection;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.ElementDefinitionRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
-import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.Iteration;
-import cdp4common.types.OrderedItemList;
 
 /**
- * The {@linkplain IterationRowViewModel} is the base abstract row view model that represents an {@linkplain Iteration}
+ * The {@linkplain IterationRowViewModel} is the base abstract row view model that represents an {@linkplain Iteration}.
+ * Concrete {@linkplain IterationRowViewModel} class are root view models of their tree
  */
 public abstract class IterationRowViewModel<TContainedRows extends IRowViewModel> extends ThingRowViewModel<Iteration> implements IHaveContainedRows<TContainedRows>
 {    
     /**
      * The {@linkplain ObservableCollection} of {@linkplain ElementDefinitionRowViewModel}
      */
-    protected ArrayList<TContainedRows> containedRows = new ArrayList<TContainedRows>();
+    protected ObservableCollection<TContainedRows> containedRows = new ObservableCollection<TContainedRows>();
     
     /**
      * Gets the contained row the implementing view model has
@@ -52,7 +46,7 @@ public abstract class IterationRowViewModel<TContainedRows extends IRowViewModel
      * @return An {@linkplain ObservableCollection} of {@linkplain TRowViewModel}
      */
     @Override
-    public ArrayList<TContainedRows> GetContainedRows()
+    public ObservableCollection<TContainedRows> GetContainedRows()
     {
         return this.containedRows;
     }
@@ -60,11 +54,12 @@ public abstract class IterationRowViewModel<TContainedRows extends IRowViewModel
     /**
      * Initializes a new {@linkplain IterationRowViewModel}
      * 
-     * @param thing the {@link Iteration} 
+     * @param thing the {@link Iteration}     * 
+     * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
     public IterationRowViewModel(Iteration thing)
     {
-        super(thing);
+        super(thing, null);
     }
 
     /**

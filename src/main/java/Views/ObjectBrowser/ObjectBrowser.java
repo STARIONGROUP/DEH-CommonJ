@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Geren�, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -29,16 +29,19 @@ import javax.swing.JScrollPane;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
 import ViewModels.Interfaces.IViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IThingRowViewModel;
 import ViewModels.ObjectBrowser.RenderDataProvider.ObjectBrowserRenderDataProvider;
 import Views.Interfaces.IView;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.netbeans.swing.outline.Outline;
+
 import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 
 /**
  * The {@linkplain ObjectBrowser} is the base browser for the {@linkplain ElementDefinitionBrowserTreeViewModel} or the {@linkplain RequirementSepcificationBrowserViewModel}
@@ -80,6 +83,7 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserViewMod
         gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
+        this.setBackground(Color.WHITE);
         
         this.objectBrowserTree = new Outline();
         objectBrowserTree.setShowHorizontalLines(false);
@@ -99,10 +103,15 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserViewMod
         gbl_panel.rowWeights = new double[]{1.0};
         panel.setLayout(gbl_panel);
         this.objectBrowserTree = new Outline();
-        this.objectBrowserTree.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.objectBrowserTree.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        this.objectBrowserTree.setRowSelectionAllowed(true);
+        this.objectBrowserTree.setSelectionBackground(new Color(104, 143, 184));
         this.objectBrowserTree.setBackground(Color.WHITE);
+        this.objectBrowserTree.setOpaque(true);
+        this.objectBrowserTree.setGridColor(Color.WHITE);
         this.objectBrowserTree.setRenderDataProvider(new ObjectBrowserRenderDataProvider()); 
-        this.objectBrowserTree.setRootVisible (true);
+        this.objectBrowserTree.setRootVisible(true);
+                
         GridBagConstraints gbc_scrollView = new GridBagConstraints();
         gbc_scrollView.fill = GridBagConstraints.BOTH;
         gbc_scrollView.gridx = 0;
@@ -110,7 +119,7 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserViewMod
         JScrollPane scrollView = new JScrollPane(this.objectBrowserTree);
         panel.add(scrollView, gbc_scrollView);        
     }
-
+    
     /**
      * Binds the <code>TViewModel viewModel</code> to the implementing view
      * 
@@ -120,9 +129,26 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserViewMod
     public void Bind()
     {
         this.dataContext.BrowserTreeModel().subscribe(x -> 
+        {   
+            SwingUtilities.invokeLater(() -> 
+            {
+                this.objectBrowserTree.setModel(x);
+            });
+        });
+        
+        this.dataContext.IsTheTreeVisible().subscribe(x -> this.objectBrowserTree.setVisible(x));
+        
+        this.objectBrowserTree.getSelectionModel().addListSelectionListener(e ->
         {
-            this.objectBrowserTree.setVisible(true);
-            this.objectBrowserTree.setModel(x);
+            int row = objectBrowserTree.getSelectedRow();
+            
+            IThingRowViewModel<?> rowViewModel = (IThingRowViewModel<?>) objectBrowserTree.getValueAt(row, 0);
+            
+            if (!e.getValueIsAdjusting()) 
+            {
+                dataContext.OnSelectionChanged(rowViewModel);
+            }
+            
         });
     }
     

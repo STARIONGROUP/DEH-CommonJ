@@ -1,5 +1,5 @@
 /*
- * IHaveContainedRows.java
+ * IHaveContainedRowsOfRequirementRelatedThings.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -25,23 +25,19 @@ package ViewModels.ObjectBrowser.Interfaces;
 
 import Reactive.ObservableCollection;
 import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementBaseTreeElementViewModel;
-import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementGroupRowViewModel;
-import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementRowViewModel;
 
 /**
- * The {@linkplain IHaveContainedRows} is the interface definition for object browser row view models that have contained rows
+ * The {@linkplain IHaveContainedRowsOfRequirementRelatedThings} is the specialized interface for {@linkplain RequirementBaseTreeElementViewModel} from {@linkplain IHaveContainedRows}
  */
-public interface IHaveContainedRows<TRowViewModel extends IRowViewModel>
+public interface IHaveContainedRowsOfRequirementRelatedThings<TRowViewModel extends RequirementBaseTreeElementViewModel<?>> extends IHaveContainedRows<TRowViewModel>
 {
     /**
-     * Gets the contained row the implementing view model has
+     * Gets all the contained rows of the provided type
      * 
-     * @return An {@linkplain ObservableCollection} of {@linkplain TRowViewModel}
+     * @param <TRequirementBaseRowViewModel> the type of rows to get e.g. {@linkplain RequirementRowViewModel} or {@linkplain RequirementGroupRowViewModel}
+     * @param clazz the {@linkplain Class} of the {@linkplain TRequirementBaseRowViewModel}
+     * @return an {@linkplain ObservableCollection} of {@linkplain TRequirementBaseRowViewModel}
      */
-    ObservableCollection<TRowViewModel> GetContainedRows();
-    
-    /**
-     * Computes the contained rows
-     */
-    void ComputeContainedRows();
+    <TRequirementBaseRowViewModel extends RequirementBaseTreeElementViewModel<?>> ObservableCollection<TRequirementBaseRowViewModel> 
+        GetAllContainedRowsOfType(Class<TRequirementBaseRowViewModel> clazz);        
 }

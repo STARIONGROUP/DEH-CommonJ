@@ -27,6 +27,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
@@ -36,28 +37,34 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import com.google.common.collect.ImmutableMap;
 
 import Reactive.ObservableValue;
 import Utils.Ref;
-import cdp4common.commondata.DefinedThing;
+
+import cdp4common.commondata.DeprecatableThing;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.sitedirectorydata.*;
+import cdp4common.types.CacheKey;
 import cdp4common.types.ContainerList;
 import cdp4dal.Session;
 import cdp4dal.SessionImpl;
 import cdp4dal.dal.Credentials;
+import cdp4dal.exceptions.TransactionException;
 import cdp4dal.operations.ThingTransaction;
+import cdp4dal.operations.ThingTransactionImpl;
+import cdp4dal.operations.TransactionContextResolver;
 import cdp4servicesdal.CdpServicesDal;
 import io.reactivex.Observable;
 
 /**
  * Definition of the {@link HubController} which is responsible to provides {@link Session} related functionalities
  */
-public final class HubController implements IHubController 
+public class HubController implements IHubController 
 {
     /**
      * The current class logger
@@ -170,9 +177,7 @@ public final class HubController implements IHubController
         
         if(optionalLibrary.isPresent())
         {
-            ReferenceDataLibrary library = optionalLibrary.get();
-            this.session.read(library).join();
-            return library;
+            return optionalLibrary.get();
         }
         
         return this.GetOpenIteration().getContainerOfType(EngineeringModel.class)
@@ -321,7 +326,7 @@ public final class HubController implements IHubController
      * @return A value indicating whether the {@link future} completed with success
      */
     @Override
-    public Boolean Reload()
+    public boolean Reload()
     {
         return this.RefreshOrReload(this.session.reload());
     }
@@ -332,9 +337,20 @@ public final class HubController implements IHubController
      * @return A value indicating whether the {@link future} completed with success
      */
     @Override
-    public Boolean Refresh()
+    public boolean Refresh()
     {
         return this.RefreshOrReload(this.session.refresh());
+    }
+    
+    /**
+     * Refresh the specified library local cache by reading it
+     * 
+     * @param library the {@linkplain ReferenceDataLibrary} to refresh
+     */
+    @Override
+    public void RefreshReferenceDataLibrary(ReferenceDataLibrary library)
+    {
+        this.RefreshOrReload(this.session.read(library));
     }
     
     /**
@@ -343,7 +359,7 @@ public final class HubController implements IHubController
      * @param future a {@link CompletableFuture}
      * @return A value indicating whether the {@link future} completed with success
      */
-    private Boolean RefreshOrReload(CompletableFuture<Void> future)
+    private boolean RefreshOrReload(CompletableFuture<Void> future)
     {
         try
         {
@@ -395,6 +411,36 @@ public final class HubController implements IHubController
         }
     }
 
+    /// <summary>
+    /// Gets the <see cref="Thing"/> by its <see cref="Thing.Iid"/> from the cache
+    /// </summary>
+    /// <typeparam name="TThing">The Type of <see cref="Thing"/> to get</typeparam>
+    /// <param name="iid">The id of the <see cref="Thing"/></param>
+    /// <param name="iteration">The <see cref="Iteration"/></param>
+    /// <param name="thing">The <see cref="Thing"/></param>
+    /// <returns>An assert whether the <paramref name="thing"/> has been found</returns>
+    
+    /**
+     * Gets the {@linkplain Thing} by it's Iid from the cache
+     * 
+     * @param <TThing> the type of {@linkplain Thing} to retrieve
+     * @param iid the Iid of the {@linkplain Thing} to retrieve from the cache
+     * @param refThing the {@linkplain Ref} of {@linkplain TThing} as ref parameter
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public <TThing extends Thing> boolean TryGetThingById(UUID iid, Ref<TThing> refThing)
+    {
+        @Nullable Thing thing = this.session.getAssembler().getCache().getIfPresent(new CacheKey(iid, this.openIteration.getIid()));
+        
+        if (thing != null && thing.getClass().isAssignableFrom(refThing.GetType()))
+        {
+            refThing.Set((TThing)thing);
+        }
+
+        return refThing.HasValue();
+    }
+    
     /**
      * Gets the thing by predicate on {@linkplain Thing} from the chain of rdls
      * 
@@ -403,7 +449,7 @@ public final class HubController implements IHubController
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <TThing extends DefinedThing> boolean TryGetThingFromChainOfRdlBy(Predicate<? super Thing> predicate, Ref<TThing> thing)
+    public <TThing extends Object> boolean TryGetThingFromChainOfRdlBy(Predicate<TThing> predicate, Ref<TThing> thing)
     {
         Function<? super ReferenceDataLibrary, ? extends Stream<?>> collectionSelector = null;
         
@@ -447,15 +493,19 @@ public final class HubController implements IHubController
         {
             collectionSelector = x -> x.queryParameterTypesFromChainOfRdls().stream();
         }
-
+        
         if (collectionSelector == null)
         {
             return false;
         }
 
-        Optional<Object> optionalThing = this.OpenReferenceDataLibraries().stream().flatMap(collectionSelector).filter((Predicate<? super Object>) predicate).findFirst();
+        Optional<Object> optionalThing = this.OpenReferenceDataLibraries().stream()
+                .flatMap(collectionSelector)
+                .filter((Predicate<? super Object>) predicate)
+                .filter(x -> !((DeprecatableThing)x).isDeprecated())
+                .findFirst();
         
-        if (optionalThing.isPresent() && optionalThing.getClass().isAssignableFrom(thing.GetType()))
+        if (optionalThing.isPresent() && thing.GetType().isAssignableFrom(optionalThing.get().getClass()))
         {
             thing.Set((TThing)optionalThing.get());
         }
@@ -474,13 +524,26 @@ public final class HubController implements IHubController
     {
         try
         {
-            this.session.write(transaction.finalizeTransaction());
+            this.session.write(transaction.finalizeTransaction()).join();
             return true;
         } 
         catch (Exception exception)
         {
-            this.logger.catching(exception);
+            this.logger.error(exception);
             return false;
         }
+    }    
+
+    /**
+     * Initializes a new {@linkplain ThingTransaction} based on the current open {@linkplain Iteration}
+     * 
+     * @return a {@linkplain Pair} of {@linkplain Iteration} cloned and its {@linkplain ThingTransaction}
+     * @throws TransactionException
+     */
+    @Override
+    public Pair<Iteration, ThingTransaction> GetIterationTransaction() throws TransactionException
+    {
+        Iteration iterationClone = this.GetOpenIteration().clone(false);
+        return Pair.of(iterationClone, new ThingTransactionImpl(TransactionContextResolver.resolveContext(iterationClone), iterationClone));
     }
 }
