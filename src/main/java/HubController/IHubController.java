@@ -206,5 +206,12 @@ public interface IHubController
      * @return a {@linkplain Pair} of {@linkplain Iteration} cloned and its {@linkplain ThingTransaction}
      * @throws TransactionException
      */
-    Pair<Iteration, ThingTransaction> GetIterationTransaction() throws TransactionException;    
+    Pair<Iteration, ThingTransaction> GetIterationTransaction() throws TransactionException;
+
+    /**
+     * Gets the {@linkplain Observable} from {@linkplain isSessionOpen} boolean field
+     * 
+     * @return an {@linkplain Observable} wrapping a value indicating whether the session has been refreshed or reloaded
+     */
+    Observable<Boolean> GetSessionEventObservable();    
 }

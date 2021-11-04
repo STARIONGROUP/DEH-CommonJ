@@ -73,12 +73,20 @@ public class ObservableTask<TResult>
     {
         subject.onNext(this.Task);     
     }
-
+    
     /**
-     * @param Status
+     * Cancels this on going task execute
      */
     public void Cancel()
     {
         this.Task.Cancel();
+    }
+
+    /**
+     * Runs this wrapped {@linkplain Task}
+     */
+    public void Run()
+    {
+        this.Task.Execute();
     }
 }

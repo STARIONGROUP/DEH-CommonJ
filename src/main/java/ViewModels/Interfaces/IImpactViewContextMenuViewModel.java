@@ -1,5 +1,5 @@
 /*
- * IThingRowViewModel.java
+ * IImpactViewContextMenuViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,31 +21,28 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.Interfaces;
+package ViewModels.Interfaces;
+
+import ViewModels.ImpactViewContextMenuViewModel;
+import cdp4common.commondata.ClassKind;
+import cdp4common.commondata.Thing;
 
 /**
- * The {@linkplain IRowViewModel} is the base interface definition for all object browser row view model
+ * The {@linkplain IImpactViewContextMenuViewModel} is the interface definition for the {@linkplain ImpactViewContextMenuViewModel}
  */
-public interface IRowViewModel
+public interface IImpactViewContextMenuViewModel extends IViewModel
 {
     /**
-     * Gets the parent row view model of the current row
+     * Deselects all things that can be transfered in the target view model
      * 
-     * @return an {@linkplain IRowViewModel}
+     * @param classKind the {@linkplain ClassKind} of the {@linkplain Thing}s to add depending on which impact view it has been called from
      */
-    IRowViewModel GetParent();
+    void DeselectAllOfType(ClassKind classKind);
 
     /**
-     * Gets a value indicating whether the current row is expanded
+     * Selects all things that can be transfered in the target view model
      * 
-     * @return a {@linkplain boolean}
+     * @param classKind the {@linkplain ClassKind} of the {@linkplain Thing}s to remove depending on which impact view it has been called from
      */
-    boolean GetIsExpanded();
-    
-    /**
-     * Sets a value indicating whether the current row is expanded
-     * 
-     * @return a {@linkplain boolean}
-     */
-    void SetIsExpanded(boolean isExpanded);
+    void SelectAllOfType(ClassKind classKind);
 }

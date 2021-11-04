@@ -29,6 +29,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
@@ -40,11 +42,19 @@ import javax.swing.JTabbedPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import App.AppContainer;
 import Enumerations.MappingDirection;
+import Views.ContextMenu.ImpactViewContextMenu;
 import Views.ObjectBrowser.ObjectBrowser;
 import cdp4common.commondata.ClassKind;
-
+import cdp4common.engineeringmodeldata.ElementDefinition;
+import cdp4common.engineeringmodeldata.RequirementsSpecification;
+import io.reactivex.Observable;
 import Utils.ImageLoader.ImageLoader;
+import ViewModels.ImpactViewContextMenuViewModel;
+import ViewModels.Interfaces.IImpactViewContextMenuViewModel;
+
+import Utils.Tasks.*;
 
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -108,6 +118,16 @@ public class ImpactViewPanel extends JPanel
     }
 
     /**
+     * The {@linkplain ContextMenu} that is to be used on the {@linkplain ElementDefinition} impact tree
+     */
+    private ImpactViewContextMenu elementDefinitionContextMenu;
+
+    /**
+     * The {@linkplain ContextMenu} that is to be used on the {@linkplain RequirementsSpecification} impact tree
+     */
+    private ImpactViewContextMenu requirementsSpecificationContextMenu;
+    
+    /**
      * View components declaration
      */
     private JLabel arrowLeft;
@@ -128,8 +148,10 @@ public class ImpactViewPanel extends JPanel
      * Initializes a new {@link ImpactViewPanel}
      */
     public ImpactViewPanel()
-    {        
-        initialize();
+    {
+        this.elementDefinitionContextMenu = new ImpactViewContextMenu(ClassKind.ElementDefinition);
+        this.requirementsSpecificationContextMenu = new ImpactViewContextMenu(ClassKind.RequirementsSpecification);
+        this.Initialize();
         this.SetTransferIsInProgress(false);
         this.UpdateTransferButtonNumberOfItems(0);
     }
@@ -137,7 +159,7 @@ public class ImpactViewPanel extends JPanel
     /**
      * Initialize the contents of the frame.
      */
-    private void initialize()
+    private void Initialize()
     {
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0};
@@ -249,9 +271,12 @@ public class ImpactViewPanel extends JPanel
         JTabbedPane HubBrowserTreeViewsContainer = new JTabbedPane(JTabbedPane.TOP);
                 
         this.elementDefinitionBrowser = new ObjectBrowser();
+        this.elementDefinitionBrowser.SetContextMenu(this.elementDefinitionContextMenu);
+        
         HubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
         
         this.requirementBrowser = new ObjectBrowser();
+        this.requirementBrowser.SetContextMenu(this.requirementsSpecificationContextMenu);
         HubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
         
         this.impactViewsTabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
@@ -347,7 +372,7 @@ public class ImpactViewPanel extends JPanel
     /**
      * Attach a {@linkplain ActionListener} for the {@linkplain switchMappingDirectionButton}
      * 
-     * @param handler the {@linkplain Callable} of {@linkplain String} representing the current mapping configuration
+     * @param handler the {@linkplain Function} of {@linkplain String} representing the current mapping configuration
      */
     public void AttachOnSaveLoadMappingConfiguration(Function<String, String> handler)
     {
@@ -366,6 +391,42 @@ public class ImpactViewPanel extends JPanel
                 });
         
     }
+    
+    /**
+     * Attach a {@linkplain ActionListener} for the {@linkplain switchMappingDirectionButton}
+     * 
+     * @param handler the {@linkplain Callable} of {@linkplain Boolean}
+     */
+    public void AttachOnTransfer(Callable<Boolean> handler)
+    {
+        this.transferButton.addActionListener(e ->
+        {
+            try
+            {
+                ObservableTask<Boolean> task = Task.Create(handler, Boolean.class);
+                
+                ActionListener cancelButtonHandler = x ->
+                {
+                    task.Cancel();
+                };
+
+                this.SetTransferIsInProgress(true);
+                this.cancelButton.addActionListener(cancelButtonHandler);
+                
+                task.Run();
+                task.Observable().subscribe(x -> 
+                {
+                    this.SetTransferIsInProgress(false);
+                    this.cancelButton.removeActionListener(cancelButtonHandler);
+                });
+            } 
+            catch (Exception exception)
+            {
+                this.logger.catching(exception);
+                this.SetTransferIsInProgress(false);
+            }
+        });        
+    }
 
     /**
      * Updates the arrows and the active tab for the impact views
@@ -374,13 +435,13 @@ public class ImpactViewPanel extends JPanel
      */
     private void UpdateVisualDirection(MappingDirection newDirection)
     {
-        if(newDirection == MappingDirection.FromDstToHub)
+        if(newDirection == MappingDirection.FromHubToDst)
         {
             this.arrowLeft.setText(String.format(ArrowBaseString, 0));
             this.arrowRight.setText(String.format(ArrowBaseString, 0));
             this.impactViewsTabbedPane.setSelectedIndex(1);
         }
-        else if(newDirection == MappingDirection.FromHubToDst)
+        else if(newDirection == MappingDirection.FromDstToHub)
         {
             this.arrowLeft.setText(String.format(ArrowBaseString, 2));
             this.arrowRight.setText(String.format(ArrowBaseString, 2));
@@ -409,7 +470,6 @@ public class ImpactViewPanel extends JPanel
      */
     public void SetTransferIsInProgress(boolean isTransferInProgress)
     {
-        this.logger.debug(String.format("DEBUG SetTransferIsInProgress %s", isTransferInProgress));
         this.progressBar.setVisible(isTransferInProgress);;
         this.cancelButton.setEnabled(isTransferInProgress);
     }
@@ -421,8 +481,28 @@ public class ImpactViewPanel extends JPanel
      */
     public void UpdateTransferButtonNumberOfItems(int number)
     {
-        this.logger.debug(String.format("DEBUG UpdateTransferButtonNumberOfItems %s", number));
         this.transferButton.setText(String.format(TransferButtonBaseText, number > 0 ? String.format("%s thing(s)", number) : ""));
         this.transferButton.setEnabled(number > 0);
+    }
+
+    /**
+     * Binds the transfer button text to update upon the provided observable that yields a number of selected things
+     * 
+     * @param numberOfSelectedThingObservable the {@linkplain Observable} of {@linkplain Integer}
+     */
+    public void BindNumberOfSelectedThingToTransfer(Observable<Integer> numberOfSelectedThingObservable)
+    {
+        numberOfSelectedThingObservable.subscribe(x -> this.UpdateTransferButtonNumberOfItems(x));
+    }
+    
+    /**
+     * Sets this {@linkplain JPopupMenu} data context
+     * 
+     * @param viewModel the {@linkplain IImpactViewContextMenuViewModel}
+     */
+    public void SetContextMenuDataContext(IImpactViewContextMenuViewModel viewModel)
+    {
+        this.elementDefinitionContextMenu.SetDataContext(viewModel);
+        this.requirementsSpecificationContextMenu.SetDataContext(viewModel);
     }
 }

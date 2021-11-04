@@ -29,6 +29,7 @@ import org.apache.logging.log4j.Logger;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IThingRowViewModel;
 import cdp4common.commondata.Thing;
+import cdp4common.engineeringmodeldata.Iteration;
 
 /**
  * The {@linkplain ThingRowViewModel} is a base row view model for all {@linkplain Thing}
@@ -78,6 +79,44 @@ public abstract class ThingRowViewModel<TThing extends Thing> implements IRowVie
     private String name;
 
     /**
+     * The value indicating whether this row should be highlighted as "selected for transfer"
+     */
+    private boolean isSelected;
+    
+    /**
+     * Switches between the two possible values for the {@linkplain isSelected}
+     * 
+     * @return the new {@linkplain boolean} value
+     */
+    @Override
+    public boolean SwitchIsSelectedValue()
+    {
+        return this.isSelected = !this.isSelected;
+    }
+    
+    /**
+     * Sets a value whether this row is selected
+     * 
+     * @param isSelected the {@linkplain boolean} value
+     */
+    @Override
+    public void SetIsSelected(boolean isSelected)
+    {
+        this.isSelected = isSelected;
+    }
+    
+    /**
+     * Gets a value indicating whether this row should be highlighted as "selected for transfer"
+     * 
+     * @return a {@linkplain boolean}
+     */
+    @Override
+    public boolean GetIsSelected()
+    {
+        return this.isSelected;
+    }
+    
+    /**
      * The value indicating whether this row should be highlighted in the tree
      */
     private boolean isHighlighted;
@@ -90,7 +129,6 @@ public abstract class ThingRowViewModel<TThing extends Thing> implements IRowVie
     @Override
     public void SetIsHighlighted(boolean isHighlighted)
     {
-        this.logger.debug(String.format("Highlighting ? %s the %s", isHighlighted, this.GetName()));
         this.isHighlighted = isHighlighted;
     }
     
@@ -102,6 +140,31 @@ public abstract class ThingRowViewModel<TThing extends Thing> implements IRowVie
     public boolean GetIsHighlighted()
     {
         return this.isHighlighted;
+    }
+    
+    /**
+     * A Value indicating whether the current row is expanded
+     */
+    private boolean isExpanded;
+    
+    /**
+     * Sets a value indicating whether the current row is expanded
+     * 
+     * @return a {@linkplain boolean}
+     */
+    public void SetIsExpanded(boolean isExpanded)
+    {
+        this.isExpanded = isExpanded;
+    }
+    
+    /**
+     * Gets a value indicating whether the current row is expanded
+     * 
+     * @return a {@linkplain boolean}
+     */
+    public boolean GetIsExpanded()
+    {
+        return this.isExpanded;
     }
     
     /**
@@ -134,6 +197,16 @@ public abstract class ThingRowViewModel<TThing extends Thing> implements IRowVie
     {
         this.thing = thing;
         this.parent = parentViewModel;
+        
+        try
+        {
+            this.isHighlighted = !(this.GetThing() instanceof Iteration) && this.GetThing().getOriginal() != null || this.GetThing().getRevisionNumber() == 0;
+        }
+        catch(Exception exception)
+        {
+            this.logger.error(String.format("Failed to set is highlighted for row %s", thing));
+            this.logger.catching(exception);
+        }
     }
     
     /**

@@ -25,9 +25,11 @@
 package Utils.Tasks;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 import org.apache.logging.log4j.LogManager;
@@ -75,18 +77,22 @@ class CallableTask<TResult> extends Task<TResult>
     /**
      * Executes the observer and the function concurrently in a new thread pool
      */
-    void Execute()
-    {        
+    protected void Execute()
+    {
         try
         {
             this.observer = this.GetObserver();
             this.executor = Executors.newFixedThreadPool(2);
-            this.executor.execute(this.observer);
-            this.executor.execute(this.function);
+            this.executor.submit(this.observer);
+            this.executor.submit(this.function);
         }
         catch (Exception exception)
         {
             this.HandleException(exception);
+        }
+        finally
+        {
+            this.executor.shutdown();
         }
     }
 
@@ -101,18 +107,20 @@ class CallableTask<TResult> extends Task<TResult>
         {
             this.ObservableFunction.Task.Status = TaskStatus.Running;
             
-            while(this.ObservableFunction.Task.Status == TaskStatus.Running)
+            try
             {
-                try
-                {
-                    this.ObservableFunction.Task.Status = TaskStatus.Completed;
-                    this.ObservableFunction.Task.result = this.function.get();
-                    this.ObservableFunction.OnNext();
-                }
-                catch (InterruptedException | ExecutionException exception) 
-                {
-                    this.HandleException(exception);
-                }
+                this.ObservableFunction.Task.result = this.function.get();
+                this.ObservableFunction.Task.Status = TaskStatus.Completed;
+                this.ObservableFunction.OnNext();
+            }
+            catch (InterruptedException | CancellationException cancellationException)
+            {
+                this.ObservableFunction.Task.Status = TaskStatus.Cancelled;
+                this.ObservableFunction.OnNext();
+            }
+            catch (ExecutionException exception) 
+            {
+                this.HandleException(exception);
             }
         };
     }

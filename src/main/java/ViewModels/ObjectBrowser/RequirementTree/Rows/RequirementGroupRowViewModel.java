@@ -73,6 +73,7 @@ public class RequirementGroupRowViewModel extends RequirementContainerRowViewMod
         
         this.requirements
             .stream()
+            .filter(x -> x.getGroup() != null)
             .filter(x -> x.getGroup().getIid().equals(this.GetThing().getIid()))
             .forEach(x -> this.containedRows.add(new RequirementRowViewModel(x, this)));
 

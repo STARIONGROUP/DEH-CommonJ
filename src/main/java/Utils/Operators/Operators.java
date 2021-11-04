@@ -1,5 +1,5 @@
 /*
- * IThingRowViewModel.java
+ * Operators.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,31 +21,30 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.Interfaces;
+package Utils.Operators;
 
 /**
- * The {@linkplain IRowViewModel} is the base interface definition for all object browser row view model
+ * The {@linkplain Operators} class is a utility class that provides {@link Object} operator such as Equals with a null checks
  */
-public interface IRowViewModel
+public final class Operators
 {
     /**
-     * Gets the parent row view model of the current row
+     * Verifies that the two objects are both null or that the first one isn't null and calls the <code>Object.Equals(a, b)</code> method on <code>a</code>
      * 
-     * @return an {@linkplain IRowViewModel}
-     */
-    IRowViewModel GetParent();
-
-    /**
-     * Gets a value indicating whether the current row is expanded
+     * By default, <code>Object.Equals(a, b)</code> assert that the reference <code>a</code> references the same instance as <code>b</code>
      * 
-     * @return a {@linkplain boolean}
+     * @param <T> the type object {@link Object} to compare
+     * @param a the first {@link Object}
+     * @param b the second {@link Object}
+     * @return a value indicating if they are equal
      */
-    boolean GetIsExpanded();
-    
-    /**
-     * Sets a value indicating whether the current row is expanded
-     * 
-     * @return a {@linkplain boolean}
-     */
-    void SetIsExpanded(boolean isExpanded);
+    public static <T> boolean AreTheseEquals(T a, T b)
+    {
+        if(a == null && b == null)
+        {
+            return true;
+        }
+        
+        return a != null && a.equals(b);
+    }
 }
