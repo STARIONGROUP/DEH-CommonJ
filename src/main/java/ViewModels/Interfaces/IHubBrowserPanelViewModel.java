@@ -31,30 +31,11 @@ import ViewModels.HubBrowserPanelViewModel;
 public interface IHubBrowserPanelViewModel extends IViewModel
 {
     /**
-     * Action to be taken when the Connect button is clicked
-     * 
-     * @return a {@linkplain Boolean} as the dialog result
-     */
-    Boolean Connect();
-
-    /**
      * Gets the {@linkplain IHubBrowserHeaderViewModel}
      * 
      * @return the {@linkplain IHubBrowserHeaderViewModel}
      */
     IHubBrowserHeaderViewModel GetHubBrowserHeaderViewModel();
-
-    /**
-     * Gets a value indicating whether the session is open or not
-     * 
-     * @return a {@linkplain Boolean}
-     */
-    Boolean GetIsConnected();
-
-    /**
-     * Closes the {@linkplain Session}
-     */
-    void Disconnect();
     
     /**
      * Gets the {@linkplain IObjectBrowserViewModel} for the element definitions tree
@@ -69,4 +50,11 @@ public interface IHubBrowserPanelViewModel extends IViewModel
      * @return the {@linkplain IObjectBrowserViewModel}
      */
     IObjectBrowserViewModel GetRequirementBrowserViewModel();
+
+    /**
+     * Gets the {@linkplain ISessionControlPanelViewModel} for the session controls panel
+     * 
+     * @return the {@linkplain ISessionControlPanelViewModel}
+     */
+    ISessionControlPanelViewModel GetSessionControlViewModel();
 }

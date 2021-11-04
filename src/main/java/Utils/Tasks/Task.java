@@ -45,6 +45,22 @@ import io.reactivex.Observable;
  */
 public abstract class Task<TResult>
 {
+
+    /**
+     * Initializes a {@linkplain Task} that is ready to run asynchronously a 
+     * {@linkplain java.util.concurrent.Callable} and returns a {@linkplain ObservableTask} that yields T values
+     * 
+     * @param <T> The type the {@linkplain java.util.concurrent.Callable} returns
+     * @param function the {@linkplain java.util.concurrent.Callable}
+     * @param clazz the {@linkplain Class} of type T
+     * @return an {@linkplain Observable} of T
+     */
+    public static <T> ObservableTask<T> Create(Callable<T> function, Class<T> clazz)
+    {
+        CallableTask<T> task = new CallableTask<T>(function, clazz);
+        return task.ObservableFunction;
+    }
+    
     /**
      * Runs asynchronously a {@linkplain java.util.concurrent.Callable} and returns a {@linkplain ObservableTask} that yields T values
      * 
@@ -121,5 +137,10 @@ public abstract class Task<TResult>
     /**
      * Cancels the on going task execute
      */
-    public abstract void Cancel();
+    abstract void Cancel();
+    
+    /**
+     * Runs this {@linkplain Task}
+     */
+    abstract void Execute();
 }

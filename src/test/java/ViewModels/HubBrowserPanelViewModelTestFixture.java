@@ -24,10 +24,7 @@
 package ViewModels;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.ArgumentMatchers.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,9 +33,8 @@ import HubController.IHubController;
 import Services.NavigationService.INavigationService;
 import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
 import ViewModels.Interfaces.IHubBrowserHeaderViewModel;
-import ViewModels.Interfaces.IObjectBrowserViewModel;
 import ViewModels.Interfaces.IRequirementBrowserViewModel;
-import Views.HubLogin;
+import ViewModels.Interfaces.ISessionControlPanelViewModel;
 
 class HubBrowserPanelViewModelTestFixture
 {
@@ -47,6 +43,7 @@ class HubBrowserPanelViewModelTestFixture
     private IHubBrowserHeaderViewModel hubBrowserHeaderViewModel;
     private IElementDefinitionBrowserViewModel elementDefinitionBrowser;
     private IRequirementBrowserViewModel requirementBrowser;
+    private ISessionControlPanelViewModel sessionControlViewModel;
 
     /**
      * @throws java.lang.Exception
@@ -59,14 +56,13 @@ class HubBrowserPanelViewModelTestFixture
         this.hubBrowserHeaderViewModel = mock(IHubBrowserHeaderViewModel.class);
         this.elementDefinitionBrowser = mock(IElementDefinitionBrowserViewModel.class);
         this.requirementBrowser = mock(IRequirementBrowserViewModel.class);
+        this.sessionControlViewModel = mock(ISessionControlPanelViewModel.class);
     }
 
     @Test
     void VerifyConnectButtonAction()
     {
-        HubBrowserPanelViewModel viewModel = new HubBrowserPanelViewModel(this.navigationService, 
-                this.hubController, this.hubBrowserHeaderViewModel, this.requirementBrowser, this.elementDefinitionBrowser);
-        assertDoesNotThrow(() -> viewModel.Connect());
-        verify(this.navigationService, times(1)).ShowDialog(any(HubLogin.class));
+        assertDoesNotThrow(() -> new HubBrowserPanelViewModel(this.navigationService, 
+                this.hubController, this.hubBrowserHeaderViewModel, this.requirementBrowser, this.elementDefinitionBrowser, this.sessionControlViewModel));
     }    
 }

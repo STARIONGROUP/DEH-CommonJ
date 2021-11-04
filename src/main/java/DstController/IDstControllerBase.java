@@ -1,5 +1,5 @@
 /*
- * IThingRowViewModel.java
+ * IDstControllerBase.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,31 +21,21 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.Interfaces;
+package DstController;
+
+import cdp4common.commondata.ClassKind;
+import cdp4common.commondata.Thing;
 
 /**
- * The {@linkplain IRowViewModel} is the base interface definition for all object browser row view model
+ * The {@linkplain IDstControllerBase} is the base interface definition for DstController implementation on dst adapter
  */
-public interface IRowViewModel
+public interface IDstControllerBase
 {
     /**
-     * Gets the parent row view model of the current row
+     * Adds or Removes all {@linkplain TElement} from/to the relevant selected things to transfer depending on the current {@linkplain MappingDirection}
      * 
-     * @return an {@linkplain IRowViewModel}
+     * @param classKind the {@linkplain ClassKind} of the {@linkplain Thing}s to add or remove depending on which impact view it has been called from
+     * @param shouldRemove a value indicating whether the things are to be removed
      */
-    IRowViewModel GetParent();
-
-    /**
-     * Gets a value indicating whether the current row is expanded
-     * 
-     * @return a {@linkplain boolean}
-     */
-    boolean GetIsExpanded();
-    
-    /**
-     * Sets a value indicating whether the current row is expanded
-     * 
-     * @return a {@linkplain boolean}
-     */
-    void SetIsExpanded(boolean isExpanded);
+    void AddOrRemoveAllFromSelectedThingsToTransfer(ClassKind classKind, boolean shouldRemove);
 }

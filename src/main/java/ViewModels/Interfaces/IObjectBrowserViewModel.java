@@ -25,7 +25,9 @@ package ViewModels.Interfaces;
 
 import org.netbeans.swing.outline.OutlineModel;
 
+import Reactive.ObservableValue;
 import ViewModels.ObjectBrowser.Interfaces.IThingRowViewModel;
+import cdp4common.commondata.Thing;
 import io.reactivex.Observable;
 
 /**
@@ -49,9 +51,17 @@ public interface IObjectBrowserViewModel extends IViewModel
     Observable<Boolean> IsTheTreeVisible();
 
     /**
-     * Handles changes in the row selections in the tree
+     * Compute eligible rows where the represented {@linkplain Thing} can be transfered,
+     * and return the filtered collection for feedback application on the tree
      * 
-     * @param rowViewModel the view model {@linkplain IThingRowViewModel} of the selected row
+     * @param selectedRows the collection of selected view model {@linkplain IThingRowViewModel}
      */
-    void OnSelectionChanged(IThingRowViewModel<?> rowViewModel);
+    void OnSelectionChanged(IThingRowViewModel<?> selectedRows);
+
+    /**
+     * Gets the {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether the tree should get a refresh
+     * 
+     * @return an {@linkplain ObservableValue} of {@linkplain Boolean}
+     */
+    Observable<Boolean> GetShouldRefreshTree();
 }

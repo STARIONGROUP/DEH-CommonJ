@@ -32,5 +32,38 @@ import cdp4common.commondata.Thing;
  */
 public interface IThingRowViewModel<TThing extends Thing>
 {
+    /**
+     * Gets the {@linkplain Thing} that this view model represents
+     * 
+     * @return a {@linkplain TThing}
+     */
     TThing GetThing();
+
+    /**
+     * Sets a value whether this row is highlighted
+     * 
+     * @param isHighlighted the {@linkplain boolean} value
+     */
+    void SetIsHighlighted(boolean isHighlighted);
+
+    /**
+     * Gets a value indicating whether this row should be highlighted as "selected for transfer"
+     * 
+     * @return a {@linkplain boolean}
+     */
+    boolean GetIsSelected();
+
+    /**
+     * Sets a value whether this row is selected
+     * 
+     * @param isSelected the {@linkplain boolean} value
+     */
+    void SetIsSelected(boolean isSelected);
+
+    /**
+     * Switches between the two possible values for the {@linkplain isSelected}
+     * 
+     * @return the new {@linkplain boolean} value
+     */
+    boolean SwitchIsSelectedValue();
 }

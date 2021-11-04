@@ -30,23 +30,13 @@ import ViewModels.Interfaces.IHubBrowserHeaderViewModel;
 import ViewModels.Interfaces.IHubBrowserPanelViewModel;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
 import ViewModels.Interfaces.IRequirementBrowserViewModel;
-import Views.HubLogin;
+import ViewModels.Interfaces.ISessionControlPanelViewModel;
 
 /**
  * The {@link HubBrowserPanelViewModel} is the main viewModel for the {@link MDHubBrowserPanel}
  */
 public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
-{
-    /**
-     * The {@linkplain INavigationService}
-     */
-    private INavigationService navigationService;    
-
-    /**
-     * The {@linkplain IHubController}
-     */
-    private IHubController hubController;
-    
+{    
     /**
      * the {@linkplain IHubBrowserHeaderViewModel}
      */
@@ -80,9 +70,25 @@ public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
     }
 
     /**
-     * the {@linkplain IHubBrowserHeaderViewModel} for the requirement tree
+     * The {@linkplain IHubBrowserHeaderViewModel} for the requirement tree
      */
     private IObjectBrowserViewModel requirementBrowserViewModel;
+
+    /**
+     * The {@linkplain ISessionControlPanelViewModel} for the session controls panel
+     */
+    private ISessionControlPanelViewModel sessionControlViewModel;
+    
+    /**
+     * Gets the {@linkplain ISessionControlPanelViewModel} for the session controls panel
+     * 
+     * @return the {@linkplain ISessionControlPanelViewModel}
+     */
+    @Override
+    public ISessionControlPanelViewModel GetSessionControlViewModel()
+    {
+        return this.sessionControlViewModel;
+    }
     
     /**
      * Gets the {@linkplain IObjectBrowserViewModel} for the requirement tree
@@ -102,47 +108,15 @@ public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
      * @param hubBrowserHeaderViewModel the {@linkplain IHubBrowserHeaderViewModel}
      * @param requirementBrowserViewModel the {@linkplain IRequirementBrowserViewModel}
      * @param elementDefinitionBrowserViewModel the {@linkplain IElementDefinitionBrowserViewModel}
+     * @param sessionControlViewModel the {@linkplain ISessionControlPanelViewModel}
      */
     public HubBrowserPanelViewModel(INavigationService navigationService, IHubController hubController, 
             IHubBrowserHeaderViewModel hubBrowserHeaderViewModel, IRequirementBrowserViewModel requirementBrowserViewModel,
-            IElementDefinitionBrowserViewModel elementDefinitionBrowserViewModel)
+            IElementDefinitionBrowserViewModel elementDefinitionBrowserViewModel, ISessionControlPanelViewModel sessionControlViewModel)
     {
-        this.navigationService = navigationService;
-        this.hubController = hubController;
         this.hubBrowserHeaderViewModel = hubBrowserHeaderViewModel;
         this.elementDefinitionBrowserViewModel = elementDefinitionBrowserViewModel;
         this.requirementBrowserViewModel = requirementBrowserViewModel;
-    }
-
-    /**
-     * Action to be taken when the Connect button is clicked
-     * 
-     * @return a {@linkplain Boolean} as the dialog result
-     */
-    @Override
-    public Boolean Connect()
-    {
-        HubLogin view = new HubLogin();
-        return this.navigationService.ShowDialog(view);
-    }
-    
-    /**
-     * Closes the {@linkplain Session}
-     */
-    @Override
-    public void Disconnect()
-    {
-        this.hubController.Close();
-    }
-    
-    /**
-     * Gets a value indicating whether the session is open or not
-     * 
-     * @return a {@linkplain Boolean}
-     */
-    @Override
-    public Boolean GetIsConnected()
-    {
-        return this.hubController.GetIsSessionOpen();    
+        this.sessionControlViewModel = sessionControlViewModel;
     }
 }

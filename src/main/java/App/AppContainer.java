@@ -78,6 +78,8 @@ public final class AppContainer
         Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class, HubLoginViewModel.class);
         Container.as(NO_CACHE).addComponent(IHubBrowserHeaderViewModel.class, HubBrowserHeaderViewModel.class);
         Container.as(NO_CACHE).addComponent(IElementDefinitionBrowserViewModel.class, ElementDefinitionBrowserViewModel.class);        
-        Container.as(NO_CACHE).addComponent(IRequirementBrowserViewModel.class, RequirementBrowserViewModel.class);        
+        Container.as(NO_CACHE).addComponent(IRequirementBrowserViewModel.class, RequirementBrowserViewModel.class);
+        Container.as(NO_CACHE).addComponent(IImpactViewContextMenuViewModel.class, ImpactViewContextMenuViewModel.class);
+        Container.as(NO_CACHE).addComponent(ISessionControlPanelViewModel.class, SessionControlPanelViewModel.class);
     }
 }

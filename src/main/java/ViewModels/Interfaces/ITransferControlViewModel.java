@@ -1,5 +1,5 @@
 /*
- * IThingRowViewModel.java
+ * ITransferControlViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,31 +21,28 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.Interfaces;
+package ViewModels.Interfaces;
+
+import java.util.concurrent.Callable;
+
+import io.reactivex.Observable;
 
 /**
- * The {@linkplain IRowViewModel} is the base interface definition for all object browser row view model
+ * The {@linkplain ITransferControlViewModel} is the interface definition for dst adapter implementation of transfer control view model
  */
-public interface IRowViewModel
+public interface ITransferControlViewModel extends IViewModel
 {
     /**
-     * Gets the parent row view model of the current row
+     * Gets the number of selected things to transfer
      * 
-     * @return an {@linkplain IRowViewModel}
+     * @return an {@linkplain Observable} of {@linkplain Integer}
      */
-    IRowViewModel GetParent();
+    Observable<Integer> GetNumberOfSelectedThing();
 
     /**
-     * Gets a value indicating whether the current row is expanded
+     * Gets a {@linkplain Callable} of {@linkplain Boolean} to call when the transfer button is pressed
      * 
-     * @return a {@linkplain boolean}
+     * @return a {@linkplain Callable} of {@linkplain Boolean}
      */
-    boolean GetIsExpanded();
-    
-    /**
-     * Sets a value indicating whether the current row is expanded
-     * 
-     * @return a {@linkplain boolean}
-     */
-    void SetIsExpanded(boolean isExpanded);
+    Callable<Boolean> GetOnTransferCallable();
 }

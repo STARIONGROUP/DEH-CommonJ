@@ -23,6 +23,10 @@
  */
 package ViewModels;
 
+import java.util.List;
+
+import javax.swing.tree.TreeModel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.netbeans.swing.outline.OutlineModel;
@@ -31,6 +35,8 @@ import HubController.IHubController;
 import Reactive.ObservableValue;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IThingRowViewModel;
+import Views.ObjectBrowser.ObjectBrowser;
+import cdp4common.commondata.Thing;
 import io.reactivex.Observable;
 
 /**
@@ -47,6 +53,22 @@ public abstract class ObjectBrowserViewModel implements IObjectBrowserViewModel
      * The {@link IHubController}
      */
     protected IHubController hubController;
+    
+    /**
+     * An {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether the tree should get a refresh
+     */
+    protected ObservableValue<Boolean> shouldRefreshTree = new ObservableValue<Boolean>(false, Boolean.class);
+    
+    /**
+     * Gets the {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether the tree should get a refresh
+     * 
+     * @return an {@linkplain ObservableValue} of {@linkplain Boolean}
+     */
+    @Override
+    public Observable<Boolean> GetShouldRefreshTree()
+    {
+        return this.shouldRefreshTree.Observable();
+    }
     
     /**
      * The {@linkplain ObservableValue} of {@linkplain OutlineModel} for the element definition tree
@@ -88,7 +110,15 @@ public abstract class ObjectBrowserViewModel implements IObjectBrowserViewModel
     public ObjectBrowserViewModel(IHubController hubController)
     {
         this.hubController = hubController;
-        this.hubController.GetIsSessionOpenObservable().subscribe(x -> this.UpdateBrowserTrees(x));
+        
+        this.hubController.GetIsSessionOpenObservable()
+            .subscribe(x -> this.UpdateBrowserTrees(x), x -> this.logger.catching(x));
+        
+        this.hubController.GetSessionEventObservable()
+            .filter(x -> x)
+            .subscribe(
+                x -> this.UpdateBrowserTrees(x), 
+                x -> this.logger.error(String.format("An error occured while listening for session event: %s", x)));
     }
 
     /**
@@ -99,10 +129,12 @@ public abstract class ObjectBrowserViewModel implements IObjectBrowserViewModel
     protected abstract void UpdateBrowserTrees(Boolean isConnected);
 
     /**
-     * Handles changes in the row selections in the tree
+     * Compute eligible rows where the represented {@linkplain Thing} can be transfered,
+     * and return the filtered collection for feedback application on the tree
      * 
-     * @param rowViewModel the view model {@linkplain ThingRowViewModel} of the selected row
+     * @param selectedRows the collection of selected view model {@linkplain IThingRowViewModel}
+     * @return a {@linkplain List} of {@linkplain IThingRowViewModel}
      */
     @Override
-    public void OnSelectionChanged(IThingRowViewModel<?> rowViewModel) { }
+    public void OnSelectionChanged(IThingRowViewModel<?> selectedRow) { }
 }
