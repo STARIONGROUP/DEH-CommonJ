@@ -91,6 +91,6 @@ public final class ValueSetUtils
             return list.get(0);
         }
         
-        throw new Cdp4ModelValidationException(String.format("Multiple ValueSets found for %s"));
+        throw new Cdp4ModelValidationException(String.format("Multiple ValueSets found for %s", baseErrorMessage));
     }
 }

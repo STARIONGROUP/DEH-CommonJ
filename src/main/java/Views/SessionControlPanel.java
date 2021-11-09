@@ -122,6 +122,7 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
         add(this.refreshButton, gbc_refreshButton);
         
         JPanel panel = new JPanel();
+        panel.setVisible(false);
         GridBagConstraints gbc_panel = new GridBagConstraints();
         gbc_panel.anchor = GridBagConstraints.WEST;
         gbc_panel.insets = new Insets(0, 0, 5, 0);

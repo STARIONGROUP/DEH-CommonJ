@@ -39,7 +39,6 @@ public class ElementDefinitionBrowserTreeViewModel extends BrowserTreeViewModel<
      * Initializes a new {@linkplain ElementDefinitionBrowserTreeViewModel}
      * 
      * @param iteration the {@linkplain Iteration}
-     * @param hubController the {@linkplain IHubController}
      */
     public ElementDefinitionBrowserTreeViewModel(Iteration iteration)
     {

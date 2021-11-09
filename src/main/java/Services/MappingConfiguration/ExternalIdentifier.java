@@ -1,5 +1,5 @@
 /*
- * package-info.java
+ * ExternalIdentifier.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,4 +21,25 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Services.MappingEngineService;
+package Services.MappingConfiguration;
+
+/**
+ * The {@linkplain ExternalIdentifier} is a POJO class that represents a serialize-able {@linkplain IdCorrespondence.ExternalId}
+ */
+public class ExternalIdentifier
+{
+    /**
+     * Gets or sets the mapping direction this {@linkplain ExternalIdentifier} applies to
+     */
+    public Enumerations.MappingDirection MappingDirection;
+
+    /**
+     * Gets or sets the value index this {@linkplain ExternalIdentifier}  maps to, if applicable
+     */
+    public Double ValueIndex;
+
+    /**
+     * Gets or sets the identifier of the external thing referenced
+     */
+    public Object Identifier;
+}
