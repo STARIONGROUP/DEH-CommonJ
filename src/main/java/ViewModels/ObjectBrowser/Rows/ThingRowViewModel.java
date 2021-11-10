@@ -29,8 +29,6 @@ import org.apache.logging.log4j.Logger;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IThingRowViewModel;
 import cdp4common.commondata.Thing;
-import cdp4common.engineeringmodeldata.ElementDefinition;
-import cdp4common.engineeringmodeldata.Iteration;
 
 /**
  * The {@linkplain ThingRowViewModel} is a base row view model for all {@linkplain Thing}
@@ -198,14 +196,6 @@ public abstract class ThingRowViewModel<TThing extends Thing> implements IRowVie
     {
         this.thing = thing;
         this.parent = parentViewModel;
-//
-//        if(thing instanceof ElementDefinition && ((ElementDefinition)thing).getName().contains("cceler"))
-//        {
-//            this.logger.debug(String.format("DEBUG ACCELEROMETER thing %s", thing));
-//            this.logger.debug(String.format("DEBUG ACCELEROMETER original %s", this.GetThing().getOriginal()));
-//        }
-//        
-//        this.isHighlighted = !(this.GetThing() instanceof Iteration) && (this.GetThing().getOriginal() != null || this.GetThing().getRevisionNumber() == 0);
     }
     
     /**
