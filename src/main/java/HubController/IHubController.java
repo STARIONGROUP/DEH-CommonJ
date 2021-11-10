@@ -24,6 +24,7 @@
 
 package HubController;
 
+import java.util.Collection;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -34,6 +35,7 @@ import com.google.common.collect.ImmutableMap;
 import Utils.Ref;
 import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Thing;
+import cdp4common.engineeringmodeldata.ExternalIdentifierMap;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.sitedirectorydata.Category;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
@@ -213,5 +215,13 @@ public interface IHubController
      * 
      * @return an {@linkplain Observable} wrapping a value indicating whether the session has been refreshed or reloaded
      */
-    Observable<Boolean> GetSessionEventObservable();    
+    Observable<Boolean> GetSessionEventObservable();
+
+    /**
+     * Gets the collection of available {@linkplain ExternalIdentifierMap} for the provided DST tool name
+     * 
+     * @param toolName the {@linkplain String} DST tool name
+     * @return a {@linkplain Collection} of {@linkplain ExternalIdentifierMap}
+     */
+    Collection<ExternalIdentifierMap> GetAvailableExternalIdentifierMap(String toolName);    
 }

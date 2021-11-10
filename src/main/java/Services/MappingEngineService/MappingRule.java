@@ -87,5 +87,4 @@ public abstract class MappingRule<TInput extends Object, TOutput> implements IMa
     {
         return elementName.replaceAll("[^a-zA-Z0-9]|\\s", "");
     }
-
 }
