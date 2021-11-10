@@ -29,8 +29,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
@@ -42,7 +40,6 @@ import javax.swing.JTabbedPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import App.AppContainer;
 import Enumerations.MappingDirection;
 import Views.ContextMenu.ImpactViewContextMenu;
 import Views.ObjectBrowser.ObjectBrowser;
@@ -51,7 +48,6 @@ import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.RequirementsSpecification;
 import io.reactivex.Observable;
 import Utils.ImageLoader.ImageLoader;
-import ViewModels.ImpactViewContextMenuViewModel;
 import ViewModels.Interfaces.IImpactViewContextMenuViewModel;
 
 import Utils.Tasks.*;
@@ -154,6 +150,7 @@ public class ImpactViewPanel extends JPanel
         this.Initialize();
         this.SetTransferIsInProgress(false);
         this.UpdateTransferButtonNumberOfItems(0);
+        this.SetLoadMappingControlsIsEnable(false);
     }
 
     /**
@@ -247,10 +244,10 @@ public class ImpactViewPanel extends JPanel
         gbc_lblNewLabel_2.gridy = 0;
         panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
         
-        mappingConfigurationComboBox = new JComboBox<String>();
-        mappingConfigurationComboBox.setEditable(true);
+        this.mappingConfigurationComboBox = new JComboBox<String>();
+        this.mappingConfigurationComboBox.setEditable(true);
         
-        mappingConfigurationComboBox.setToolTipText("<html><ul>Select an existing configuration from this list or write a name to create a new configuration.</ul>\n"
+        this.mappingConfigurationComboBox.setToolTipText("<html><ul>Select an existing configuration from this list or write a name to create a new configuration.</ul>\n"
                 + "<ul>Then hit the save button to create/load the Mapping Configuration</ul></html>");
         
         GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -372,17 +369,22 @@ public class ImpactViewPanel extends JPanel
     /**
      * Attach a {@linkplain ActionListener} for the {@linkplain switchMappingDirectionButton}
      * 
-     * @param handler the {@linkplain Function} of {@linkplain String} representing the current mapping configuration
+     * @param handler the {@linkplain Function} of {@linkplain String} representing the current mapping configuration.
+     * The {@linkplain Function} returns a value indicating whether the loaded configuration is new.
      */
-    public void AttachOnSaveLoadMappingConfiguration(Function<String, String> handler)
+    public void AttachOnSaveLoadMappingConfiguration(Function<String, Boolean> handler)
     {
         this.saveMappingConfigurationButton.addActionListener(e ->
                 {
                     try
                     {
-                        String newConfigurationName = handler.apply(this.mappingConfigurationComboBox.getSelectedItem().toString());
-                        this.mappingConfigurationComboBox.addItem(newConfigurationName);
-                        this.mappingConfigurationComboBox.setSelectedItem(newConfigurationName);
+                        String newConfigurationName = this.mappingConfigurationComboBox.getSelectedItem().toString();
+                        
+                        if(handler.apply(newConfigurationName))
+                        {
+                            this.mappingConfigurationComboBox.addItem(newConfigurationName);
+                            this.mappingConfigurationComboBox.setSelectedItem(newConfigurationName);
+                        }
                     } 
                     catch (Exception exception)
                     {
@@ -505,4 +507,15 @@ public class ImpactViewPanel extends JPanel
         this.elementDefinitionContextMenu.SetDataContext(viewModel);
         this.requirementsSpecificationContextMenu.SetDataContext(viewModel);
     }
+
+    /**
+     * Sets the mapping related controls enabled according to the specified to value
+     * 
+     * @param shouldEnabled
+     */
+    public void SetLoadMappingControlsIsEnable(Boolean shouldEnabled)
+    {
+        this.mappingConfigurationComboBox.setEnabled(shouldEnabled);
+        this.saveMappingConfigurationButton.setEnabled(shouldEnabled);
+    }    
 }

@@ -137,6 +137,7 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserViewMod
             SwingUtilities.invokeLater(() -> 
             {
                 this.objectBrowserTree.setModel(x);
+                this.objectBrowserTree.tableChanged(new TableModelEvent(this.objectBrowserTree.getOutlineModel()));
             });
         });
         
@@ -145,7 +146,7 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserViewMod
         
         this.dataContext.GetShouldRefreshTree()
             .filter(x -> x)
-            .subscribe(x -> SwingUtilities.invokeLater(() -> 
+            .subscribe(x -> SwingUtilities.invokeLater(() ->
                 objectBrowserTree.tableChanged(new TableModelEvent(this.objectBrowserTree.getOutlineModel()))));
         
         this.objectBrowserTree.addMouseListener(new MouseListener()

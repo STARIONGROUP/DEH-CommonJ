@@ -29,7 +29,6 @@ import org.apache.logging.log4j.Logger;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IThingRowViewModel;
 import cdp4common.commondata.Thing;
-import cdp4common.engineeringmodeldata.Iteration;
 
 /**
  * The {@linkplain ThingRowViewModel} is a base row view model for all {@linkplain Thing}
@@ -197,16 +196,6 @@ public abstract class ThingRowViewModel<TThing extends Thing> implements IRowVie
     {
         this.thing = thing;
         this.parent = parentViewModel;
-        
-        try
-        {
-            this.isHighlighted = !(this.GetThing() instanceof Iteration) && this.GetThing().getOriginal() != null || this.GetThing().getRevisionNumber() == 0;
-        }
-        catch(Exception exception)
-        {
-            this.logger.error(String.format("Failed to set is highlighted for row %s", thing));
-            this.logger.catching(exception);
-        }
     }
     
     /**

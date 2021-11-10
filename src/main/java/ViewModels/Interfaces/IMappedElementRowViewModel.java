@@ -1,5 +1,5 @@
 /*
- * package-info.java
+ * IMappedElementRowViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,4 +21,27 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Services.MappingEngineService;
+package ViewModels.Interfaces;
+
+import Enumerations.MappingDirection;
+import cdp4common.commondata.Thing;
+
+/**
+ * The {@linkplain IMappedElementRowViewModel} is the main interface for all {@linkplain MappedElementRowViewModel}
+ */
+public interface IMappedElementRowViewModel
+{
+    /**
+     * Gets the Thing type argument class that identifies the implementation of the {@linkplain MappedElementRowViewModel}
+     * 
+     * @return a {@linkplain Class}
+     */
+    Class<? extends Thing> GetTThingClass();
+
+    /**
+     * Gets the {@linkplain MappingDirection} to which direction this represented mapping applies to
+     * 
+     * @return a {@linkplain MappingDirection}
+     */
+    MappingDirection GetMappingDirection();
+}

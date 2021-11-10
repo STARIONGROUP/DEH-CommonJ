@@ -32,6 +32,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -43,10 +44,12 @@ import com.google.common.collect.ImmutableMap;
 
 import Reactive.ObservableValue;
 import Utils.Ref;
+import static Utils.Operators.Operators.AreTheseEquals;
 
 import cdp4common.commondata.DeprecatableThing;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.EngineeringModel;
+import cdp4common.engineeringmodeldata.ExternalIdentifierMap;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.CacheKey;
@@ -311,6 +314,21 @@ public class HubController implements IHubController
         return this.session.getOpenIterations();
     }
 
+    /**
+     * Gets the collection of available {@linkplain ExternalIdentifierMap} for the provided DST tool name
+     * 
+     * @param toolName the {@linkplain String} DST tool name
+     * @return a {@linkplain Collection} of {@linkplain ExternalIdentifierMap}
+     */
+    @Override
+    public Collection<ExternalIdentifierMap> GetAvailableExternalIdentifierMap(String toolName)
+    {
+        return this.openIteration.getExternalIdentifierMap()
+              .stream()
+              .filter(x -> AreTheseEquals(x.getExternalToolName(), toolName))
+              .collect(Collectors.toList());
+    }
+    
     /**
      * Closes the connection to the data-source
      */

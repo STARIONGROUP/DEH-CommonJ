@@ -102,11 +102,11 @@ public class ObjectBrowserRenderDataProvider implements RenderDataProvider
             {
                 return new Color(104, 143, 184);
             }
+            
             if(((ThingRowViewModel<?>)rowViewModel).GetIsHighlighted())
             {
                 return Color.YELLOW;
-            }
-            
+            }            
         }
         
         return Color.WHITE;
