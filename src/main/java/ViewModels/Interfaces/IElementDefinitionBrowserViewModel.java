@@ -22,7 +22,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package ViewModels.Interfaces;
-
 /**
  * The {@linkplain IElementDefinitionBrowserViewModel} is the main interface definition for the {@linkplain ElementDefinitionBrowserViewModel}.
  * It's meant to be use in the IoC

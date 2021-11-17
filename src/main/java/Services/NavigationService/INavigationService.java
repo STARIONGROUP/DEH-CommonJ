@@ -55,4 +55,15 @@ public interface INavigationService
      * @return a {@link TResult} instance
      */
     <TResult> TResult ShowDialog(IDialog<? extends IViewModel, TResult> window);
+
+    /**
+     * Shows a dialog and returns the dialog result and associate the specified view model to it
+     * 
+     * @param <TViewModel> the kind of view model that view accepts
+     * @param <TResult> the kind of result to return from the dialog
+     * @param window the {@linkplain IDialog} dialog window instance
+     * @param viewModel {@linkplain IViewModel} to associate the view with
+     * @return a {@link TResult} instance
+     */
+    <TViewModel extends IViewModel, TResult> TResult ShowDialog(IDialog<TViewModel, TResult> window, TViewModel viewModel);
 }

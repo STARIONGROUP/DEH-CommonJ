@@ -48,4 +48,39 @@ public interface IRowViewModel
      * @return a {@linkplain boolean}
      */
     void SetIsExpanded(boolean isExpanded);
+    
+    /**
+     * Sets a value whether this row is highlighted
+     * 
+     * @param isHighlighted the {@linkplain boolean} value
+     */
+    void SetIsHighlighted(boolean isHighlighted);
+
+    /**
+     * Gets a value indicating whether this row should be highlighted as "selected for transfer"
+     * 
+     * @return a {@linkplain boolean}
+     */
+    boolean GetIsSelected();
+
+    /**
+     * Sets a value whether this row is selected
+     * 
+     * @param isSelected the {@linkplain boolean} value
+     */
+    void SetIsSelected(boolean isSelected);
+
+    /**
+     * Switches between the two possible values for the {@linkplain isSelected}
+     * 
+     * @return the new {@linkplain boolean} value
+     */
+    boolean SwitchIsSelectedValue();
+
+    /**
+     * Gets a value indicating whether this row should be highlighted in the tree
+     * 
+     * @return a {@linkplain boolean}
+     */
+    boolean GetIsHighlighted();
 }
