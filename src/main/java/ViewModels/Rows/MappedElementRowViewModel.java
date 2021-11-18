@@ -24,8 +24,10 @@
 package ViewModels.Rows;
 
 import Enumerations.MappingDirection;
+import Reactive.ObservableValue;
 import ViewModels.Interfaces.IMappedElementRowViewModel;
 import cdp4common.commondata.Thing;
+import io.reactivex.Observable;
 
 /**
  * The {@linkplain MappedElementRowViewModel} is the base abstract row view model that represents a mapping done between a {@linkplain Thing} and a DST Element
@@ -96,20 +98,30 @@ public abstract class MappedElementRowViewModel<TThing extends Thing, TDstElemen
     }
     
     /**
-     * Backing field for {@linkplain GetIsValid}
+     * Backing field for {@linkplain GetShouldCreateNewTargetElement} and {@linkplain SetShouldCreateNewTargetElement}
      */
-    private boolean isValid;
+    protected ObservableValue<Boolean> ShouldCreateNewTargetElement = new ObservableValue<Boolean>(false, Boolean.class);
     
     /**
-     * Gets a value indicating whether the mapping represented by this view model instance is valid
+     * Gets a value indicating whether this row represents a mapping done to a new element
      * 
      * @return a {@linkplain boolean}
      */
-    public boolean GetIsValid()
+    public Observable<Boolean> GetShouldCreateNewTargetElement()
     {
-        return this.isValid;
+        return this.ShouldCreateNewTargetElement.Observable();
     }
-
+    
+    /**
+     * Sets a value indicating whether this row represents a mapping done to a new element
+     * 
+     * @param shouldCreateNewTargetElement the {@linkplain boolean} value
+     */
+    public void SetShouldCreateNewTargetElement(boolean shouldCreateNewTargetElement)
+    {
+        this.ShouldCreateNewTargetElement.Value(shouldCreateNewTargetElement);
+    }
+    
     /**
      * Sets the hub element
      * 
@@ -118,6 +130,31 @@ public abstract class MappedElementRowViewModel<TThing extends Thing, TDstElemen
     public void SetHubElement(TThing hubElement)
     {
         this.hubElement = hubElement;
+    }
+    
+    /**
+     * The {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether this row is selected
+     */
+    private ObservableValue<Boolean> isSelected = new ObservableValue<Boolean>(false, Boolean.class);
+    
+    /**
+     * Gets the {@linkplain Observable} of {@linkplain Boolean} from the {@linkplain ObservableValue} isSelected
+     * 
+     * @return an {@linkplain Observable} of {@linkplain Boolean}
+     */
+    public Observable<Boolean> GetIsSelected()
+    {
+        return this.isSelected.Observable();
+    }
+    
+    /**
+     * Sets a value indicating whether this row is selected
+     * 
+     * @param isSelected the new {@linkplain boolean} value
+     */
+    public void SetIsSelected(boolean isSelected)
+    {
+        this.isSelected.Value(isSelected);
     }
     
     /**
@@ -148,5 +185,45 @@ public abstract class MappedElementRowViewModel<TThing extends Thing, TDstElemen
         this.dstElement = dstElement;
         this.mappingDirection = mappingDirection;
         this.clazz = clazz;
+    }    
+
+    /**
+     * Gets a value indicating whether the mapping represented by this view model instance is valid
+     * 
+     * @return a {@linkplain boolean}
+     */
+    public boolean GetIsValid()
+    {
+        if(this.mappingDirection == MappingDirection.FromDstToHub)
+        {
+            return this.dstElement != null && (this.hubElement != null || this.ShouldCreateNewTargetElement.Value());
+        }
+        
+        return this.hubElement != null && (this.dstElement != null || this.ShouldCreateNewTargetElement.Value());
     }
+    
+
+    /**
+     * Convenient method to get the last emitted value from {@linkplain ShouldCreateNewTargetElement}
+     * 
+     * @return a {@linkplain boolean}
+     */
+    public boolean GetShouldCreateNewTargetElementValue()
+    {
+        return this.ShouldCreateNewTargetElement.Value();
+    }
+    
+    /**
+     * Gets the string representation of the represented DST element
+     * 
+     * @return a {@linkplain String}
+     */
+    public abstract String GetDstElementRepresentation();
+    
+    /**
+     * Gets the string representation of the represented DST element
+     * 
+     * @return a {@linkplain String}
+     */
+    public abstract String GetHubElementRepresentation();
 }

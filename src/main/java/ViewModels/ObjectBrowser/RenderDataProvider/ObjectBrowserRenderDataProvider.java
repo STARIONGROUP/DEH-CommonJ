@@ -187,5 +187,4 @@ public class ObjectBrowserRenderDataProvider implements RenderDataProvider
         
         return ImageLoader.GetIcon();
     }
-
 }

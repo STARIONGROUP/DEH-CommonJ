@@ -23,18 +23,12 @@
  */
 package ViewModels;
 
-import java.util.List;
-
 import javax.swing.tree.TreeModel;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.netbeans.swing.outline.OutlineModel;
 
 import HubController.IHubController;
 import Reactive.ObservableValue;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
-import ViewModels.ObjectBrowser.Interfaces.IThingRowViewModel;
+import ViewModels.ObjectBrowser.Rows.ThingRowViewModel;
 import Views.ObjectBrowser.ObjectBrowser;
 import cdp4common.commondata.Thing;
 import io.reactivex.Observable;
@@ -42,66 +36,29 @@ import io.reactivex.Observable;
 /**
  * The {@linkplain ObjectBrowserViewModel} is the main view model for the {@linkplain ObjectBrowser} providing the collections to display in the {@linkplain ObjectBrowser}
  */
-public abstract class ObjectBrowserViewModel implements IObjectBrowserViewModel
+public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel implements IObjectBrowserViewModel
 {
     /**
-     * The current class logger
+     * Backing field for {@linkplain GetSelectedElement}
      */
-    protected final Logger logger = LogManager.getLogger();
+    private ObservableValue<ThingRowViewModel<? extends Thing>> selectedElement = new ObservableValue<ThingRowViewModel<? extends Thing>>();
+    
+    /**
+     * Gets the {@linkplain Observable} of {@linkplain IElementRowViewModel} that yields the selected element
+     * 
+     * @return an {@linkplain Observable} of {@linkplain ClassRowViewModel}
+     */
+    @Override
+    public Observable<ThingRowViewModel<? extends Thing>> GetSelectedElement()
+    {
+        return this.selectedElement.Observable();
+    }
     
     /**
      * The {@link IHubController}
      */
     protected IHubController hubController;
-    
-    /**
-     * An {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether the tree should get a refresh
-     */
-    protected ObservableValue<Boolean> shouldRefreshTree = new ObservableValue<Boolean>(false, Boolean.class);
-    
-    /**
-     * Gets the {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether the tree should get a refresh
-     * 
-     * @return an {@linkplain ObservableValue} of {@linkplain Boolean}
-     */
-    @Override
-    public Observable<Boolean> GetShouldRefreshTree()
-    {
-        return this.shouldRefreshTree.Observable();
-    }
-    
-    /**
-     * The {@linkplain ObservableValue} of {@linkplain OutlineModel} for the element definition tree
-     */
-    protected ObservableValue<OutlineModel> browserTreeModel = new ObservableValue<OutlineModel>(OutlineModel.class);
-    
-    /***
-     * Gets the {@linkplain OutlineModel} for the element definition tree view
-     * 
-     * @return An {@linkplain Observable} of {@linkplain OutlineModel}
-     */
-    @Override
-    public Observable<OutlineModel> BrowserTreeModel()
-    {
-        return browserTreeModel.Observable();
-    }
         
-    /**
-     * The {@linkplain ObservableValue} of {@linkplain Boolean} for the {@linkplain IsTheTreeVisible}
-     */
-    protected ObservableValue<Boolean> isTheTreeVisible = new ObservableValue<Boolean>(false, Boolean.class);
-    
-    /**
-     * Gets the a value indicating whether the tree should be visible
-     * 
-     * @return a {@linkplain Boolean}
-     */
-    @Override
-    public Observable<Boolean> IsTheTreeVisible()
-    {
-        return isTheTreeVisible.Observable();
-    }
-    
     /**
      * Initializes a new {@link HubLoginViewModel}
      * 
@@ -112,13 +69,18 @@ public abstract class ObjectBrowserViewModel implements IObjectBrowserViewModel
         this.hubController = hubController;
         
         this.hubController.GetIsSessionOpenObservable()
-            .subscribe(x -> this.UpdateBrowserTrees(x), x -> this.logger.catching(x));
+            .subscribe(x -> this.UpdateBrowserTrees(x), x -> this.Logger.catching(x));
+        
+        if(this.hubController.GetIsSessionOpen()) 
+        {
+            this.UpdateBrowserTrees(true);
+        }
         
         this.hubController.GetSessionEventObservable()
             .filter(x -> x)
             .subscribe(
                 x -> this.UpdateBrowserTrees(x), 
-                x -> this.logger.error(String.format("An error occured while listening for session event: %s", x)));
+                x -> this.Logger.error(String.format("An error occured while listening for session event: %s", x)));
     }
 
     /**
@@ -132,9 +94,14 @@ public abstract class ObjectBrowserViewModel implements IObjectBrowserViewModel
      * Compute eligible rows where the represented {@linkplain Thing} can be transfered,
      * and return the filtered collection for feedback application on the tree
      * 
-     * @param selectedRows the collection of selected view model {@linkplain IThingRowViewModel}
-     * @return a {@linkplain List} of {@linkplain IThingRowViewModel}
+     * @param selectedRows the collection of selected view model {@linkplain ThingRowViewModel}
      */
     @Override
-    public void OnSelectionChanged(IThingRowViewModel<?> selectedRow) { }
+    public void OnSelectionChanged(ThingRowViewModel<? extends Thing> selectedRow) 
+    {
+        if(selectedRow != null)
+        {
+            this.selectedElement.Value(selectedRow);
+        }
+    }
 }

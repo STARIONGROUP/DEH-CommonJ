@@ -23,13 +23,16 @@
  */
 package ViewModels.ObjectBrowser;
 
+import javax.swing.tree.TreeModel;
+
+import org.netbeans.swing.outline.DefaultOutlineModel;
+
 import HubController.IHubController;
 import ViewModels.ObjectBrowserViewModel;
 import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeViewModel;
-
-import org.netbeans.swing.outline.DefaultOutlineModel;
+import Views.ObjectBrowser.ObjectBrowser;
 
 /**
  * The {@linkplain ElementDefinitionBrowserViewModel} is the main browser view model for the element definition tree displayed in a {@linkplain ObjectBrowser}
@@ -56,11 +59,11 @@ public final class ElementDefinitionBrowserViewModel extends ObjectBrowserViewMo
     {
         if(isConnected)
         {
-            this.browserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
+            this.BrowserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
                     new ElementDefinitionBrowserTreeViewModel(this.hubController.GetOpenIteration()), 
                     new ElementDefinitionBrowserTreeRowViewModel(), true));
         }
 
-        this.isTheTreeVisible.Value(isConnected);
+        this.IsTheTreeVisible.Value(isConnected);
     }
 }
