@@ -23,10 +23,7 @@
  */
 package ViewModels.Interfaces;
 
-import org.netbeans.swing.outline.OutlineModel;
-
-import Reactive.ObservableValue;
-import ViewModels.ObjectBrowser.Interfaces.IThingRowViewModel;
+import ViewModels.ObjectBrowser.Rows.ThingRowViewModel;
 import cdp4common.commondata.Thing;
 import io.reactivex.Observable;
 
@@ -34,34 +31,20 @@ import io.reactivex.Observable;
  * The {@linkplain IObjectBrowserViewModel} is the interface definition for the {@linkplain ObjectBrowserViewModel} 
  * such as the {@linkplain ElementDefinitionBrowserViewModel} or the {@linkplain RequirementBrowserViewModel}
  */
-public interface IObjectBrowserViewModel extends IViewModel
+public interface IObjectBrowserViewModel extends IObjectBrowserBaseViewModel
 {
-    /**
-     * Gets the {@linkplain OutlineModel} for the element definition tree view
-     * 
-     * @return An {@linkplain Observable} of {@linkplain OutlineModel}
-     */
-    Observable<OutlineModel> BrowserTreeModel();
-
-    /**
-     * Gets the a value indicating whether the tree should be visible
-     * 
-     * @return a {@linkplain Boolean}
-     */
-    Observable<Boolean> IsTheTreeVisible();
-
     /**
      * Compute eligible rows where the represented {@linkplain Thing} can be transfered,
      * and return the filtered collection for feedback application on the tree
      * 
-     * @param selectedRows the collection of selected view model {@linkplain IThingRowViewModel}
+     * @param selectedRows the collection of selected view model {@linkplain ThingRowViewModel}
      */
-    void OnSelectionChanged(IThingRowViewModel<?> selectedRows);
+    void OnSelectionChanged(ThingRowViewModel<? extends Thing> selectedRows);
 
     /**
-     * Gets the {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether the tree should get a refresh
+     * Gets the {@linkplain Observable} of {@linkplain IElementRowViewModel} that yields the selected element
      * 
-     * @return an {@linkplain ObservableValue} of {@linkplain Boolean}
+     * @return an {@linkplain Observable} of {@linkplain ClassRowViewModel}
      */
-    Observable<Boolean> GetShouldRefreshTree();
+    Observable<ThingRowViewModel<? extends Thing>> GetSelectedElement();
 }

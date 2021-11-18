@@ -56,11 +56,11 @@ public final class RequirementBrowserViewModel extends ObjectBrowserViewModel im
     {
         if(isConnected)
         {
-            this.browserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
+            this.BrowserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
                     new RequirementBrowserTreeViewModel(this.hubController.GetOpenIteration()), 
                     new RequirementBrowserTreeRowViewModel(), true));
         }
 
-        this.isTheTreeVisible.Value(isConnected);
+        this.IsTheTreeVisible.Value(isConnected);
     }
 }

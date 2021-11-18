@@ -144,7 +144,7 @@ public class ObservableValue<TValue>
     /**
      * Initializes a default {@linkplain ObservableValue}
      */
-    protected ObservableValue()
+    public ObservableValue()
     {
     }
 

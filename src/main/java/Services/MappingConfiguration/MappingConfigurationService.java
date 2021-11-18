@@ -32,6 +32,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.logging.log4j.LogManager;
@@ -190,7 +191,7 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
         
         externalIdentifierMap.setIid(UUID.randomUUID());
         externalIdentifierMap.setName(newName);
-        externalIdentifierMap.setExternalModelName(modelName);
+        externalIdentifierMap.setExternalModelName(StringUtils.isBlank(modelName) ? newName : modelName);
         externalIdentifierMap.setExternalToolName(toolName);
         externalIdentifierMap.setOwner(this.HubController.GetCurrentDomainOfExpertise());
         

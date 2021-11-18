@@ -35,7 +35,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
-import io.reactivex.Observable;
 
 /**
  * The <code>IHubLoginViewModel</code> if the interface definition for the <code>HubLoginViewModel</code>
