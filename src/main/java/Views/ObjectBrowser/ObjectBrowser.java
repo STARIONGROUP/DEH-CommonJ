@@ -26,8 +26,8 @@ package Views.ObjectBrowser;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -156,30 +156,15 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserBaseVie
         this.GetDataContext().GetShouldRefreshTree().filter(x -> x).subscribe(x -> SwingUtilities.invokeLater(
                 () -> objectBrowserTree.tableChanged(new TableModelEvent(this.objectBrowserTree.getOutlineModel()))));
 
-        this.objectBrowserTree.addMouseListener(new MouseListener()
+        this.objectBrowserTree.addMouseListener(new MouseAdapter()
         {
+            /**
+             * Invoked when the mouse button has been clicked (pressedand released) on a component.
+             * 
+             * @param event the {@linkplain MouseEvent}
+             */
             @Override
-            public void mouseReleased(MouseEvent e)
-            {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e)
-            {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e)
-            {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e)
-            {
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e)
+            public void mouseClicked(MouseEvent event)
             {
                 OnSelectionChanged();
             }

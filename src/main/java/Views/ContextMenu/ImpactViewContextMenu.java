@@ -59,12 +59,9 @@ public class ImpactViewContextMenu extends ContextMenu<IImpactViewContextMenuVie
     
     /**
      * Initializes a new {@linkplain ImpactViewContextMenu}
-     * 
-     * @param clazz the {@linkplain Class} of {@linkplain Thing}>
      */
-    public ImpactViewContextMenu(ClassKind classKind) 
+    public ImpactViewContextMenu() 
     {
-        this.classKind = classKind;
         this.selectAll = new JMenuItem("Select all");
         this.selectAll.setIcon(ImageLoader.GetIcon("icon16.png"));
         this.add(this.selectAll);
@@ -72,6 +69,18 @@ public class ImpactViewContextMenu extends ContextMenu<IImpactViewContextMenuVie
         this.deselectAll.setIcon(ImageLoader.GetIcon("icon16.png"));
         this.add(this.deselectAll);
     }
+    
+    /**
+     * Initializes a new {@linkplain ImpactViewContextMenu}
+     * 
+     * @param clazz the {@linkplain Class} of {@linkplain Thing}>
+     */
+    public ImpactViewContextMenu(ClassKind classKind) 
+    {
+        this();
+        this.classKind = classKind;
+    }
+    
     /**
      * Binds the <code>TViewModel viewModel</code> to the implementing view
      * 
