@@ -84,13 +84,6 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel 
     }
 
     /**
-     * Updates this view model {@linkplain TreeModel}
-     * 
-     * @param isConnected a value indicating whether the session is open
-     */
-    protected abstract void UpdateBrowserTrees(Boolean isConnected);
-
-    /**
      * Compute eligible rows where the represented {@linkplain Thing} can be transfered,
      * and return the filtered collection for feedback application on the tree
      * 

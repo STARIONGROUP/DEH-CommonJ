@@ -23,6 +23,8 @@
  */
 package ViewModels;
 
+import javax.swing.tree.TreeModel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.netbeans.swing.outline.OutlineModel;
@@ -99,4 +101,11 @@ public abstract class ObjectBrowserBaseViewModel implements IObjectBrowserBaseVi
     {
         return IsTheTreeVisible.Observable();
     }
+    
+    /**
+     * Updates this view model {@linkplain TreeModel}
+     * 
+     * @param isConnected a value indicating whether the session is open
+     */
+    protected abstract void UpdateBrowserTrees(Boolean isConnected);
 }

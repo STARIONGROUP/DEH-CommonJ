@@ -36,6 +36,7 @@ import java.util.function.Function;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -139,6 +140,8 @@ public class ImpactViewPanel extends JPanel
     private JButton transferButton;
     private JLabel lblNewLabel_3;
     private JLabel lblNewLabel_4;
+    private JPanel magicDrawImpactContainer;
+    private JPanel maggicDrawImpactViewPanel;
         
     /**
      * Initializes a new {@link ImpactViewPanel}
@@ -285,7 +288,29 @@ public class ImpactViewPanel extends JPanel
         this.add(this.impactViewsTabbedPane, gbc_impactViewsTabbedPane);
         
         this.impactViewsTabbedPane.addTab("Hub Impact", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), HubBrowserTreeViewsContainer, null);
-        this.impactViewsTabbedPane.addTab("SysML Project Impact", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), new JTabbedPane(JTabbedPane.TOP), null);
+        
+        magicDrawImpactContainer = new JPanel();
+        impactViewsTabbedPane.addTab("SysML Project Impact", null, magicDrawImpactContainer, null);
+        GridBagLayout gbl_magicDrawImpactContainer = new GridBagLayout();
+        gbl_magicDrawImpactContainer.columnWidths = new int[]{0, 0};
+        gbl_magicDrawImpactContainer.rowHeights = new int[]{0, 0};
+        gbl_magicDrawImpactContainer.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gbl_magicDrawImpactContainer.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+        magicDrawImpactContainer.setLayout(gbl_magicDrawImpactContainer);
+        
+        maggicDrawImpactViewPanel = new JPanel();
+        GridBagConstraints gbc_maggicDrawImpactViewPanel = new GridBagConstraints();
+        gbc_maggicDrawImpactViewPanel.fill = GridBagConstraints.BOTH;
+        gbc_maggicDrawImpactViewPanel.gridx = 0;
+        gbc_maggicDrawImpactViewPanel.gridy = 0;
+        
+        magicDrawImpactContainer.add(maggicDrawImpactViewPanel, gbc_maggicDrawImpactViewPanel);
+        GridBagLayout gbl_maggicDrawImpactViewPanel = new GridBagLayout();
+        gbl_maggicDrawImpactViewPanel.columnWidths = new int[]{0};
+        gbl_maggicDrawImpactViewPanel.rowHeights = new int[]{0};
+        gbl_maggicDrawImpactViewPanel.columnWeights = new double[]{Double.MIN_VALUE};
+        gbl_maggicDrawImpactViewPanel.rowWeights = new double[]{Double.MIN_VALUE};
+        maggicDrawImpactViewPanel.setLayout(gbl_maggicDrawImpactViewPanel);
         
         panel_1 = new JPanel();
         GridBagConstraints gbc_panel_1 = new GridBagConstraints();
@@ -328,6 +353,24 @@ public class ImpactViewPanel extends JPanel
         gbc_transferButton.gridx = 1;
         gbc_transferButton.gridy = 1;
         panel_1.add(transferButton, gbc_transferButton);
+    }
+
+    /**
+     * Sets the impact view view for the SysML model impact
+     * 
+     * @param the {@linkplain ObjectBrowser} view to set
+     */
+    public void SetMagicDrawImpactView(ObjectBrowser view)
+    {
+        SwingUtilities.invokeLater(() ->
+        {
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.fill = GridBagConstraints.BOTH;
+            constraints.anchor = GridBagConstraints.CENTER;
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            this.maggicDrawImpactViewPanel.add(view, constraints);
+        });
     }
     
     /**
