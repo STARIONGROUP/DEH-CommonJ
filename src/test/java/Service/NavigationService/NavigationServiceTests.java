@@ -60,7 +60,6 @@ class NavigationServiceTests
     @Test
     void VerifyShow()
     {
-        AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {});
         assertDoesNotThrow(() -> this.navigationService.Show(new FakeWindow() {}, null));
         
         AppContainer.Container.removeComponent(IViewModel.class.getSimpleName());
