@@ -42,11 +42,6 @@ public final class ImageLoader
     private static final Logger Logger = LogManager.getLogger(); 
     
     /**
-     * The {@link RootFolder} where the images are
-     */
-    private final static String RootFolder = "Images/";
-        
-    /**
      * The {@link GetIcon} gets the icon with the provided {@link fileName} that is in Utils.ImageLoader.Images
      * 
      * @param {@link fileName} the file name of the requested image
@@ -54,7 +49,7 @@ public final class ImageLoader
      */
     public static ImageIcon GetIcon(String fileName)
     {
-        URL imageUrl = ImageLoader.class.getResource(RootFolder+fileName);
+        URL imageUrl = ImageLoader.getClass().getClassLoader().getResource(fileName);
         
         if (imageUrl != null) 
         {
