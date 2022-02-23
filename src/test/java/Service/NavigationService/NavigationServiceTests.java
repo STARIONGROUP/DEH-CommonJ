@@ -1,5 +1,5 @@
 /*
- * NavigationServiceTestFixture.java
+ * NavigationServiceTests.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -35,7 +35,7 @@ import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IDialog;
 import Views.Interfaces.IView;
 
-class NavigationServiceTestFixture
+class NavigationServiceTests
 {
     private NavigationService navigationService;
 

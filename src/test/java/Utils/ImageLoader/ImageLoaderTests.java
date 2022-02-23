@@ -1,5 +1,5 @@
 /*
- * ImageLoaderTestFixture.java
+ * ImageLoaderTests.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 import Utils.ImageLoader.ImageLoader;
 
-class ImageLoaderTestFixture
+class ImageLoaderTests
 {
     @Test
     void VerifyGetIcon()

@@ -1,5 +1,5 @@
 /*
- * HubLoginViewModelTestFixture.java
+ * HubLoginViewModelTests.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -55,7 +55,7 @@ import cdp4common.sitedirectorydata.Person;
 import cdp4common.types.ContainerList;
 import cdp4dal.dal.Credentials;
 
-class HubLoginViewModelTestFixture
+class HubLoginViewModelTests
 {
 
     private IHubController hubController;
