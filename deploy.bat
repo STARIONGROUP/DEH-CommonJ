@@ -5,7 +5,7 @@ REM deploy.bat
 REM
 REM Copyright (c) 2020-2021 RHEA System S.A.
 REM
-REM Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+REM Author: Sam Gerene, Alex Vorobiev, Nathanael Smiechowski 
 REM
 REM This file is part of DEH-CommonJ
 REM
