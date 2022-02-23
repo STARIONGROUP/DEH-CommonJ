@@ -36,8 +36,6 @@ class ImageLoaderTests
     void VerifyGetIconNull()
     {
         assertNull(ImageLoader.GetIcon(null));
-        assertNotNull(ImageLoader.GetIcon("icon32.png"));
-        assertNotNull(ImageLoader.GetIcon());
     }
 
     @Test
