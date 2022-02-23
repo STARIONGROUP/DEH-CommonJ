@@ -68,11 +68,6 @@
 	</dependencies>
 
 	<build>
-		<testResources>
-			<testResource>
-				<directory>${project.basedir}/src/test/resource</directory>
-			</testResource>
-		</testResources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
