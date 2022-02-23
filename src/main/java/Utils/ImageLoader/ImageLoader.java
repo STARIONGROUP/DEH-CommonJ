@@ -49,6 +49,11 @@ public final class ImageLoader
      */
     public static ImageIcon GetIcon(String fileName)
     {
+        if (fileName == null)
+        {
+            return null;
+        }
+
         URL imageUrl = ImageLoader.class.getClassLoader().getResource(fileName);
         
         if (imageUrl != null) 
