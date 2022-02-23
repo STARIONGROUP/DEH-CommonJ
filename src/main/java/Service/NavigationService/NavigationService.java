@@ -78,7 +78,7 @@ public final class NavigationService implements INavigationService
     @Override
     public void Show(IView<? extends IViewModel> window, IViewModel viewModel)
     {
-        window.SetDataContext(viewModel);        
+        window.SetDataContext(viewModel);
         ((JFrame) window).setVisible(true);
     }
 

@@ -52,7 +52,7 @@ class NavigationServiceTests
     void VerifyShowDialog()
     {
         assertThrows(org.picocontainer.PicoCompositionException.class, () -> this.navigationService.ShowDialog(GenerateDialog()));
-        AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {});                
+        AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {});
         assertTrue(() -> this.navigationService.ShowDialog(GenerateDialog()));
     }
     
@@ -60,6 +60,7 @@ class NavigationServiceTests
     @Test
     void VerifyShow()
     {
+        AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {});
         assertDoesNotThrow(() -> this.navigationService.Show(new FakeWindow() {}, null));
         
         AppContainer.Container.removeComponent(IViewModel.class.getSimpleName());
@@ -115,6 +116,6 @@ class NavigationServiceTests
         public IViewModel GetDataContext()
         {
             return null;
-        }        
+        }
     }
 }

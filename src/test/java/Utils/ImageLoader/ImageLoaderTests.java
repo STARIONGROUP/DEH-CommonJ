@@ -33,11 +33,22 @@ import Utils.ImageLoader.ImageLoader;
 class ImageLoaderTests
 {
     @Test
-    void VerifyGetIcon()
+    void VerifyGetIconNull()
     {
         assertNull(ImageLoader.GetIcon(null));
         assertNotNull(ImageLoader.GetIcon("icon32.png"));
         assertNotNull(ImageLoader.GetIcon());
     }
 
+    @Test
+    void VerifyGetIconWithPathNotNull()
+    {
+        assertNotNull(ImageLoader.GetIcon("icon32.png"));
+    }
+
+    @Test
+    void VerifyGetIconNoPathNotNull()
+    {
+        assertNotNull(ImageLoader.GetIcon());
+    }
 }
