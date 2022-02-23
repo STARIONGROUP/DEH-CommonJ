@@ -70,7 +70,7 @@
 	<build>
 		<testResources>
 			<testResource>
-				<directory>${project.basedir}/src/test/java/Utils/ImageLoader/Images</directory>
+				<directory>${project.basedir}/src/test/resource</directory>
 			</testResource>
 		</testResources>
 		<plugins>
