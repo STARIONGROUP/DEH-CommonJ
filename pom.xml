@@ -7,6 +7,10 @@
 	<groupId>com.rheagroup</groupId>
 	<artifactId>DEHCommonJ</artifactId>
 	<version>1.0.0</version>
+	<properties>
+  		<sonar.organization>rheagroup</sonar.organization>
+  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+	</properties>
 
 	<dependencies>
 		<dependency>
