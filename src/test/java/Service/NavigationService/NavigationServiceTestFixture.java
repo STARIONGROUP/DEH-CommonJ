@@ -37,7 +37,8 @@ import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IDialog;
 import Views.Interfaces.IView;
 
-public class NavigationServiceTestFixture
+@org.junit.jupiter.api.parallel.Isolated
+class NavigationServiceTestFixture
 {
     private NavigationService navigationService;
 
@@ -53,7 +54,10 @@ public class NavigationServiceTestFixture
     @AfterEach
     public void TearDown()
     {
-        AppContainer.Container.stop();
+        if(AppContainer.Container.getLifecycleState().isStarted())
+        {
+            AppContainer.Container.stop();
+        }
     }
     
     @Test
@@ -66,12 +70,9 @@ public class NavigationServiceTestFixture
     
     @SuppressWarnings("serial")
     @Test
-    public void VerifyShow()
+    void VerifyShow()
     {
         assertDoesNotThrow(() -> this.navigationService.Show(new FakeWindow() {}, null));
-        assertThrows(org.picocontainer.PicoCompositionException.class, () -> this.navigationService.Show(new FakeWindow() {}));
-        
-        AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {}); 
         assertDoesNotThrow(() -> this.navigationService.Show(new FakeWindow() {}));
     }
 

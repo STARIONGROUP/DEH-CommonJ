@@ -55,6 +55,7 @@ import Services.MappingEngineService.IMappingEngineService;
 import Services.MappingEngineService.MappingEngineService;
 
 @TestInstance(Lifecycle.PER_CLASS)
+@org.junit.jupiter.api.parallel.Isolated
 class MappingEngineServiceTestFixture
 {
     private MappingEngineService engine;

@@ -23,18 +23,20 @@
  */
 package ViewModels;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static org.mockito.ArgumentMatchers.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.jayway.awaitility.Awaitility;
 
 import HubController.IHubController;
 import Services.NavigationService.INavigationService;
@@ -69,13 +71,12 @@ class SessionControlPanelViewModelTestFixture
     {
         ArrayList<Integer> observedTicks = new ArrayList<Integer>();
         this.viewModel.GetTimeObservable().subscribe(x -> observedTicks.add(x));
-        this.viewModel.SetAutoRefresh(6);
+        this.viewModel.SetAutoRefresh(5);
 
-        assertEquals(1, observedTicks.size());
-        Thread.sleep(7000);
-
-        assertEquals(8, observedTicks.size());
-
-        verify(this.hubController, times(1)).Refresh();
+        Awaitility.await().atMost(7, SECONDS).until(() ->
+        {
+            assertEquals(8, observedTicks.size());
+            verify(this.hubController, times(1)).Refresh();
+        });
     }
 }
