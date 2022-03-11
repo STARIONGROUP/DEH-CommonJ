@@ -38,7 +38,7 @@ class ImageLoaderTestFixture
     {
         for (ClassKind classKind : ClassKind.values())
         {
-            assertNotNull(ImageLoader.GetIcon(classKind));
+            assertDoesNotThrow(() -> ImageLoader.GetIcon(classKind));
         }
         
         assertNull(ImageLoader.GetDstIcon());

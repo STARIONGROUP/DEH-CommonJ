@@ -23,15 +23,16 @@
  */
 package ViewModels;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,16 +55,19 @@ class SessionControlPanelViewModelTestFixture
     @BeforeEach
     void setUp() throws Exception
     {
-        this.hubController = mock(IHubController.class);
+        this.hubController = mock(IHubController.class);    
         this.navigationService = mock(INavigationService.class);
+
+        when(this.navigationService.ShowDialog(any())).thenReturn(true);
         this.viewModel = new SessionControlPanelViewModel(this.hubController, this.navigationService);
     }
 
     @Test
-    void VerifyConnectButtonAction()
+    void VerifyConnectButtonActions()
     {
         assertDoesNotThrow(() -> this.viewModel.Connect());
         verify(this.navigationService, times(1)).ShowDialog(any(HubLogin.class));
+        assertDoesNotThrow(() -> this.viewModel.Disconnect());
     }
     
     @Test
