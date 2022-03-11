@@ -65,16 +65,9 @@ class SessionControlPanelViewModelTestFixture
     @Test
     void VerifyConnectButtonActions()
     {
-        try
-        {
         assertDoesNotThrow(() -> this.viewModel.Connect());
         verify(this.navigationService, times(1)).ShowDialog(any(HubLogin.class));
         assertDoesNotThrow(() -> this.viewModel.Disconnect());
-        }
-        catch(Throwable exception)
-        {
-            System.out.println(exception);
-        }
     }
     
     @Test

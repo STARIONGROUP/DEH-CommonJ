@@ -115,7 +115,7 @@ public final class ImageLoader
         else 
         {
             Logger.error(String.format("Image not found with file name: %s", fileName));
-            return null;
+            return new ImageIcon();
         }
     }
         
