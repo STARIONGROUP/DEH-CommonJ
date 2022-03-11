@@ -88,14 +88,13 @@ public final class Ref<TType>
      * Initializes a new Type wrapper {@linkplain Ref}
      * Acts like the out keyword
      * 
-     * @param reference the reference this will hold
      * @param clazz the type of the held reference
      */
     public Ref(Class<TType> clazz)
     {
         this.clazz = clazz;
     }
-
+    
     /**
      * Gets a value indicating whether the contained reference is != null
      * 

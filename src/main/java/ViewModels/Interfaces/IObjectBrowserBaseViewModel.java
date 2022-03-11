@@ -37,7 +37,7 @@ public interface IObjectBrowserBaseViewModel extends IViewModel
     /**
      * Gets the a value indicating whether the tree should be visible
      * 
-     * @return a {@linkplain Boolean}
+     * @return an {@linkplain Observable} of {@linkplain Boolean}
      */
     Observable<Boolean> IsTheTreeVisible();
 
@@ -49,9 +49,9 @@ public interface IObjectBrowserBaseViewModel extends IViewModel
     Observable<OutlineModel> BrowserTreeModel();
 
     /**
-     * Gets the {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether the tree should get a refresh
+     * Gets the {@linkplain Observable} of {@linkplain Boolean} indicating whether the tree should get a refresh
      * 
-     * @return an {@linkplain ObservableValue} of {@linkplain Boolean}
+     * @return an {@linkplain Observable} of {@linkplain Boolean}
      */
     Observable<Boolean> GetShouldRefreshTree();
 
@@ -61,4 +61,11 @@ public interface IObjectBrowserBaseViewModel extends IViewModel
      * @return an {@linkplain OutlineModel}
      */
     OutlineModel GetBrowserTreeModel();
+
+    /**
+     * Gets a value that indicates whether the multi selection should be enabled
+     * 
+     * @return a {@linkplain boolean}
+     */
+    boolean GetCanSelectMultipleElements();
 }

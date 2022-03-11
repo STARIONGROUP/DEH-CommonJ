@@ -57,7 +57,7 @@ public final class MappingEngineService implements IMappingEngineService
      * Gets a Dictionary that contains all the available {@linkplain IMappingRule} based on the provided assembly
      * where the Key is the Input type as string of the Value of a corresponding {@linkplain IMappingRule}
      */
-    public Map<String, IMappingRule<?,?>> Rules = new HashMap<String, IMappingRule<?,?>>();
+    public Map<String, IMappingRule<?,?>> Rules = new HashMap<>();
     
     /**
      * Initializes a new {@linkplain MappingEngine}
@@ -183,10 +183,9 @@ public final class MappingEngineService implements IMappingEngineService
     {
         Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
         
-        Set<Class<? extends IMappingRule>> mappingRules = reflections.getSubTypesOf(MappingRule.class)
+        return reflections.getSubTypesOf(MappingRule.class)
                 .stream()
+                .filter(x -> !java.lang.reflect.Modifier.isAbstract(x.getModifiers()))
                 .collect(Collectors.toSet());
-        
-        return mappingRules;
     }
 }

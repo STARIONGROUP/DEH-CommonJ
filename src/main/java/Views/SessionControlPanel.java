@@ -52,10 +52,10 @@ import javax.swing.text.DefaultFormatter;
 /**
  * The {@linkplain SessionControlPanel} is the view that contains the common {@linkplain Session} control such as refresh reload
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 @SuppressWarnings("serial")
 public class SessionControlPanel extends JPanel implements IView<ISessionControlPanelViewModel>
 {
-
     /**
      * The {@link ISessionControlPanelViewModel} as the data context of this view
      */

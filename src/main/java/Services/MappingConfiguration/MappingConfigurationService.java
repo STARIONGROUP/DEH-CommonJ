@@ -69,8 +69,7 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
     /**
      * The collection of id correspondence as {@linkplain ImmutableTriple} of {@code Pair<UUID correspondenceId, ExternalIdentifier externalIdentifier, UUID internalId>}
      */
-    protected ArrayList<ImmutableTriple<UUID, ExternalIdentifier, UUID>> Correspondences = 
-            new ArrayList<ImmutableTriple<UUID, ExternalIdentifier, UUID>>();
+    protected ArrayList<ImmutableTriple<UUID, ExternalIdentifier, UUID>> Correspondences = new ArrayList<>();
 
     /**
      * Backing field for {@linkplain GetExternalIdentifierMap}
@@ -116,7 +115,7 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
      * 
      * @param HubController the {@linkplain IHubController}
      */
-    public MappingConfigurationService(IHubController hubController)
+    protected MappingConfigurationService(IHubController hubController)
     {
         this.HubController = hubController;
     }
@@ -127,7 +126,12 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
     @Override
     public void RefreshExternalIdentifierMap()
     {
-        Ref<ExternalIdentifierMap> refExternalIdentifierMap = new Ref<ExternalIdentifierMap>(ExternalIdentifierMap.class);        
+        if(this.IsTheCurrentIdentifierMapTemporary())
+        {
+            return;
+        }
+        
+        Ref<ExternalIdentifierMap> refExternalIdentifierMap = new Ref<>(ExternalIdentifierMap.class);        
         
         if(this.HubController.TryGetThingById(this.externalIdentifierMap.getIid(), refExternalIdentifierMap))
         {
@@ -148,6 +152,15 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
     @Override
     public void PersistExternalIdentifierMap(ThingTransaction transaction, Iteration iterationClone) throws TransactionException
     {
+        if(this.IsTheCurrentIdentifierMapTemporary())
+        {
+            this.Logger.error(String.format("The current mapping (%s correspondences) will not be saved, "
+                    + "as it is tempary until the user creates one or loads an existing one.",
+                    this.externalIdentifierMap.getCorrespondence().size()));
+            
+            return;
+        }
+        
         if (this.externalIdentifierMap.getOriginal() == null || this.externalIdentifierMap.getRevisionNumber() < 1)
         {
             iterationClone.getExternalIdentifierMap().add(this.externalIdentifierMap);

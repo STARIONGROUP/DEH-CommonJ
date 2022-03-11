@@ -23,6 +23,8 @@
  */
 package ViewModels.Interfaces;
 
+import java.util.Collection;
+
 import ViewModels.ObjectBrowser.Rows.ThingRowViewModel;
 import cdp4common.commondata.Thing;
 import io.reactivex.Observable;
@@ -37,9 +39,9 @@ public interface IObjectBrowserViewModel extends IObjectBrowserBaseViewModel
      * Compute eligible rows where the represented {@linkplain Thing} can be transfered,
      * and return the filtered collection for feedback application on the tree
      * 
-     * @param selectedRows the collection of selected view model {@linkplain ThingRowViewModel}
+     * @param selectedRow the collection of selected view model {@linkplain ThingRowViewModel}
      */
-    void OnSelectionChanged(ThingRowViewModel<? extends Thing> selectedRows);
+    void OnSelectionChanged(ThingRowViewModel<? extends Thing> selectedRow);
 
     /**
      * Gets the {@linkplain Observable} of {@linkplain IElementRowViewModel} that yields the selected element
@@ -47,4 +49,19 @@ public interface IObjectBrowserViewModel extends IObjectBrowserBaseViewModel
      * @return an {@linkplain Observable} of {@linkplain ClassRowViewModel}
      */
     Observable<ThingRowViewModel<? extends Thing>> GetSelectedElement();
+
+    /**
+     * Compute eligible rows where the represented {@linkplain Thing} can be transfered,
+     * and return the filtered collection for feedback application on the tree
+     * 
+     * @param selectedRows the collection of selected view model {@linkplain ThingRowViewModel}
+     */
+    void OnSelectionChanged(Collection<ThingRowViewModel<? extends Thing>> selectedRows);
+
+    /**
+     * Gets the current selection of elements 
+     * 
+     * @return a {@linkplain Collection} of {@linkplain ThingRowViewModel}
+     */
+    Collection<ThingRowViewModel<? extends Thing>> GetSelectedElements();
 }

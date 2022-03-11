@@ -65,7 +65,7 @@ class SessionControlPanelViewModelTestFixture
     }
     
     @Test
-    void Verify() throws InterruptedException
+    void VerifyAutoRefresh() throws InterruptedException
     {
         ArrayList<Integer> observedTicks = new ArrayList<Integer>();
         this.viewModel.GetTimeObservable().subscribe(x -> observedTicks.add(x));

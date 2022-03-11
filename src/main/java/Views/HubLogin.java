@@ -42,8 +42,6 @@ import net.bytebuddy.asm.Advice.This;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
@@ -61,6 +59,7 @@ import javax.swing.JPasswordField;
 /**
  * The {@linkplain HubLogin} is the dialog view to allow login to a 10-25 server
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 @SuppressWarnings("serial")
 public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boolean>
 {
@@ -364,68 +363,40 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
      */
     public void Bind()
     {
-        this.addressComboBox.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) 
-            {
-                dataContext.WhenAddressComboxIsEdited(addressComboBox, e);
-            }
-        });
+        this.addressComboBox.addActionListener(e -> dataContext.WhenAddressComboxIsEdited(addressComboBox, e));
         
-        this.saveUriButton.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                dataContext.DoSaveTheCurrentSelectedUri((String)addressComboBox.getSelectedItem());
-            }
-        });
+        this.saveUriButton.addActionListener(e -> dataContext.DoSaveTheCurrentSelectedUri((String)addressComboBox.getSelectedItem()));
         
         this.dataContext.GetAddresses().stream().forEach(x -> this.addressComboBox.addItem(x));
         
-        this.engineeringModelSetupComboBox.addActionListener(new ActionListener()
+        this.engineeringModelSetupComboBox.addActionListener(e -> 
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                iterationComboBox.removeAllItems();
-                domainComboBox.removeAllItems();
-                String modelSetup = (String)engineeringModelSetupComboBox.getSelectedItem();
-                
-                dataContext.GetIterations(modelSetup)
-                    .forEach(x -> iterationComboBox.addItem(x));
-                
-                Pair<Stream<String>, String> domains = dataContext.GetDomainOfExpertise(modelSetup);
-                
-                domains.getLeft()
-                    .forEach(x -> domainComboBox.addItem(x));
-                
-                domainComboBox.setSelectedItem(domains.getRight());
-            }
+            iterationComboBox.removeAllItems();
+            domainComboBox.removeAllItems();
+            String modelSetup = (String)engineeringModelSetupComboBox.getSelectedItem();
+            
+            dataContext.GetIterations(modelSetup)
+                .forEach(x1 -> iterationComboBox.addItem(x1));
+            
+            Pair<Stream<String>, String> domains = dataContext.GetDomainOfExpertise(modelSetup);
+            
+            domains.getLeft()
+                .forEach(x2 -> domainComboBox.addItem(x2));
+            
+            domainComboBox.setSelectedItem(domains.getRight());
         });
         
-        this.cancelButton.addActionListener(new ActionListener() 
-        {                    
-            public void actionPerformed(ActionEvent e) 
-            {
-                CloseDialog(false);
-            }
-        });
+        this.cancelButton.addActionListener(e -> CloseDialog(false));
 
-        this.okButton.addActionListener(new ActionListener() 
-        {                    
-            @Override
-            public void actionPerformed(ActionEvent e) 
+        this.okButton.addActionListener(e -> 
+        {
+            if(!dataContext.GetIsLoginSuccessful())
             {
-                if(!dataContext.GetIsLoginSuccessful())
-                {
-                    LoginAction();
-                }
-                else
-                {
-                    IterationSelectionAction();
-                }
+                LoginAction();
+            }
+            else
+            {
+                IterationSelectionAction();
             }
         });
     }

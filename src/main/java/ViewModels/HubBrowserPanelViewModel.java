@@ -5,7 +5,7 @@
  *
  * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
- * This file is part of DEH-MDSYSML
+ * This file is part of DEH-CommonJ
  *
  * The DEH-CommonJ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,7 +33,7 @@ import ViewModels.Interfaces.IRequirementBrowserViewModel;
 import ViewModels.Interfaces.ISessionControlPanelViewModel;
 
 /**
- * The {@link HubBrowserPanelViewModel} is the main viewModel for the {@link MDHubBrowserPanel}
+ * The {@link HubBrowserPanelViewModel} is the main viewModel for the Hub browsers views
  */
 public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
 {    

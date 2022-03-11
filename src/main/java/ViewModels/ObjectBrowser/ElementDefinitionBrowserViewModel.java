@@ -29,7 +29,9 @@ import org.netbeans.swing.outline.DefaultOutlineModel;
 
 import HubController.IHubController;
 import ViewModels.ObjectBrowserViewModel;
+import ViewModels.Interfaces.IContextMenuViewModel;
 import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
+import ViewModels.Interfaces.IHubBrowserContextMenuViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeViewModel;
 import Views.ObjectBrowser.ObjectBrowser;
@@ -40,6 +42,21 @@ import Views.ObjectBrowser.ObjectBrowser;
 public final class ElementDefinitionBrowserViewModel extends ObjectBrowserViewModel implements IElementDefinitionBrowserViewModel
 {
     /**
+     * Backing field for {@linkplain #GetContextMenuViewModel()}
+     */
+    private IHubBrowserContextMenuViewModel contextMenuViewModel;
+
+    /**
+     * Gets the the associated {@linkplain IHubBrowserContextMenuViewModel}
+     * 
+     * @return the {@linkplain IHubBrowserContextMenuViewModel}
+     */
+    public IHubBrowserContextMenuViewModel GetContextMenuViewModel()
+    {
+        return this.contextMenuViewModel;
+    }
+    
+    /**
      * Initializes a new {@linkplain ElementDefinitionBrowserViewModel}
      * 
      * @param hubController the {@linkplain IHubController}
@@ -47,8 +64,9 @@ public final class ElementDefinitionBrowserViewModel extends ObjectBrowserViewMo
     public ElementDefinitionBrowserViewModel(IHubController hubController)
     {   
         super(hubController);
+        this.canSelectMultipleElements = true;
     }
-
+    
     /**
      * Updates this view model {@linkplain TreeModel}
      * 
@@ -59,11 +77,11 @@ public final class ElementDefinitionBrowserViewModel extends ObjectBrowserViewMo
     {
         if(isConnected)
         {
-            this.BrowserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
+            this.browserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
                     new ElementDefinitionBrowserTreeViewModel(this.hubController.GetOpenIteration()), 
                     new ElementDefinitionBrowserTreeRowViewModel(), true));
         }
 
-        this.IsTheTreeVisible.Value(isConnected);
+        this.isTheTreeVisible.Value(isConnected);
     }
 }

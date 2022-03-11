@@ -61,23 +61,24 @@ import javax.swing.ImageIcon;
 /**
  * The {@linkplain ImpactViewPanel} is the view that displays the impact views
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 @SuppressWarnings("serial")
 public class ImpactViewPanel extends JPanel
 {
     /**
      * The current class {@linkplain Logger}
      */
-    private Logger logger = LogManager.getLogger();
+    private final Logger logger = LogManager.getLogger();
     
     /**
      * The arrows format-able base string
      */
-    private final String ArrowBaseString = "<html><body>&#x1F87%s;</body></html>";
+    private static final String ArrowBaseString = "<html><body>&#x1F87%s;</body></html>";
     
     /**
      * The base text for the transfer button
      */
-    private final String TransferButtonBaseText = "Transfer %s";
+    private static final String TransferButtonBaseText = "Transfer %s";
         
     /**
      * Backing field for {@link ConnectButton}
@@ -140,8 +141,8 @@ public class ImpactViewPanel extends JPanel
     private JButton transferButton;
     private JLabel lblNewLabel_3;
     private JLabel lblNewLabel_4;
-    private JPanel magicDrawImpactContainer;
-    private JPanel maggicDrawImpactViewPanel;
+    private JPanel dstImpactContainer;
+    private JPanel dstImpactViewPanel;
         
     /**
      * Initializes a new {@link ImpactViewPanel}
@@ -184,7 +185,7 @@ public class ImpactViewPanel extends JPanel
         transferDirection.setLayout(gbl_transferDirection);
         
         lblNewLabel_3 = new JLabel("");
-        lblNewLabel_3.setIcon(new ImageIcon(ImpactViewPanel.class.getResource("/Utils/ImageLoader/Images/sysml.png")));
+        lblNewLabel_3.setIcon(ImageLoader.GetDstIcon());
         GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
         gbc_lblNewLabel_3.insets = new Insets(0, 0, 0, 5);
         gbc_lblNewLabel_3.gridx = 0;
@@ -268,16 +269,16 @@ public class ImpactViewPanel extends JPanel
         gbc_SaveUriButton.gridy = 0;
         panel.add(this.saveMappingConfigurationButton, gbc_SaveUriButton);
         
-        JTabbedPane HubBrowserTreeViewsContainer = new JTabbedPane(JTabbedPane.TOP);
+        JTabbedPane hubBrowserTreeViewsContainer = new JTabbedPane(JTabbedPane.TOP);
                 
         this.elementDefinitionBrowser = new ObjectBrowser();
         this.elementDefinitionBrowser.SetContextMenu(this.elementDefinitionContextMenu);
         
-        HubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
+        hubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
         
         this.requirementBrowser = new ObjectBrowser();
         this.requirementBrowser.SetContextMenu(this.requirementsSpecificationContextMenu);
-        HubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
+        hubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
         
         this.impactViewsTabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
         GridBagConstraints gbc_impactViewsTabbedPane = new GridBagConstraints();
@@ -287,30 +288,30 @@ public class ImpactViewPanel extends JPanel
         gbc_impactViewsTabbedPane.gridy = 2;
         this.add(this.impactViewsTabbedPane, gbc_impactViewsTabbedPane);
         
-        this.impactViewsTabbedPane.addTab("Hub Impact", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), HubBrowserTreeViewsContainer, null);
+        this.impactViewsTabbedPane.addTab("Hub Impact", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), hubBrowserTreeViewsContainer, null);
         
-        magicDrawImpactContainer = new JPanel();
-        impactViewsTabbedPane.addTab("SysML Project Impact", null, magicDrawImpactContainer, null);
-        GridBagLayout gbl_magicDrawImpactContainer = new GridBagLayout();
-        gbl_magicDrawImpactContainer.columnWidths = new int[]{0, 0};
-        gbl_magicDrawImpactContainer.rowHeights = new int[]{0, 0};
-        gbl_magicDrawImpactContainer.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_magicDrawImpactContainer.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-        magicDrawImpactContainer.setLayout(gbl_magicDrawImpactContainer);
+        dstImpactContainer = new JPanel();
+        impactViewsTabbedPane.addTab("Dst Impact", null, dstImpactContainer, null);
+        GridBagLayout gbl_dstImpactContainer = new GridBagLayout();
+        gbl_dstImpactContainer.columnWidths = new int[]{0, 0};
+        gbl_dstImpactContainer.rowHeights = new int[]{0, 0};
+        gbl_dstImpactContainer.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gbl_dstImpactContainer.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+        dstImpactContainer.setLayout(gbl_dstImpactContainer);
         
-        maggicDrawImpactViewPanel = new JPanel();
-        GridBagConstraints gbc_maggicDrawImpactViewPanel = new GridBagConstraints();
-        gbc_maggicDrawImpactViewPanel.fill = GridBagConstraints.BOTH;
-        gbc_maggicDrawImpactViewPanel.gridx = 0;
-        gbc_maggicDrawImpactViewPanel.gridy = 0;
+        dstImpactViewPanel = new JPanel();
+        GridBagConstraints gbc_dstImpactViewPanel = new GridBagConstraints();
+        gbc_dstImpactViewPanel.fill = GridBagConstraints.BOTH;
+        gbc_dstImpactViewPanel.gridx = 0;
+        gbc_dstImpactViewPanel.gridy = 0;
         
-        magicDrawImpactContainer.add(maggicDrawImpactViewPanel, gbc_maggicDrawImpactViewPanel);
-        GridBagLayout gbl_maggicDrawImpactViewPanel = new GridBagLayout();
-        gbl_maggicDrawImpactViewPanel.columnWidths = new int[]{0};
-        gbl_maggicDrawImpactViewPanel.rowHeights = new int[]{0};
-        gbl_maggicDrawImpactViewPanel.columnWeights = new double[]{Double.MIN_VALUE};
-        gbl_maggicDrawImpactViewPanel.rowWeights = new double[]{Double.MIN_VALUE};
-        maggicDrawImpactViewPanel.setLayout(gbl_maggicDrawImpactViewPanel);
+        dstImpactContainer.add(dstImpactViewPanel, gbc_dstImpactViewPanel);
+        GridBagLayout gbl_dstImpactViewPanel = new GridBagLayout();
+        gbl_dstImpactViewPanel.columnWidths = new int[]{0};
+        gbl_dstImpactViewPanel.rowHeights = new int[]{0};
+        gbl_dstImpactViewPanel.columnWeights = new double[]{Double.MIN_VALUE};
+        gbl_dstImpactViewPanel.rowWeights = new double[]{Double.MIN_VALUE};
+        dstImpactViewPanel.setLayout(gbl_dstImpactViewPanel);
         
         panel_1 = new JPanel();
         GridBagConstraints gbc_panel_1 = new GridBagConstraints();
@@ -356,11 +357,11 @@ public class ImpactViewPanel extends JPanel
     }
 
     /**
-     * Sets the impact view view for the SysML model impact
+     * Sets the impact view view for the Dst model impact
      * 
      * @param the {@linkplain ObjectBrowser} view to set
      */
-    public void SetMagicDrawImpactView(ObjectBrowser view)
+    public void SetDstImpactViewView(ObjectBrowser view)
     {
         SwingUtilities.invokeLater(() ->
         {
@@ -369,7 +370,7 @@ public class ImpactViewPanel extends JPanel
             constraints.anchor = GridBagConstraints.CENTER;
             constraints.gridx = 0;
             constraints.gridy = 0;
-            this.maggicDrawImpactViewPanel.add(view, constraints);
+            this.dstImpactViewPanel.add(view, constraints);
         });
     }
     
@@ -423,7 +424,7 @@ public class ImpactViewPanel extends JPanel
                     {
                         String newConfigurationName = this.mappingConfigurationComboBox.getSelectedItem().toString();
                         
-                        if(handler.apply(newConfigurationName))
+                        if(handler.apply(newConfigurationName).booleanValue())
                         {
                             this.mappingConfigurationComboBox.addItem(newConfigurationName);
                             this.mappingConfigurationComboBox.setSelectedItem(newConfigurationName);
@@ -450,15 +451,13 @@ public class ImpactViewPanel extends JPanel
             {
                 ObservableTask<Boolean> task = Task.Create(handler, Boolean.class);
                 
-                ActionListener cancelButtonHandler = x ->
-                {
-                    task.Cancel();
-                };
+                ActionListener cancelButtonHandler = x -> task.Cancel();
 
                 this.SetTransferIsInProgress(true);
                 this.cancelButton.addActionListener(cancelButtonHandler);
                 
                 task.Run();
+                
                 task.Observable().subscribe(x -> 
                 {
                     this.SetTransferIsInProgress(false);

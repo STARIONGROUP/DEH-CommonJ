@@ -1,9 +1,9 @@
 /*
- * ImageLoaderTests.java
+ * IContextMenuViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerene, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -21,32 +21,11 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Utils.ImageLoader;
+package ViewModels.Interfaces;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import Utils.ImageLoader.ImageLoader;
-
-class ImageLoaderTests
+/**
+ * The {@linkplain IContextMenuViewModel} is the base interface for all {@linkplain ContextMenu} view models
+ */
+public interface IContextMenuViewModel extends IViewModel
 {
-    @Test
-    void VerifyGetIconNull()
-    {
-        assertNull(ImageLoader.GetIcon(null));
-    }
-
-    @Test
-    void VerifyGetIconWithPathNotNull()
-    {
-        assertNotNull(ImageLoader.GetIcon("icon32.png"));
-    }
-
-    @Test
-    void VerifyGetIconNoPathNotNull()
-    {
-        assertNotNull(ImageLoader.GetIcon());
-    }
 }

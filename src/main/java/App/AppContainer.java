@@ -34,8 +34,6 @@ import ViewModels.*;
 import ViewModels.Interfaces.*;
 import ViewModels.ObjectBrowser.ElementDefinitionBrowserViewModel;
 import ViewModels.ObjectBrowser.RequirementBrowserViewModel;
-import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeRowViewModel;
-import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeViewModel;
 
 import static org.picocontainer.Characteristics.CACHE;
 import static org.picocontainer.Characteristics.NO_CACHE;
@@ -48,7 +46,7 @@ public final class AppContainer
     /**
      * Gets the {@link PicoContainer} container
      */
-	public final static MutablePicoContainer Container;
+	public static final MutablePicoContainer Container;
 	
 	/**
 	 * Private set for {@linkplain Container}
@@ -64,7 +62,7 @@ public final class AppContainer
         RegisterViewModels();
         Container.start();
 	}
-
+	
     /**
      * Registers the view models that need to be resolved.
      * @implNote
@@ -77,8 +75,8 @@ public final class AppContainer
         Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class.getSimpleName(), HubLoginViewModel.class);
         Container.as(NO_CACHE).addComponent(IHubLoginViewModel.class, HubLoginViewModel.class);
         Container.as(NO_CACHE).addComponent(IHubBrowserHeaderViewModel.class, HubBrowserHeaderViewModel.class);
-        Container.as(NO_CACHE).addComponent(IElementDefinitionBrowserViewModel.class, ElementDefinitionBrowserViewModel.class);        
-        Container.as(NO_CACHE).addComponent(IRequirementBrowserViewModel.class, RequirementBrowserViewModel.class);
+        Container.as(CACHE).addComponent(IElementDefinitionBrowserViewModel.class, ElementDefinitionBrowserViewModel.class);        
+        Container.as(CACHE).addComponent(IRequirementBrowserViewModel.class, RequirementBrowserViewModel.class);
         Container.as(NO_CACHE).addComponent(IImpactViewContextMenuViewModel.class, ImpactViewContextMenuViewModel.class);
         Container.as(NO_CACHE).addComponent(ISessionControlPanelViewModel.class, SessionControlPanelViewModel.class);
     }

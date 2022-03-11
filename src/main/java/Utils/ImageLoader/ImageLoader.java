@@ -46,12 +46,24 @@ public final class ImageLoader
     /**
      * The root folder name where the images are
      */
-    private final static String RootFolder = "Images/";
+    private static final String RootFolder = "Images/";
     
     /**
      * The {@linkplain Thing} folder name where the images are
      */
-    public final static String ThingFolder = "Thing/";
+    public static final String ThingFolder = "Thing/";
+    
+    /**
+     * The name of the dst icon that should be contained in the client adapter solution
+     */
+    public static final String DstIconFileName = "dst.png";
+    
+    /**
+     * Initializes a new {@linkplain ImageLoader}
+     * this constructor is explicitly specifying the static character of this {@linkplain Class} 
+     * since static class don't exist out of the box in java. UNUSED
+     */
+    private ImageLoader() { }
     
     /**
      * The {@link GetIcon} gets the icon with the provided fileName that is in Utils.ImageLoader.Images
@@ -62,6 +74,16 @@ public final class ImageLoader
     public static ImageIcon GetIcon(String fileName)
     {
         return GetIcon(ImageLoader.class.getResource(RootFolder+fileName), fileName);
+    }
+    
+    /**
+     * The {@link GetIcon} gets the icon that represents the dst
+     * 
+     * @return a {@link ImageIcon}
+     */
+    public static ImageIcon GetDstIcon()
+    {
+        return GetIcon(ImageLoader.class.getResource(RootFolder+DstIconFileName), DstIconFileName);
     }
         
     /**

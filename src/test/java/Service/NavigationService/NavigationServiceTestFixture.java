@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import javax.swing.JFrame;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,7 @@ import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IDialog;
 import Views.Interfaces.IView;
 
-class NavigationServiceTestFixture
+public class NavigationServiceTestFixture
 {
     private NavigationService navigationService;
 
@@ -44,26 +45,30 @@ class NavigationServiceTestFixture
      * @throws java.lang.Exception
      */
     @BeforeEach
-    void setUp() throws Exception
+    public void setUp() throws Exception
     {
         this.navigationService = new NavigationService();
     }
 
+    @AfterEach
+    public void TearDown()
+    {
+        AppContainer.Container.stop();
+    }
+    
     @Test
     void VerifyShowDialog()
     {
         assertThrows(org.picocontainer.PicoCompositionException.class, () -> this.navigationService.ShowDialog(GenerateDialog()));
-        AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {});                
+        AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {});
         assertTrue(() -> this.navigationService.ShowDialog(GenerateDialog()));
     }
     
     @SuppressWarnings("serial")
     @Test
-    void VerifyShow()
+    public void VerifyShow()
     {
         assertDoesNotThrow(() -> this.navigationService.Show(new FakeWindow() {}, null));
-        
-        AppContainer.Container.removeComponent(IViewModel.class.getSimpleName());
         assertThrows(org.picocontainer.PicoCompositionException.class, () -> this.navigationService.Show(new FakeWindow() {}));
         
         AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {}); 

@@ -23,7 +23,8 @@
  */
 package ViewModels;
 
-import javax.swing.tree.TreeModel;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import HubController.IHubController;
 import Reactive.ObservableValue;
@@ -39,9 +40,25 @@ import io.reactivex.Observable;
 public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel implements IObjectBrowserViewModel
 {
     /**
-     * Backing field for {@linkplain GetSelectedElement}
+     * Backing field for {@linkplain #GetSelectedElements()}
      */
-    private ObservableValue<ThingRowViewModel<? extends Thing>> selectedElement = new ObservableValue<ThingRowViewModel<? extends Thing>>();
+    private Collection<ThingRowViewModel<? extends Thing>> selectedElements = new ArrayList<>();
+    
+    /**
+     * Gets the current selection of elements 
+     * 
+     * @return a {@linkplain Collection} of {@linkplain ThingRowViewModel}
+     */
+    @Override
+    public Collection<ThingRowViewModel<? extends Thing>> GetSelectedElements()
+    {
+        return this.selectedElements;
+    }
+    
+    /**
+     * Backing field for {@linkplain #GetSelectedElement()}
+     */
+    private ObservableValue<ThingRowViewModel<? extends Thing>> selectedElement = new ObservableValue<>();
     
     /**
      * Gets the {@linkplain Observable} of {@linkplain IElementRowViewModel} that yields the selected element
@@ -69,7 +86,7 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel 
         this.hubController = hubController;
         
         this.hubController.GetIsSessionOpenObservable()
-            .subscribe(x -> this.UpdateBrowserTrees(x), x -> this.Logger.catching(x));
+            .subscribe(x -> this.UpdateBrowserTrees(x), x -> this.logger.catching(x));
         
         if(this.hubController.GetIsSessionOpen()) 
         {
@@ -80,11 +97,11 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel 
             .filter(x -> x)
             .subscribe(
                 x -> this.UpdateBrowserTrees(x), 
-                x -> this.Logger.error(String.format("An error occured while listening for session event: %s", x)));
+                x -> this.logger.error(String.format("An error occured while listening for session event: %s", x)));
     }
 
     /**
-     * Compute eligible rows where the represented {@linkplain Thing} can be transfered,
+     * Compute eligible row where the represented {@linkplain Thing} can be transfered,
      * and return the filtered collection for feedback application on the tree
      * 
      * @param selectedRows the collection of selected view model {@linkplain ThingRowViewModel}
@@ -96,5 +113,17 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel 
         {
             this.selectedElement.Value(selectedRow);
         }
+    }
+    
+    /**
+     * Compute eligible rows where the represented {@linkplain Thing}s can be transfered,
+     * and return the filtered collection for feedback application on the tree
+     * 
+     * @param selectedRows the collection of selected view model {@linkplain ThingRowViewModel}
+     */
+    public void OnSelectionChanged(Collection<ThingRowViewModel<? extends Thing>> selectedRows)
+    {
+        this.selectedElements.clear();
+        this.selectedElements.addAll(selectedRows);
     }
 }

@@ -145,6 +145,8 @@ public class UserPreferenceService implements IUserPreferenceService
     }
         
     /**
+     * Gets the setting file
+     * 
      * @return a {@linkplain File}
      */
     private File GetSettingFile()
@@ -152,7 +154,7 @@ public class UserPreferenceService implements IUserPreferenceService
         File file = new File(System.getProperty("user.home"));
         file = new File(file, ".rheagroup");
         this.TryCreateDirectoryOrFile(file);
-        file = new File(file, "MDSysMLAdapter");
+        file = new File(file, "DEHAdapterSettingFile");
         this.TryCreateDirectoryOrFile(file);
         file = new File(file, UserPreferenceDirectoryName);
         this.TryCreateDirectoryOrFile(file);

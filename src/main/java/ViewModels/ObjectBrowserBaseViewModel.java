@@ -41,17 +41,17 @@ public abstract class ObjectBrowserBaseViewModel implements IObjectBrowserBaseVi
     /**
      * The current class logger
      */
-    protected final Logger Logger = LogManager.getLogger();
+    protected final Logger logger = LogManager.getLogger();
     
     /**
      * An {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether the tree should get a refresh
      */
-    protected ObservableValue<Boolean> shouldRefreshTree = new ObservableValue<Boolean>(false, Boolean.class);
+    protected ObservableValue<Boolean> shouldRefreshTree = new ObservableValue<>(false, Boolean.class);
     
     /**
-     * Gets the {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether the tree should get a refresh
+     * Gets an {@linkplain Observable} of {@linkplain Boolean} indicating whether the tree should get a refresh
      * 
-     * @return an {@linkplain ObservableValue} of {@linkplain Boolean}
+     * @return an {@linkplain Observable} of {@linkplain Boolean}
      */
     @Override
     public Observable<Boolean> GetShouldRefreshTree()
@@ -60,9 +60,9 @@ public abstract class ObjectBrowserBaseViewModel implements IObjectBrowserBaseVi
     }
     
     /**
-     * The {@linkplain ObservableValue} of {@linkplain OutlineModel} for the element definition tree
+     * The {@linkplain ObservableValue} of {@linkplain OutlineModel} for the {@linkplain #BrowserTreeModel()}
      */
-    protected ObservableValue<OutlineModel> BrowserTreeModel = new ObservableValue<OutlineModel>(OutlineModel.class);
+    protected ObservableValue<OutlineModel> browserTreeModel = new ObservableValue<>(OutlineModel.class);
     
     /***
      * Gets the {@linkplain OutlineModel} for the element definition tree view
@@ -72,7 +72,7 @@ public abstract class ObjectBrowserBaseViewModel implements IObjectBrowserBaseVi
     @Override
     public Observable<OutlineModel> BrowserTreeModel()
     {
-        return BrowserTreeModel.Observable();
+        return browserTreeModel.Observable();
     }
     
     /**
@@ -83,13 +83,13 @@ public abstract class ObjectBrowserBaseViewModel implements IObjectBrowserBaseVi
     @Override
     public OutlineModel GetBrowserTreeModel()
     {
-        return BrowserTreeModel.Value();
+        return browserTreeModel.Value();
     }
         
     /**
-     * The {@linkplain ObservableValue} of {@linkplain Boolean} for the {@linkplain IsTheTreeVisible}
+     * The {@linkplain ObservableValue} of {@linkplain Boolean} for the {@linkplain #IsTheTreeVisible()}
      */
-    protected ObservableValue<Boolean> IsTheTreeVisible = new ObservableValue<Boolean>(false, Boolean.class);
+    protected ObservableValue<Boolean> isTheTreeVisible = new ObservableValue<>(false, Boolean.class);
     
     /**
      * Gets the a value indicating whether the tree should be visible
@@ -99,7 +99,23 @@ public abstract class ObjectBrowserBaseViewModel implements IObjectBrowserBaseVi
     @Override
     public Observable<Boolean> IsTheTreeVisible()
     {
-        return IsTheTreeVisible.Observable();
+        return isTheTreeVisible.Observable();
+    }
+    
+    /**
+     * Backing field for {@linkplain #GetCanSelectMultipleElements()}
+     */
+    protected boolean canSelectMultipleElements = false;
+    
+    /**
+     * Gets a value that indicates whether the multi selection should be enabled
+     * 
+     * @return a {@linkplain boolean}
+     */
+    @Override
+    public boolean GetCanSelectMultipleElements()
+    {
+        return this.canSelectMultipleElements;
     }
     
     /**

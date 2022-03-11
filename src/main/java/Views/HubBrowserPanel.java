@@ -23,33 +23,30 @@
  */
 package Views;
 
-import java.awt.GridBagLayout;
-import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
-import javax.swing.JButton;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import java.awt.Insets;
-import java.awt.FlowLayout;
-import java.awt.Font;
-
 import Utils.ImageLoader.ImageLoader;
+import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
+import ViewModels.Interfaces.IRequirementBrowserViewModel;
+import Views.ContextMenu.HubBrowserContextMenu;
 import Views.ObjectBrowser.ObjectBrowser;
 import cdp4common.commondata.ClassKind;
-import javax.swing.JSpinner;
-import javax.swing.JCheckBox;
-import javax.swing.JProgressBar;
-import javax.swing.ImageIcon;
-import java.awt.Color;
 
 /**
  * The {@link HubBrowserPanel} is the main panel view for the Hub controls like session controls and tree views.
  * This view is meant to be integrated into another container view specific to DST * 
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 @SuppressWarnings("serial")
 public class HubBrowserPanel extends JPanel 
 {
-    
     /**
      * The {@linkplain HubBrowserHeader}
      */
@@ -175,10 +172,12 @@ public class HubBrowserPanel extends JPanel
         this.add(HubBrowserTreeViewsContainer, gbc_HubBrowserTreeViewsContainer);
         
         this.elementDefinitionBrowser = new ObjectBrowser();
-        elementDefinitionBrowser.setBackground(Color.WHITE);
+        this.elementDefinitionBrowser.setBackground(Color.WHITE);
+        this.elementDefinitionBrowser.SetContextMenu(new HubBrowserContextMenu(IElementDefinitionBrowserViewModel.class));
         HubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
         
         this.requirementBrowser = new ObjectBrowser();
+        this.requirementBrowser.SetContextMenu(new HubBrowserContextMenu(IRequirementBrowserViewModel.class));
         HubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
     }
 }

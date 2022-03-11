@@ -23,9 +23,14 @@
  */
 package Services.MappingEngineService;
 
+import java.util.Collection;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import Enumerations.MappingDirection;
+import Services.MappingConfiguration.IMappingConfigurationService;
+import ViewModels.Rows.MappedElementRowViewModel;
 import cdp4common.commondata.ShortNamedThing;
 
 /**
@@ -40,17 +45,10 @@ public abstract class MappingRule<TInput extends Object, TOutput> implements IMa
     /**
      * The current class logger
      */
-    protected Logger logger = LogManager.getLogger();
+    protected Logger Logger = LogManager.getLogger();
     
-    /**
-     * Transforms a object of type {@linkplain TInput} to another one of type {@linkplain TOutput}
-     * 
-     * @param input the input object to transform
-     * @return a {@linkplain TOutput} object
-     */
-    @Override
-    public abstract TOutput Transform(Object input);
-    
+    private IMappingConfigurationService mappingConfiguration;
+        
     /**
      * To overcome the inability to use TInput and reflection in the {@linkplain MappingEngine},
      * this casting method returns the input typed as it should be
@@ -69,22 +67,11 @@ public abstract class MappingRule<TInput extends Object, TOutput> implements IMa
      * Please note that the provided elementName will be used after being processed by {@linkplain GetShortName}
      * 
      * @param shortNamedThing the 10-25 {@linkplain ShortNamedThing}
-     * @param elementName the dst element name as {@linkplain String}
+     * @param elementShortName the dst element name as {@linkplain String}
      * @return a value indicating whether the two element have the same short name
      */
-    protected boolean AreShortNamesEquals(ShortNamedThing shortNamedThing, String elementName)
+    protected boolean AreShortNamesEquals(ShortNamedThing shortNamedThing, String elementShortName)
     {
-        return shortNamedThing.getShortName().compareToIgnoreCase(this.GetShortName(elementName)) == 0;
-    }
-
-    /**
-     * Gets the short name of the specified {@linkplain NamedElement}
-     * 
-     * @param elementName the dst element name as {@linkplain String}
-     * @return a string containing the short name
-     */
-    protected String GetShortName(String elementName)
-    {
-        return elementName.replaceAll("[^a-zA-Z0-9]|\\s", "");
+        return shortNamedThing.getShortName().compareToIgnoreCase(elementShortName) == 0;
     }
 }

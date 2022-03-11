@@ -1,5 +1,5 @@
 /*
- * ObjectBrowserViewModel.java
+ * ElementDefinitionBrowserViewModelTestFixture.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -25,11 +25,10 @@ package ViewModels;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 
 import org.apache.logging.log4j.core.util.Assert;
@@ -44,7 +43,6 @@ import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.ElementDefinitionRowV
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.ElementUsageRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.IterationElementDefinitionRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterGroupRowViewModel;
-import ViewModels.ObjectBrowser.Rows.IterationRowViewModel;
 import cdp4common.engineeringmodeldata.ActualFiniteState;
 import cdp4common.engineeringmodeldata.ActualFiniteStateList;
 import cdp4common.engineeringmodeldata.ElementDefinition;
@@ -64,7 +62,7 @@ import cdp4common.sitedirectorydata.TextParameterType;
 import cdp4common.types.OrderedItemList;
 import cdp4common.types.ValueArray;
 
-class ElementDefinitionBrowserViewModelTestFixture
+public class ElementDefinitionBrowserViewModelTestFixture
 {
     private Iteration iteration;
     private IHubController hubController;
@@ -86,13 +84,14 @@ class ElementDefinitionBrowserViewModelTestFixture
      * @throws java.lang.Exception
      */
     @BeforeEach
-    void setUp() throws Exception
+    public void setUp() throws Exception
     {        
         this.SetUpModel();
         this.hubController = mock(IHubController.class);
         ObservableValue<Boolean> isSessionOpen = new ObservableValue<Boolean>(false, Boolean.class);
         when(this.hubController.GetIsSessionOpenObservable()).thenReturn(isSessionOpen.Observable());
         when(this.hubController.GetOpenIteration()).thenReturn(this.iteration);
+        when(this.hubController.GetSessionEventObservable()).thenReturn(io.reactivex.Observable.fromArray(true));
         this.viewModel = new ElementDefinitionBrowserViewModel(this.hubController);
         isSessionOpen.Value(true);
     }
@@ -254,24 +253,10 @@ class ElementDefinitionBrowserViewModelTestFixture
         this.iteration.getElement().add(this.element1);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
-    void VerifyTreeBuilds() throws Exception
+    public void VerifyTreeBuilds() throws Exception
     {
-        ObservableValue<OutlineModel> model;
-        
-        try
-        {
-            Field elementDefinitionTreeField = ObjectBrowserViewModel.class.getDeclaredField("browserTreeModel");
-            elementDefinitionTreeField.setAccessible(true);
-            model = (ObservableValue<OutlineModel>) elementDefinitionTreeField.get(this.viewModel);
-        }
-        catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exception)
-        {
-            exception.printStackTrace();
-            throw exception;
-        }
-        
+        ObservableValue<OutlineModel> model = this.viewModel.browserTreeModel;
         assertNotNull(model.Value());
         Object root = model.Value().getRoot();
         assertEquals(IterationElementDefinitionRowViewModel.class, root.getClass());

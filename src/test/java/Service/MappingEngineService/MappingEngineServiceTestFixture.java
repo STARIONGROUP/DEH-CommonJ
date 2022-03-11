@@ -72,7 +72,14 @@ class MappingEngineServiceTestFixture
     @AfterAll
     void TearDown()
     {
-        AppContainer.Container.stop();
+        try
+        {
+            AppContainer.Container.stop();
+        }
+        catch(IllegalStateException exception)
+        {
+            System.out.println("Container was already stopped");
+        }
     }
 
     @Test

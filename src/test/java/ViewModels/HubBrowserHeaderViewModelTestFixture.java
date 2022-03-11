@@ -1,9 +1,9 @@
 /*
- * hubBrowserHeaderViewModelTestFixture.java
+ * HubBrowserHeaderViewModelTestFixture.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerene, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -45,7 +45,7 @@ import cdp4common.sitedirectorydata.Person;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
-class hubBrowserHeaderViewModelTestFixture
+class HubBrowserHeaderViewModelTestFixture
 {
     private IHubController hubController;
     private HubBrowserHeaderViewModel viewModel;
@@ -119,5 +119,5 @@ class hubBrowserHeaderViewModelTestFixture
         assertEquals("null null", personResult.stream().skip(iterationResults.size() - 1).findFirst().get());
         assertEquals("domain", domainResult.stream().skip(domainResult.size() - 1).findFirst().get());
         assertEquals("http://localhost:5000", dataSourceResult.stream().skip(dataSourceResult.size() - 1).findFirst().get());    
-        }
+    }
 }
