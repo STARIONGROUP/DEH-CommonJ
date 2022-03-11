@@ -57,17 +57,24 @@ class SessionControlPanelViewModelTestFixture
     {
         this.hubController = mock(IHubController.class);    
         this.navigationService = mock(INavigationService.class);
-
-        when(this.navigationService.ShowDialog(any())).thenReturn(true);
+        when(this.navigationService.ShowDialog(any(HubLogin.class))).thenReturn(true);
+        
         this.viewModel = new SessionControlPanelViewModel(this.hubController, this.navigationService);
     }
 
     @Test
     void VerifyConnectButtonActions()
     {
+        try
+        {
         assertDoesNotThrow(() -> this.viewModel.Connect());
         verify(this.navigationService, times(1)).ShowDialog(any(HubLogin.class));
         assertDoesNotThrow(() -> this.viewModel.Disconnect());
+        }
+        catch(Throwable exception)
+        {
+            System.out.println(exception);
+        }
     }
     
     @Test

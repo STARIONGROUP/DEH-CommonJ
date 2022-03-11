@@ -41,8 +41,8 @@ class ImageLoaderTestFixture
             assertDoesNotThrow(() -> ImageLoader.GetIcon(classKind));
         }
         
-        assertNull(ImageLoader.GetDstIcon());
-        assertNotNull(ImageLoader.GetIcon("icon32.png"));
-        assertNotNull(ImageLoader.GetIcon());
+        assertDoesNotThrow(() -> ImageLoader.GetDstIcon());
+        assertDoesNotThrow(() -> ImageLoader.GetIcon("icon32.png"));
+        assertDoesNotThrow(() -> ImageLoader.GetIcon());
     }
 }
