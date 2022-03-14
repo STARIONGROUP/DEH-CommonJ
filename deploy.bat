@@ -74,11 +74,14 @@ echo.
 echo ==================================^> Copying files to the specified directory
 echo ===============================================================^>
 echo.
-set "pathToNewBuild=%HOMEPATH%\.m2\repository\com\rheagroup\DEHCommonJ\%version%\DEHCommonJ-%version%.jar"
+set "basePath=%HOMEPATH%\.m2\repository\com\rheagroup\DEHCommonJ\%version%\"
+set "pathToNewBuild=%basePath%DEHCommonJ-%version%.jar"
+set "pathToSources=target\DEHCommonJ-%version%-sources.jar"
+
+call xcopy /y %pathToSources% %1
 call xcopy /y %pathToNewBuild% %1
 echo Exit Code = %ERRORLEVEL%
 if not "%ERRORLEVEL%" == "0" goto QUIT
-
 
 :QUIT
 set version=

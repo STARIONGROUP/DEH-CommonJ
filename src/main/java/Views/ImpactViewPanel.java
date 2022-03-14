@@ -219,7 +219,7 @@ public class ImpactViewPanel extends JPanel
         transferDirection.add(arrowRight, gbc_lblNewLabel_1);
         
         lblNewLabel_4 = new JLabel("");
-        lblNewLabel_4.setIcon(new ImageIcon(ImpactViewPanel.class.getResource("/Utils/ImageLoader/Images/icon16.png")));
+        lblNewLabel_4.setIcon(ImageLoader.GetIcon("icon16.png"));
         GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
         gbc_lblNewLabel_4.gridx = 4;
         gbc_lblNewLabel_4.gridy = 0;

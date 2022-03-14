@@ -46,7 +46,7 @@ public final class ImageLoader
     /**
      * The root folder name where the images are
      */
-    private static final String RootFolder = "Images/";
+    private static final String RootFolder = "Imqages/";
     
     /**
      * The {@linkplain Thing} folder name where the images are
@@ -66,24 +66,13 @@ public final class ImageLoader
     private ImageLoader() { }
     
     /**
-     * The {@link GetIcon} gets the icon with the provided fileName that is in Utils.ImageLoader.Images
-     * 
-     * @param fileName the file name of the requested image
-     * @return a {@link ImageIcon}
-     */
-    public static ImageIcon GetIcon(String fileName)
-    {
-        return GetIcon(ImageLoader.class.getResource(RootFolder+fileName), fileName);
-    }
-    
-    /**
      * The {@link GetIcon} gets the icon that represents the dst
      * 
      * @return a {@link ImageIcon}
      */
     public static ImageIcon GetDstIcon()
     {
-        return GetIcon(ImageLoader.class.getResource(RootFolder+DstIconFileName), DstIconFileName);
+        return GetIcon(DstIconFileName);
     }
         
     /**
@@ -96,26 +85,27 @@ public final class ImageLoader
      */
     public static ImageIcon GetIcon(String subfolder, String fileName)
     {
-        return GetIcon(ImageLoader.class.getResource(RootFolder+subfolder+fileName), fileName);
+        return GetIcon(subfolder + fileName);
     }
 
     /**
-     * The {@link GetIcon} gets the icon with the provided {@link fileName} that is in Utils.ImageLoader.Images
+     * The {@link GetIcon} gets the icon with the provided fileName that is in Utils.ImageLoader.Images
      * 
-     * @param imageUrl the file URL of the requested image
-     * @param fileName the file name of the requested image
+     * @param imagePath the file name of the requested image
      * @return a {@link ImageIcon}
      */
-    public static ImageIcon GetIcon(URL imageUrl, String fileName)
+    public static ImageIcon GetIcon(String imagePath)
     {
-        if (imageUrl != null) 
+        URL ressource = ImageLoader.class.getClassLoader().getResource(imagePath);
+        
+        if (ressource != null) 
         {
-            return new ImageIcon(imageUrl, "");
+            return new ImageIcon(ressource, "");
         }
         else 
         {
-            Logger.error(String.format("Image not found with file name: %s", fileName));
-            return new ImageIcon();
+            Logger.error(String.format("Image not found with file name: %s", imagePath));
+            return null;
         }
     }
         

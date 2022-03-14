@@ -79,6 +79,11 @@
 	</dependencies>
 
 	<build>
+		<resources>
+	        <resource>
+	            <directory>src/main/resources</directory>
+	        </resource>
+	    </resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -145,6 +150,19 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.6</version>
 			</plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 	<profiles>
