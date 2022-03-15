@@ -42,12 +42,7 @@ public final class ImageLoader
      * The {@link Logger} log4J this class
      */
     private static final Logger Logger = LogManager.getLogger(); 
-    
-    /**
-     * The root folder name where the images are
-     */
-    private static final String RootFolder = "Imqages/";
-    
+        
     /**
      * The {@linkplain Thing} folder name where the images are
      */
