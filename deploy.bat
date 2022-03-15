@@ -23,113 +23,72 @@ REM You should have received a copy of the GNU Lesser General Public License
 REM along with this program; if not, write to the Free Software Foundation,
 REM Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-echo ^=======================================================================================================
-echo ^=                   ALMOST-AUTO-DEPLOY for the DEH-MDSYSML Adapter                                    =
-echo ^=                                                                                                     =
-echo ^= --First argument--                                                                                  =
-echo ^= \-c ===^> sets the target to be Cameo System Modeler instead of the default target: MagicDraw \-m     =
-echo ^= --Second argument--                                                                                  =
-echo ^= \-p ===^> Generate DEH-MDSYSML plugin                                                                =
-echo ^= \-i ===^> Install the generated DEH-MDSYSML plugin                                                   =
-echo ^= \-c ===^> Run Cameo                                                                                  =
-echo ^= \-m ===^> Run MagicDraw                                                                              =
-echo ^=======================================================================================================
+echo ^==========================================================================================================
+echo ^=                   DEHCommonJ builder                                                                   =            
+echo ^=  example of use:                                                                                       =
+echo ^= deploy.bat                // Uses the pom version number                                               =
+echo ^= deploy.bat 1.7.0          // Updates the pom version number if different                               =
+echo ^= deploy.bat ../lib/ 1.7.0  // Same as above and copy the generated Jar to specified the directory       =
+echo ^==========================================================================================================
 
-set target = "m"
-if /I "%1" == "-c" set target="c"
-if /I "%1" == "-m" set target="m"
-if /I "%2" == "-p" goto PackPlugin
-if /I "%2" == "-i" goto Install
-if /I "%2" == "-c" goto RunCameo
-if /I "%2" == "-m" goto RunMagicDraw
+set shouldCopy=false
 
-REM 1. Set the class path
-REM set CLASSPATH=C:\CODE\DEHP\DEH-MDSYSML\lib\;bin\;%USERPROFILE%\.m2\repository;C:\CODE\DEHP\DEH-CommonJ;
-REM setx -m CLASSPATH "\lib\;C:\Users\nsmiechowski\.m2\repository;C:\CODE\DEHP\DEH-CommonJ"
-
-REM 2. Pack the Common library if any changes done to it
-echo.
-echo ==================================^> call mvn package DEH-CommonJ
-echo ===============================================================^>
-echo.
-
-call mvn package -Dmaven.test.skip=true
-echo Exit Code = %ERRORLEVEL%
-if not "%ERRORLEVEL%" == "0" exit /b
-
-REM 3. Install the generated Jar into the local maven cache
-echo.
-echo ==================================^> call mvn install
-echo ===============================================================^>
-echo.
-call mvn install:install-file -Dfile=target\DEHCommonJ.jar -DgroupId=com.rheagroup -DartifactId=DEHCommonJ -Dversion=1.0.0  -Dpackaging=jar -DgeneratePom=true
-
-REM 4. Install required libraries
-REM    - Copy then past all the Jar file located in ```{your Cameo/MagicDraw installation path}\lib\``` to ```{The location of the DEH-MDSYSML project repository}\lib\```.
-
-REM 5. Make sure the DEH-MDSYSML compiles in eclipse
-echo.
-echo ==================================^> Compile DEH-MDSYSML plugin in Eclipse
-echo ===============================================================^>
-echo.
-
-if /I "%1" == "-w" (
-    set /p="IMPORTANT Please recompile the DEH-MDSYSML plugin in Eclipse. -- Press ENTER when done --"
-) else (
-    echo Skipped
+for /f "tokens=2 delims=<version>" %%a in ('type pom.xml^|find "<version>"') do (
+  set pomVersion=%%a & goto :continue
 )
+:continue
+set pomVersion=%pomVersion: =%
 
-:PackPlugin
-REM 6. Pack the plugin
-cd ..\DEH-MDSYSML\
+call :SetVersion %1
+call :SetVersion %2
 
+if exist %1 (set shouldCopy=true)
+if "%version%" == "" set version=%pomVersion%
+
+if %pomVersion% NEQ %version% powershell -Command "(gc pom.xml) -replace '%pomVersion%', '%version%' | sc pom.xml"
+
+:BUILD
 echo.
-echo ==================================^> call mvn package DEH-MDSYSML
+echo ==================================^> Rebuilding the DEH-CommonJ library VERSION %version%
 echo ===============================================================^>
 echo.
 
 call mvn package -Dmaven.test.skip=true
 echo Exit Code = %ERRORLEVEL%
-if not "%ERRORLEVEL%" == "0" GOTO ExitStatement
+if not "%ERRORLEVEL%" == "0" goto QUIT
 
-:Install
-REM 7. Install the plugin
 echo.
-echo ==================================^> Install the plugin
+echo ==================================^> Installing the DEH-CommonJ library in local Maven repository
 echo ===============================================================^>
 echo.
 
-set targetPath=C:\MagicDraw\MagicDraw
-if %target% == "c" set targetPath=C:\Program Files\Cameo Systems Modeler Demo
-echo "%targetPath%\plugins\com.rheagroup.dehmdsysml"
-
-SET COPYCMD=/Y && move /Y "target\DEHMDSYSMLPlugin.jar" "%targetPath%\plugins\com.rheagroup.dehmdsysml"
+call mvn install:install-file -Dfile=target\DEHCommonJ.jar -DgroupId=com.rheagroup -DartifactId=DEHCommonJ -Dversion=%version%  -Dpackaging=jar -DgeneratePom=true
 echo Exit Code = %ERRORLEVEL%
-if not "%ERRORLEVEL%" == "0" GOTO ExitStatement
+if not "%ERRORLEVEL%" == "0" goto QUIT
+echo DEHCommonJ library has been built
 
-if %target% == "m" goto RunMagicDraw
-if %target% == "c" goto RunCameo
+if shouldCopy == false goto QUIT
 
-:RunCameo
-REM 8. Run Cameo
+:copy
 echo.
-echo ==================================^> Run Cameo
+echo ==================================^> Copying files to the specified directory
 echo ===============================================================^>
 echo.
-call "C:\Program Files\Cameo Systems Modeler Demo\bin\csm.exe"
+set "basePath=%HOMEPATH%\.m2\repository\com\rheagroup\DEHCommonJ\%version%\"
+set "pathToNewBuild=%basePath%DEHCommonJ-%version%.jar"
+set "pathToSources=target\DEHCommonJ-%version%-sources.jar"
 
-GOTO ExitStatement
+call xcopy /y %pathToSources% %1
+call xcopy /y %pathToNewBuild% %1
+echo Exit Code = %ERRORLEVEL%
+if not "%ERRORLEVEL%" == "0" goto QUIT
 
-:RunMagicDraw
-REM 8. Run MagicDraw
-echo.
-echo ==================================^> Run MagicDraw
-echo ===============================================================^>
-echo.
-call "C:\MagicDraw\MagicDraw\bin\magicdraw.exe"
+:QUIT
+set version=
+set pomVersion=
+set shouldCopy=
+goto :eof
 
-GOTO ExitStatement
-
-:ExitStatement
-cd ..\DEH-CommonJ\
-echo deploy.bat is done
+:SetVersion
+echo %~1%|findstr /i /r [A-z] >nul 2>&1
+if errorlevel 1 if not errorlevel 2 set version=%~1%

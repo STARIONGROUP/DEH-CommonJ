@@ -41,7 +41,7 @@ public final class NavigationService implements INavigationService
     /**
      * The {@link Log4J} logger
      */
-    private final Logger logger = LogManager.getLogger(); 
+    private final Logger logger =LogManager.getLogger(); 
     
     /**
      * Shows a dialog and returns the dialog result and associate its view model to it

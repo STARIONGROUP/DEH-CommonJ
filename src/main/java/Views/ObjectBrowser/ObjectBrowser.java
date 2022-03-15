@@ -28,8 +28,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
@@ -56,6 +58,7 @@ import cdp4common.commondata.Thing;
  * {@linkplain ElementDefinitionBrowserTreeViewModel} or the
  * {@linkplain RequirementSepcificationBrowserViewModel}
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 @SuppressWarnings("serial")
 public class ObjectBrowser extends JPanel implements IView<IObjectBrowserBaseViewModel>
 {
@@ -149,9 +152,16 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserBaseVie
             this.SetOutlineModel(this.GetDataContext().GetBrowserTreeModel());
             this.SetTreeVisibility(true);
         }
+        
+        this.objectBrowserTree.setSelectionMode(this.GetDataContext().GetCanSelectMultipleElements()
+                ? ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
+                        : ListSelectionModel.SINGLE_SELECTION);
+        
 
-        this.GetDataContext().BrowserTreeModel().subscribe(x -> SetOutlineModel(x));
-        this.GetDataContext().IsTheTreeVisible().subscribe(x -> SetTreeVisibility(x));
+        this.objectBrowserTree.setRowSelectionAllowed(this.GetDataContext().GetCanSelectMultipleElements());
+        
+        this.GetDataContext().BrowserTreeModel().subscribe(this::SetOutlineModel);
+        this.GetDataContext().IsTheTreeVisible().subscribe(this::SetTreeVisibility);
 
         this.GetDataContext().GetShouldRefreshTree().filter(x -> x).subscribe(x -> SwingUtilities.invokeLater(
                 () -> objectBrowserTree.tableChanged(new TableModelEvent(this.objectBrowserTree.getOutlineModel()))));
@@ -159,7 +169,7 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserBaseVie
         this.objectBrowserTree.addMouseListener(new MouseAdapter()
         {
             /**
-             * Invoked when the mouse button has been clicked (pressedand released) on a component.
+             * Invoked when the mouse button has been clicked (pressed and released) on a component.
              * 
              * @param event the {@linkplain MouseEvent}
              */
@@ -205,7 +215,7 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserBaseVie
     @Override
     public void SetDataContext(IViewModel viewModel)
     {
-        this.dataContext = (IObjectBrowserViewModel) viewModel;
+        this.dataContext = (IObjectBrowserViewModel) viewModel;       
         this.Bind();
     }
 
@@ -221,6 +231,23 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserBaseVie
     }
 
     /**
+     * Gets the context menu instance of the current {@linkplain #objectBrowserTree} if it is of type {@linkplain ContextMenu}
+     * 
+     * @return the {@linkplain ContextMenu}
+     */
+    public ContextMenu<?> GetContextMenu()
+    {
+        JPopupMenu contextMenu = this.objectBrowserTree.getComponentPopupMenu();
+        
+        if (contextMenu instanceof ContextMenu)
+        {
+            return (ContextMenu<?>) this.objectBrowserTree.getComponentPopupMenu();
+        }
+        
+        return null;        
+    }
+    
+    /**
      * Sets this {@linkplain Outline} contained component context menu
      * 
      * @param contextMenu the {@linkplain ContextMenu}
@@ -235,8 +262,35 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserBaseVie
      */
     protected void OnSelectionChanged()
     {
-        int selectedRowIndex = objectBrowserTree.getSelectedRow();
+        this.ProcessSelectedElement();
+        this.ProcessSelectedElements();
+    }
 
+    /**
+     * Processes the currently selected elements
+     */
+    @SuppressWarnings("unchecked")
+    private void ProcessSelectedElements()
+    {
+        int[] selectedRowIndexes = objectBrowserTree.getSelectedRows();
+        
+        ArrayList<ThingRowViewModel<? extends Thing>> selectedThings = new ArrayList<>();
+        
+        for (int rowIndex : selectedRowIndexes)
+        {
+            selectedThings.add((ThingRowViewModel<? extends Thing>) objectBrowserTree.getValueAt(rowIndex, 0));
+        }
+
+        dataContext.OnSelectionChanged(selectedThings);
+    }
+    
+    /**
+     * Processes the currently selected element
+     */
+    private void ProcessSelectedElement()
+    {
+        int selectedRowIndex = objectBrowserTree.getSelectedRow();
+        
         @SuppressWarnings("unchecked")
         Pair<Integer, ThingRowViewModel<? extends Thing>> row = Pair.of(selectedRowIndex,
                 (ThingRowViewModel<? extends Thing>) objectBrowserTree.getValueAt(selectedRowIndex, 0));

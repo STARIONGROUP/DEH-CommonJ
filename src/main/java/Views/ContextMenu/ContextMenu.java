@@ -35,6 +35,6 @@ import Views.Interfaces.IView;
  * @param <TViewModel> the type of the view model that can be bound to the view
  */
 @SuppressWarnings("serial")
-public abstract class ContextMenu<TViewModel extends IViewModel> extends JPopupMenu implements IView<IImpactViewContextMenuViewModel>
+public abstract class ContextMenu<TViewModel extends IViewModel> extends JPopupMenu implements IView<TViewModel>
 {
 }

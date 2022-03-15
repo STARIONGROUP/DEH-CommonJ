@@ -39,6 +39,7 @@ import javax.swing.SwingConstants;
 /**
  * The {@linkplain HubBrowserHeader} is the hub session information display
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 @SuppressWarnings("serial")
 public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderViewModel>
 {

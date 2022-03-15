@@ -23,13 +23,11 @@
  */
 package ViewModels;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Field;
+import java.util.UUID;
 
 import org.apache.logging.log4j.core.util.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +47,7 @@ import cdp4common.engineeringmodeldata.RequirementsGroup;
 import cdp4common.engineeringmodeldata.RequirementsSpecification;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 
-class RequirementBrowserViewModelTestFixture
+public class RequirementBrowserViewModelTestFixture
 {
     private RequirementBrowserViewModel viewModel;
     private IHubController hubController;
@@ -65,22 +63,28 @@ class RequirementBrowserViewModelTestFixture
      * @throws java.lang.Exception
      */
     @BeforeEach
-    void setUp() throws Exception
+    public void setUp() throws Exception
     {
         this.hubController = mock(IHubController.class);
 
         this.iteration = new Iteration();
         this.owner = new DomainOfExpertise();
+        this.owner.setIid(UUID.randomUUID());
         this.requirementSpecification0 = new RequirementsSpecification();
         this.requirementSpecification0.setOwner(this.owner);
+        this.requirementSpecification0.setIid(UUID.randomUUID());
         this.requirement0 = new Requirement();
         this.requirement0.setOwner(this.owner);
+        this.requirement0.setIid(UUID.randomUUID());
         this.requirement1 = new Requirement();
         this.requirement1.setOwner(this.owner);
+        this.requirement1.setIid(UUID.randomUUID());
         this.requirementGroup0 = new RequirementsGroup();
         this.requirementGroup0.setOwner(this.owner);
+        this.requirementGroup0.setIid(UUID.randomUUID());
         this.requirementGroup1 = new RequirementsGroup();
         this.requirementGroup1.setOwner(this.owner);
+        this.requirementGroup1.setIid(UUID.randomUUID());
 
         this.requirement1.setGroup(this.requirementGroup1);
         this.requirementSpecification0.getRequirement().add(this.requirement0);
@@ -92,27 +96,15 @@ class RequirementBrowserViewModelTestFixture
         final ObservableValue<Boolean> isSessionOpen = new ObservableValue<Boolean>(false, Boolean.class);
         when(this.hubController.GetIsSessionOpenObservable()).thenReturn(isSessionOpen.Observable());
         when(this.hubController.GetOpenIteration()).thenReturn(this.iteration);
+        when(this.hubController.GetSessionEventObservable()).thenReturn(io.reactivex.Observable.fromArray(true));
         this.viewModel = new RequirementBrowserViewModel(this.hubController);
         isSessionOpen.Value(true);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
-    void VerifyTreeGetsBuilt() throws Exception
+    public void VerifyTreeGetsBuilt() throws Exception
     {
-        ObservableValue<OutlineModel> model;
-
-        try
-        {
-            Field elementDefinitionTreeField = ObjectBrowserViewModel.class.getDeclaredField("browserTreeModel");
-            elementDefinitionTreeField.setAccessible(true);
-            model = (ObservableValue<OutlineModel>) elementDefinitionTreeField.get(this.viewModel);
-        } 
-        catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exception)
-        {
-            exception.printStackTrace();
-            throw exception;
-        }
+        ObservableValue<OutlineModel> model = this.viewModel.browserTreeModel;
 
         assertNotNull(model.Value());
         final Object root = model.Value().getRoot();

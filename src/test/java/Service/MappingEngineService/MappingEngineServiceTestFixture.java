@@ -55,6 +55,7 @@ import Services.MappingEngineService.IMappingEngineService;
 import Services.MappingEngineService.MappingEngineService;
 
 @TestInstance(Lifecycle.PER_CLASS)
+@org.junit.jupiter.api.parallel.Isolated
 class MappingEngineServiceTestFixture
 {
     private MappingEngineService engine;
@@ -72,7 +73,14 @@ class MappingEngineServiceTestFixture
     @AfterAll
     void TearDown()
     {
-        AppContainer.Container.stop();
+        try
+        {
+            AppContainer.Container.stop();
+        }
+        catch(IllegalStateException exception)
+        {
+            System.out.println("Container was already stopped");
+        }
     }
 
     @Test

@@ -27,6 +27,7 @@ import org.netbeans.swing.outline.DefaultOutlineModel;
 
 import HubController.IHubController;
 import ViewModels.ObjectBrowserViewModel;
+import ViewModels.Interfaces.IHubBrowserContextMenuViewModel;
 import ViewModels.Interfaces.IRequirementBrowserViewModel;
 import ViewModels.ObjectBrowser.RequirementTree.RequirementBrowserTreeRowViewModel;
 import ViewModels.ObjectBrowser.RequirementTree.RequirementBrowserTreeViewModel;
@@ -37,6 +38,21 @@ import ViewModels.ObjectBrowser.RequirementTree.RequirementBrowserTreeViewModel;
 public final class RequirementBrowserViewModel extends ObjectBrowserViewModel implements IRequirementBrowserViewModel
 {
     /**
+     * Backing field for {@linkplain #GetContextMenuViewModel()}
+     */
+    private IHubBrowserContextMenuViewModel contextMenuViewModel;
+
+    /**
+     * Gets the the associated {@linkplain IHubBrowserContextMenuViewModel}
+     * 
+     * @return the {@linkplain IHubBrowserContextMenuViewModel}
+     */
+    public IHubBrowserContextMenuViewModel GetContextMenuViewModel()
+    {
+        return this.contextMenuViewModel;
+    }
+    
+    /**
      * Initializes a new {@linkplain RequirementBrowserViewModel}
      * 
      * @param hubController the {@linkplain IHubController}
@@ -44,8 +60,9 @@ public final class RequirementBrowserViewModel extends ObjectBrowserViewModel im
     public RequirementBrowserViewModel(IHubController hubController)
     {
         super(hubController);
+        this.canSelectMultipleElements = true;
     }
-
+    
     /**
      * Updates this view model {@linkplain TreeModel}
      * 
@@ -54,13 +71,13 @@ public final class RequirementBrowserViewModel extends ObjectBrowserViewModel im
     @Override
     protected void UpdateBrowserTrees(Boolean isConnected)
     {
-        if(isConnected)
+        if(isConnected.booleanValue())
         {
-            this.BrowserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
+            this.browserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
                     new RequirementBrowserTreeViewModel(this.hubController.GetOpenIteration()), 
                     new RequirementBrowserTreeRowViewModel(), true));
         }
 
-        this.IsTheTreeVisible.Value(isConnected);
+        this.isTheTreeVisible.Value(isConnected);
     }
 }

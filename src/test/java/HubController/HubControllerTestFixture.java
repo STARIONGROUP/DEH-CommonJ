@@ -31,7 +31,6 @@ import static org.mockito.ArgumentMatchers.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;

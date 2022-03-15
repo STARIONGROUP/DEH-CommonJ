@@ -23,9 +23,13 @@
  */
 package ViewModels.ObjectBrowser;
 
+import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+
+import org.netbeans.swing.outline.TreePathSupport;
 
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 
@@ -48,7 +52,7 @@ public abstract class BrowserTreeBaseViewModel implements TreeModel
         {            
             return ((IHaveContainedRows<?>)rowViewModel).GetContainedRows().get(index);
         }
-        
+
         return null;
     }
 
@@ -81,7 +85,8 @@ public abstract class BrowserTreeBaseViewModel implements TreeModel
     @Override
     public boolean isLeaf(Object rowViewModel)
     {
-        return rowViewModel instanceof IHaveContainedRows<?> && ((IHaveContainedRows<?>)rowViewModel).GetContainedRows().isEmpty();
+        return !(rowViewModel instanceof IHaveContainedRows<?>) ||
+                (rowViewModel instanceof IHaveContainedRows<?> && ((IHaveContainedRows<?>)rowViewModel).GetContainedRows().isEmpty());
     }
 
     /**
@@ -120,7 +125,7 @@ public abstract class BrowserTreeBaseViewModel implements TreeModel
      */
     @Override
     public void addTreeModelListener(TreeModelListener listener) { }
-
+    
     /**
      * Removes a listener for the TreeModel Event posted after the tree changes.
      * 

@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import javax.swing.JFrame;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +37,7 @@ import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IDialog;
 import Views.Interfaces.IView;
 
+@org.junit.jupiter.api.parallel.Isolated
 class NavigationServiceTestFixture
 {
     private NavigationService navigationService;
@@ -44,16 +46,25 @@ class NavigationServiceTestFixture
      * @throws java.lang.Exception
      */
     @BeforeEach
-    void setUp() throws Exception
+    public void setUp() throws Exception
     {
         this.navigationService = new NavigationService();
     }
 
+    @AfterEach
+    public void TearDown()
+    {
+        if(AppContainer.Container.getLifecycleState().isStarted())
+        {
+            AppContainer.Container.stop();
+        }
+    }
+    
     @Test
     void VerifyShowDialog()
     {
         assertThrows(org.picocontainer.PicoCompositionException.class, () -> this.navigationService.ShowDialog(GenerateDialog()));
-        AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {});                
+        AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {});
         assertTrue(() -> this.navigationService.ShowDialog(GenerateDialog()));
     }
     
@@ -62,11 +73,6 @@ class NavigationServiceTestFixture
     void VerifyShow()
     {
         assertDoesNotThrow(() -> this.navigationService.Show(new FakeWindow() {}, null));
-        
-        AppContainer.Container.removeComponent(IViewModel.class.getSimpleName());
-        assertThrows(org.picocontainer.PicoCompositionException.class, () -> this.navigationService.Show(new FakeWindow() {}));
-        
-        AppContainer.Container.addComponent(IViewModel.class.getSimpleName(), new IViewModel() {}); 
         assertDoesNotThrow(() -> this.navigationService.Show(new FakeWindow() {}));
     }
 

@@ -23,18 +23,21 @@
  */
 package ViewModels;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import static org.mockito.ArgumentMatchers.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.jayway.awaitility.Awaitility;
 
 import HubController.IHubController;
 import Services.NavigationService.INavigationService;
@@ -52,30 +55,32 @@ class SessionControlPanelViewModelTestFixture
     @BeforeEach
     void setUp() throws Exception
     {
-        this.hubController = mock(IHubController.class);
+        this.hubController = mock(IHubController.class);    
         this.navigationService = mock(INavigationService.class);
+        when(this.navigationService.ShowDialog(any(HubLogin.class))).thenReturn(true);
+        
         this.viewModel = new SessionControlPanelViewModel(this.hubController, this.navigationService);
     }
 
     @Test
-    void VerifyConnectButtonAction()
+    void VerifyConnectButtonActions()
     {
         assertDoesNotThrow(() -> this.viewModel.Connect());
         verify(this.navigationService, times(1)).ShowDialog(any(HubLogin.class));
+        assertDoesNotThrow(() -> this.viewModel.Disconnect());
     }
     
     @Test
-    void Verify() throws InterruptedException
+    void VerifyAutoRefresh() throws InterruptedException
     {
         ArrayList<Integer> observedTicks = new ArrayList<Integer>();
         this.viewModel.GetTimeObservable().subscribe(x -> observedTicks.add(x));
-        this.viewModel.SetAutoRefresh(6);
+        this.viewModel.SetAutoRefresh(5);
 
-        assertEquals(1, observedTicks.size());
-        Thread.sleep(7000);
-
-        assertEquals(8, observedTicks.size());
-
-        verify(this.hubController, times(1)).Refresh();
+        Awaitility.await().atMost(7, SECONDS).until(() ->
+        {
+            assertEquals(8, observedTicks.size());
+            verify(this.hubController, times(1)).Refresh();
+        });
     }
 }

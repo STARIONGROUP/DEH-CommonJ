@@ -57,7 +57,7 @@ public final class MappingEngineService implements IMappingEngineService
      * Gets a Dictionary that contains all the available {@linkplain IMappingRule} based on the provided assembly
      * where the Key is the Input type as string of the Value of a corresponding {@linkplain IMappingRule}
      */
-    public Map<String, IMappingRule<?,?>> Rules = new HashMap<String, IMappingRule<?,?>>();
+    public Map<String, IMappingRule<?,?>> Rules = new HashMap<>();
     
     /**
      * Initializes a new {@linkplain MappingEngine}
@@ -101,10 +101,12 @@ public final class MappingEngineService implements IMappingEngineService
      */
     private String GetKeyFromObject(Object object)
     {
+        final String classSuffixString = "class ";
+        
         if(object instanceof ObservableCollection)
         {
             return String.format("%s<%s>", object.getClass(), 
-                    ((ObservableCollection<?>)object).GetType().getName()).replace("class ", "");
+                    ((ObservableCollection<?>)object).GetType().getName()).replace(classSuffixString, "");
         }
         
         else if(object instanceof Class<?>)
@@ -114,11 +116,11 @@ public final class MappingEngineService implements IMappingEngineService
             if(objectClass.getGenericSuperclass() instanceof ParameterizedType)
             {
                 return String.format("%s", ((ParameterizedType) objectClass.getGenericSuperclass())
-                        .getActualTypeArguments()[0]).replace("class ", "");
+                        .getActualTypeArguments()[0]).replace(classSuffixString, "");
             }
         }
         
-        return (object.getClass().toString()).replace("class ", "");
+        return (object.getClass().toString()).replace(classSuffixString, "");
     }
     
     /**
@@ -178,15 +180,14 @@ public final class MappingEngineService implements IMappingEngineService
      * @param packageName the package name where mapping rules are implemented
      * @return a {@linkplain Set} of class
      */
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings({"rawtypes"})
     private Set<Class<? extends IMappingRule>> GetAvailableMappingRules(String packageName) 
     {
         Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
         
-        Set<Class<? extends IMappingRule>> mappingRules = reflections.getSubTypesOf(MappingRule.class)
+        return reflections.getSubTypesOf(MappingRule.class)
                 .stream()
+                .filter(x -> !java.lang.reflect.Modifier.isAbstract(x.getModifiers()))
                 .collect(Collectors.toSet());
-        
-        return mappingRules;
     }
 }

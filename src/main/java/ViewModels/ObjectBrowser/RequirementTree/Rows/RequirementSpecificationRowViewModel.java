@@ -63,7 +63,7 @@ public class RequirementSpecificationRowViewModel extends RequirementContainerRo
         
         this.GetThing().getRequirement()
             .stream()
-            .filter(x -> x.getGroup() == null)
+            .filter(x -> x.getGroup() == null && !x.isDeprecated())
             .forEach(x -> this.containedRows.add(new RequirementRowViewModel(x, this)));
         
         this.GetThing().getGroup()

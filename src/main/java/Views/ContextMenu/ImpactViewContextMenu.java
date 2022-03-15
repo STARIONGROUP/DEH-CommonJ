@@ -34,6 +34,7 @@ import cdp4common.commondata.Thing;
 /**
  * The {@linkplain ImpactViewContextMenu} is the main context menu view for {@linkplain ImpactViewPanel}
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 @SuppressWarnings("serial")
 public class ImpactViewContextMenu extends ContextMenu<IImpactViewContextMenuViewModel>
 {
