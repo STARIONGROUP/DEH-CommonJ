@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -57,6 +58,7 @@ import cdp4common.types.ContainerList;
 import cdp4dal.Session;
 import cdp4dal.SessionImpl;
 import cdp4dal.dal.Credentials;
+import cdp4dal.exceptions.DalWriteException;
 import cdp4dal.exceptions.TransactionException;
 import cdp4dal.operations.ThingTransaction;
 import cdp4dal.operations.ThingTransactionImpl;
@@ -107,7 +109,7 @@ public class HubController implements IHubController
     /**
      * Backing field for {@linkplain IsSessionOpenObservable}
      */
-    private ObservableValue<Boolean> isSessionOpenObservable = new ObservableValue<Boolean>(Boolean.class);
+    private ObservableValue<Boolean> isSessionOpenObservable = new ObservableValue<>(Boolean.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain isSessionOpen} boolean field
@@ -123,7 +125,7 @@ public class HubController implements IHubController
     /**
      * Backing field for {@linkplain GetSessionEventObservable}
      */
-    private ObservableValue<Boolean> sessionEvent = new ObservableValue<Boolean>(false, Boolean.class);
+    private ObservableValue<Boolean> sessionEvent = new ObservableValue<>(false, Boolean.class);
     
 
     /**
@@ -181,7 +183,7 @@ public class HubController implements IHubController
             return this.session.getOpenReferenceDataLibraries();
         }
         
-        return new ArrayList<ReferenceDataLibrary>();
+        return new ArrayList<>();
     }
     
     /**
@@ -452,15 +454,6 @@ public class HubController implements IHubController
         }
     }
 
-    /// <summary>
-    /// Gets the <see cref="Thing"/> by its <see cref="Thing.Iid"/> from the cache
-    /// </summary>
-    /// <typeparam name="TThing">The Type of <see cref="Thing"/> to get</typeparam>
-    /// <param name="iid">The id of the <see cref="Thing"/></param>
-    /// <param name="iteration">The <see cref="Iteration"/></param>
-    /// <param name="thing">The <see cref="Thing"/></param>
-    /// <returns>An assert whether the <paramref name="thing"/> has been found</returns>
-    
     /**
      * Gets the {@linkplain Thing} by it's Iid from the cache
      * 
@@ -494,43 +487,43 @@ public class HubController implements IHubController
     {
         Function<? super ReferenceDataLibrary, ? extends Stream<?>> collectionSelector = null;
         
-        if(thing.GetType() == Category.class)
+        if(Category.class.isAssignableFrom(thing.GetType()))
         {
             collectionSelector = x -> x.queryCategoriesFromChainOfRdls().stream();
         }
-        else if(thing.GetType() == Rule.class)
+        else if(Rule.class.isAssignableFrom(thing.GetType()))
         {
             collectionSelector = x -> x.queryRulesFromChainOfRdls().stream();
         }
-        else if(thing.GetType() == Constant.class)
+        else if(Constant.class.isAssignableFrom(thing.GetType()))
         {
             collectionSelector = x -> x.queryConstantsFromChainOfRdls().stream();
         }
-        else if(thing.GetType() == FileType.class)
+        else if(FileType.class.isAssignableFrom(thing.GetType()))
         {
             collectionSelector = x -> x.queryFileTypesFromChainOfRdls().stream();
         }
-        else if(thing.GetType() == Glossary.class)
+        else if(Glossary.class.isAssignableFrom(thing.GetType()))
         {
             collectionSelector = x -> x.queryGlossariesFromChainOfRdls().stream();
         }
-        else if(thing.GetType() == MeasurementScale.class)
+        else if(MeasurementScale.class.isAssignableFrom(thing.GetType()))
         {
             collectionSelector = x -> x.queryMeasurementScalesFromChainOfRdls().stream();
         }
-        else if(thing.GetType() == MeasurementUnit.class)
+        else if(MeasurementUnit.class.isAssignableFrom(thing.GetType()))
         {
             collectionSelector = x -> x.queryMeasurementUnitsFromChainOfRdls().stream();
         }
-        else if(thing.GetType() == ReferenceSource.class)
+        else if(ReferenceSource.class.isAssignableFrom(thing.GetType()))
         {
             collectionSelector = x -> x.queryReferenceSourcesFromChainOfRdls().stream();
         }
-        else if(thing.GetType() == UnitPrefix.class)
+        else if(UnitPrefix.class.isAssignableFrom(thing.GetType()))
         {
             collectionSelector = x -> x.queryUnitPrefixesFromChainOfRdls().stream();
         }
-        else if(thing.GetType() == ParameterType.class)
+        else if(ParameterType.class.isAssignableFrom(thing.GetType()))
         {
             collectionSelector = x -> x.queryParameterTypesFromChainOfRdls().stream();
         }
@@ -555,24 +548,15 @@ public class HubController implements IHubController
     }
 
     /**
-     * Try to create or update the things in the specified {@linkplain ThingTransaction}
+     * Creates or updates the things in the specified {@linkplain ThingTransaction}
      * 
      * @param transaction the {@linkplain ThingTransaction}
-     * @return a value indicating whether the transaction has been committed with success
+     * @throws Exception 
      */
     @Override
-    public boolean TryWrite(ThingTransaction transaction)
+    public void Write(ThingTransaction transaction) throws DalWriteException, CompletionException
     {
-        try
-        {
-            this.session.write(transaction.finalizeTransaction()).join();
-            return true;
-        } 
-        catch (Exception exception)
-        {
-            this.logger.error(exception);
-            return false;
-        }
+        this.session.write(transaction.finalizeTransaction()).join();
     }    
 
     /**

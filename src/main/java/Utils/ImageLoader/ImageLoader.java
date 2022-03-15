@@ -42,26 +42,32 @@ public final class ImageLoader
      * The {@link Logger} log4J this class
      */
     private static final Logger Logger = LogManager.getLogger(); 
-    
-    /**
-     * The root folder name where the images are
-     */
-    private final static String RootFolder = "Images/";
-    
+        
     /**
      * The {@linkplain Thing} folder name where the images are
      */
-    public final static String ThingFolder = "Thing/";
+    public static final String ThingFolder = "Thing/";
     
     /**
-     * The {@link GetIcon} gets the icon with the provided fileName that is in Utils.ImageLoader.Images
+     * The name of the dst icon that should be contained in the client adapter solution
+     */
+    public static final String DstIconFileName = "dst.png";
+    
+    /**
+     * Initializes a new {@linkplain ImageLoader}
+     * this constructor is explicitly specifying the static character of this {@linkplain Class} 
+     * since static class don't exist out of the box in java. UNUSED
+     */
+    private ImageLoader() { }
+    
+    /**
+     * The {@link GetIcon} gets the icon that represents the dst
      * 
-     * @param fileName the file name of the requested image
      * @return a {@link ImageIcon}
      */
-    public static ImageIcon GetIcon(String fileName)
+    public static ImageIcon GetDstIcon()
     {
-        return GetIcon(ImageLoader.class.getResource(RootFolder+fileName), fileName);
+        return GetIcon(DstIconFileName);
     }
         
     /**
@@ -74,25 +80,26 @@ public final class ImageLoader
      */
     public static ImageIcon GetIcon(String subfolder, String fileName)
     {
-        return GetIcon(ImageLoader.class.getResource(RootFolder+subfolder+fileName), fileName);
+        return GetIcon(subfolder + fileName);
     }
 
     /**
-     * The {@link GetIcon} gets the icon with the provided {@link fileName} that is in Utils.ImageLoader.Images
+     * The {@link GetIcon} gets the icon with the provided fileName that is in Utils.ImageLoader.Images
      * 
-     * @param imageUrl the file URL of the requested image
-     * @param fileName the file name of the requested image
+     * @param imagePath the file name of the requested image
      * @return a {@link ImageIcon}
      */
-    public static ImageIcon GetIcon(URL imageUrl, String fileName)
+    public static ImageIcon GetIcon(String imagePath)
     {
-        if (imageUrl != null) 
+        URL ressource = ImageLoader.class.getClassLoader().getResource(imagePath);
+        
+        if (ressource != null) 
         {
-            return new ImageIcon(imageUrl, "");
+            return new ImageIcon(ressource, "");
         }
         else 
         {
-            Logger.error(String.format("Image not found with file name: %s", fileName));
+            Logger.error(String.format("Image not found with file name: %s", imagePath));
             return null;
         }
     }

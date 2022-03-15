@@ -25,10 +25,8 @@ package Utils.ImageLoader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Utils.ImageLoader.ImageLoader;
 import cdp4common.commondata.ClassKind;
 
 class ImageLoaderTestFixture
@@ -36,8 +34,19 @@ class ImageLoaderTestFixture
     @Test
     void VerifyGetIcon()
     {
-        assertNotNull(ImageLoader.GetIcon(ClassKind.ActualFiniteState));
+        for (ClassKind classKind : ClassKind.values())
+        {
+            assertNotNull(ImageLoader.GetIcon(classKind));
+        }
+        
+        assertNull(ImageLoader.GetDstIcon());
         assertNotNull(ImageLoader.GetIcon("icon32.png"));
+        assertNotNull(ImageLoader.GetIcon());
+    }
+    
+    @Test
+    void VerifyGetIcon32()
+    {
         assertNotNull(ImageLoader.GetIcon());
     }
 }

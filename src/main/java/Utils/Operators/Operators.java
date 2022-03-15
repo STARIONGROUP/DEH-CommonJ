@@ -47,4 +47,25 @@ public final class Operators
         
         return a != null && a.equals(b);
     }
+    
+    /**
+     * Verifies that the two strings are both null or that the first one isn't null and calls 
+     * the <code>Object.Equals(a, b)</code> method on <code>a</code>
+     * 
+     * By default, <code>Object.Equals(a, b)</code> assert that the reference <code>a</code> references the same instance as <code>b</code>
+     * 
+     * @param a the first {@link String}
+     * @param b the second {@link String}
+     * @param ignoreCase a value indicating whether the equals method should ignore the casing of both strings
+     * @return a value indicating if they are equal
+     */
+    public static boolean AreTheseEquals(String a, String b, boolean ignoreCase)
+    {
+        if(a == null && b == null)
+        {
+            return true;
+        }
+        
+        return a != null && ((ignoreCase && a.equalsIgnoreCase(b)) || a.equals(b));
+    }
 }

@@ -48,7 +48,7 @@ public abstract class ImpactViewPanelViewModel
      * 
      * @param hubController the {@linkplain IHubController}
      */
-    public ImpactViewPanelViewModel(IHubController hubController)
+    protected ImpactViewPanelViewModel(IHubController hubController)
     {
         this.HubController = hubController;
     }

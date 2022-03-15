@@ -64,6 +64,7 @@ public final class IterationRequirementRowViewModel extends IterationRowViewMode
         
         this.GetThing().getRequirementsSpecification()
             .stream()
+            .filter(x -> !x.isDeprecated())
             .forEach(x -> this.containedRows.add(new RequirementSpecificationRowViewModel(x, this)));
     }    
 }

@@ -26,6 +26,7 @@ package HubController;
 
 import java.util.Collection;
 import java.util.UUID;
+import java.util.concurrent.CompletionException;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -48,6 +49,7 @@ import cdp4common.sitedirectorydata.SiteDirectory;
 import cdp4common.types.ContainerList;
 import cdp4dal.Session;
 import cdp4dal.dal.Credentials;
+import cdp4dal.exceptions.DalWriteException;
 import cdp4dal.exceptions.TransactionException;
 import cdp4dal.operations.ThingTransaction;
 import io.reactivex.Observable;
@@ -179,12 +181,13 @@ public interface IHubController
     ReferenceDataLibrary GetDehpOrModelReferenceDataLibrary();
 
     /**
-     * Try to create or update the things in the specified {@linkplain ThingTransaction}
+     * Creates or updates the things in the specified {@linkplain ThingTransaction}
      * 
      * @param transaction the {@linkplain ThingTransaction}
      * @return a value indicating whether the transaction has been committed with success
+     * @throws DalWriteException, CompletionException
      */
-    boolean TryWrite(ThingTransaction transaction);
+    void Write(ThingTransaction transaction) throws DalWriteException, CompletionException;
 
     /**
      * Refresh the specified library local cache by reading it
