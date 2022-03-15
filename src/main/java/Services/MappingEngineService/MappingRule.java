@@ -23,14 +23,9 @@
  */
 package Services.MappingEngineService;
 
-import java.util.Collection;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import Enumerations.MappingDirection;
-import Services.MappingConfiguration.IMappingConfigurationService;
-import ViewModels.Rows.MappedElementRowViewModel;
 import cdp4common.commondata.ShortNamedThing;
 
 /**
@@ -46,8 +41,6 @@ public abstract class MappingRule<TInput extends Object, TOutput> implements IMa
      * The current class logger
      */
     protected Logger Logger = LogManager.getLogger();
-    
-    private IMappingConfigurationService mappingConfiguration;
         
     /**
      * To overcome the inability to use TInput and reflection in the {@linkplain MappingEngine},

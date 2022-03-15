@@ -297,8 +297,10 @@ public abstract class MappedElementRowViewModel<TThing extends Thing & NamedThin
     }
     
     /**
-     * @param element
-     * @param typeName
+     * Gets the element representation {@linkplain String} based on the provided element name and type 
+     * 
+     * @param elementName the {@linkplain string} element name
+     * @param typeName the {@linkplain String} type name
      */
     protected String GetElementRepresentation(String elementName, String typeName, MappingDirection mappingDirection)
     {    
@@ -324,8 +326,9 @@ public abstract class MappedElementRowViewModel<TThing extends Thing & NamedThin
     }
     
     /**
+     * Gets the element representation based on {@linkplain #ShouldCreateNewTargetElement}
      * 
-     * @param representation
+     * @param representation the existing {@linkplain String} representation to format
      */
     private String GetElementRepresentation(String representation)
     {
