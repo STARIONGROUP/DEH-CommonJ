@@ -23,6 +23,9 @@
  */
 package ViewModels.Interfaces;
 
+import javax.swing.ListSelectionModel;
+
+import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 import org.netbeans.swing.outline.OutlineModel;
 
 import Reactive.ObservableValue;
@@ -63,9 +66,10 @@ public interface IObjectBrowserBaseViewModel extends IViewModel
     OutlineModel GetBrowserTreeModel();
 
     /**
-     * Gets a value that indicates whether the multi selection should be enabled
+     * Gets the int value from {@linkplain ListSelectionModel} constant applicable to the bound {@linkplain ObjectBrowser}.
+     * Where -1 == no selection allowed
      * 
-     * @return a {@linkplain boolean}
+     * @return a int
      */
-    boolean GetCanSelectMultipleElements();
+    int GetSelectionMode();
 }

@@ -255,7 +255,7 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
     {
         Optional<UUID> correspondenceIid = this.Correspondences.stream()
             .filter(x -> AreTheseEquals(x.getRight(), internalId) 
-                    && AreTheseEquals(externalIdentifier.Identifier, x.getMiddle()) 
+                    && AreTheseEquals(externalIdentifier.Identifier, x.getMiddle().Identifier)
                     && externalIdentifier.MappingDirection == x.getMiddle().MappingDirection)
             .map(x -> x.left)
             .findFirst();

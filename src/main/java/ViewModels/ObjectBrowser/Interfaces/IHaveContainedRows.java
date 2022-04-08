@@ -30,13 +30,15 @@ import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementRowViewModel;
 
 /**
  * The {@linkplain IHaveContainedRows} is the interface definition for object browser row view models that have contained rows
+ * 
+ * @param <TRowViewModel> the type of row view model the implementing row view model contains
  */
-public interface IHaveContainedRows<TRowViewModel extends IRowViewModel>
+public interface IHaveContainedRows<TRowViewModel extends IRowBaseViewModel>
 {
     /**
      * Gets the contained row the implementing view model has
      * 
-     * @return An {@linkplain ObservableCollection} of {@linkplain TRowViewModel}
+     * @return An {@linkplain ObservableCollection} of {@linkplain #TRowViewModel}
      */
     ObservableCollection<TRowViewModel> GetContainedRows();
     

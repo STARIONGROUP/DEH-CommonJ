@@ -35,28 +35,13 @@ import cdp4common.commondata.Thing;
  * 
  * @param TThing the type of {@linkplain Thing}
  */
-public abstract class ThingRowViewModel<TThing extends Thing> implements IRowViewModel, IThingRowViewModel<TThing>
+public abstract class ThingRowViewModel<TThing extends Thing> extends RowViewModel implements IRowViewModel, IThingRowViewModel<TThing>
 {
     /**
      * The current class logger
      */
     protected final Logger logger = LogManager.getLogger();
     
-    /**
-     * The parent row view model of the current row
-     */
-    private IRowViewModel parent;
-    
-    /**
-     * Gets the parent row view model of the current row
-     * 
-     * @return an {@linkplain IRowViewModel}
-     */
-    public IRowViewModel GetParent()
-    {
-        return this.parent;
-    }
-       
     /**
      * The {@linkplain Thing}
      */
@@ -77,95 +62,6 @@ public abstract class ThingRowViewModel<TThing extends Thing> implements IRowVie
      */
     private String name;
 
-    /**
-     * The value indicating whether this row should be highlighted as "selected for transfer"
-     */
-    private boolean isSelected;
-    
-    /**
-     * Switches between the two possible values for the {@linkplain isSelected}
-     * 
-     * @return the new {@linkplain boolean} value
-     */
-    @Override
-    public boolean SwitchIsSelectedValue()
-    {
-        return this.isSelected = !this.isSelected;
-    }
-    
-    /**
-     * Sets a value whether this row is selected
-     * 
-     * @param isSelected the {@linkplain boolean} value
-     */
-    @Override
-    public void SetIsSelected(boolean isSelected)
-    {
-        this.isSelected = isSelected;
-    }
-    
-    /**
-     * Gets a value indicating whether this row should be highlighted as "selected for transfer"
-     * 
-     * @return a {@linkplain boolean}
-     */
-    @Override
-    public boolean GetIsSelected()
-    {
-        return this.isSelected;
-    }
-    
-    /**
-     * The value indicating whether this row should be highlighted in the tree
-     */
-    private boolean isHighlighted;
-    
-    /**
-     * Sets a value whether this row is highlighted
-     * 
-     * @param isHighlighted the {@linkplain boolean} value
-     */
-    @Override
-    public void SetIsHighlighted(boolean isHighlighted)
-    {
-        this.isHighlighted = isHighlighted;
-    }
-    
-    /**
-     * Gets a value indicating whether this row should be highlighted in the tree
-     * 
-     * @return a {@linkplain boolean}
-     */
-    public boolean GetIsHighlighted()
-    {
-        return this.isHighlighted;
-    }
-    
-    /**
-     * A Value indicating whether the current row is expanded
-     */
-    private boolean isExpanded;
-    
-    /**
-     * Sets a value indicating whether the current row is expanded
-     * 
-     * @return a {@linkplain boolean}
-     */
-    public void SetIsExpanded(boolean isExpanded)
-    {
-        this.isExpanded = isExpanded;
-    }
-    
-    /**
-     * Gets a value indicating whether the current row is expanded
-     * 
-     * @return a {@linkplain boolean}
-     */
-    public boolean GetIsExpanded()
-    {
-        return this.isExpanded;
-    }
-    
     /**
      * Gets the {@linkplain name} of the represented {@linkplain TThing} to display 
      * 

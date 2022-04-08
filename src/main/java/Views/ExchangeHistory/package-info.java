@@ -1,5 +1,5 @@
 /*
- * IDialog.java
+ * package-info.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,35 +21,4 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Views.Interfaces;
-
-import ViewModels.Interfaces.IViewModel;
-
-/**
- * The <code>IView</code> is the base interface that defines a view as bind-able to a view model
- * 
- * @param <code>TViewModel</code> defines the type of the view model that can be bound to the view
- */
-public interface IDialog<TViewModel extends IViewModel, TResult> extends IView<TViewModel>
-{
-    /**
-     * Shows the dialog and return the result
-     * 
-     * @return a {@linkplain #TResult}
-     */
-    TResult ShowDialog();
-    
-    /**
-     * Closes the dialog and sets the dialogResult
-     * 
-     * @param result the {@linkplain #TResult} to set
-     */
-    void CloseDialog(TResult result);
-
-     /**
-      * Gets the {@linkplain dialogResult}
-      * 
-      * @return a {@linkplain #TResult}
-      */
-    TResult GetDialogResult();
-}
+package Views.ExchangeHistory;

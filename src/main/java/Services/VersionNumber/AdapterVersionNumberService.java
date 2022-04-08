@@ -1,5 +1,5 @@
 /*
- * IDialog.java
+ * AdapterVersionNumberService.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,35 +21,40 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Views.Interfaces;
+package Services.VersionNumber;
 
-import ViewModels.Interfaces.IViewModel;
+import cdp4common.Version;
 
-/**
- * The <code>IView</code> is the base interface that defines a view as bind-able to a view model
- * 
- * @param <code>TViewModel</code> defines the type of the view model that can be bound to the view
- */
-public interface IDialog<TViewModel extends IViewModel, TResult> extends IView<TViewModel>
+public class AdapterVersionNumberService implements IAdapterVersionNumberService
 {
     /**
-     * Shows the dialog and return the result
-     * 
-     * @return a {@linkplain #TResult}
+     * The name of the constructor of {@linkplain AdapterVersionNumberService} parameter version 
      */
-    TResult ShowDialog();
+    public final static String VersionParameterName = "version";
     
     /**
-     * Closes the dialog and sets the dialogResult
-     * 
-     * @param result the {@linkplain #TResult} to set
+     * Backing field for {@linkplain #GetVersion()}
      */
-    void CloseDialog(TResult result);
+    private Version version;
 
-     /**
-      * Gets the {@linkplain dialogResult}
-      * 
-      * @return a {@linkplain #TResult}
-      */
-    TResult GetDialogResult();
+    /**
+     * Gets the {@linkplain Version} that is provided by this service, if it is not set yet
+     * 
+     * @return version the {@linkplain Version} to set
+     */
+    @Override
+    public Version GetVersion()
+    {
+        return this.version;
+    }
+
+    /**
+     * Initializes a new {@linkplain AdapterVersionNumberService}
+     * 
+     * @param version the provided {@linkplain Version}
+     */
+    public AdapterVersionNumberService(Version version)
+    {
+        this.version = version;
+    }
 }

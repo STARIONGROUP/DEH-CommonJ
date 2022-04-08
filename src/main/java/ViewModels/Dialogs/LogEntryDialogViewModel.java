@@ -1,5 +1,5 @@
 /*
- * IDialog.java
+ * LogEntryDialogViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,35 +21,39 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Views.Interfaces;
+package ViewModels.Dialogs;
 
-import ViewModels.Interfaces.IViewModel;
+import ViewModels.Dialogs.Interfaces.ILogEntryDialogViewModel;
 
 /**
- * The <code>IView</code> is the base interface that defines a view as bind-able to a view model
- * 
- * @param <code>TViewModel</code> defines the type of the view model that can be bound to the view
+ * The {@linkplain LogEntryDialogViewModel} is the main view model for {@linkplain LogEntryDialog}
  */
-public interface IDialog<TViewModel extends IViewModel, TResult> extends IView<TViewModel>
+public class LogEntryDialogViewModel implements ILogEntryDialogViewModel
 {
     /**
-     * Shows the dialog and return the result
-     * 
-     * @return a {@linkplain #TResult}
+     * Backing Field for {@linkplain #GetLogEntryContent()} and {@linkplain #SetLogEntryContent(String)}
      */
-    TResult ShowDialog();
+    private String logEntryContent;
     
     /**
-     * Closes the dialog and sets the dialogResult
+     * Sets the represented {@linkplain LogEntry} content value
      * 
-     * @param result the {@linkplain #TResult} to set
+     * @param text the {@linkplain String} value
      */
-    void CloseDialog(TResult result);
-
-     /**
-      * Gets the {@linkplain dialogResult}
-      * 
-      * @return a {@linkplain #TResult}
-      */
-    TResult GetDialogResult();
+    @Override
+    public void SetLogEntryContent(String text)
+    {
+        this.logEntryContent = text;
+    }
+    
+    /**
+     * Gets the represented {@linkplain LogEntry} content value
+     * 
+     * @return the {@linkplain String} value
+     */
+    @Override
+    public String GetLogEntryContent()
+    {
+        return this.logEntryContent;
+    }
 }

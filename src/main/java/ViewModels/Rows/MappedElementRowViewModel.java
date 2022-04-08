@@ -30,6 +30,8 @@ import Enumerations.MappedElementRowStatus;
 import Enumerations.MappingDirection;
 import Reactive.ObservableValue;
 import ViewModels.Interfaces.IMappedElementRowViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
+import ViewModels.ObjectBrowser.Rows.RowViewModel;
 import cdp4common.commondata.NamedThing;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.Relationship;
@@ -40,7 +42,7 @@ import io.reactivex.Observable;
  * @param <TThing> the type of {@linkplain Thing}
  * @param <TDstElement> the type of DST element
  */
-public abstract class MappedElementRowViewModel<TThing extends Thing & NamedThing, TDstElement> implements IMappedElementRowViewModel
+public abstract class MappedElementRowViewModel<TThing extends Thing & NamedThing, TDstElement> extends RowViewModel implements IMappedElementRowViewModel, IRowViewModel
 {
     /**
      * The {@linkplain Class} of the {@linkplain TThing}
@@ -149,30 +151,15 @@ public abstract class MappedElementRowViewModel<TThing extends Thing & NamedThin
     }
     
     /**
-     * The {@linkplain ObservableValue} of {@linkplain Boolean} indicating whether this row is selected
-     */
-    private ObservableValue<Boolean> isSelected = new ObservableValue<>(false, Boolean.class);
-    
-    /**
      * Gets the {@linkplain Observable} of {@linkplain Boolean} from the {@linkplain ObservableValue} isSelected
      * 
      * @return an {@linkplain Observable} of {@linkplain Boolean}
      */
-    public Observable<Boolean> GetIsSelected()
+    public Observable<Boolean> GetIsSelectedObservable()
     {
         return this.isSelected.Observable();
-    }
-    
-    /**
-     * Sets a value indicating whether this row is selected
-     * 
-     * @param isSelected the new {@linkplain boolean} value
-     */
-    public void SetIsSelected(boolean isSelected)
-    {
-        this.isSelected.Value(isSelected);
-    }
-    
+    }    
+
     /**
      * Backing field for {@linkplain GetRelationships()}
      */
@@ -282,8 +269,7 @@ public abstract class MappedElementRowViewModel<TThing extends Thing & NamedThin
      * @return a {@linkplain String}
      */
     public abstract String GetHubElementRepresentation();
-    
-    
+        
     /**
      * Gets the string representation of the represented HUB element
      * 

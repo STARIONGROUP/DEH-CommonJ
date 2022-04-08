@@ -34,6 +34,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.collect.ImmutableMap;
 
 import Utils.Ref;
+import Views.Dialogs.LogEntryDialog;
 import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ExternalIdentifierMap;
@@ -226,5 +227,21 @@ public interface IHubController
      * @param toolName the {@linkplain String} DST tool name
      * @return a {@linkplain Collection} of {@linkplain ExternalIdentifierMap}
      */
-    Collection<ExternalIdentifierMap> GetAvailableExternalIdentifierMap(String toolName);    
+    Collection<ExternalIdentifierMap> GetAvailableExternalIdentifierMap(String toolName);
+
+    /**
+     * Adds a new <see cref="ModelLogEntry"/> record to the <see cref="EngineeringModel.LogEntry"/> 
+     * list of the current <see cref="OpenIteration"/> and registers the change to a <see cref="ThingTransaction"/>
+     * @throws TransactionException 
+     */
+    void RegisterLogEntry(String content, ThingTransaction transaction) throws TransactionException;
+
+    /**
+     * Tries to create a {@linkplain LogEntry} base on the input from the {@linkplain LogEntryDialog}
+     * 
+     * @param transaction the {@linkplain ThingTransaction}
+     * @return a value indicating whether the whole transaction should be cancelled based on the dialog result
+     * @throws TransactionException 
+     */
+    boolean TrySupplyAndCreateLogEntry(ThingTransaction transaction) throws TransactionException;    
 }

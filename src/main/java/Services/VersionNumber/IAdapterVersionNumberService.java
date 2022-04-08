@@ -1,5 +1,5 @@
 /*
- * IDialog.java
+ * IAdapterVersionNumberService.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,35 +21,19 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Views.Interfaces;
+package Services.VersionNumber;
 
-import ViewModels.Interfaces.IViewModel;
+import cdp4common.Version;
 
 /**
- * The <code>IView</code> is the base interface that defines a view as bind-able to a view model
- * 
- * @param <code>TViewModel</code> defines the type of the view model that can be bound to the view
+ * The {@linkplain IAdapterVersionNumberService} is the main interface definition for dst adapter specific implementations
  */
-public interface IDialog<TViewModel extends IViewModel, TResult> extends IView<TViewModel>
+public interface IAdapterVersionNumberService
 {
     /**
-     * Shows the dialog and return the result
+     * Gets the {@linkplain Version} that is provided by this service, if it is not set yet
      * 
-     * @return a {@linkplain #TResult}
+     * @return version the {@linkplain Version} to set
      */
-    TResult ShowDialog();
-    
-    /**
-     * Closes the dialog and sets the dialogResult
-     * 
-     * @param result the {@linkplain #TResult} to set
-     */
-    void CloseDialog(TResult result);
-
-     /**
-      * Gets the {@linkplain dialogResult}
-      * 
-      * @return a {@linkplain #TResult}
-      */
-    TResult GetDialogResult();
+    public Version GetVersion();
 }

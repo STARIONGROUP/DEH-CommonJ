@@ -73,10 +73,10 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserBaseVie
     private IObjectBrowserViewModel dataContext;
     
     /**
-     * View element declaration
+     * the {@linkplain Outline}
      */
     protected Outline objectBrowserTree;
-
+    
     /**
      * Initializes a new {@linkplain ObjectBrowser}
      */
@@ -153,12 +153,9 @@ public class ObjectBrowser extends JPanel implements IView<IObjectBrowserBaseVie
             this.SetTreeVisibility(true);
         }
         
-        this.objectBrowserTree.setSelectionMode(this.GetDataContext().GetCanSelectMultipleElements()
-                ? ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
-                        : ListSelectionModel.SINGLE_SELECTION);
-        
+        this.objectBrowserTree.setSelectionMode(this.GetDataContext().GetSelectionMode());
 
-        this.objectBrowserTree.setRowSelectionAllowed(this.GetDataContext().GetCanSelectMultipleElements());
+        this.objectBrowserTree.setRowSelectionAllowed(this.GetDataContext().GetSelectionMode() != 1);
         
         this.GetDataContext().BrowserTreeModel().subscribe(this::SetOutlineModel);
         this.GetDataContext().IsTheTreeVisible().subscribe(this::SetTreeVisibility);

@@ -36,6 +36,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,14 +45,19 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import com.google.common.collect.ImmutableMap;
 
 import Reactive.ObservableValue;
+import Services.NavigationService.INavigationService;
 import Utils.Ref;
+import Views.Dialogs.LogEntryDialog;
+
 import static Utils.Operators.Operators.AreTheseEquals;
 
 import cdp4common.commondata.DeprecatableThing;
+import cdp4common.commondata.LogLevelKind;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.EngineeringModel;
 import cdp4common.engineeringmodeldata.ExternalIdentifierMap;
 import cdp4common.engineeringmodeldata.Iteration;
+import cdp4common.engineeringmodeldata.ModelLogEntry;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.CacheKey;
 import cdp4common.types.ContainerList;
@@ -75,7 +81,12 @@ public class HubController implements IHubController
      * The current class logger
      */
     private Logger logger = LogManager.getLogger();
-    
+
+    /**
+     * The {@linkplain INavigationService}
+     */
+    private final INavigationService navigationService;
+  
     /**
      * Backing field for {@link IsSessionOpen}
      */ 
@@ -170,6 +181,16 @@ public class HubController implements IHubController
      * The {@link Session} that is used to communicate with the data-store
      */
     private Session session;
+
+    /**
+     * Initializes an new {@linkplain HubController}
+     * 
+     * @param navigationService the {@linkplain INavigationService}
+     */
+    public HubController(INavigationService navigationService)
+    {
+        this.navigationService = navigationService;
+    }
     
     /**
      * Gets the open {@linkplain ReferenceDataLibraries}
@@ -559,6 +580,57 @@ public class HubController implements IHubController
         this.session.write(transaction.finalizeTransaction()).join();
     }    
 
+    /**
+     * Tries to create a {@linkplain LogEntry} base on the input from the {@linkplain LogEntryDialog}
+     * 
+     * @param transaction the {@linkplain ThingTransaction}
+     * @return a value indicating whether the whole transaction should be cancelled based on the dialog result
+     * @throws TransactionException 
+     */
+    @Override
+    public boolean TrySupplyAndCreateLogEntry(ThingTransaction transaction) throws TransactionException
+    {
+        Pair<String, Boolean> dialogResult = this.navigationService.ShowDialog(new LogEntryDialog());
+        
+        if(dialogResult.getRight() != true)
+        {
+            return false;
+        }
+        
+        this.RegisterLogEntry(dialogResult.getLeft(), transaction);
+        return true;
+    }
+    
+    /**
+     * Adds a new {@linkplain ModelLogEntry} record to the {@linkplain EngineeringModel}
+     *  and registers the change to the provided {@linkplain ThingTransaction}
+     * 
+     * @param content the {@linkplain String} content
+     * @param the {@linkplain ThingTransaction}
+     * @throws TransactionException 
+     */
+    @Override
+    public void RegisterLogEntry(String content, ThingTransaction transaction) throws TransactionException
+    {
+        if (StringUtils.isBlank(content))
+        {
+            return;
+        }
+
+        ModelLogEntry logEntry = new ModelLogEntry();
+        logEntry.setIid(UUID.randomUUID());
+        logEntry.setContent(content);
+        logEntry.setAuthor(this.GetActivePerson());
+        logEntry.setLevel(LogLevelKind.USER);
+        logEntry.setLanguageCode("en-GB");
+
+        EngineeringModel clonedEngineeringModel = this.GetOpenIteration().getContainerOfType(EngineeringModel.class).clone(false);
+        clonedEngineeringModel.getLogEntry().add(logEntry);
+
+        transaction.createOrUpdate(logEntry);
+        transaction.createOrUpdate(clonedEngineeringModel);
+    }
+    
     /**
      * Initializes a new {@linkplain ThingTransaction} based on the current open {@linkplain Iteration}
      * 

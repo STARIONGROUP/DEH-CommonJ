@@ -23,10 +23,12 @@
  */
 package ViewModels;
 
+import javax.swing.ListSelectionModel;
 import javax.swing.tree.TreeModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 import org.netbeans.swing.outline.OutlineModel;
 
 import Reactive.ObservableValue;
@@ -103,19 +105,20 @@ public abstract class ObjectBrowserBaseViewModel implements IObjectBrowserBaseVi
     }
     
     /**
-     * Backing field for {@linkplain #GetCanSelectMultipleElements()}
+     * Backing field for {@linkplain #GetSelectionMode()} 
      */
-    protected boolean canSelectMultipleElements = false;
-    
+    protected int selectionMode = ListSelectionModel.SINGLE_INTERVAL_SELECTION;
+
     /**
-     * Gets a value that indicates whether the multi selection should be enabled
+     * Gets the int value from {@linkplain ListSelectionModel} constant applicable to the bound {@linkplain ObjectBrowser}.
+     * Where 1 == no selection allowed
      * 
-     * @return a {@linkplain boolean}
+     * @return a int
      */
     @Override
-    public boolean GetCanSelectMultipleElements()
+    public int GetSelectionMode()
     {
-        return this.canSelectMultipleElements;
+        return this.selectionMode;
     }
     
     /**
