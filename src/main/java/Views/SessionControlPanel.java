@@ -281,9 +281,9 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
      * @param viewModel the {@link IViewModel} to assign
      */
     @Override
-    public void SetDataContext(IViewModel viewModel)
+    public void SetDataContext(ISessionControlPanelViewModel viewModel)
     {
-        this.DataContext = (ISessionControlPanelViewModel)viewModel;   
+        this.DataContext = viewModel;   
         this.Bind();
     }
 

@@ -115,9 +115,9 @@ public class ExchangeHistoryDialog extends JFrame implements IDialog<IExchangeHi
      * 
      * @param viewModel the {@link IExchangeHistoryDialogViewModel} to assign
      */
-    public void SetDataContext(IViewModel viewModel)
+    public void SetDataContext(IExchangeHistoryDialogViewModel viewModel)
     {
-        this.dataContext = (IExchangeHistoryDialogViewModel) viewModel;
+        this.dataContext = viewModel;
         this.Bind();
     }
     

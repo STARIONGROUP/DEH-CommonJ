@@ -29,28 +29,39 @@ import org.netbeans.swing.outline.DefaultOutlineModel;
 import org.netbeans.swing.outline.OutlineModel;
 
 import HubController.IHubController;
+import Reactive.ObservableValue;
 import Services.LocalExchangeHistory.ILocalExchangeHistoryService;
+import ViewModels.ObjectBrowserBaseViewModel;
 import ViewModels.ObjectBrowserViewModel;
 import ViewModels.ExchangeHistory.Interfaces.IExchangeHistoryDialogViewModel;
+import ViewModels.ExchangeHistory.Rows.ExchangeHistoryEntryRowViewModel;
+import ViewModels.ObjectBrowser.Rows.ThingRowViewModel;
+import Views.ExchangeHistory.ExchangeHistoryDialog;
+import cdp4common.commondata.Thing;
+import io.reactivex.Observable;
 
 /**
  * The {@linkplain ExchangeHistoryDialogViewModel} is the dialog view model for the {@linkplain ExchangeHistoryDialog}
  */
-public class ExchangeHistoryDialogViewModel extends ObjectBrowserViewModel implements IExchangeHistoryDialogViewModel
+public class ExchangeHistoryDialogViewModel extends ObjectBrowserBaseViewModel<ExchangeHistoryEntryRowViewModel> implements IExchangeHistoryDialogViewModel
 {
     /**
      * The {@linkplain ILocalExchangeHistoryService}
      */
     private ILocalExchangeHistoryService localExchangeHistoryService;
-
+    
+    /**
+     * Backing field for {@linkplain #GetSelectedElement()}
+     */
+    private ObservableValue<ExchangeHistoryEntryRowViewModel> selectedElement = new ObservableValue<>();
+    
     /**
      * Initializes a new {@linkplain IExchangeHistoryDialogViewModel}
      * 
      * @param localExchangeHistoryService the {@linkplain ILocalExchangeHistoryService}
      */
-    public ExchangeHistoryDialogViewModel(IHubController hubController, ILocalExchangeHistoryService localExchangeHistoryService)
+    public ExchangeHistoryDialogViewModel(ILocalExchangeHistoryService localExchangeHistoryService)
     {
-        super(hubController);
         this.localExchangeHistoryService = localExchangeHistoryService;
         this.BuildTree();
     }
@@ -74,4 +85,26 @@ public class ExchangeHistoryDialogViewModel extends ObjectBrowserViewModel imple
      * @param isConnected a value indicating whether the session is open
      */
     protected void UpdateBrowserTrees(Boolean isConnected) { }
+    
+    /**
+     * Gets the {@linkplain Observable} of {@linkplain #TRowViewModel} that yields the selected element
+     * 
+     * @return an {@linkplain Observable} of {@linkplain #TRowViewModel}
+     */
+    @Override
+    public Observable<ExchangeHistoryEntryRowViewModel> GetSelectedElement()
+    {
+        return this.selectedElement.Observable();
+    }
+    
+    /**
+     * Called whenever the selection changes on the bound {@linkplain ObjectBrowser}
+     * 
+     * @param selectedRow the selected row view model {@linkplain TRowViewModel}
+     */
+    @Override
+    public void OnSelectionChanged(ExchangeHistoryEntryRowViewModel selectedRow)
+    {
+        this.selectedElement.Value(selectedRow);;
+    }
 }

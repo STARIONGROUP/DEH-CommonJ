@@ -26,14 +26,18 @@ package Views.ExchangeHistory;
 import java.awt.Color;
 
 import ViewModels.ExchangeHistory.ExchangeHistoryRenderDataProvider;
+import ViewModels.ExchangeHistory.Interfaces.IExchangeHistoryDialogViewModel;
+import ViewModels.Interfaces.IContextMenuViewModel;
+import ViewModels.Interfaces.IHubBrowserContextMenuViewModel;
 import Views.ObjectBrowser.ObjectBrowser;
+import Views.ObjectBrowser.ObjectBrowserBase;
 
 /**
  * The {@linkplain ExchangeHistoryObjectBrowser} is the {@linkplain ObjectBrowser} for the {@linkplain ExchangeHistoryDialog}
  */
 @SuppressWarnings("serial")
 @Annotations.ExludeFromCodeCoverageGeneratedReport
-public class ExchangeHistoryObjectBrowser extends ObjectBrowser
+public class ExchangeHistoryObjectBrowser extends ObjectBrowserBase<IExchangeHistoryDialogViewModel, IContextMenuViewModel>
 {
     /**
      * Initializes a new {@linkplain MagicDrawObjectBrowser}

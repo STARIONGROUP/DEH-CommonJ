@@ -26,6 +26,8 @@ package ViewModels;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.netbeans.swing.outline.OutlineModel;
+
 import HubController.IHubController;
 import Reactive.ObservableValue;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
@@ -37,7 +39,7 @@ import io.reactivex.Observable;
 /**
  * The {@linkplain ObjectBrowserViewModel} is the main view model for the {@linkplain ObjectBrowser} providing the collections to display in the {@linkplain ObjectBrowser}
  */
-public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel implements IObjectBrowserViewModel
+public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel<ThingRowViewModel<? extends Thing>> implements IObjectBrowserViewModel
 {
     /**
      * Backing field for {@linkplain #GetSelectedElements()}

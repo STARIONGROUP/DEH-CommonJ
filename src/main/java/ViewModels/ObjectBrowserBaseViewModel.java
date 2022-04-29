@@ -28,17 +28,20 @@ import javax.swing.tree.TreeModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 import org.netbeans.swing.outline.OutlineModel;
 
 import Reactive.ObservableValue;
 import ViewModels.Interfaces.IObjectBrowserBaseViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IRowBaseViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import io.reactivex.Observable;
 
 /**
  * The {@linkplain ObjectBrowserBaseViewModel} is the base abstract class for all browser view model that are based on an {@linkplain OutlineModel}
+ * 
+ * @param <TRowViewModel> the type of {@linkplain IRowViewModel} for the selection mechanisms
  */
-public abstract class ObjectBrowserBaseViewModel implements IObjectBrowserBaseViewModel
+public abstract class ObjectBrowserBaseViewModel<TRowViewModel extends IRowBaseViewModel> implements IObjectBrowserBaseViewModel<TRowViewModel>
 {
     /**
      * The current class logger

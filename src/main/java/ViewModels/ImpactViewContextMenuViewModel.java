@@ -47,12 +47,12 @@ public class ImpactViewContextMenuViewModel implements IImpactViewContextMenuVie
     /**
      * The {@linkplain IDstControllerBase}
      */
-    private IDstControllerBase dstController;
+    private IDstControllerBase<?> dstController;
         
     /**
      * Initializes a new {@linkplain ImpactViewContextMenuViewModel}
      */
-    public ImpactViewContextMenuViewModel(IDstControllerBase dstController)
+    public ImpactViewContextMenuViewModel(IDstControllerBase<?> dstController)
     {
         this.dstController = dstController;
     }

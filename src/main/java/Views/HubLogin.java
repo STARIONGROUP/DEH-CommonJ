@@ -472,9 +472,9 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
      * 
      * @param viewModel the {@link IViewModel} to assign
      */
-    public void SetDataContext(IViewModel viewModel)
+    public void SetDataContext(IHubLoginViewModel viewModel)
     {
-        this.dataContext = (IHubLoginViewModel) viewModel;
+        this.dataContext = viewModel;
         this.Bind();
     }
     

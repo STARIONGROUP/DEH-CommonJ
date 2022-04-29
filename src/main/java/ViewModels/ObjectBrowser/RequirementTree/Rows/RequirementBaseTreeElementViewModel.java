@@ -59,7 +59,7 @@ public abstract class RequirementBaseTreeElementViewModel<TThing extends Thing> 
     /**
      * The {@linkplain ArrayList} of {@linkplain OwnedDefinedThingRowViewModel}
      */
-    protected ObservableCollection<RequirementBaseTreeElementViewModel<?>> containedRows = new ObservableCollection<RequirementBaseTreeElementViewModel<?>>();
+    protected ObservableCollection<RequirementBaseTreeElementViewModel<?>> containedRows = new ObservableCollection<>();
 
     /**
      * Gets the contained row the implementing view model has
@@ -83,13 +83,13 @@ public abstract class RequirementBaseTreeElementViewModel<TThing extends Thing> 
     @SuppressWarnings("unchecked")
     public <TRequirementBaseRowViewModel extends RequirementBaseTreeElementViewModel<?>> ObservableCollection<TRequirementBaseRowViewModel> GetAllContainedRowsOfType(Class<TRequirementBaseRowViewModel> clazz)
     {
-        ObservableCollection<TRequirementBaseRowViewModel> result = new ObservableCollection<TRequirementBaseRowViewModel>();
+        ObservableCollection<TRequirementBaseRowViewModel> result = new ObservableCollection<>();
         
         result.addAll(this.containedRows.stream()
                             .filter(x -> clazz.isAssignableFrom(x.getClass()))
                             .map(x -> (TRequirementBaseRowViewModel)x).collect(Collectors.toList()));
         
-        if(this.containedRows.stream().anyMatch(x -> x.containedRows.size() > 0))
+        if(this.containedRows.stream().anyMatch(x -> !x.containedRows.isEmpty()))
         {
             result.addAll(
                     this.containedRows.stream()
@@ -125,15 +125,15 @@ public abstract class RequirementBaseTreeElementViewModel<TThing extends Thing> 
 
             String currentCultureCode = String.format("%s-%s", Locale.getDefault().getCountry(), Locale.getDefault().getLanguage());
                     
-            Definition definition = definitions
+            Definition possibleDefinition = definitions
                     .stream()
                     .filter(x -> x.getLanguageCode().equalsIgnoreCase(currentCultureCode))
                     .findAny()
                     .orElse(null);
             
-            if(definition != null)
+            if(possibleDefinition != null)
             {
-                this.definition = definition.getContent();
+                this.definition = possibleDefinition.getContent();
             }
             else
             {

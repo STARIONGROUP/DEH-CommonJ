@@ -65,6 +65,7 @@ public final class AppContainer
         Container.as(CACHE).addComponent(IHubController.class, HubController.class);
         Container.as(NO_CACHE).addComponent(INavigationService.class, NavigationService.class);
         Container.as(NO_CACHE).addComponent(IUserPreferenceService.class, UserPreferenceService.class);
+        Container.as(CACHE).addComponent(ILocalExchangeHistoryService.class, LocalExchangeHistoryService.class);
         RegisterViewModels();
         Container.start();
 	}
@@ -87,7 +88,6 @@ public final class AppContainer
         Container.as(NO_CACHE).addComponent(ISessionControlPanelViewModel.class, SessionControlPanelViewModel.class);
         Container.as(NO_CACHE).addComponent(ILogEntryDialogViewModel.class.getSimpleName(), LogEntryDialogViewModel.class);
         Container.as(NO_CACHE).addComponent(ILogEntryDialogViewModel.class, LogEntryDialogViewModel.class);
-        Container.as(CACHE).addComponent(ILocalExchangeHistoryService.class, LocalExchangeHistoryService.class);
         Container.as(NO_CACHE).addComponent(IExchangeHistoryDialogViewModel.class.getSimpleName(), ExchangeHistoryDialogViewModel.class);
     }
     

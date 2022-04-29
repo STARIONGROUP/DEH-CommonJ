@@ -26,6 +26,7 @@ package ViewModels;
 import HubController.IHubController;
 import Services.NavigationService.INavigationService;
 import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
+import ViewModels.Interfaces.IHubBrowserContextMenuViewModel;
 import ViewModels.Interfaces.IHubBrowserHeaderViewModel;
 import ViewModels.Interfaces.IHubBrowserPanelViewModel;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
@@ -37,6 +38,35 @@ import ViewModels.Interfaces.ISessionControlPanelViewModel;
  */
 public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
 {    
+    /**
+     * Backing field for {@linkplain #GetElementDefinitionBrowserContextMenuViewModel()}
+     */
+    private IHubBrowserContextMenuViewModel elementDefinitionBrowserContextMenuViewModel;
+    
+    /**
+     * The {@linkplain IHubBrowserContextMenuViewModel} for the element definition browser
+     * 
+     * @return a {@linkplain IHubBrowserContextMenuViewModel}
+     */
+    @Override
+    public IHubBrowserContextMenuViewModel GetElementDefinitionBrowserContextMenuViewModel()
+    {
+        return this.elementDefinitionBrowserContextMenuViewModel;
+    }
+    
+    private IHubBrowserContextMenuViewModel requirementBrowserContextMenuViewModel;
+
+    /**
+     * The {@linkplain IHubBrowserContextMenuViewModel} for the requirement browser
+     * 
+     * @return a {@linkplain IHubBrowserContextMenuViewModel}
+     */
+    @Override
+    public IHubBrowserContextMenuViewModel GetRequirementBrowserContextMenuViewModel()
+    {
+        return this.requirementBrowserContextMenuViewModel;
+    }
+    
     /**
      * the {@linkplain IHubBrowserHeaderViewModel}
      */
@@ -75,6 +105,17 @@ public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
     private IObjectBrowserViewModel requirementBrowserViewModel;
 
     /**
+     * Gets the {@linkplain IObjectBrowserViewModel} for the requirement tree
+     * 
+     * @return the {@linkplain IObjectBrowserViewModel}
+     */
+    @Override
+    public IObjectBrowserViewModel GetRequirementBrowserViewModel()
+    {
+        return this.requirementBrowserViewModel;
+    }
+
+    /**
      * The {@linkplain ISessionControlPanelViewModel} for the session controls panel
      */
     private ISessionControlPanelViewModel sessionControlViewModel;
@@ -91,17 +132,6 @@ public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
     }
     
     /**
-     * Gets the {@linkplain IObjectBrowserViewModel} for the requirement tree
-     * 
-     * @return the {@linkplain IObjectBrowserViewModel}
-     */
-    @Override
-    public IObjectBrowserViewModel GetRequirementBrowserViewModel()
-    {
-        return this.requirementBrowserViewModel;
-    }
-
-    /**
      * Initializes a new {@link HubBrowserPanelViewModel}
      * @param navigationService the {@linkplain INavigationService}
      * @param hubController the {@linkplain IHubController}
@@ -109,14 +139,19 @@ public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
      * @param requirementBrowserViewModel the {@linkplain IRequirementBrowserViewModel}
      * @param elementDefinitionBrowserViewModel the {@linkplain IElementDefinitionBrowserViewModel}
      * @param sessionControlViewModel the {@linkplain ISessionControlPanelViewModel}
+     * @param requirementBrowserContextMenuViewModel the {@linkplain IHubBrowserContextMenuViewModel}
+     * @param elementDefinitionBrowserContextMenuViewModel the {@linkplain IHubBrowserContextMenuViewModel}
      */
     public HubBrowserPanelViewModel(INavigationService navigationService, IHubController hubController, 
             IHubBrowserHeaderViewModel hubBrowserHeaderViewModel, IRequirementBrowserViewModel requirementBrowserViewModel,
-            IElementDefinitionBrowserViewModel elementDefinitionBrowserViewModel, ISessionControlPanelViewModel sessionControlViewModel)
+            IElementDefinitionBrowserViewModel elementDefinitionBrowserViewModel, ISessionControlPanelViewModel sessionControlViewModel,
+            IHubBrowserContextMenuViewModel requirementBrowserContextMenuViewModel, IHubBrowserContextMenuViewModel elementDefinitionBrowserContextMenuViewModel)
     {
         this.hubBrowserHeaderViewModel = hubBrowserHeaderViewModel;
         this.elementDefinitionBrowserViewModel = elementDefinitionBrowserViewModel;
         this.requirementBrowserViewModel = requirementBrowserViewModel;
         this.sessionControlViewModel = sessionControlViewModel;
+        this.requirementBrowserContextMenuViewModel = requirementBrowserContextMenuViewModel;
+        this.elementDefinitionBrowserContextMenuViewModel = elementDefinitionBrowserContextMenuViewModel;
     }
 }

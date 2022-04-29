@@ -23,12 +23,13 @@
  */
 package ViewModels.ExchangeHistory.Interfaces;
 
-import ViewModels.Interfaces.IViewModel;
+import ViewModels.ExchangeHistory.Rows.ExchangeHistoryEntryRowViewModel;
+import ViewModels.Interfaces.IObjectBrowserBaseViewModel;
 
 /**
  * The {@linkplain IExchangeHistoryDialogViewModel} is the interface definition for {@linkplain ExchangeHistoryDialogViewModel}
  */
-public interface IExchangeHistoryDialogViewModel extends IViewModel
+public interface IExchangeHistoryDialogViewModel extends IObjectBrowserBaseViewModel<ExchangeHistoryEntryRowViewModel>
 {
     /**
      * Creates the {@linkplain OutlineModel} tree to display the exchange history

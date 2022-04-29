@@ -294,9 +294,7 @@ public abstract class MappedElementRowViewModel<TThing extends Thing & NamedThin
                 
         if(!"-".equals(elementName))
         {
-            representation = this.GetMappingDirection() == mappingDirection        
-                    ? String.format("%s [%s]", elementName, typeName)
-                    : String.format("[%s] %s", typeName, elementName);
+            representation = String.format("[%s] %s", typeName, elementName);
         }
         else if(this.GetShouldCreateNewTargetElementValue() && "-".equals(elementName))
         {

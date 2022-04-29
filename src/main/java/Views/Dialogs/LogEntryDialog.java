@@ -57,12 +57,7 @@ import cdp4common.commondata.LogEntry;
 @Annotations.ExludeFromCodeCoverageGeneratedReport
 @SuppressWarnings("serial")
 public class LogEntryDialog extends JDialog implements IDialog<ILogEntryDialogViewModel, Pair<String, Boolean>>
-{
-    /**
-     * The current class log4J {@linkplain Logger}
-     */
-    private final Logger logger = LogManager.getLogger();
-    
+{    
     /**
      * Backing field for {@linkplain #GetDialogResult()}
      */
@@ -176,9 +171,9 @@ public class LogEntryDialog extends JDialog implements IDialog<ILogEntryDialogVi
      * 
      * @param viewModel the {@link IViewModel} to assign
      */
-    public void SetDataContext(IViewModel viewModel)
+    public void SetDataContext(ILogEntryDialogViewModel viewModel)
     {
-        this.dataContext = (ILogEntryDialogViewModel) viewModel;
+        this.dataContext = viewModel;
         this.Bind();
     }
     

@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -53,9 +54,17 @@ import cdp4dal.operations.ThingTransaction;
 /**
  * The {@linkplain MappingConfigurationService} is the base abstract class for concrete implementations in adapters 
  * that take care of handling all operation related to saving and loading configured mapping.
+ * 
+ * @param <TDstElement> the type of element the dst adapter works with
+ * @param <TExternalIdentifier> the type of external identifer json class
  */
-public abstract class MappingConfigurationService<TDstElement> implements IMappingConfigurationService
+public abstract class MappingConfigurationService<TDstElement, TExternalIdentifier extends ExternalIdentifier> implements IMappingConfigurationService<TExternalIdentifier>
 {
+    /**
+     * The {@linkplain Class} of {@linkplain #TExternalIdentifier}
+     */
+    private Class<TExternalIdentifier> externalIdentifierClass;
+    
     /**
      * The current class {@linkplain Logger}
      */
@@ -69,7 +78,7 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
     /**
      * The collection of id correspondence as {@linkplain ImmutableTriple} of {@code Pair<UUID correspondenceId, ExternalIdentifier externalIdentifier, UUID internalId>}
      */
-    protected ArrayList<ImmutableTriple<UUID, ExternalIdentifier, UUID>> Correspondences = new ArrayList<>();
+    protected ArrayList<ImmutableTriple<UUID, TExternalIdentifier, UUID>> Correspondences = new ArrayList<>();
 
     /**
      * Backing field for {@linkplain GetExternalIdentifierMap}
@@ -114,10 +123,12 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
      * Initializes a new {@linkplain MappingConfigurationService}
      * 
      * @param HubController the {@linkplain IHubController}
+     * @param externalIdentifierClass the {@linkplain Class} of {@linkplain #TExternalIdentifier}
      */
-    protected MappingConfigurationService(IHubController hubController)
+    protected MappingConfigurationService(IHubController hubController, Class<TExternalIdentifier> externalIdentifierClass)
     {
         this.HubController = hubController;
+        this.externalIdentifierClass = externalIdentifierClass;
     }
     
     /**
@@ -175,22 +186,6 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
     }
     
     /**
-     * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
-     * 
-     * @param internalId the {@linkplain UUID} that identifies the thing to correspond to
-     * @param externalId the {@linkplain Object} that identifies the object to correspond to
-     * @param mappingDirection the {@linkplain MappingDirection} the mapping belongs to
-     */
-    @Override
-    public void AddToExternalIdentifierMap(UUID internalId, Object externalId, MappingDirection mappingDirection)
-    {
-        ExternalIdentifier externalIdentifier = new ExternalIdentifier();
-        externalIdentifier.Identifier = externalId;
-        externalIdentifier.MappingDirection = mappingDirection;
-        this.AddToExternalIdentifierMap(internalId, externalIdentifier);
-    }
-    
-    /**
      * Creates a new {@linkplain ExternalIdentifierMap} and sets the current as the new one
      *
      * @param newName the {@linkplain String} name of the new configuration
@@ -200,20 +195,20 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
      */
     protected ExternalIdentifierMap CreateExternalIdentifierMap(String newName, String modelName, String toolName, boolean addTheTemporyMapping)
     {        
-        ExternalIdentifierMap externalIdentifierMap = new ExternalIdentifierMap();
+        ExternalIdentifierMap identifierMap = new ExternalIdentifierMap();
         
-        externalIdentifierMap.setIid(UUID.randomUUID());
-        externalIdentifierMap.setName(newName);
-        externalIdentifierMap.setExternalModelName(StringUtils.isBlank(modelName) ? newName : modelName);
-        externalIdentifierMap.setExternalToolName(toolName);
-        externalIdentifierMap.setOwner(this.HubController.GetCurrentDomainOfExpertise());
+        identifierMap.setIid(UUID.randomUUID());
+        identifierMap.setName(newName);
+        identifierMap.setExternalModelName(StringUtils.isBlank(modelName) ? newName : modelName);
+        identifierMap.setExternalToolName(toolName);
+        identifierMap.setOwner(this.HubController.GetCurrentDomainOfExpertise());
         
         if(addTheTemporyMapping)
         {
-            externalIdentifierMap.getCorrespondence().addAll(this.externalIdentifierMap.getCorrespondence());
+            identifierMap.getCorrespondence().addAll(this.externalIdentifierMap.getCorrespondence());
         }
         
-        return externalIdentifierMap;
+        return identifierMap;
     }
     
     /**
@@ -228,7 +223,7 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
         this.Correspondences.addAll(this.externalIdentifierMap
                 .getCorrespondence()
                 .stream()
-                .map(x -> ImmutableTriple.of(x.getIid(), new Gson().fromJson(x.getExternalId(), ExternalIdentifier.class), x.getInternalThing()))
+                .map(x -> ImmutableTriple.of(x.getIid(), new Gson().fromJson(x.getExternalId(), this.externalIdentifierClass), x.getInternalThing()))
                 .collect(Collectors.toList()));
 
         timer.stop();
@@ -243,20 +238,50 @@ public abstract class MappingConfigurationService<TDstElement> implements IMappi
      * @return a {@linkplain Collection} of {@linkplain IMappedElementRowViewModel}
      */
     public abstract Collection<IMappedElementRowViewModel> LoadMapping(Collection<TDstElement> elements);
+
+    /**
+     * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
+     * 
+     * @param internalId the {@linkplain UUID} that identifies the thing to correspond to
+     * @param externalId the {@linkplain Object} that identifies the object to correspond to
+     * @param mappingDirection the {@linkplain MappingDirection} the mapping belongs to
+     */
+    @Override
+    public void AddToExternalIdentifierMap(UUID internalId, Object externalId, MappingDirection mappingDirection)
+    {
+        try
+        {
+            TExternalIdentifier externalIdentifier = this.externalIdentifierClass.newInstance(); 
+            externalIdentifier.Identifier = externalId;
+            externalIdentifier.MappingDirection = mappingDirection;
+            this.AddToExternalIdentifierMap(internalId, externalIdentifier, x -> x != null);   
+        }
+        catch (InstantiationException | IllegalAccessException exception)
+        {
+            this.Logger.catching(exception);
+        }      
+    }
     
     /**
      * Adds one correspondence to the {@linkplain ExternalIdentifierMap} 
      * 
      * @param internalId The thing that the ExternalIdentifier corresponds to
      * @param externalIdentifier The external thing that the internal id corresponds to
+     * @param extraFilter A {@linkplain Predicate} that allows to filter on other properties while this method checks for existing mapping
      */
     @Override
-    public void AddToExternalIdentifierMap(UUID internalId, ExternalIdentifier externalIdentifier)
+    public void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter)
     {
+        if(extraFilter == null)
+        {
+            extraFilter = x -> x != null;
+        }
+        
         Optional<UUID> correspondenceIid = this.Correspondences.stream()
             .filter(x -> AreTheseEquals(x.getRight(), internalId) 
                     && AreTheseEquals(externalIdentifier.Identifier, x.getMiddle().Identifier)
                     && externalIdentifier.MappingDirection == x.getMiddle().MappingDirection)
+            .filter(extraFilter)
             .map(x -> x.left)
             .findFirst();
         

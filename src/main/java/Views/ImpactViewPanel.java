@@ -32,6 +32,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -42,8 +43,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import Enumerations.MappingDirection;
+import Views.ContextMenu.ContextMenu;
 import Views.ContextMenu.ImpactViewContextMenu;
 import Views.ObjectBrowser.ObjectBrowser;
+import Views.ObjectBrowser.ObjectBrowserBase;
 import cdp4common.commondata.ClassKind;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.RequirementsSpecification;
@@ -359,9 +362,9 @@ public class ImpactViewPanel extends JPanel
     /**
      * Sets the impact view view for the Dst model impact
      * 
-     * @param the {@linkplain ObjectBrowser} view to set
+     * @param the {@linkplain ObjectBrowserBase} view to set
      */
-    public void SetDstImpactViewView(ObjectBrowser view)
+    public void SetDstImpactViewView(ObjectBrowserBase<?,?> dstObjectBrowser)
     {
         SwingUtilities.invokeLater(() ->
         {
@@ -370,7 +373,7 @@ public class ImpactViewPanel extends JPanel
             constraints.anchor = GridBagConstraints.CENTER;
             constraints.gridx = 0;
             constraints.gridy = 0;
-            this.dstImpactViewPanel.add(view, constraints);
+            this.dstImpactViewPanel.add(dstObjectBrowser, constraints);
         });
     }
     
@@ -416,7 +419,7 @@ public class ImpactViewPanel extends JPanel
      * @param handler the {@linkplain Function} of {@linkplain String} representing the current mapping configuration.
      * The {@linkplain Function} returns a value indicating whether the loaded configuration is new.
      */
-    public void AttachOnSaveLoadMappingConfiguration(Function<String, Boolean> handler)
+    public void AttachOnSaveLoadMappingConfiguration(Predicate<String> handler)
     {
         this.saveMappingConfigurationButton.addActionListener(e ->
                 {
@@ -424,7 +427,7 @@ public class ImpactViewPanel extends JPanel
                     {
                         String newConfigurationName = this.mappingConfigurationComboBox.getSelectedItem().toString();
                         
-                        if(handler.apply(newConfigurationName).booleanValue())
+                        if(handler.test(newConfigurationName))
                         {
                             this.mappingConfigurationComboBox.addItem(newConfigurationName);
                             this.mappingConfigurationComboBox.setSelectedItem(newConfigurationName);

@@ -62,6 +62,7 @@ public final class IterationElementDefinitionRowViewModel extends IterationRowVi
         
         this.GetThing().getElement()
             .stream()
+            .sorted((x, y) -> x.getName().compareTo(y.getName()))
             .forEach(x -> this.containedRows.add(new ElementDefinitionRowViewModel(x, this)));
     }    
 }
