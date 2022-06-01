@@ -219,6 +219,7 @@ public class ElementDefinitionBrowserViewModelTestFixture
         this.iteration = new Iteration();
         this.element0 = new ElementDefinition();
         this.element0.setOwner(this.owner);
+        this.element0.setName("element0");
         this.element0.getParameter().add(this.parameter0);
         this.element0.getParameter().add(this.parameter1);
         this.element0.getParameter().add(this.parameter2);
@@ -226,11 +227,13 @@ public class ElementDefinitionBrowserViewModelTestFixture
 
         this.element1 = new ElementDefinition();
         this.element1.setOwner(this.owner);
+        this.element1.setName("element1");
         Parameter parameter0Cloned = this.parameter0.clone(true);
         this.element1.getParameter().add(parameter0Cloned);
         
         this.elementUsage = new ElementUsage();
         this.elementUsage.setElementDefinition(element0);
+        this.elementUsage.setName("elementUsage");
         this.elementUsage.setOwner(this.owner);
         ParameterOverride parameterOverride = new ParameterOverride();
         parameterOverride.setOwner(this.owner);
