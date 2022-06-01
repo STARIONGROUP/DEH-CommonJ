@@ -26,10 +26,7 @@ package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterGroupRowViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
-import cdp4common.dto.ParameterGroup;
 import cdp4common.engineeringmodeldata.ElementDefinition;
-import cdp4common.engineeringmodeldata.ElementUsage;
-import cdp4common.types.ContainerList;
 
 /**
  * The {@linkplain ElementDefinitionRowViewModel} is the main row view model for {@linkplain ElementDefinition}

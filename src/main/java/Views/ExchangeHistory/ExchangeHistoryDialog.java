@@ -23,26 +23,17 @@
  */
 package Views.ExchangeHistory;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Utils.ImageLoader.ImageLoader;
-import ViewModels.ExchangeHistory.ExchangeHistoryRenderDataProvider;
 import ViewModels.ExchangeHistory.Interfaces.IExchangeHistoryDialogViewModel;
-import ViewModels.Interfaces.IHubLoginViewModel;
 import ViewModels.Interfaces.IViewModel;
-
-import java.awt.Toolkit;
-import java.awt.GridBagLayout;
-
 import Views.Interfaces.IDialog;
-import Views.Interfaces.IView;
-import Views.ObjectBrowser.ObjectBrowser;
-import java.awt.GridBagConstraints;
 
 /**
  * The {@linkplain ExchangeHistoryDialog} is the view that displays all exchange history entries

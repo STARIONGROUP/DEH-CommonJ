@@ -54,6 +54,7 @@ import cdp4dal.exceptions.DalWriteException;
 import cdp4dal.exceptions.TransactionException;
 import cdp4dal.operations.ThingTransaction;
 import io.reactivex.Observable;
+import javassist.NotFoundException;
 
 /**
  * The {@linkplain IHubController} is the interface definition for {@linkplain HubController}
@@ -96,8 +97,9 @@ public interface IHubController
      * 
      * @param The {@link Iteration} to read
      * @param The {@link Domain} that reads the {@link Iteration}
+     * @throws NotFoundException 
      */
-    void GetIteration(Iteration iteration, DomainOfExpertise domain);
+    void GetIteration(Iteration iteration, DomainOfExpertise domain) throws NotFoundException;
 
     /**
      * Gets the active person

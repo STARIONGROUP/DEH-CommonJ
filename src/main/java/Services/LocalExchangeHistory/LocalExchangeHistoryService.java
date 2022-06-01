@@ -42,7 +42,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.gson.Gson;
 
 import HubController.IHubController;
-import Services.VersionNumber.IAdapterVersionNumberService;
+import Services.AdapterInfo.IAdapterInfoService;
 import ViewModels.ExchangeHistory.Rows.ExchangeHistoryEntryRowViewModel;
 import cdp4common.ChangeKind;
 import cdp4common.commondata.NamedThing;
@@ -70,7 +70,7 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
     /**
      * The {@linkplain IAdapterVersionNumberService}
      */
-    private final IAdapterVersionNumberService versionService;
+    private final IAdapterInfoService adapterInfoService;
     
     /**
      * The {@linkplain IHubController}
@@ -103,10 +103,10 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
      * @param hubController the {@linkplain IHubController}
      * @param versionService the {@linkplain IAdapterVersionNumberService}
      */
-    public LocalExchangeHistoryService(IHubController hubController, IAdapterVersionNumberService versionService)
+    public LocalExchangeHistoryService(IHubController hubController, IAdapterInfoService versionService)
     {
         this.hubController = hubController;
-        this.versionService = versionService;
+        this.adapterInfoService = versionService;
     }
     
     /**
@@ -255,7 +255,7 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
             Date timestamp = new Date();
             
             this.pendingEntries.forEach(x -> x.SetTimeStamp(timestamp));
-            this.pendingEntries.forEach(x -> x.SetAdapterVersion(this.versionService.GetVersion()));
+            this.pendingEntries.forEach(x -> x.SetAdapterVersion(this.adapterInfoService.GetVersion()));
 
             ExchangeHistoryEntryCollection localExchangeHistory = this.Read();
 
@@ -301,9 +301,11 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
         try (FileInputStream reader = new FileInputStream(this.localExchangeHistoryServiceFile))
         {
             byte[] data = new byte[(int) this.localExchangeHistoryServiceFile.length()];
+
+            int read = reader.read(data);
             
-            reader.read(data);
-            
+            this.logger.info(String.format("%s bytes read from the UserPreference file", read));
+                        
             String dataString = new String(data, StandardCharsets.UTF_8);
             
             ExchangeHistoryEntryCollection result = this.jsonConverter.fromJson(dataString, ExchangeHistoryEntryCollection.class);
@@ -331,14 +333,14 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
      */
     private File GetFile()
     {
-        File file = new File("ExchangeHistory");
-        
-        if(this.TryCreateDirectoryOrFile(file) && this.TryCreateDirectoryOrFile(file = new File(file, fileName)))
-        {
-            return file;
-        }
-        
-        return null;
+        File file = new File(System.getProperty("user.home"));
+        file = new File(file, ".rheagroup");
+        this.TryCreateDirectoryOrFile(file);
+        file = new File(file, "DEHAdapterLocalExchangeHistory");
+        this.TryCreateDirectoryOrFile(file);
+        file = new File(file, String.format("%s-%s", this.adapterInfoService.GetAdapterName() ,fileName));
+        this.TryCreateDirectoryOrFile(file);
+        return file;
     }
     
     /**

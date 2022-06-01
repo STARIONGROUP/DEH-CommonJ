@@ -71,6 +71,7 @@ import cdp4dal.operations.ThingTransactionImpl;
 import cdp4dal.operations.TransactionContextResolver;
 import cdp4servicesdal.CdpServicesDal;
 import io.reactivex.Observable;
+import javassist.NotFoundException;
 
 /**
  * Definition of the {@link HubController} which is responsible to provides {@link Session} related functionalities
@@ -314,14 +315,22 @@ public class HubController implements IHubController
      * 
      * @param The {@link Iteration} to read
      * @param The {@link Domain} that reads the {@link Iteration}
+     * @throws NotFoundException 
      */
     @Override
-    public void GetIteration(Iteration iteration, DomainOfExpertise domain)
+    public void GetIteration(Iteration iteration, DomainOfExpertise domain) throws NotFoundException
     {
         this.session.read(iteration, domain).join();
         ImmutableMap<Iteration, Pair<DomainOfExpertise, Participant>> iterationDomainAndParticipant = this.GetIteration();
-        this.openIteration = iterationDomainAndParticipant.keySet().stream().findFirst().get();
-        this.currentDomainOfExpertise = iterationDomainAndParticipant.entrySet().stream().findFirst().get().getValue().getKey();
+        
+        this.openIteration = iterationDomainAndParticipant.keySet().stream()
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("The Iteration %s was not found"));
+                
+        this.currentDomainOfExpertise = iterationDomainAndParticipant.entrySet().stream()
+                .map(x -> x.getValue().getLeft())
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("The Iteration %s was not found"));
         
         this.SetIsSessionOpen(this.openIteration != null);
     }
@@ -434,6 +443,7 @@ public class HubController implements IHubController
         catch (InterruptedException interruptedException)
         {
             this.logger.catching(interruptedException);
+            Thread.currentThread().interrupt();
         } 
         catch (ExecutionException executionException)
         {
@@ -456,17 +466,19 @@ public class HubController implements IHubController
     {
         try
         {
-            EngineeringModel model = new EngineeringModel(engineeringModelSetup.getEngineeringModelIid(), 
+            try(EngineeringModel model = new EngineeringModel(engineeringModelSetup.getEngineeringModelIid(), 
+                    this.session.getAssembler().getCache(), this.session.getCredentials().getUri()))
+            {
+                model.setEngineeringModelSetup(engineeringModelSetup);
+
+                Iteration iteration = new Iteration(iterationSetup.getIterationIid(),
                     this.session.getAssembler().getCache(), this.session.getCredentials().getUri());
+
+                model.getIteration().add(iteration);
+    
+                this.GetIteration(iteration, domainOfExpertise);
+            }
             
-            model.setEngineeringModelSetup(engineeringModelSetup);
-
-            Iteration iteration = new Iteration(iterationSetup.getIterationIid(),
-                    this.session.getAssembler().getCache(), this.session.getCredentials().getUri());
-
-            model.getIteration().add(iteration);
-
-            this.GetIteration(iteration, domainOfExpertise);
             return true;
         }
         catch (Exception exception)

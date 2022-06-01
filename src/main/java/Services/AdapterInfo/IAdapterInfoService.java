@@ -21,14 +21,14 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Services.VersionNumber;
+package Services.AdapterInfo;
 
 import cdp4common.Version;
 
 /**
- * The {@linkplain IAdapterVersionNumberService} is the main interface definition for dst adapter specific implementations
+ * The {@linkplain IAdapterInfoService} is the main interface definition for dst adapter specific implementations
  */
-public interface IAdapterVersionNumberService
+public interface IAdapterInfoService
 {
     /**
      * Gets the {@linkplain Version} that is provided by this service, if it is not set yet
@@ -36,4 +36,11 @@ public interface IAdapterVersionNumberService
      * @return version the {@linkplain Version} to set
      */
     public Version GetVersion();
+
+    /**
+     * Gets the {@linkplain String} adapter name that is provided by this service
+     * 
+     * @return the adapter name
+     */
+    String GetAdapterName();
 }

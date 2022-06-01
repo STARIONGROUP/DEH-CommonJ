@@ -1,5 +1,5 @@
 /*
- * AdapterVersionNumberService.java
+ * AdapterInfoService.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,40 +21,53 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Services.VersionNumber;
+package Services.AdapterInfo;
 
 import cdp4common.Version;
 
-public class AdapterVersionNumberService implements IAdapterVersionNumberService
+public class AdapterInfoService implements IAdapterInfoService
 {
-    /**
-     * The name of the constructor of {@linkplain AdapterVersionNumberService} parameter version 
-     */
-    public final static String VersionParameterName = "version";
-    
     /**
      * Backing field for {@linkplain #GetVersion()}
      */
     private Version version;
-
+    
     /**
-     * Gets the {@linkplain Version} that is provided by this service, if it is not set yet
+     * Gets the {@linkplain Version} that is provided by this service
      * 
-     * @return version the {@linkplain Version} to set
+     * @return the {@linkplain Version}
      */
     @Override
     public Version GetVersion()
     {
         return this.version;
     }
+    
+    /**
+     * Backing field for {@linkplain #GetAdapterName()}
+     */
+    private String adapterName;
 
     /**
-     * Initializes a new {@linkplain AdapterVersionNumberService}
+     * Gets the {@linkplain String} adapter name that is provided by this service
+     * 
+     * @return the adapter name
+     */
+    @Override
+    public String GetAdapterName()
+    {
+        return this.adapterName;
+    }
+
+    /**
+     * Initializes a new {@linkplain AdapterInfoService}
      * 
      * @param version the provided {@linkplain Version}
+     * @param adapterName the provided {@linkplain }
      */
-    public AdapterVersionNumberService(Version version)
+    public AdapterInfoService(Version version, String adapterName)
     {
+        this.adapterName = adapterName;
         this.version = version;
     }
 }

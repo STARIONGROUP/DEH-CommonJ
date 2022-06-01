@@ -98,7 +98,10 @@ public class UserPreferenceService implements IUserPreferenceService
         try (FileInputStream reader = new FileInputStream(this.userPreferenceFile))
         {
             byte[] data = new byte[(int) this.userPreferenceFile.length()];
-            reader.read(data);
+            int read = reader.read(data);
+            
+            this.logger.info(String.format("%s bytes read from the UserPreference file ", read));
+            
             String dataString = new String(data, StandardCharsets.UTF_8);
             
             this.userPreference = new Gson().fromJson(dataString, UserPreference.class);
