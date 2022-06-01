@@ -35,11 +35,10 @@ import com.google.common.collect.ImmutableMap;
 
 import Utils.Ref;
 import Views.Dialogs.LogEntryDialog;
-import cdp4common.commondata.DefinedThing;
+import cdp4common.commondata.LogEntry;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ExternalIdentifierMap;
 import cdp4common.engineeringmodeldata.Iteration;
-import cdp4common.sitedirectorydata.Category;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;

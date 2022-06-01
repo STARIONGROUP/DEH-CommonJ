@@ -89,15 +89,8 @@ public class ImpactViewContextMenu extends ContextMenu<IImpactViewContextMenuVie
      */
     public void Bind()
     {
-        this.selectAll.addActionListener(x ->
-        {
-            this.dataContext.SelectAllOfType(classKind);
-        });
-        
-        this.deselectAll.addActionListener(x ->
-        {
-            this.dataContext.DeselectAllOfType(classKind);
-        });
+        this.selectAll.addActionListener(x -> this.dataContext.SelectAllOfType(classKind));
+        this.deselectAll.addActionListener(x -> this.dataContext.DeselectAllOfType(classKind));
     }
     
     /**

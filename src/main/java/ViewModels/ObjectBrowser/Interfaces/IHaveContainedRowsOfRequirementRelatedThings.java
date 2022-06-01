@@ -25,7 +25,8 @@ package ViewModels.ObjectBrowser.Interfaces;
 
 import Reactive.ObservableCollection;
 import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementBaseTreeElementViewModel;
-import cdp4common.commondata.Thing;
+import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementGroupRowViewModel;
+import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementRowViewModel;
 
 /**
  * The {@linkplain IHaveContainedRowsOfRequirementRelatedThings} is the specialized interface for {@linkplain RequirementBaseTreeElementViewModel} from {@linkplain IHaveContainedRows}

@@ -23,13 +23,9 @@
  */
 package Views.ObjectBrowser;
 
-import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 
 import org.apache.commons.lang3.tuple.Pair;
 

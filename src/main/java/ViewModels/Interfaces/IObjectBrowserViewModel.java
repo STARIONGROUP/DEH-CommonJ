@@ -27,7 +27,6 @@ import java.util.Collection;
 
 import ViewModels.ObjectBrowser.Rows.ThingRowViewModel;
 import cdp4common.commondata.Thing;
-import io.reactivex.Observable;
 
 /**
  * The {@linkplain IObjectBrowserViewModel} is the interface definition for the {@linkplain ObjectBrowserViewModel} 

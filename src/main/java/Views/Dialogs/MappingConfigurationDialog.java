@@ -324,10 +324,7 @@ public abstract class MappingConfigurationDialog
             }
         });
         
-        this.mapToNewElementCheckBox.addActionListener(x -> 
-        {
-            this.dataContext.WhenMapToNewElementCheckBoxChanged(this.mapToNewElementCheckBox.isSelected());
-        });
+        this.mapToNewElementCheckBox.addActionListener(x -> this.dataContext.WhenMapToNewElementCheckBoxChanged(this.mapToNewElementCheckBox.isSelected()));
         
         this.dataContext.GetShouldMapToNewElementCheckBoxBeEnabled()
             .subscribe(x -> this.mapToNewElementCheckBox.setEnabled(x));

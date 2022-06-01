@@ -26,13 +26,14 @@ package ViewModels.ExchangeHistory;
 import org.netbeans.swing.outline.RowModel;
 
 import ViewModels.ExchangeHistory.Rows.ExchangeHistoryEntryRowViewModel;
+import ViewModels.Rows.BaseTreeRowModel;
 import cdp4common.Version;
 
 /**
  * The {@linkplain MappedElementListViewTreeRowViewModel} is the {@linkplain RowModel} implementation for the {@linkplain CapellaObjectBrowser}
  */
-public class LocalExchangeHistoryTreeRowViewModel implements RowModel
-{    
+public class LocalExchangeHistoryTreeRowViewModel extends BaseTreeRowModel implements RowModel
+{
     /**
      * Gets column count for this tree grid needed to generate all the specified columns and also to compute rows values 
      * 
@@ -89,28 +90,6 @@ public class LocalExchangeHistoryTreeRowViewModel implements RowModel
             default : return null;
         }
     }
-
-    /**
-     * Gets a value indicating whether the specified (by the provided {@linkplain node} and {@linkplain column}) cell is editable
-     * 
-     * @param node the row view model
-     * @param column the column index
-     * @return a {@linkplain boolean}
-     */
-    @Override
-    public boolean isCellEditable(Object node, int column)
-    {
-        return false;
-    }
-
-    /**
-     * Sets the value provided by {@linkplain value} to the node view model, typically it should call a setter on the row view model
-     * 
-     * @param node the row view model
-     * @param column the column index
-     */
-    @Override
-    public void setValueFor(Object node, int column, Object value) { }
 
     /**
      * Gets the column name based on its index

@@ -23,13 +23,14 @@
  */
 package Views.Dialogs;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.apache.logging.log4j.LogManager;
 
 import Utils.ImageLoader.ImageLoader;
 import java.awt.GridLayout;
@@ -51,18 +52,15 @@ public class LocalExchangeHistoryDialog extends JDialog
      */
     public static void main(String[] args)
     {
-        EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
+        EventQueue.invokeLater(() -> {
+            try
             {
-                try
-                {
-                    LocalExchangeHistoryDialog frame = new LocalExchangeHistoryDialog();
-                    frame.setVisible(true);
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+                LocalExchangeHistoryDialog frame = new LocalExchangeHistoryDialog();
+                frame.setVisible(true);
+            } 
+            catch (Exception exception)
+            {
+                LogManager.getLogger().catching(exception);
             }
         });
     }

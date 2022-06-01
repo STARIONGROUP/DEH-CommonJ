@@ -23,15 +23,10 @@
  */
 package DstController;
 
-import java.util.function.Predicate;
-
+import Enumerations.MappingDirection;
 import Reactive.ObservableCollection;
-import Utils.Ref;
 import ViewModels.Rows.MappedElementRowViewModel;
 import cdp4common.commondata.ClassKind;
-import cdp4common.commondata.DefinedThing;
-import cdp4common.commondata.NamedThing;
-import cdp4common.commondata.ShortNamedThing;
 import cdp4common.commondata.Thing;
 
 /**
