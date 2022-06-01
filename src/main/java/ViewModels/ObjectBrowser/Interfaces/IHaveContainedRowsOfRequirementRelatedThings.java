@@ -30,7 +30,7 @@ import cdp4common.commondata.Thing;
 /**
  * The {@linkplain IHaveContainedRowsOfRequirementRelatedThings} is the specialized interface for {@linkplain RequirementBaseTreeElementViewModel} from {@linkplain IHaveContainedRows}
  */
-public interface IHaveContainedRowsOfRequirementRelatedThings<TRowViewModel extends RequirementBaseTreeElementViewModel<?> & IRowBaseViewModel> extends IHaveContainedRows<TRowViewModel>
+public interface IHaveContainedRowsOfRequirementRelatedThings<TRowViewModel extends IRowBaseViewModel> extends IHaveContainedRows<TRowViewModel>
 {
     /**
      * Gets all the contained rows of the provided type
