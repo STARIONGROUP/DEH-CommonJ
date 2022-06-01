@@ -178,6 +178,8 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
     @Override
     public void Bind()
     {
+        this.SetControlsEnabled(this.DataContext.GetIsConnected());
+        
         this.connectButton.addActionListener(e ->
                 {
                     if(!this.DataContext.GetIsConnected())

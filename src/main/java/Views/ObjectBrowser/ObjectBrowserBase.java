@@ -24,6 +24,7 @@
 package Views.ObjectBrowser;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
@@ -35,6 +36,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import org.netbeans.swing.outline.Outline;
 import org.netbeans.swing.outline.OutlineModel;
@@ -191,6 +195,29 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
     }
 
     /**
+     * Sets the columns preferred width
+     */
+    private void SetColumnsPreferredWidth()
+    {
+        for (int columnIndex = 0; columnIndex < this.objectBrowserTree.getColumnCount(); columnIndex++) 
+        {
+            DefaultTableColumnModel columnModel = (DefaultTableColumnModel) this.objectBrowserTree.getColumnModel();
+            TableColumn column = columnModel.getColumn(columnIndex);
+            int width = 0;
+
+            for (int rowIndex = 0; rowIndex < this.objectBrowserTree.getRowCount(); rowIndex++) 
+            {
+              TableCellRenderer renderer = this.objectBrowserTree.getCellRenderer(rowIndex, columnIndex);
+              Component comp = renderer.getTableCellRendererComponent(this.objectBrowserTree, this.objectBrowserTree.getValueAt(rowIndex, columnIndex), false, false, rowIndex, columnIndex);
+              int preferredWidth = comp.getPreferredSize().width;
+              width = Math.max(width, preferredWidth < 25 ? 110 : preferredWidth);
+            }
+            
+            column.setPreferredWidth(width + 2);
+        }
+    }
+    
+    /**
      * Sets the visibility of this tree
      * 
      * @param isVisible the value indicating whether the tree should be made visible
@@ -212,6 +239,7 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
             SwingUtilities.invokeLater(() -> {
                 this.objectBrowserTree.setModel(model);
                 this.objectBrowserTree.tableChanged(new TableModelEvent(this.objectBrowserTree.getOutlineModel()));
+                this.SetColumnsPreferredWidth();
             });
         }
     }

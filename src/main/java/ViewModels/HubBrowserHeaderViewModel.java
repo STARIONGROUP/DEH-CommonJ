@@ -42,7 +42,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     /**
      * Backing field for {@linkplain GetEngineeringModelName}
      */
-    private ObservableValue<String> engineeringModelName = new ObservableValue<String>(String.class);
+    private ObservableValue<String> engineeringModelName = new ObservableValue<>(String.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain engineeringModelName} {@linkplain ObservableValue}
@@ -58,7 +58,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     /**
      * Backing field for {@linkplain GetDataSource}
      */
-    private ObservableValue<String> dataSource = new ObservableValue<String>(String.class);
+    private ObservableValue<String> dataSource = new ObservableValue<>(String.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain dataSource} {@linkplain ObservableValue}
@@ -127,6 +127,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     public HubBrowserHeaderViewModel(IHubController hubController)
     {
         this.hubController = hubController;
+        this.UpdateProperties(this.hubController.GetIsSessionOpen());
         this.InitializeObservable();
     }
     
@@ -136,24 +137,31 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     private void InitializeObservable()
     {
         this.hubController.GetIsSessionOpenObservable()
-            .subscribe(isSessionIsOpen -> 
-            {
-                if (isSessionIsOpen)
-                {
-                    this.engineeringModelName.Value(this.hubController.GetOpenIteration().getContainerOfType(EngineeringModel.class).getEngineeringModelSetup().getName());
-                    this.dataSource.Value(this.hubController.GetDataSourceUri());
-                    this.iterationNumber.Value(String.valueOf(this.hubController.GetOpenIteration().getIterationSetup().getIterationNumber()));
-                    this.personName.Value(this.hubController.GetActivePerson().getName());
-                    this.domainOfExpertiseName.Value(this.hubController.GetCurrentDomainOfExpertise().getName());
-                }
-                else
-                {
-                    this.engineeringModelName.Value("");
-                    this.dataSource.Value("");
-                    this.iterationNumber.Value("");
-                    this.personName.Value("");
-                    this.domainOfExpertiseName.Value("");
-                }
-            });
+            .subscribe(isSessionIsOpen -> UpdateProperties(isSessionIsOpen));
+    }
+
+    /**
+     * Update this view model properties
+     * 
+     * @param isSessionIsOpen a value indicating whether the session open
+     */
+    private void UpdateProperties(boolean isSessionIsOpen)
+    {
+        if (isSessionIsOpen)
+        {
+            this.engineeringModelName.Value(this.hubController.GetOpenIteration().getContainerOfType(EngineeringModel.class).getEngineeringModelSetup().getName());
+            this.dataSource.Value(this.hubController.GetDataSourceUri());
+            this.iterationNumber.Value(String.valueOf(this.hubController.GetOpenIteration().getIterationSetup().getIterationNumber()));
+            this.personName.Value(this.hubController.GetActivePerson().getName());
+            this.domainOfExpertiseName.Value(this.hubController.GetCurrentDomainOfExpertise().getName());
+        }
+        else
+        {
+            this.engineeringModelName.Value("");
+            this.dataSource.Value("");
+            this.iterationNumber.Value("");
+            this.personName.Value("");
+            this.domainOfExpertiseName.Value("");
+        }
     }
 }

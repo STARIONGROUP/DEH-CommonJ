@@ -133,6 +133,7 @@ public class HubBrowserPanelViewModel implements IHubBrowserPanelViewModel
     
     /**
      * Initializes a new {@link HubBrowserPanelViewModel}
+     * 
      * @param navigationService the {@linkplain INavigationService}
      * @param hubController the {@linkplain IHubController}
      * @param hubBrowserHeaderViewModel the {@linkplain IHubBrowserHeaderViewModel}

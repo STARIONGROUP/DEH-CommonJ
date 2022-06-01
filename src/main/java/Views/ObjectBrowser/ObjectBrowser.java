@@ -23,10 +23,13 @@
  */
 package Views.ObjectBrowser;
 
+import java.awt.Component;
 import java.util.ArrayList;
 
-import javax.swing.SwingUtilities;
-import javax.swing.event.TableModelEvent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -48,6 +51,15 @@ import cdp4common.commondata.Thing;
 public class ObjectBrowser extends ObjectBrowserBase<IObjectBrowserViewModel, IContextMenuViewModel>
 {
     /**
+     * Initializes a new {@linkplain ObjectBrowser}
+     */
+    public ObjectBrowser()
+    {
+        super();
+        this.objectBrowserTree.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    }
+
+    /**
      * Handles the selection when the user changes it, intended to be virtual
      */
     @Override
@@ -61,7 +73,7 @@ public class ObjectBrowser extends ObjectBrowserBase<IObjectBrowserViewModel, IC
      * Processes the currently selected elements
      */
     @SuppressWarnings("unchecked")
-    private void ProcessSelectedElements()
+    protected void ProcessSelectedElements()
     {
         int[] selectedRowIndexes = objectBrowserTree.getSelectedRows();
         
@@ -78,7 +90,7 @@ public class ObjectBrowser extends ObjectBrowserBase<IObjectBrowserViewModel, IC
     /**
      * Processes the currently selected element
      */
-    private void ProcessSelectedElement()
+    protected void ProcessSelectedElement()
     {
         int selectedRowIndex = objectBrowserTree.getSelectedRow();
         
@@ -87,10 +99,5 @@ public class ObjectBrowser extends ObjectBrowserBase<IObjectBrowserViewModel, IC
                 (ThingRowViewModel<? extends Thing>) objectBrowserTree.getValueAt(selectedRowIndex, 0));
 
         dataContext.OnSelectionChanged(row.getRight());
-
-        SwingUtilities.invokeLater(() -> {
-            objectBrowserTree
-                    .tableChanged(new TableModelEvent(objectBrowserTree.getOutlineModel(), row.getLeft()));
-        });
     }
 }

@@ -64,12 +64,12 @@ public final class SessionControlPanelViewModel implements ISessionControlPanelV
     /**
      * The {@linkplain ObservableValue} of type {@linkplain Integer} that yields the current tick of the ongoing timer
      */
-    private ObservableValue<Integer> timer = new ObservableValue<Integer>(0, Integer.class);
+    private ObservableValue<Integer> timer = new ObservableValue<>(0, Integer.class);
 
     /**
      * The auto refresh {@linkplain ObservableTask} collection with their associated cancellation handle
      */
-    private List<Pair<Ref<Boolean>, ObservableTask<TaskStatus>>> tasks = new ArrayList<Pair<Ref<Boolean>, ObservableTask<TaskStatus>>>();
+    private List<Pair<Ref<Boolean>, ObservableTask<TaskStatus>>> tasks = new ArrayList<>();
     
     /**
      * Gets the timer tick {@linkplain Observable}
@@ -167,7 +167,7 @@ public final class SessionControlPanelViewModel implements ISessionControlPanelV
     {
         this.CancelAutoRefresh();
         
-        Ref<Boolean> isCancelled = new Ref<Boolean>(Boolean.class, false);
+        Ref<Boolean> isCancelled = new Ref<>(Boolean.class, false);
         
         ObservableTask<TaskStatus> task = Task.Run(() -> 
         {

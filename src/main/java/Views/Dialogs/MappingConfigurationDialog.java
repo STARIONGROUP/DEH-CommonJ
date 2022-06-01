@@ -151,7 +151,7 @@ public abstract class MappingConfigurationDialog
     @ExludeFromCodeCoverageGeneratedReport
     private void Initialize(MappingDirection mappingDirection)
     {
-        String titleSuffix = mappingDirection == MappingDirection.FromDstToHub ? "Capella to the Hub" : "Hub to Capella";
+        String titleSuffix = mappingDirection == MappingDirection.FromDstToHub ? "DST to HUB" : "HUB to DST";
         this.setTitle(String.format("Mapping Configuration dialog from %s", titleSuffix));
         this.setType(Type.POPUP);
         this.setModal(true);

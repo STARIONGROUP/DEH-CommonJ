@@ -181,7 +181,7 @@ public class HubController implements IHubController
      * The {@link Session} that is used to communicate with the data-store
      */
     private Session session;
-
+    
     /**
      * Initializes an new {@linkplain HubController}
      * 
@@ -402,6 +402,7 @@ public class HubController implements IHubController
     {
         boolean result = this.RefreshOrReload(this.session.refresh());
         this.sessionEvent.Value(result);
+        
         
         return result;
     }

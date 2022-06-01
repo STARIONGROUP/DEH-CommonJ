@@ -83,7 +83,7 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel<
      * 
      * @param hubController the {@linkplain IHubController}
      */
-    public ObjectBrowserViewModel(IHubController hubController)
+    protected ObjectBrowserViewModel(IHubController hubController)
     {
         this.hubController = hubController;
         

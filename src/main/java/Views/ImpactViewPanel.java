@@ -45,6 +45,7 @@ import org.apache.logging.log4j.Logger;
 import Enumerations.MappingDirection;
 import Views.ContextMenu.ContextMenu;
 import Views.ContextMenu.ImpactViewContextMenu;
+import Views.ObjectBrowser.ImpactViewObjectBrowser;
 import Views.ObjectBrowser.ObjectBrowser;
 import Views.ObjectBrowser.ObjectBrowserBase;
 import cdp4common.commondata.ClassKind;
@@ -59,7 +60,6 @@ import Utils.Tasks.*;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JProgressBar;
-import javax.swing.ImageIcon;
 
 /**
  * The {@linkplain ImpactViewPanel} is the view that displays the impact views
@@ -153,7 +153,7 @@ public class ImpactViewPanel extends JPanel
     public ImpactViewPanel()
     {
         this.elementDefinitionContextMenu = new ImpactViewContextMenu(ClassKind.ElementDefinition);
-        this.requirementsSpecificationContextMenu = new ImpactViewContextMenu(ClassKind.RequirementsSpecification);
+        this.requirementsSpecificationContextMenu = new ImpactViewContextMenu(ClassKind.Requirement);
         this.Initialize();
         this.SetTransferIsInProgress(false);
         this.UpdateTransferButtonNumberOfItems(0);
@@ -274,12 +274,12 @@ public class ImpactViewPanel extends JPanel
         
         JTabbedPane hubBrowserTreeViewsContainer = new JTabbedPane(JTabbedPane.TOP);
                 
-        this.elementDefinitionBrowser = new ObjectBrowser();
+        this.elementDefinitionBrowser = new ImpactViewObjectBrowser();
         this.elementDefinitionBrowser.SetContextMenu(this.elementDefinitionContextMenu);
         
         hubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
         
-        this.requirementBrowser = new ObjectBrowser();
+        this.requirementBrowser = new ImpactViewObjectBrowser();
         this.requirementBrowser.SetContextMenu(this.requirementsSpecificationContextMenu);
         hubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
         
