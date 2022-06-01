@@ -26,30 +26,25 @@ package Views.ExchangeHistory;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Utils.ImageLoader.ImageLoader;
 import ViewModels.ExchangeHistory.Interfaces.IExchangeHistoryDialogViewModel;
 import ViewModels.Interfaces.IViewModel;
+import Views.Dialogs.BaseDialog;
 import Views.Interfaces.IDialog;
 
 /**
  * The {@linkplain ExchangeHistoryDialog} is the view that displays all exchange history entries
  */
 @SuppressWarnings("serial")
-public class ExchangeHistoryDialog extends JFrame implements IDialog<IExchangeHistoryDialogViewModel, Boolean>
+public class ExchangeHistoryDialog extends BaseDialog<Boolean> implements IDialog<IExchangeHistoryDialogViewModel, Boolean>
 {
-    /**
-     * Backing field for {@linkplain #GetDialogResult()}
-     */
-    private Boolean dialogResult;
-
     /**
      * This view attached {@linkplain IViewModel}
      */
-    private IExchangeHistoryDialogViewModel dataContext;
+    private transient IExchangeHistoryDialogViewModel dataContext;
     
     /**
      * View component declarations
@@ -121,40 +116,5 @@ public class ExchangeHistoryDialog extends JFrame implements IDialog<IExchangeHi
     public IExchangeHistoryDialogViewModel GetDataContext()
     {
         return this.dataContext;
-    }
-
-    /**
-     * Shows the dialog and return the result
-     * 
-     * @return a {@linkplain TResult}
-     */
-    @Override
-    public Boolean ShowDialog()
-    {
-        this.setVisible(true);
-        return this.dialogResult;
-    }
-    
-    /**
-     * Closes the dialog and sets the {@link dialogResult}
-     * 
-     * @param result the {@linkplain TResult} to set
-     */
-    @Override
-    public void CloseDialog(Boolean result)
-    {
-        this.dialogResult = result;
-        setVisible(false);
-        dispose();
-    }
-    
-    /**
-     * Gets the {@linkplain dialogResult}
-     * 
-     * @return a {@linkplain Boolean}
-     */
-    public Boolean GetDialogResult()
-    {
-        return this.dialogResult;
     }
 }

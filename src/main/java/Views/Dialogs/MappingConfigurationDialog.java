@@ -73,17 +73,12 @@ import cdp4common.engineeringmodeldata.RequirementsSpecification;
 @SuppressWarnings("serial")
 public abstract class MappingConfigurationDialog
     <TViewModel extends IMappingConfigurationDialogViewModel<TSourceElement, TDstElement, TRowViewModel>, TSourceElement, TDstElement, TRowViewModel 
-    extends IRowViewModel> extends JDialog  implements IDialog<TViewModel, Boolean>
+    extends IRowViewModel> extends BaseDialog<Boolean> implements IDialog<TViewModel, Boolean>
 {
-    /**
-     * Backing field for {@linkplain #GetDialogResult()}
-     */
-    private Boolean dialogResult;
-
     /**
      * This view attached {@linkplain #IViewModel}
      */
-    private TViewModel dataContext;
+    private transient TViewModel dataContext;
     
     /**
      * The {@linkplain ObjectBrowser} view for {@linkplain ElementDefinition}
@@ -349,7 +344,6 @@ public abstract class MappingConfigurationDialog
      * 
      * @param viewModel the {@link IViewModel} to assign
      */
-    @SuppressWarnings("unchecked")
     public void SetDataContext(TViewModel viewModel)
     {
         this.dataContext = viewModel;
@@ -365,41 +359,6 @@ public abstract class MappingConfigurationDialog
     public TViewModel GetDataContext()
     {
         return this.dataContext;
-    }
-
-    /**
-     * Shows the dialog and return the result
-     * 
-     * @return a {@linkplain TResult}
-     */
-    @Override
-    public Boolean ShowDialog()
-    {
-        this.setVisible(true);
-        return this.dialogResult;
-    }
-    
-    /**
-     * Closes the dialog and sets the {@link dialogResult}
-     * 
-     * @param result the {@linkplain TResult} to set
-     */
-    @Override
-    public void CloseDialog(Boolean result)
-    {
-        this.dialogResult = result;
-        setVisible(false);
-        dispose();
-    }
-    
-    /**
-     * Gets the {@linkplain dialogResult}
-     * 
-     * @return a {@linkplain Boolean}
-     */
-    public Boolean GetDialogResult()
-    {
-        return this.dialogResult;
     }
 
     /**

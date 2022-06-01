@@ -32,7 +32,6 @@ import java.awt.Insets;
 
 import javax.swing.DropMode;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -54,13 +53,8 @@ import cdp4common.commondata.LogEntry;
  */
 @Annotations.ExludeFromCodeCoverageGeneratedReport
 @SuppressWarnings("serial")
-public class LogEntryDialog extends JDialog implements IDialog<ILogEntryDialogViewModel, Pair<String, Boolean>>
-{    
-    /**
-     * Backing field for {@linkplain #GetDialogResult()}
-     */
-    private Pair<String, Boolean> dialogResult;
-
+public class LogEntryDialog extends BaseDialog<Pair<String, Boolean>> implements IDialog<ILogEntryDialogViewModel, Pair<String, Boolean>>
+{
     /**
      * This view attached {@linkplain #IViewModel}
      */
@@ -184,40 +178,5 @@ public class LogEntryDialog extends JDialog implements IDialog<ILogEntryDialogVi
     public ILogEntryDialogViewModel GetDataContext()
     {
         return this.dataContext;
-    }
-
-    /**
-     * Shows the dialog and return the result
-     * 
-     * @return a {@linkplain Pair} of {@linkplain String} and {@linkplain Boolean}
-     */
-    @Override
-    public Pair<String, Boolean> ShowDialog()
-    {
-        this.setVisible(true);
-        return this.dialogResult;
-    }
-    
-    /**
-     * Closes the dialog and sets the {@link dialogResult}
-     * 
-     * @param result the {@linkplain TResult} to set
-     */
-    @Override
-    public void CloseDialog(Pair<String, Boolean> result)
-    {
-        this.dialogResult = result;
-        setVisible(false);
-        dispose();
-    }
-    
-    /**
-     * Gets the {@linkplain dialogResult}
-     * 
-     * @return a {@linkplain Pair} of {@linkplain String} and {@linkplain Boolean}
-     */
-    public Pair<String, Boolean> GetDialogResult()
-    {
-        return this.dialogResult;
     }
 }
