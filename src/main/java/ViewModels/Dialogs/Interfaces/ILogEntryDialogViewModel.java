@@ -25,6 +25,9 @@ package ViewModels.Dialogs.Interfaces;
 
 import ViewModels.Interfaces.IViewModel;
 
+/**
+ * The {@linkplain ILogEntryDialogViewModel} is the interface definition for the {@linkplain LogEntryDialogViewModel}
+ */
 public interface ILogEntryDialogViewModel extends IViewModel
 {
     /**

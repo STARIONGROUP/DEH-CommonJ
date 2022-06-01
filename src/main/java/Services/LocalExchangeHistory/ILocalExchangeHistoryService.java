@@ -29,6 +29,9 @@ import cdp4common.engineeringmodeldata.ParameterOrOverrideBase;
 import cdp4common.engineeringmodeldata.ParameterValueSetBase;
 import cdp4common.engineeringmodeldata.ValueSet;
 
+/**
+ * The {@linkplain ILocalExchangeHistoryService} is the interface definition for {@linkplain LocalExchangeHistoryService}
+ */
 public interface ILocalExchangeHistoryService
 {
     /**

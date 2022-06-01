@@ -204,10 +204,7 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
             this.TriggerAutoRefresh();
         });
 
-        this.DataContext.GetTimeObservable().subscribe(x -> 
-        {
-            SwingUtilities.invokeLater(() -> this.autoRefreshProgressBar.setValue(x));
-        });
+        this.DataContext.GetTimeObservable().subscribe(x -> SwingUtilities.invokeLater(() -> this.autoRefreshProgressBar.setValue(x)));
         
         this.autoRefreshCheckBox.addItemListener(e -> 
         {
