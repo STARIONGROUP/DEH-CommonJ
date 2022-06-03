@@ -57,4 +57,18 @@ public interface IHubBrowserPanelViewModel extends IViewModel
      * @return the {@linkplain ISessionControlPanelViewModel}
      */
     ISessionControlPanelViewModel GetSessionControlViewModel();
+    
+    /**
+     * The {@linkplain IHubBrowserContextMenuViewModel} for the requirement browser
+     * 
+     * @return a {@linkplain IHubBrowserContextMenuViewModel}
+     */
+    IHubBrowserContextMenuViewModel GetRequirementBrowserContextMenuViewModel();
+
+    /**
+     * The {@linkplain IHubBrowserContextMenuViewModel} for the element definition browser
+     * 
+     * @return a {@linkplain IHubBrowserContextMenuViewModel}
+     */
+    IHubBrowserContextMenuViewModel GetElementDefinitionBrowserContextMenuViewModel();
 }

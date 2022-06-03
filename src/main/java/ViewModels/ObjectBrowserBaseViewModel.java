@@ -23,6 +23,7 @@
  */
 package ViewModels;
 
+import javax.swing.ListSelectionModel;
 import javax.swing.tree.TreeModel;
 
 import org.apache.logging.log4j.LogManager;
@@ -31,12 +32,16 @@ import org.netbeans.swing.outline.OutlineModel;
 
 import Reactive.ObservableValue;
 import ViewModels.Interfaces.IObjectBrowserBaseViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IRowBaseViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import io.reactivex.Observable;
 
 /**
  * The {@linkplain ObjectBrowserBaseViewModel} is the base abstract class for all browser view model that are based on an {@linkplain OutlineModel}
+ * 
+ * @param <TRowViewModel> the type of {@linkplain IRowViewModel} for the selection mechanisms
  */
-public abstract class ObjectBrowserBaseViewModel implements IObjectBrowserBaseViewModel
+public abstract class ObjectBrowserBaseViewModel<TRowViewModel extends IRowBaseViewModel> implements IObjectBrowserBaseViewModel<TRowViewModel>
 {
     /**
      * The current class logger
@@ -103,19 +108,20 @@ public abstract class ObjectBrowserBaseViewModel implements IObjectBrowserBaseVi
     }
     
     /**
-     * Backing field for {@linkplain #GetCanSelectMultipleElements()}
+     * Backing field for {@linkplain #GetSelectionMode()} 
      */
-    protected boolean canSelectMultipleElements = false;
-    
+    protected int selectionMode = ListSelectionModel.SINGLE_INTERVAL_SELECTION;
+
     /**
-     * Gets a value that indicates whether the multi selection should be enabled
+     * Gets the int value from {@linkplain ListSelectionModel} constant applicable to the bound {@linkplain ObjectBrowser}.
+     * Where 1 == no selection allowed
      * 
-     * @return a {@linkplain boolean}
+     * @return a int
      */
     @Override
-    public boolean GetCanSelectMultipleElements()
+    public int GetSelectionMode()
     {
-        return this.canSelectMultipleElements;
+        return this.selectionMode;
     }
     
     /**

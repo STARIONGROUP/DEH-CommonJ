@@ -23,6 +23,8 @@
  */
 package ViewModels;
 
+import static Utils.Operators.Operators.AreTheseEquals;
+
 import java.awt.event.ActionEvent;
 import java.net.URI;
 import java.text.MessageFormat;
@@ -258,36 +260,36 @@ public class HubLoginViewModel implements IHubLoginViewModel
     @Override
     public Pair<Stream<String>, String> GetDomainOfExpertise(String selectedEngineeringModelSetupName)
     {
+        Pair<Stream<String>, String> defaultResult = Pair.of(Stream.empty(), null);
+        
         EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
-                .filter(x -> x.getShortName() == selectedEngineeringModelSetupName)
-                .findFirst().get();
+                .filter(x -> AreTheseEquals(x.getShortName(), selectedEngineeringModelSetupName, true))
+                .findFirst()
+                .orElse(null);
+        
+        if(engineeringModelSetup == null)
+        {
+            return defaultResult;
+        }
         
         Participant participant = engineeringModelSetup
                 .getParticipant()
                 .stream()
                 .filter(x -> x.getPerson() == this.hubController.GetActivePerson())
                 .findFirst()
-                .get();
+                .orElse(null);
+
+        if(participant == null)
+        {
+            return defaultResult;
+        }
         
-        ArrayList<DomainOfExpertise> domains = participant.getDomain();
+        this.defaultDomain = participant.getPerson().getDefaultDomain();
         
-        this.defaultDomain = domains
-                .stream()
-                .filter(x -> x == participant.getPerson().getDefaultDomain())
-                .findFirst()
-                .get();
+        this.domains = () -> participant.getDomain().stream()
+                .sorted((x, y) -> x.getName().compareToIgnoreCase(y.getName()));
         
-        this.domains = () -> domains.stream()
-                .sorted(new Comparator<DomainOfExpertise>()
-                {
-                    @Override
-                    public int compare(DomainOfExpertise domain0, DomainOfExpertise domain1) 
-                    {
-                        return domain0.getName().compareToIgnoreCase(domain1.getName());
-                    }
-                });
-        
-        return Pair.of(this.domains.get().map(x -> x.getName()), defaultDomain.getName());
+        return Pair.of(this.domains.get().map(x -> x.getName()),  this.defaultDomain != null ? this.defaultDomain.getName() : "");
     }
 
     /**

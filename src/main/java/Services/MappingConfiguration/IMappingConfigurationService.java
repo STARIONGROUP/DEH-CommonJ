@@ -24,6 +24,9 @@
 package Services.MappingConfiguration;
 
 import java.util.UUID;
+import java.util.function.Predicate;
+
+import org.apache.commons.lang3.tuple.ImmutableTriple;
 
 import Enumerations.MappingDirection;
 import cdp4common.engineeringmodeldata.ExternalIdentifierMap;
@@ -34,16 +37,19 @@ import cdp4dal.operations.ThingTransaction;
 
 /**
  * The {@linkplain IMappingConfigurationService} is the interface definition for the {@linkplain MappingConfigurationService}
+ * 
+ * @param <TExternalIdentifier> the type of {@linkplain ExternalIdentifier} the dst adapter uses
  */
-public interface IMappingConfigurationService
+public interface IMappingConfigurationService<TExternalIdentifier extends ExternalIdentifier>
 {
     /**
      * Adds one correspondence to the {@linkplain ExternalIdentifierMap} 
      * 
      * @param internalId The thing that the ExternalIdentifier corresponds to
      * @param externalIdentifier The external thing that the internal id corresponds to
+     * @param extraFilter A {@linkplain Predicate} that allows to filter on other properties while this method checks for existing mapping
      */
-    void AddToExternalIdentifierMap(UUID internalId, ExternalIdentifier externalIdentifier);
+    void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter);
 
     /**
      * Adds one correspondence to the {@linkplain ExternalIdentifierMap}

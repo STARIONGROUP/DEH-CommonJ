@@ -25,11 +25,13 @@ package ViewModels.ObjectBrowser.Interfaces;
 
 import Reactive.ObservableCollection;
 import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementBaseTreeElementViewModel;
+import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementGroupRowViewModel;
+import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementRowViewModel;
 
 /**
  * The {@linkplain IHaveContainedRowsOfRequirementRelatedThings} is the specialized interface for {@linkplain RequirementBaseTreeElementViewModel} from {@linkplain IHaveContainedRows}
  */
-public interface IHaveContainedRowsOfRequirementRelatedThings<TRowViewModel extends RequirementBaseTreeElementViewModel<?>> extends IHaveContainedRows<TRowViewModel>
+public interface IHaveContainedRowsOfRequirementRelatedThings<TRowViewModel extends IRowBaseViewModel> extends IHaveContainedRows<TRowViewModel>
 {
     /**
      * Gets all the contained rows of the provided type

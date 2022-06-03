@@ -32,8 +32,6 @@ import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.function.Predicate;
 
-import org.apache.logging.log4j.LogManager;
-
 import cdp4common.ChangeKind;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;

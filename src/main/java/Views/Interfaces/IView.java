@@ -42,14 +42,14 @@ public interface IView<TViewModel extends IViewModel>
 	/**
 	 * Sets the DataContext
 	 * 
-	 * @param viewModel the {@link IViewModel} to assign
+	 * @param viewModel the {@link #TViewModel} to assign
 	 */
-	void SetDataContext(IViewModel viewModel);
+	void SetDataContext(TViewModel viewModel);
 	
     /**
      * Gets the DataContext
      * 
-     * @return An {@link IViewModel}
+     * @return An {@link #TViewModel}
      */
-    TViewModel GetDataContext();
+	TViewModel GetDataContext();
 }

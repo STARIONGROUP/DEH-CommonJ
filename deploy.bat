@@ -45,7 +45,7 @@ call :SetVersion %2
 if exist %1 (set shouldCopy=true)
 if "%version%" == "" set version=%pomVersion%
 
-if %pomVersion% NEQ %version% powershell -Command "(gc pom.xml) -replace '%pomVersion%', '%version%' | sc pom.xml"
+if %pomVersion% NEQ %version% powershell -Command " [regex]$pattern='(\<version\>)(%pomVersion%)(\<\/version\>)'; $pattern.replace((gc pom.xml),'<version>%version%$3',1) | set-content pom.xml"
 
 :BUILD
 echo.

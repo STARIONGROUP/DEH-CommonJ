@@ -34,11 +34,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.collect.ImmutableMap;
 
 import Utils.Ref;
-import cdp4common.commondata.DefinedThing;
+import Views.Dialogs.LogEntryDialog;
+import cdp4common.commondata.LogEntry;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ExternalIdentifierMap;
 import cdp4common.engineeringmodeldata.Iteration;
-import cdp4common.sitedirectorydata.Category;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
@@ -53,6 +53,7 @@ import cdp4dal.exceptions.DalWriteException;
 import cdp4dal.exceptions.TransactionException;
 import cdp4dal.operations.ThingTransaction;
 import io.reactivex.Observable;
+import javassist.NotFoundException;
 
 /**
  * The {@linkplain IHubController} is the interface definition for {@linkplain HubController}
@@ -95,8 +96,9 @@ public interface IHubController
      * 
      * @param The {@link Iteration} to read
      * @param The {@link Domain} that reads the {@link Iteration}
+     * @throws NotFoundException 
      */
-    void GetIteration(Iteration iteration, DomainOfExpertise domain);
+    void GetIteration(Iteration iteration, DomainOfExpertise domain) throws NotFoundException;
 
     /**
      * Gets the active person
@@ -226,5 +228,21 @@ public interface IHubController
      * @param toolName the {@linkplain String} DST tool name
      * @return a {@linkplain Collection} of {@linkplain ExternalIdentifierMap}
      */
-    Collection<ExternalIdentifierMap> GetAvailableExternalIdentifierMap(String toolName);    
+    Collection<ExternalIdentifierMap> GetAvailableExternalIdentifierMap(String toolName);
+
+    /**
+     * Adds a new <see cref="ModelLogEntry"/> record to the <see cref="EngineeringModel.LogEntry"/> 
+     * list of the current <see cref="OpenIteration"/> and registers the change to a <see cref="ThingTransaction"/>
+     * @throws TransactionException 
+     */
+    void RegisterLogEntry(String content, ThingTransaction transaction) throws TransactionException;
+
+    /**
+     * Tries to create a {@linkplain LogEntry} base on the input from the {@linkplain LogEntryDialog}
+     * 
+     * @param transaction the {@linkplain ThingTransaction}
+     * @return a value indicating whether the whole transaction should be cancelled based on the dialog result
+     * @throws TransactionException 
+     */
+    boolean TrySupplyAndCreateLogEntry(ThingTransaction transaction) throws TransactionException;    
 }

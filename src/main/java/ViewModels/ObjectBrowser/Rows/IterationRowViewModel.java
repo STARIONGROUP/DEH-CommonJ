@@ -38,7 +38,7 @@ public abstract class IterationRowViewModel<TContainedRows extends IRowViewModel
     /**
      * The {@linkplain ObservableCollection} of {@linkplain ElementDefinitionRowViewModel}
      */
-    protected ObservableCollection<TContainedRows> containedRows = new ObservableCollection<TContainedRows>();
+    protected ObservableCollection<TContainedRows> containedRows = new ObservableCollection<>();
     
     /**
      * Gets the contained row the implementing view model has

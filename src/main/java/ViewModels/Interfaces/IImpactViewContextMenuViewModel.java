@@ -30,7 +30,7 @@ import cdp4common.commondata.Thing;
 /**
  * The {@linkplain IImpactViewContextMenuViewModel} is the interface definition for the {@linkplain ImpactViewContextMenuViewModel}
  */
-public interface IImpactViewContextMenuViewModel extends IViewModel
+public interface IImpactViewContextMenuViewModel extends IContextMenuViewModel
 {
     /**
      * Deselects all things that can be transfered in the target view model

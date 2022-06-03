@@ -26,7 +26,7 @@ package ViewModels.ObjectBrowser.Interfaces;
 /**
  * The {@linkplain IRowViewModel} is the base interface definition for all object browser row view model
  */
-public interface IRowViewModel
+public interface IRowViewModel extends IRowBaseViewModel
 {
     /**
      * Gets the parent row view model of the current row

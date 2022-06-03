@@ -23,6 +23,8 @@
  */
 package Services.MappingEngineService;
 
+import static Utils.Operators.Operators.AreTheseEquals;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -65,6 +67,6 @@ public abstract class MappingRule<TInput extends Object, TOutput> implements IMa
      */
     protected boolean AreShortNamesEquals(ShortNamedThing shortNamedThing, String elementShortName)
     {
-        return shortNamedThing.getShortName().compareToIgnoreCase(elementShortName) == 0;
+        return AreTheseEquals(shortNamedThing.getShortName(), elementShortName, true);
     }
 }

@@ -23,6 +23,7 @@
  */
 package ViewModels.ObjectBrowser;
 
+import javax.swing.ListSelectionModel;
 import javax.swing.tree.TreeModel;
 
 import org.netbeans.swing.outline.DefaultOutlineModel;
@@ -64,7 +65,7 @@ public final class ElementDefinitionBrowserViewModel extends ObjectBrowserViewMo
     public ElementDefinitionBrowserViewModel(IHubController hubController)
     {   
         super(hubController);
-        this.canSelectMultipleElements = true;
+        this.selectionMode = ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
     }
     
     /**
