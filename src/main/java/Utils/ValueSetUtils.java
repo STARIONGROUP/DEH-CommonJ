@@ -49,7 +49,7 @@ public final class ValueSetUtils
      */
     public static ValueSet QueryParameterBaseValueSet(ParameterBase parameter, Option option, ActualFiniteState state)
     {
-        String baseErrorMessage = String.format("%s %s", parameter.getClass().getName(), parameter.getUserFriendlyName());
+        String baseErrorMessage = String.format("%s [%s]", parameter.getClass().getName(), parameter.getParameterType().getName());
         List<ValueSet> list = parameter.getValueSets();
         
         if (list.isEmpty())

@@ -23,13 +23,9 @@
  */
 package ViewModels.ObjectBrowser;
 
-import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-
-import org.netbeans.swing.outline.TreePathSupport;
 
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 

@@ -35,21 +35,21 @@ public interface IDialog<TViewModel extends IViewModel, TResult> extends IView<T
     /**
      * Shows the dialog and return the result
      * 
-     * @return a {@linkplain TResult}
+     * @return a {@linkplain #TResult}
      */
     TResult ShowDialog();
     
     /**
-     * Closes the dialog and sets the {@link dialogResult}
+     * Closes the dialog and sets the dialogResult
      * 
-     * @param result the {@linkplain TResult} to set
+     * @param result the {@linkplain #TResult} to set
      */
-    void CloseDialog(Boolean result);
+    void CloseDialog(TResult result);
 
      /**
       * Gets the {@linkplain dialogResult}
       * 
-      * @return a {@linkplain Boolean}
+      * @return a {@linkplain #TResult}
       */
-     Boolean GetDialogResult();
+    TResult GetDialogResult();
 }

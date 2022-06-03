@@ -40,6 +40,7 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableMap;
 
+import Services.NavigationService.INavigationService;
 import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
@@ -54,9 +55,9 @@ import cdp4dal.dal.Credentials;
 
 class HubControllerTestFixture
 {
-
     private HubController controller;
     private Session session;
+    private INavigationService navigationService;
 
     /**
      * @throws java.lang.Exception
@@ -64,7 +65,8 @@ class HubControllerTestFixture
     @BeforeEach
     void setUp() throws Exception
     {
-        this.controller = new HubController();
+        this.navigationService = mock(INavigationService.class);
+        this.controller = new HubController(this.navigationService);
         this.session = mock(Session.class);
     }
 

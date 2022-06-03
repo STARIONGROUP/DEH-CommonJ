@@ -27,12 +27,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import DstController.IDstControllerBase;
-import Reactive.ObservableValue;
-import Utils.Tasks.Task;
 import ViewModels.Interfaces.IImpactViewContextMenuViewModel;
+import Views.ContextMenu.ImpactViewContextMenu;
 import cdp4common.commondata.ClassKind;
 import cdp4common.commondata.Thing;
-import io.reactivex.Observable;
 
 /**
  * The {@linkplain ImpactViewContextMenuViewModel} is the main view model for the {@linkplain ImpactViewContextMenu}
@@ -47,12 +45,12 @@ public class ImpactViewContextMenuViewModel implements IImpactViewContextMenuVie
     /**
      * The {@linkplain IDstControllerBase}
      */
-    private IDstControllerBase dstController;
+    private IDstControllerBase<?> dstController;
         
     /**
      * Initializes a new {@linkplain ImpactViewContextMenuViewModel}
      */
-    public ImpactViewContextMenuViewModel(IDstControllerBase dstController)
+    public ImpactViewContextMenuViewModel(IDstControllerBase<?> dstController)
     {
         this.dstController = dstController;
     }

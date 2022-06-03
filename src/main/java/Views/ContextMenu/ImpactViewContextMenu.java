@@ -89,15 +89,8 @@ public class ImpactViewContextMenu extends ContextMenu<IImpactViewContextMenuVie
      */
     public void Bind()
     {
-        this.selectAll.addActionListener(x ->
-        {
-            this.dataContext.SelectAllOfType(classKind);
-        });
-        
-        this.deselectAll.addActionListener(x ->
-        {
-            this.dataContext.DeselectAllOfType(classKind);
-        });
+        this.selectAll.addActionListener(x -> this.dataContext.SelectAllOfType(classKind));
+        this.deselectAll.addActionListener(x -> this.dataContext.DeselectAllOfType(classKind));
     }
     
     /**
@@ -105,9 +98,9 @@ public class ImpactViewContextMenu extends ContextMenu<IImpactViewContextMenuVie
      * 
      * @param viewModel the {@link IViewModel} to assign
      */
-    public void SetDataContext(IViewModel viewModel)
+    public void SetDataContext(IImpactViewContextMenuViewModel viewModel)
     {
-        this.dataContext = (IImpactViewContextMenuViewModel)viewModel;
+        this.dataContext = viewModel;
         this.Bind();
     }
     

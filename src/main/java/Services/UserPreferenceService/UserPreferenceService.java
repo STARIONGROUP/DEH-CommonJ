@@ -23,13 +23,11 @@
  */
 package Services.UserPreferenceService;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.text.MessageFormat;
 
@@ -100,8 +98,11 @@ public class UserPreferenceService implements IUserPreferenceService
         try (FileInputStream reader = new FileInputStream(this.userPreferenceFile))
         {
             byte[] data = new byte[(int) this.userPreferenceFile.length()];
-            reader.read(data);
-            String dataString = new String(data, "UTF-8");
+            int read = reader.read(data);
+            
+            this.logger.info(String.format("%s bytes read from the UserPreference file ", read));
+            
+            String dataString = new String(data, StandardCharsets.UTF_8);
             
             this.userPreference = new Gson().fromJson(dataString, UserPreference.class);
             if (this.userPreference == null)
@@ -169,7 +170,7 @@ public class UserPreferenceService implements IUserPreferenceService
      * @param fileOrDirectory the {@linkplain File} containing the path
      * @return a value indicating whether all checks on the {@linkplain file} are ok 
      */
-    private Boolean TryCreateDirectoryOrFile(File fileOrDirectory)
+    private boolean TryCreateDirectoryOrFile(File fileOrDirectory)
     {
         try 
         {                

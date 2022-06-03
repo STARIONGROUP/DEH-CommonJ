@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 import HubController.IHubController;
 import Services.NavigationService.INavigationService;
 import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
+import ViewModels.Interfaces.IHubBrowserContextMenuViewModel;
 import ViewModels.Interfaces.IHubBrowserHeaderViewModel;
 import ViewModels.Interfaces.IRequirementBrowserViewModel;
 import ViewModels.Interfaces.ISessionControlPanelViewModel;
@@ -44,6 +45,7 @@ class HubBrowserPanelViewModelTestFixture
     private IElementDefinitionBrowserViewModel elementDefinitionBrowser;
     private IRequirementBrowserViewModel requirementBrowser;
     private ISessionControlPanelViewModel sessionControlViewModel;
+    private IHubBrowserContextMenuViewModel contextMenuViewModel;
 
     /**
      * @throws java.lang.Exception
@@ -57,12 +59,14 @@ class HubBrowserPanelViewModelTestFixture
         this.elementDefinitionBrowser = mock(IElementDefinitionBrowserViewModel.class);
         this.requirementBrowser = mock(IRequirementBrowserViewModel.class);
         this.sessionControlViewModel = mock(ISessionControlPanelViewModel.class);
+        this.contextMenuViewModel = mock(IHubBrowserContextMenuViewModel.class);
     }
 
     @Test
     void VerifyConnectButtonAction()
     {
         assertDoesNotThrow(() -> new HubBrowserPanelViewModel(this.navigationService, 
-                this.hubController, this.hubBrowserHeaderViewModel, this.requirementBrowser, this.elementDefinitionBrowser, this.sessionControlViewModel));
+                this.hubController, this.hubBrowserHeaderViewModel, this.requirementBrowser, this.elementDefinitionBrowser, 
+                this.sessionControlViewModel, this.contextMenuViewModel, this.contextMenuViewModel));
     }    
 }

@@ -88,11 +88,12 @@ public final class NavigationService implements INavigationService
     /**
      * Shows a window and associate its view model to it
      * 
+     * @param <TViewModel> the type of {@linkplain IViewModel}
      * @param window the {@linkplain IView} window instance
-     * @param viewModel the {@linkplain IViewModel} to associate with the view
+     * @param viewModel the {@linkplain #TViewModel} to associate with the view
      */
     @Override
-    public void Show(IView<? extends IViewModel> window, IViewModel viewModel)
+    public <TViewModel extends IViewModel> void Show(IView<TViewModel> window, TViewModel viewModel)
     {
         window.SetDataContext(viewModel);        
         ((JFrame) window).setVisible(true);
@@ -103,10 +104,11 @@ public final class NavigationService implements INavigationService
      * 
      * @param window the {@linkplain IView} window instance
      */
-    private void BuildView(IView<? extends IViewModel> window)
+    @SuppressWarnings("unchecked")
+    private <TViewModel extends IViewModel> void BuildView(IView<TViewModel> window)
     {
         String viewModelName = String.format("I%sViewModel", window.getClass().getSimpleName());
-        IViewModel viewModel = (IViewModel) AppContainer.Container.getComponent(viewModelName);
+        TViewModel viewModel = (TViewModel)AppContainer.Container.getComponent(viewModelName);
                 
         if(viewModel == null)
         {

@@ -167,9 +167,9 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
      * 
      * @param viewModel the {@link IViewModel} to assign
      */
-    public void SetDataContext(IViewModel viewModel)
+    public void SetDataContext(IHubBrowserHeaderViewModel viewModel)
     {
-        this.dataContext = (IHubBrowserHeaderViewModel) viewModel;
+        this.dataContext = viewModel;
         this.Bind();
     }
     

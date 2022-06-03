@@ -178,6 +178,8 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
     @Override
     public void Bind()
     {
+        this.SetControlsEnabled(this.DataContext.GetIsConnected());
+        
         this.connectButton.addActionListener(e ->
                 {
                     if(!this.DataContext.GetIsConnected())
@@ -202,10 +204,7 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
             this.TriggerAutoRefresh();
         });
 
-        this.DataContext.GetTimeObservable().subscribe(x -> 
-        {
-            SwingUtilities.invokeLater(() -> this.autoRefreshProgressBar.setValue(x));
-        });
+        this.DataContext.GetTimeObservable().subscribe(x -> SwingUtilities.invokeLater(() -> this.autoRefreshProgressBar.setValue(x)));
         
         this.autoRefreshCheckBox.addItemListener(e -> 
         {
@@ -281,9 +280,9 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
      * @param viewModel the {@link IViewModel} to assign
      */
     @Override
-    public void SetDataContext(IViewModel viewModel)
+    public void SetDataContext(ISessionControlPanelViewModel viewModel)
     {
-        this.DataContext = (ISessionControlPanelViewModel)viewModel;   
+        this.DataContext = viewModel;   
         this.Bind();
     }
 

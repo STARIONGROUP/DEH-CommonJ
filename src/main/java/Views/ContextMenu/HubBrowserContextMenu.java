@@ -97,9 +97,10 @@ public class HubBrowserContextMenu extends ContextMenu<IHubBrowserContextMenuVie
      * 
      * @param viewModel the {@link IViewModel} to assign
      */
-    public void SetDataContext(IViewModel viewModel)
+    @Override
+    public void SetDataContext(IHubBrowserContextMenuViewModel viewModel)
     {
-        this.dataContext = (IHubBrowserContextMenuViewModel)viewModel;
+        this.dataContext = viewModel;
         this.Bind();
     }
     

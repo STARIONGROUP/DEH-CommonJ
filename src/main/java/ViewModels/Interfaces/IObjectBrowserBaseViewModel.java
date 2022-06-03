@@ -23,16 +23,21 @@
  */
 package ViewModels.Interfaces;
 
+import javax.swing.ListSelectionModel;
+
 import org.netbeans.swing.outline.OutlineModel;
 
-import Reactive.ObservableValue;
 import ViewModels.ObjectBrowserBaseViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IRowBaseViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import io.reactivex.Observable;
 
 /**
  * The {@linkplain IObjectBrowserBaseViewModel} is the interface definition for the {@linkplain ObjectBrowserBaseViewModel}
+ * 
+ * @param <TRowViewModel> the type of row view model for the selection mechanisms
  */
-public interface IObjectBrowserBaseViewModel extends IViewModel
+public interface IObjectBrowserBaseViewModel<TRowViewModel extends IRowBaseViewModel> extends IViewModel
 {
     /**
      * Gets the a value indicating whether the tree should be visible
@@ -63,9 +68,24 @@ public interface IObjectBrowserBaseViewModel extends IViewModel
     OutlineModel GetBrowserTreeModel();
 
     /**
-     * Gets a value that indicates whether the multi selection should be enabled
+     * Gets the int value from {@linkplain ListSelectionModel} constant applicable to the bound {@linkplain ObjectBrowser}.
+     * Where -1 == no selection allowed
      * 
-     * @return a {@linkplain boolean}
+     * @return a int
      */
-    boolean GetCanSelectMultipleElements();
+    int GetSelectionMode();
+    
+    /**
+     * Gets the {@linkplain Observable} of {@linkplain #TRowViewModel} that yields the selected element
+     * 
+     * @return an {@linkplain Observable} of {@linkplain #TRowViewModel}
+     */
+    Observable<TRowViewModel> GetSelectedElement();
+    
+    /**
+     * Called whenever the selection changes on the bound {@linkplain ObjectBrowser}
+     * 
+     * @param selectedRow the selected row view model {@linkplain TRowViewModel}
+     */
+    void OnSelectionChanged(TRowViewModel selectedRow);
 }
