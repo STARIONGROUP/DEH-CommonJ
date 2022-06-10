@@ -361,12 +361,12 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
      */
     private void IterationSelectionAction()
     {
+        String selectedEngineeringModelSetup = (String)this.engineeringModelSetupComboBox.getSelectedItem();
+        String selectedIterationSetup = (String)this.iterationComboBox.getSelectedItem();
+        String selectedDomainOfExpertise = (String)this.domainComboBox.getSelectedItem();
+        
         try
-        {
-            String selectedEngineeringModelSetup = (String)this.engineeringModelSetupComboBox.getSelectedItem();
-            String selectedIterationSetup = (String)this.iterationComboBox.getSelectedItem();
-            String selectedDomainOfExpertise = (String)this.domainComboBox.getSelectedItem();
-                    
+        {                    
             if(selectedEngineeringModelSetup == null || selectedIterationSetup == null || selectedDomainOfExpertise == null)
             {
                 JOptionPane.showMessageDialog(this.sessionPanelContainer, "Please select an Engineering Model, an Iteration and a Domain in order to continue");
@@ -381,7 +381,8 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
         catch (Exception exception)
         {
             logger.catching(exception);
-            JOptionPane.showMessageDialog(this.sessionPanelContainer, MessageFormat.format("An error occured: {0}. Have a look at the Cameo/MagicDraw log for detail.", exception));
+            JOptionPane.showMessageDialog(this.sessionPanelContainer, String.format("An error occured whil trying to open the %s from %s with %s",
+                    selectedIterationSetup, selectedEngineeringModelSetup, selectedDomainOfExpertise));
         }
     }
     
@@ -397,6 +398,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
             if(address != null)
             {
                 this.dataContext.Login(this.loginField.getText(), String.valueOf(this.passwordField.getPassword()), address);
+                
                 if(this.dataContext.GetIsLoginSuccessful())
                 {
                     this.engineeringModelSetupComboBox.removeAllItems();
@@ -408,7 +410,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(this.loginPanelContainer, "An error occured while trying to login. Have a look at the Cameo/MagicDraw log for detail.");
+                    JOptionPane.showMessageDialog(this.loginPanelContainer, "Could not login with the provided credentials, verify if the entered information is correct and the server is available.");
                 }
             }
             else
@@ -419,7 +421,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
         catch (Exception exception)
         {
             this.logger.catching(exception);
-            JOptionPane.showMessageDialog(this.sessionPanelContainer, MessageFormat.format("An error occured: {0}. Have a look at the Cameo/MagicDraw log for detail.", exception));
+            JOptionPane.showMessageDialog(this.sessionPanelContainer, "Could not login with the provided credentials, verify if the entered information is correct and the server is available.");
         }
     }
     

@@ -28,35 +28,34 @@ import javax.swing.tree.TreeModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import HubController.IHubController;
-import ViewModels.ObjectBrowser.Rows.IterationRowViewModel;
 import Views.ObjectBrowser.ObjectBrowser;
-import cdp4common.engineeringmodeldata.Iteration;
 
 /**
  * The {@linkplain BrowserTreeViewModel} is the base {@linkplain TreeModel} for the {@linkplain ObjectBrowser}
+ * 
+ * @param <TRootRowViewModel> the type of root row view model
  */
-public abstract class BrowserTreeViewModel<TIterationRowViewModel extends IterationRowViewModel<?>> extends BrowserTreeBaseViewModel
+public abstract class BrowserTreeViewModel<TRootRowViewModel> extends BrowserTreeBaseViewModel
 {
     /**
      * The current class logger
      */
-    protected final Logger Logger = LogManager.getLogger();
+    protected final Logger logger = LogManager.getLogger();
     
     /**
      * The root node of one {@linkplain ElementDefinitionBrowserTree}
      */
-    private TIterationRowViewModel iterationRowViewModel;
+    private TRootRowViewModel rootRowViewModel;
 
     /**
      * Initializes a new {@linkplain BrowserTreeViewModel}
      * 
-     * @param iterationRowViewModel the {@linkplain Iteration} row view model
-     * @param hubController the {@linkplain IHubController}
+     * @param rootRowViewModel the {@linkplain #TRootRowViewModel} row view model
      */
-    public BrowserTreeViewModel(TIterationRowViewModel iterationRowViewModel)
+    protected BrowserTreeViewModel(TRootRowViewModel rootRowViewModel)
     {
-        this.iterationRowViewModel = iterationRowViewModel;
+        this.rootRowViewModel = rootRowViewModel;
+        this.root = rootRowViewModel;
     }
 
     /**
@@ -67,6 +66,6 @@ public abstract class BrowserTreeViewModel<TIterationRowViewModel extends Iterat
     @Override
     public Object getRoot()
     {
-        return this.iterationRowViewModel;
+        return this.rootRowViewModel;
     }
 }

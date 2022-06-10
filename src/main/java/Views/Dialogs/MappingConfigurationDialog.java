@@ -131,7 +131,6 @@ public abstract class MappingConfigurationDialog
      * @param mappingDirection the {@linkplain MappingDirection} the concrete view is working on
      * @param dstObjectBrowser the dst adapter specific {@linkplain ObjectBrowserBase}
      */
-    @SuppressWarnings("unchecked")
     protected MappingConfigurationDialog(MappingDirection mappingDirection, ObjectBrowserBase<?, ? extends IContextMenuViewModel> dstObjectBrowser)
     {
         this(mappingDirection, dstObjectBrowser, new MappedElementListView<>());
@@ -190,8 +189,7 @@ public abstract class MappingConfigurationDialog
         gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
         gbl_panel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
         this.hubBrowserPanel.setLayout(gbl_panel);
-        
-        
+                
         this.hubBrowserTreeViewsContainer = new JTabbedPane(SwingConstants.TOP);
         GridBagConstraints gbc_hubBrowserTreeViewsContainer = new GridBagConstraints();
         gbc_hubBrowserTreeViewsContainer.insets = new Insets(0, 0, 5, 0);
@@ -292,8 +290,7 @@ public abstract class MappingConfigurationDialog
             public void componentResized(ComponentEvent componentEvent) 
             {
                 super.componentResized(componentEvent);
-                mainSplitPane.setDividerLocation(0.5);
-                browserSplitPane.setDividerLocation(0.5);
+                ((MappingConfigurationDialog<?,?,?,?>)componentEvent.getComponent()).UpdateSplitPanelsDividerLocation();
             }
         });
     }
@@ -376,8 +373,16 @@ public abstract class MappingConfigurationDialog
         if (!this.hasBeenPaintedOnce) 
         {
             this.hasBeenPaintedOnce = true;
-            this.mainSplitPane.setDividerLocation(0.5);
-            this.browserSplitPane.setDividerLocation(0.5);
+            this.UpdateSplitPanelsDividerLocation();
         }
+    }
+
+    /**
+     * Updates this view split panels divider location
+     */
+    private void UpdateSplitPanelsDividerLocation()
+    {
+        this.mainSplitPane.setDividerLocation(0.5);
+        this.browserSplitPane.setDividerLocation(0.5);
     }
 }

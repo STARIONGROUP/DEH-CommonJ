@@ -40,6 +40,8 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.netbeans.swing.outline.Outline;
 import org.netbeans.swing.outline.OutlineModel;
 
@@ -197,7 +199,7 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
     /**
      * Sets the columns preferred width
      */
-    private void SetColumnsPreferredWidth()
+    protected void SetColumnsPreferredWidth()
     {
         for (int columnIndex = 0; columnIndex < this.objectBrowserTree.getColumnCount(); columnIndex++) 
         {
@@ -207,10 +209,13 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
 
             for (int rowIndex = 0; rowIndex < this.objectBrowserTree.getRowCount(); rowIndex++) 
             {
-              TableCellRenderer renderer = this.objectBrowserTree.getCellRenderer(rowIndex, columnIndex);
-              Component comp = renderer.getTableCellRendererComponent(this.objectBrowserTree, this.objectBrowserTree.getValueAt(rowIndex, columnIndex), false, false, rowIndex, columnIndex);
-              int preferredWidth = comp.getPreferredSize().width;
-              width = Math.max(width, preferredWidth < 25 ? 110 : preferredWidth);
+                TableCellRenderer renderer = this.objectBrowserTree.getCellRenderer(rowIndex, columnIndex);
+                
+                Component comp = renderer.getTableCellRendererComponent(this.objectBrowserTree, 
+                        this.objectBrowserTree.getValueAt(rowIndex, columnIndex), false, false, rowIndex, columnIndex);
+                
+                int preferredWidth = comp.getPreferredSize() != null ? comp.getPreferredSize().width : 110;
+                width = Math.max(width, preferredWidth < 25 ? 110 : preferredWidth);
             }
             
             column.setPreferredWidth(width + 2);
@@ -236,7 +241,8 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
     {
         if (model != null)
         {
-            SwingUtilities.invokeLater(() -> {
+            SwingUtilities.invokeLater(() -> 
+            {
                 this.objectBrowserTree.setModel(model);
                 this.objectBrowserTree.tableChanged(new TableModelEvent(this.objectBrowserTree.getOutlineModel()));
                 this.SetColumnsPreferredWidth();

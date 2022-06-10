@@ -1,5 +1,5 @@
 /*
- * LocalExchangeHistoryTreeViewModel.java
+ * IMappingListViewViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,24 +21,14 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ExchangeHistory;
+package ViewModels.MappingListView.Interfaces;
 
-import Services.LocalExchangeHistory.ExchangeHistoryEntryCollection;
-import ViewModels.ExchangeHistory.Rows.ExchangeHistoryRootRowViewModel;
-import ViewModels.ObjectBrowser.BrowserTreeBaseViewModel;
+import ViewModels.Interfaces.IObjectBrowserBaseViewModel;
+import ViewModels.MappingListView.Rows.MappingRowViewModel;
 
 /**
- * The {@linkplain LocalExchangeHistoryTreeViewModel} is the {@linkplain BrowserTreeBaseViewModel} for the {@linkplain ExchangeHistoryDialog}
+ * The {@linkplain IMappingListViewViewModel} is the interface definition for {@linkplain MappingListViewViewModel}
  */
-public class LocalExchangeHistoryTreeViewModel extends BrowserTreeBaseViewModel
+public interface IMappingListViewViewModel extends IObjectBrowserBaseViewModel<MappingRowViewModel<?,?>>
 {
-    /**
-     * Initializes a new {@linkplain LocalExchangeHistoryTreeViewModel}
-     * 
-     * @param mappedElements the {@linkplain RootRowViewModel}
-     */
-    public LocalExchangeHistoryTreeViewModel(ExchangeHistoryEntryCollection entries)
-    {
-        this.root = new ExchangeHistoryRootRowViewModel(entries);
-    }
 }

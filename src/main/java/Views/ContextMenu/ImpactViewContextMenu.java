@@ -63,10 +63,10 @@ public class ImpactViewContextMenu extends ContextMenu<IImpactViewContextMenuVie
      */
     public ImpactViewContextMenu() 
     {
-        this.selectAll = new JMenuItem("Select all");
+        this.selectAll = new JMenuItem(String.format("Select all Mapped Elements for Transfer", this.classKind));
         this.selectAll.setIcon(ImageLoader.GetIcon("icon16.png"));
         this.add(this.selectAll);
-        this.deselectAll = new JMenuItem("Deselect all");
+        this.deselectAll = new JMenuItem(String.format("Deselect all Mapped Elements for Transfer", this.classKind));
         this.deselectAll.setIcon(ImageLoader.GetIcon("icon16.png"));
         this.add(this.deselectAll);
     }
@@ -74,7 +74,7 @@ public class ImpactViewContextMenu extends ContextMenu<IImpactViewContextMenuVie
     /**
      * Initializes a new {@linkplain ImpactViewContextMenu}
      * 
-     * @param clazz the {@linkplain Class} of {@linkplain Thing}>
+     * @param classKind the {@linkplain ClassKind}
      */
     public ImpactViewContextMenu(ClassKind classKind) 
     {
