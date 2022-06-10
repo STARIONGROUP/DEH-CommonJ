@@ -45,6 +45,7 @@ import ViewModels.Interfaces.IRequirementBrowserViewModel;
 import ViewModels.MappedElementListView.Interfaces.IMappedElementListViewViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.Rows.MappedElementRowViewModel;
+import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.NamedThing;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
@@ -133,7 +134,7 @@ public abstract class MappingConfigurationDialogViewModel<TSourceElement, TDstEl
     /**
      * The {@linkplain ObservableCollection} of {@linkplain MappedElementRowViewModel} that represents all the mapped elements
      */
-    protected ObservableCollection<MappedElementRowViewModel<? extends Thing, ? extends TDstElement>> mappedElements = new ObservableCollection<>();
+    protected ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> mappedElements = new ObservableCollection<>();
     
     /**
      * Gets the collection of mapped element
@@ -141,7 +142,7 @@ public abstract class MappingConfigurationDialogViewModel<TSourceElement, TDstEl
      * @return {@linkplain ObservableCollection} of {@linkplain MappedElementRowViewModel}
      */
     @Override
-    public ObservableCollection<MappedElementRowViewModel<? extends Thing, ? extends TDstElement>> GetMappedElementCollection()
+    public ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> GetMappedElementCollection()
     {
         return this.mappedElements;
     }
@@ -149,7 +150,7 @@ public abstract class MappingConfigurationDialogViewModel<TSourceElement, TDstEl
     /**
      * Backing field for {@linkplain GetSelectedMappedElement}
      */
-    protected ObservableValue<MappedElementRowViewModel<? extends Thing, ? extends TDstElement>> selectedMappedElement = new ObservableValue<>(null);
+    protected ObservableValue<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> selectedMappedElement = new ObservableValue<>(null);
     
     /**
      * The selected {@linkplain MappedElementRowViewModel}
@@ -157,7 +158,7 @@ public abstract class MappingConfigurationDialogViewModel<TSourceElement, TDstEl
      * @return a {@linkplain Observable} of {@linkplain MappedElementRowViewModel}
      */
     @Override
-    public Observable<MappedElementRowViewModel<? extends Thing, ? extends TDstElement>> GetSelectedMappedElement()
+    public Observable<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> GetSelectedMappedElement()
     {
         return this.selectedMappedElement.Observable();
     }
@@ -168,7 +169,7 @@ public abstract class MappingConfigurationDialogViewModel<TSourceElement, TDstEl
      * @param mappedElement the {@linkplain MappedElementRowViewModel} that is to be selected
      */
     @Override
-    public void SetSelectedMappedElement(MappedElementRowViewModel<? extends Thing, ? extends TDstElement> mappedElement)
+    public void SetSelectedMappedElement(MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement> mappedElement)
     {
         mappedElement.SetIsSelected(true);
         this.selectedMappedElement.Value(mappedElement);
@@ -271,7 +272,7 @@ public abstract class MappingConfigurationDialogViewModel<TSourceElement, TDstEl
      * @param clazz the class of the {@linkplain Thing}
      */
     @SuppressWarnings("unchecked")
-    private <TThing extends Thing & NamedThing> void SetHubElement(Thing thing, Class<TThing> clazz)
+    private <TThing extends DefinedThing> void SetHubElement(Thing thing, Class<TThing> clazz)
     {
         MappedElementRowViewModel<TThing, ? extends TDstElement> mappedElementRowViewModel = 
                 (MappedElementRowViewModel<TThing, ? extends TDstElement>)this.selectedMappedElement.Value();
@@ -334,11 +335,11 @@ public abstract class MappingConfigurationDialogViewModel<TSourceElement, TDstEl
      * 
      * @param mappedElementCollection the collection of existing mapped element
      */
-    protected void UpdateProperties(ObservableCollection<MappedElementRowViewModel<? extends Thing, ? extends TDstElement>> mappedElementCollection)
+    protected void UpdateProperties(ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> mappedElementCollection)
     {
         this.mappedElements.clear();
         
-        for (MappedElementRowViewModel<? extends Thing, ? extends TDstElement> mappedElementRowViewModel : mappedElementCollection)
+        for (MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement> mappedElementRowViewModel : mappedElementCollection)
         {
             this.mappedElements.add(mappedElementRowViewModel);
         }

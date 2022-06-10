@@ -90,7 +90,7 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
     /**
      * The {@linkplain File} that contains the serialized {@linkplain ExchangeHistoryEntryViewModel}
      */
-    private File localExchangeHistoryServiceFile = this.GetFile();
+    private File localExchangeHistoryServiceFile;
 
     /**
      * The {@linkplain Gson} converter
@@ -107,6 +107,7 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
     {
         this.hubController = hubController;
         this.adapterInfoService = versionService;
+        this.localExchangeHistoryServiceFile = this.GetFile();
     }
     
     /**

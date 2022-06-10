@@ -27,6 +27,7 @@ import Enumerations.MappingDirection;
 import Reactive.ObservableCollection;
 import ViewModels.Rows.MappedElementRowViewModel;
 import cdp4common.commondata.ClassKind;
+import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Thing;
 
 /**
@@ -49,12 +50,12 @@ public interface IDstControllerBase<TDstElement>
      * 
      * @return an {@linkplain ObservableCollection} of {@linkplain MappedElementRowViewModel}
      */
-    ObservableCollection<MappedElementRowViewModel<? extends Thing, ? extends TDstElement>> GetDstMapResult();
+    ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> GetDstMapResult();
 
     /**
      * Gets The {@linkplain ObservableCollection} of Hub map result
      * 
      * @return an {@linkplain ObservableCollection} of {@linkplain MappedElementRowViewModel}
      */
-    ObservableCollection<MappedElementRowViewModel<? extends Thing, ? extends TDstElement>> GetHubMapResult();
+    ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> GetHubMapResult();
 }

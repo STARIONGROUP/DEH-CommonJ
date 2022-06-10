@@ -39,7 +39,7 @@ import ViewModels.Rows.MappedElementRowViewModel;
 public class MappedElementListViewCellRenderer extends JLabel implements TableCellRenderer
 {
     /**
-     * Initializes a new {@linkplain CapellaArchitectureCellRenderer}
+     * Initializes a new {@linkplain MappedElementListViewCellRenderer}
      */
     public MappedElementListViewCellRenderer()
     {
@@ -59,7 +59,6 @@ public class MappedElementListViewCellRenderer extends JLabel implements TableCe
      * @param columnIndex the column number
      * @return a {@linkplain JComboBox}
      */
-    @SuppressWarnings("null")
     @Override
     public Component getTableCellRendererComponent(JTable table, Object cellValue, boolean isSelected, boolean hasFocus, int rowIndex, int columnIndex)
     {

@@ -13,6 +13,9 @@ gen
 # jar and class file
 /bin/*
 
+#doc
+/doc
+
 # lib
 
 /lib/*
@@ -26,7 +29,6 @@ gen
 # Package Files #
 *.war
 *.ear
-*.zip
 *.tar.gz
 *.rar
 *.jar
