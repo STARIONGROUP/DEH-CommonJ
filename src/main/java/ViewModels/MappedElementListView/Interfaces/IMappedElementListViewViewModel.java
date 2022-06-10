@@ -29,6 +29,7 @@ import org.netbeans.swing.outline.OutlineModel;
 import ViewModels.Interfaces.IObjectBrowserBaseViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.Rows.MappedElementRowViewModel;
+import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Thing;
 import io.reactivex.Observable;
 
@@ -37,7 +38,7 @@ import io.reactivex.Observable;
  * 
  * @param <TElement> the type of element the dst adapter works with
  */
-public interface IMappedElementListViewViewModel<TElement> extends IObjectBrowserBaseViewModel<MappedElementRowViewModel<? extends Thing, ? extends TElement>>
+public interface IMappedElementListViewViewModel<TElement> extends IObjectBrowserBaseViewModel<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>>
 {
     /**
      * Compute eligible rows where the represented {@linkplain MappedElementRowViewModel} represents a mapping row,
@@ -45,19 +46,19 @@ public interface IMappedElementListViewViewModel<TElement> extends IObjectBrowse
      * 
      * @param selectedRow the collection of selected view model {@linkplain MappedElementRowViewModel}
      */
-    void OnSelectionChanged(MappedElementRowViewModel<? extends Thing, ? extends TElement> selectedRow);
+    void OnSelectionChanged(MappedElementRowViewModel<? extends DefinedThing, ? extends TElement> selectedRow);
 
     /**
      * Creates the {@linkplain OutlineModel} tree from the provided {@linkplain Collection} of {@linkplain MappedElementRowViewModel}
      * 
      * @param elements the {@linkplain Collection} of {@linkplain MappedElementRowViewModel}
      */
-    void BuildTree(Collection<MappedElementRowViewModel<? extends Thing, ? extends TElement>> elements);
+    void BuildTree(Collection<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> elements);
     
     /**
      * Gets the {@linkplain Observable} of {@linkplain ElementRowViewModel} that yields the selected element
      * 
      * @return an {@linkplain Observable} of {@linkplain MappedElementRowViewModel}
      */
-    Observable<MappedElementRowViewModel<? extends Thing, ? extends TElement>> GetSelectedElement();
+    Observable<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> GetSelectedElement();
 }

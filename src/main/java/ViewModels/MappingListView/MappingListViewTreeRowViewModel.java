@@ -1,18 +1,18 @@
 /*
- * MappedElementListViewTreeRowViewModel.java
+ * MappingListViewTreeRowViewModel.java
  *
- * Copyright (c) 2020-2022 RHEA System S.A.
+ * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski, Antoine Théate
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
- * This file is part of DEH-Capella
+ * This file is part of DEH-CommonJ
  *
- * The DEH-Capella is free software; you can redistribute it and/or
+ * The DEH-CommonJ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * The DEH-Capella is distributed in the hope that it will be useful,
+ * The DEH-CommonJ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
@@ -21,20 +21,56 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.MappedElementListView;
+package ViewModels.MappingListView;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.swing.outline.RowModel;
 
 import Enumerations.MappingDirection;
+import ViewModels.MappingListView.Rows.MappingRowViewModel;
 import ViewModels.Rows.BaseTreeRowModel;
-import ViewModels.Rows.MappedElementRowViewModel;
+import cdp4common.commondata.DefinedThing;
+import cdp4common.engineeringmodeldata.ElementDefinition;
 
 /**
  * The {@linkplain MappedElementListViewTreeRowViewModel} is the {@linkplain RowModel} implementation for the {@linkplain CapellaObjectBrowser}
+ * 
+ * @param <TDstElement> the type of DST element that maps to an {@linkplain ElementDefinition}
  */
-public class MappedElementListViewTreeRowViewModel extends BaseTreeRowModel implements RowModel
-{    
+public class MappingListViewTreeRowViewModel<TDstElement> extends BaseTreeRowModel implements RowModel
+{
+    /**
+     * The {@linkplain Class} of {@linkplain #TDstElement}
+     */
+    private Class<TDstElement> dstElementType;
+    
+    /**
+     * Initializes a new {@linkplain MappingListViewTreeRowViewModel}
+     * 
+     * @param dstElementType the {@linkplain Class} of {@linkplain #TDstElement}
+     */
+    public MappingListViewTreeRowViewModel(Class<TDstElement> dstElementType)
+    {
+        this.dstElementType = dstElementType;
+    }
+    
+    /**
+     * Gets a value indicating whether the specified (by the provided {@linkplain node} and {@linkplain column}) cell is editable
+     * 
+     * @param node the row view model
+     * @param column the column index
+     * @return a {@linkplain boolean}
+     */
+    @Override
+    public boolean isCellEditable(Object node, int column)
+    {
+        if(column == 0 || column == 2)
+        {
+            return true;
+        }
+        
+        return super.isCellEditable(node, column);
+    }
+    
     /**
      * Gets column count for this tree grid needed to generate all the specified columns and also to compute rows values 
      * 
@@ -56,24 +92,20 @@ public class MappedElementListViewTreeRowViewModel extends BaseTreeRowModel impl
     @Override
     public Object getValueFor(Object rowViewModel, int column)
     {
-        if(rowViewModel instanceof MappedElementRowViewModel)
+        if(rowViewModel instanceof MappingRowViewModel)
         {
-            MappedElementRowViewModel<?, ?> mappedRowViewModel = (MappedElementRowViewModel<?, ?>)rowViewModel;
-            
-            Pair<String, String> leftAndRightElements =  mappedRowViewModel.GetMappingDirection() == MappingDirection.FromDstToHub 
-                    ? Pair.of( mappedRowViewModel.GetDstElementRepresentation(), mappedRowViewModel.GetHubElementRepresentation())
-                    : Pair.of(mappedRowViewModel.GetHubElementRepresentation(), mappedRowViewModel.GetDstElementRepresentation());
+            MappingRowViewModel<?,?> row = (MappingRowViewModel<?,?>)rowViewModel;
             
             switch (column)
             {
-                case 0 : return leftAndRightElements.getLeft();
-                case 1 : return "<html><body>&#x1F872;</body></html>";
-                case 2 : return leftAndRightElements.getRight();
-                default : return "-";
+                case 0 : return row.GetDstElement();
+                case 1 : return row.GetMappingDirection() == MappingDirection.FromHubToDst ? "<html><body>&#x1F870;</body></html>" : "<html><body>&#x1F872;</body></html>";
+                case 2 : return row.GetHubElement();
+                default : return "";
             }
         }
         
-        return "-";
+        return "";
     }
 
     /**
@@ -87,9 +119,9 @@ public class MappedElementListViewTreeRowViewModel extends BaseTreeRowModel impl
     {
         switch (column)
         {
-            case 0 : return String.class;
+            case 0 : return this.dstElementType;
             case 1 : return String.class;
-            case 2 : return String.class;
+            case 2 : return DefinedThing.class;
             default : return null;
         }
     }
@@ -105,9 +137,9 @@ public class MappedElementListViewTreeRowViewModel extends BaseTreeRowModel impl
     {
         switch (column) 
         {
-            case 0 : return "Source Element";
+            case 0 : return "DST";
             case 1 : return "";
-            case 2 : return "Target Element";
+            case 2 : return "HUB";
             default : return null;
         }
     }

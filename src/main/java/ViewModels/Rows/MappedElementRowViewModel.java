@@ -32,6 +32,7 @@ import Reactive.ObservableValue;
 import ViewModels.Interfaces.IMappedElementRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Rows.RowViewModel;
+import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.NamedThing;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.Relationship;
@@ -42,7 +43,7 @@ import io.reactivex.Observable;
  * @param <TThing> the type of {@linkplain Thing}
  * @param <TDstElement> the type of DST element
  */
-public abstract class MappedElementRowViewModel<TThing extends Thing & NamedThing, TDstElement> extends RowViewModel implements IMappedElementRowViewModel, IRowViewModel
+public abstract class MappedElementRowViewModel<TThing extends DefinedThing, TDstElement> extends RowViewModel implements IMappedElementRowViewModel, IRowViewModel
 {
     /**
      * The {@linkplain Class} of the {@linkplain TThing}

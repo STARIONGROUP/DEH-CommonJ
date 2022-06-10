@@ -30,6 +30,7 @@ import javax.swing.tree.TreeModel;
 import ViewModels.MappedElementListView.Rows.MappedElementListViewRootViewModel;
 import ViewModels.ObjectBrowser.BrowserTreeBaseViewModel;
 import ViewModels.Rows.MappedElementRowViewModel;
+import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Thing;
 
 /**
@@ -40,27 +41,11 @@ import cdp4common.commondata.Thing;
 public class MappedElementListViewTreeViewModel<TElement> extends BrowserTreeBaseViewModel
 {
     /**
-     * The root element of the tree
-     */
-    private Object root;
-
-    /**
-     * Gets the root element of the tree
-     * 
-     * @return an {@linkplain Object}
-     */
-    @Override
-    public Object getRoot()
-    {
-        return this.root;
-    }
-    
-    /**
      * Initializes a new {@linkplain MappedElementListViewTreeViewModel}
      * 
      * @param mappedElements the {@linkplain Collection} of {@linkplain MappedElementRowViewModel}
      */
-    public MappedElementListViewTreeViewModel(Collection<MappedElementRowViewModel<? extends Thing, ? extends TElement>> mappedElements)
+    public MappedElementListViewTreeViewModel(Collection<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> mappedElements)
     {
         this.root = new MappedElementListViewRootViewModel<TElement>(mappedElements);
     }

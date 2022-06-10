@@ -33,9 +33,8 @@ import org.netbeans.swing.outline.OutlineModel;
 import Reactive.ObservableValue;
 import ViewModels.ObjectBrowserBaseViewModel;
 import ViewModels.MappedElementListView.Interfaces.IMappedElementListViewViewModel;
-import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.Rows.MappedElementRowViewModel;
-import cdp4common.commondata.Thing;
+import cdp4common.commondata.DefinedThing;
 import io.reactivex.Observable;
 
 /**
@@ -43,12 +42,12 @@ import io.reactivex.Observable;
  * 
  * @param <TElement> the type of element the dst adapter works with
  */
-public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseViewModel<MappedElementRowViewModel<? extends Thing, ? extends TElement>> implements IMappedElementListViewViewModel<TElement>
+public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseViewModel<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> implements IMappedElementListViewViewModel<TElement>
 {    
     /**
      * Backing field for {@linkplain GetSelectedElement}
      */
-    private ObservableValue<MappedElementRowViewModel<? extends Thing, ? extends TElement>> selectedElement = new ObservableValue<>();
+    private ObservableValue<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> selectedElement = new ObservableValue<>();
     
     /**
      * Gets the {@linkplain Observable} of {@linkplain ElementRowViewModel} that yields the selected element
@@ -56,7 +55,7 @@ public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseV
      * @return an {@linkplain Observable} of {@linkplain ElementRowViewModel}
      */
     @Override
-    public Observable<MappedElementRowViewModel<? extends Thing, ? extends TElement>> GetSelectedElement()
+    public Observable<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> GetSelectedElement()
     {
         return this.selectedElement.Observable();
     }
@@ -67,7 +66,7 @@ public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseV
      * @param selectedRow the selected {@linkplain ClassRowViewModel}
      */
     @Override
-    public void OnSelectionChanged(MappedElementRowViewModel<? extends Thing, ? extends TElement> selectedRow)
+    public void OnSelectionChanged(MappedElementRowViewModel<? extends DefinedThing, ? extends TElement> selectedRow)
     {
         this.selectedElement.Value(selectedRow);            
     }
@@ -86,7 +85,7 @@ public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseV
      * @param elements the {@linkplain Collection} of {@linkplain EObject}
      */
     @Override
-    public void BuildTree(Collection<MappedElementRowViewModel<? extends Thing, ? extends TElement>> elements)
+    public void BuildTree(Collection<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> elements)
     {
         this.browserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
                 new MappedElementListViewTreeViewModel<TElement>(elements),

@@ -25,8 +25,10 @@ package Views;
 
 import java.awt.Color;
 
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.commons.lang3.tuple.Pair;
 

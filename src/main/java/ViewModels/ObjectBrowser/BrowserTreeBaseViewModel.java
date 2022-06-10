@@ -35,6 +35,22 @@ import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 public abstract class BrowserTreeBaseViewModel implements TreeModel
 {
     /**
+     * The root element of the tree
+     */
+    protected Object root;
+
+    /**
+     * Gets the root element of the tree
+     * 
+     * @return an {@linkplain Object}
+     */
+    @Override
+    public Object getRoot()
+    {
+        return this.root;
+    }
+    
+    /**
      * Gets the children of the specified {@linkplain rowViewModel} at the specified {@linkplain index}
      * 
      * @param rowViewModel the row view model to get the children from

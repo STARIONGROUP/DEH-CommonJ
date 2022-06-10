@@ -28,16 +28,12 @@ import javax.swing.tree.TreeModel;
 import org.netbeans.swing.outline.DefaultOutlineModel;
 import org.netbeans.swing.outline.OutlineModel;
 
-import HubController.IHubController;
 import Reactive.ObservableValue;
 import Services.LocalExchangeHistory.ILocalExchangeHistoryService;
 import ViewModels.ObjectBrowserBaseViewModel;
-import ViewModels.ObjectBrowserViewModel;
 import ViewModels.ExchangeHistory.Interfaces.IExchangeHistoryDialogViewModel;
 import ViewModels.ExchangeHistory.Rows.ExchangeHistoryEntryRowViewModel;
-import ViewModels.ObjectBrowser.Rows.ThingRowViewModel;
 import Views.ExchangeHistory.ExchangeHistoryDialog;
-import cdp4common.commondata.Thing;
 import io.reactivex.Observable;
 
 /**
@@ -105,6 +101,6 @@ public class ExchangeHistoryDialogViewModel extends ObjectBrowserBaseViewModel<E
     @Override
     public void OnSelectionChanged(ExchangeHistoryEntryRowViewModel selectedRow)
     {
-        this.selectedElement.Value(selectedRow);;
+        this.selectedElement.Value(selectedRow);
     }
 }

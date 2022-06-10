@@ -33,6 +33,7 @@ import ViewModels.Interfaces.IViewModel;
 import ViewModels.MappedElementListView.Interfaces.IMappedElementListViewViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.Rows.MappedElementRowViewModel;
+import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Thing;
 import io.reactivex.Observable;
 
@@ -105,19 +106,19 @@ public interface IMappingConfigurationDialogViewModel<TSourceElement, TDstElemen
      * 
      * @param mappedElement the {@linkplain MappedElementRowViewModel} that is to be selected
      */
-    void SetSelectedMappedElement(MappedElementRowViewModel<? extends Thing, ? extends TDstElement> mappedElement);
+    void SetSelectedMappedElement(MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement> mappedElement);
 
     /**
      * The selected {@linkplain MappedElementRowViewModel}
      * 
      * @return a {@linkplain Observable} of {@linkplain MappedElementRowViewModel}
      */
-    Observable<MappedElementRowViewModel<? extends Thing, ? extends TDstElement>> GetSelectedMappedElement();
+    Observable<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> GetSelectedMappedElement();
 
     /**
      * Gets the collection of mapped element
      * 
      * @return {@linkplain ObservableCollection} of {@linkplain MappedElementRowViewModel}
      */
-    ObservableCollection<MappedElementRowViewModel<? extends Thing, ? extends TDstElement>> GetMappedElementCollection();
+    ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> GetMappedElementCollection();
 }

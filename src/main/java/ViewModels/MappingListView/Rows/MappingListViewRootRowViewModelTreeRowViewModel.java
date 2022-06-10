@@ -1,5 +1,5 @@
 /*
- * RequirementBrowserTreeRowViewModel.java
+ * MappingListViewRootRowViewModelTreeRowViewModel.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,25 +21,17 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package ViewModels.ObjectBrowser.RequirementTree;
+package ViewModels.MappingListView.Rows;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.netbeans.swing.outline.RowModel;
 
-import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementBaseTreeElementViewModel;
 import ViewModels.Rows.BaseTreeRowModel;
 
 /**
- * The {@linkplain RequirementBrowserTreeRowViewModel} is the {@linkplain RowModel} for the requirements browser
+ * The {@linkplain MappingListViewRootRowViewModelTreeRowViewModel} is the {@linkplain RowModel} for a MappingListViewElementDefinition row browser
  */
-public class RequirementBrowserTreeRowViewModel extends BaseTreeRowModel implements RowModel
+public class MappingListViewRootRowViewModelTreeRowViewModel extends BaseTreeRowModel implements RowModel
 {
-    /**
-     * The current class logger
-     */
-    private final Logger logger = LogManager.getLogger();
-    
     /**
      * Gets column count for this tree grid needed to generate all the specified columns and also to compute rows values 
      * 
@@ -48,7 +40,7 @@ public class RequirementBrowserTreeRowViewModel extends BaseTreeRowModel impleme
     @Override
     public int getColumnCount()
     {
-        return 3;
+        return 1;
     }
 
     /**
@@ -61,19 +53,11 @@ public class RequirementBrowserTreeRowViewModel extends BaseTreeRowModel impleme
     @Override
     public Object getValueFor(Object rowViewModel, int column)
     {
-        if(rowViewModel instanceof RequirementBaseTreeElementViewModel)
+        if (column == 0 && rowViewModel instanceof MappingListViewBaseRowViewModel)
         {
-            RequirementBaseTreeElementViewModel<?> element = (RequirementBaseTreeElementViewModel<?>) rowViewModel;
-            
-            switch (column)
-            {
-                case 0 : return element.GetName();
-                case 1 : return element.GetDefinition();           
-                case 2 : return element.GetOwnerShortName();     
-                default : assert false;
-            }
+            return ((MappingListViewBaseRowViewModel) rowViewModel).GetValue();
         }
-        
+
         return "";
     }
 
@@ -86,14 +70,11 @@ public class RequirementBrowserTreeRowViewModel extends BaseTreeRowModel impleme
     @Override
     public Class<?> getColumnClass(int column)
     {
-        switch (column)
+        if (column == 0)
         {
-            case 0 : return String.class;
-            case 1 : return String.class;
-            case 2 : return String.class;
-            default : assert false;
+            return String.class;
         }
-        
+
         return null;
     }
 
@@ -106,12 +87,9 @@ public class RequirementBrowserTreeRowViewModel extends BaseTreeRowModel impleme
     @Override
     public String getColumnName(int column)
     {
-        switch (column) 
+        if (column == 0)
         {
-            case 0 : return "Name";
-            case 1 : return "Definition";
-            case 2 : return "Owner Name";
-            default : assert false;
+            return "Value";
         }
         
         return null;
