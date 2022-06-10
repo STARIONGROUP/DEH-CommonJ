@@ -13,6 +13,9 @@ gen
 # jar and class file
 /bin/*
 
+#doc
+/doc
+
 # lib
 
 /lib/*
