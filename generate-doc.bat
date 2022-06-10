@@ -25,7 +25,7 @@ REM Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 set QuietMode="-q"
 set DOXYGEN_GENERATE_LATEX=NO
 set CurrentDir=%cd%
-set ZipFileName="html.zip"
+set ZipFileName="doxygen_html_documentation.zip"
 
 :ParseArgs
 if "%1"=="" goto :ParsingEnded
