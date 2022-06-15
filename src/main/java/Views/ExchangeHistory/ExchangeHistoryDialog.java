@@ -25,6 +25,7 @@ package Views.ExchangeHistory;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Window.Type;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -57,6 +58,8 @@ public class ExchangeHistoryDialog extends BaseDialog<Boolean> implements IDialo
      */
     public ExchangeHistoryDialog()
     {
+        this.setType(Type.POPUP);
+        this.setModal(true);
         this.Initialize();
     }
     

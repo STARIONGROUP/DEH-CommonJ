@@ -105,6 +105,7 @@ public class UserPreferenceService implements IUserPreferenceService
             String dataString = new String(data, StandardCharsets.UTF_8);
             
             this.userPreference = new Gson().fromJson(dataString, UserPreference.class);
+            
             if (this.userPreference == null)
             {
                 this.userPreference = new UserPreference();
