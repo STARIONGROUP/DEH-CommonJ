@@ -25,7 +25,6 @@ package Views.ExchangeHistory;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Window.Type;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -48,9 +47,8 @@ public class ExchangeHistoryDialog extends BaseDialog<Boolean> implements IDialo
     private transient IExchangeHistoryDialogViewModel dataContext;
     
     /**
-     * View component declarations
+     * View {@linkplain ExchangeHistoryObjectBrowser}
      */
-    private JPanel contentPane;
     private ExchangeHistoryObjectBrowser objectBrowserTree;
     
     /**
@@ -71,22 +69,22 @@ public class ExchangeHistoryDialog extends BaseDialog<Boolean> implements IDialo
         this.setTitle("Local Exchange History");
         this.setIconImage(ImageLoader.GetIcon().getImage());
         this.setBounds(100, 100, 450, 300);
-        this.contentPane = new JPanel();
-        this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        JPanel contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         this.setContentPane(contentPane);
-        GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[]{0, 0};
-        gbl_contentPane.rowHeights = new int[]{0, 0};
-        gbl_contentPane.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-        contentPane.setLayout(gbl_contentPane);
+        GridBagLayout gblContentPane = new GridBagLayout();
+        gblContentPane.columnWidths = new int[]{0, 0};
+        gblContentPane.rowHeights = new int[]{0, 0};
+        gblContentPane.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gblContentPane.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+        contentPane.setLayout(gblContentPane);
         
         this.objectBrowserTree = new ExchangeHistoryObjectBrowser();
-        GridBagConstraints gbc_objectBrowser = new GridBagConstraints();
-        gbc_objectBrowser.fill = GridBagConstraints.BOTH;
-        gbc_objectBrowser.gridx = 0;
-        gbc_objectBrowser.gridy = 0;
-        contentPane.add(this.objectBrowserTree, gbc_objectBrowser);
+        GridBagConstraints gbcObjectBrowser = new GridBagConstraints();
+        gbcObjectBrowser.fill = GridBagConstraints.BOTH;
+        gbcObjectBrowser.gridx = 0;
+        gbcObjectBrowser.gridy = 0;
+        contentPane.add(this.objectBrowserTree, gbcObjectBrowser);
     }
     
     /**

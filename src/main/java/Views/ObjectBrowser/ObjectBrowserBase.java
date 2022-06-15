@@ -65,7 +65,7 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
    /**
     * This view attached {@linkplain IViewModel}
     */
-    protected TViewModel dataContext;
+    protected transient TViewModel dataContext;
     
     /**
      * Sets the DataContext

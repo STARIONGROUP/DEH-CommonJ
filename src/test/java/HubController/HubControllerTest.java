@@ -1,5 +1,5 @@
 /*
- * HubControllerTestFixture.java
+ * HubControllerTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -53,7 +53,7 @@ import cdp4dal.Assembler;
 import cdp4dal.Session;
 import cdp4dal.dal.Credentials;
 
-class HubControllerTestFixture
+class HubControllerTest
 {
     private HubController controller;
     private Session session;

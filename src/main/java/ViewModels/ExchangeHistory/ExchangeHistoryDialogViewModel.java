@@ -80,7 +80,11 @@ public class ExchangeHistoryDialogViewModel extends ObjectBrowserBaseViewModel<E
      * 
      * @param isConnected a value indicating whether the session is open
      */
-    protected void UpdateBrowserTrees(Boolean isConnected) { }
+    @Override
+    protected void UpdateBrowserTrees(Boolean isConnected) 
+    {
+    	this.BuildTree();
+    }
     
     /**
      * Gets the {@linkplain Observable} of {@linkplain #TRowViewModel} that yields the selected element

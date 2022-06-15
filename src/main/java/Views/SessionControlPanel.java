@@ -56,10 +56,15 @@ import javax.swing.text.DefaultFormatter;
 @SuppressWarnings("serial")
 public class SessionControlPanel extends JPanel implements IView<ISessionControlPanelViewModel>
 {
-    /**
+	/**
+	 * The used font
+	 */
+    private static final String TAHOMA = "Tahoma";
+
+	/**
      * The {@link ISessionControlPanelViewModel} as the data context of this view
      */
-    protected ISessionControlPanelViewModel DataContext;
+    protected transient ISessionControlPanelViewModel dataContext;
     
     /**
      * View components declaration
@@ -80,7 +85,6 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
         this.SetControlsEnabled(false);
     }
 
-
     /**
      * Initializes this view components
      */
@@ -95,7 +99,7 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
         
         this.connectButton = new JButton("Connect");
         this.connectButton.setToolTipText("Connect to a Hub data source");
-        this.connectButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        this.connectButton.setFont(new Font(TAHOMA, Font.PLAIN, 14));
         GridBagConstraints gbc_connectButton = new GridBagConstraints();
         gbc_connectButton.anchor = GridBagConstraints.EAST;
         gbc_connectButton.insets = new Insets(0, 0, 5, 5);
@@ -105,7 +109,7 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
         
         this.reloadButton = new JButton("Reload");
         this.reloadButton.setToolTipText("Reload all the data from the Hub");
-        this.reloadButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        this.reloadButton.setFont(new Font(TAHOMA, Font.PLAIN, 14));
         GridBagConstraints gbc_reloadButton = new GridBagConstraints();
         gbc_reloadButton.insets = new Insets(0, 0, 5, 5);
         gbc_reloadButton.gridx = 1;
@@ -114,7 +118,7 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
         
         this.refreshButton = new JButton("Refresh");
         this.refreshButton.setToolTipText("Refresh the connection to the Hub");
-        this.refreshButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        this.refreshButton.setFont(new Font(TAHOMA, Font.PLAIN, 14));
         GridBagConstraints gbc_refreshButton = new GridBagConstraints();
         gbc_refreshButton.insets = new Insets(0, 0, 5, 5);
         gbc_refreshButton.gridx = 2;
@@ -178,25 +182,25 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
     @Override
     public void Bind()
     {
-        this.SetControlsEnabled(this.DataContext.GetIsConnected());
+        this.SetControlsEnabled(this.dataContext.GetIsConnected());
         
         this.connectButton.addActionListener(e ->
                 {
-                    if(!this.DataContext.GetIsConnected())
+                    if(Boolean.FALSE.equals(this.dataContext.GetIsConnected()))
                     {
-                        Boolean connectionDialogResult= this.DataContext.Connect();
+                        Boolean connectionDialogResult= this.dataContext.Connect();
                         
                         this.SetControlsEnabled(connectionDialogResult != null && connectionDialogResult);
                     }
                     else
                     {
-                        this.DataContext.Disconnect();
+                        this.dataContext.Disconnect();
                         this.SetControlsEnabled(false);
                     }
                 });
         
-        this.refreshButton.addActionListener(e -> this.DataContext.Refresh());
-        this.reloadButton.addActionListener(e -> this.DataContext.Reload());
+        this.refreshButton.addActionListener(e -> this.dataContext.Refresh());
+        this.reloadButton.addActionListener(e -> this.dataContext.Reload());
         
         this.autoRefreshTime.addChangeListener(e -> 
         { 
@@ -204,7 +208,7 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
             this.TriggerAutoRefresh();
         });
 
-        this.DataContext.GetTimeObservable().subscribe(x -> SwingUtilities.invokeLater(() -> this.autoRefreshProgressBar.setValue(x)));
+        this.dataContext.GetTimeObservable().subscribe(x -> SwingUtilities.invokeLater(() -> this.autoRefreshProgressBar.setValue(x)));
         
         this.autoRefreshCheckBox.addItemListener(e -> 
         {
@@ -218,7 +222,7 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
             }
             else
             {
-                this.DataContext.CancelAutoRefresh();
+                this.dataContext.CancelAutoRefresh();
             }
         });
     }
@@ -269,7 +273,7 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
             SwingUtilities.invokeLater(() -> 
             {
                 this.autoRefreshProgressBar.setMaximum(timer);
-                this.DataContext.SetAutoRefresh(timer);
+                this.dataContext.SetAutoRefresh(timer);
             });
         }
     }    
@@ -282,7 +286,7 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
     @Override
     public void SetDataContext(ISessionControlPanelViewModel viewModel)
     {
-        this.DataContext = viewModel;   
+        this.dataContext = viewModel;   
         this.Bind();
     }
 
@@ -294,6 +298,6 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
     @Override
     public ISessionControlPanelViewModel GetDataContext()
     {
-        return this.DataContext;
+        return this.dataContext;
     }
 }

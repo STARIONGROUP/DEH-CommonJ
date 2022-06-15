@@ -42,12 +42,12 @@ import io.reactivex.Observable;
  * 
  * @param <TElement> the type of element the dst adapter works with
  */
-public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseViewModel<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> implements IMappedElementListViewViewModel<TElement>
+public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseViewModel<MappedElementRowViewModel<DefinedThing, TElement>> implements IMappedElementListViewViewModel<TElement>
 {    
     /**
      * Backing field for {@linkplain GetSelectedElement}
      */
-    private ObservableValue<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> selectedElement = new ObservableValue<>();
+    private ObservableValue<MappedElementRowViewModel<DefinedThing, TElement>> selectedElement = new ObservableValue<>();
     
     /**
      * Gets the {@linkplain Observable} of {@linkplain ElementRowViewModel} that yields the selected element
@@ -55,7 +55,7 @@ public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseV
      * @return an {@linkplain Observable} of {@linkplain ElementRowViewModel}
      */
     @Override
-    public Observable<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> GetSelectedElement()
+    public Observable<MappedElementRowViewModel<DefinedThing, TElement>> GetSelectedElement()
     {
         return this.selectedElement.Observable();
     }
@@ -66,7 +66,7 @@ public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseV
      * @param selectedRow the selected {@linkplain ClassRowViewModel}
      */
     @Override
-    public void OnSelectionChanged(MappedElementRowViewModel<? extends DefinedThing, ? extends TElement> selectedRow)
+    public void OnSelectionChanged(MappedElementRowViewModel<DefinedThing, TElement> selectedRow)
     {
         this.selectedElement.Value(selectedRow);            
     }
@@ -85,7 +85,7 @@ public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseV
      * @param elements the {@linkplain Collection} of {@linkplain EObject}
      */
     @Override
-    public void BuildTree(Collection<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> elements)
+    public void BuildTree(Collection<MappedElementRowViewModel<DefinedThing, TElement>> elements)
     {
         this.browserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
                 new MappedElementListViewTreeViewModel<TElement>(elements),
@@ -99,5 +99,9 @@ public class MappedElementListViewViewModel<TElement> extends ObjectBrowserBaseV
      * 
      * @param isConnected a value indicating whether the session is open
      */
-    protected void UpdateBrowserTrees(Boolean isConnected) { }
+    protected void UpdateBrowserTrees(Boolean isConnected) 
+    {
+    	// Added comment to satisfy the code smell raised by the rule 1186.
+    	// This method is empty because nothing has to be done there.
+    }
 }

@@ -74,7 +74,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     /**
      * Backing field for {@linkplain GetIterationNumber}
      */
-    private ObservableValue<String> iterationNumber = new ObservableValue<String>(String.class);
+    private ObservableValue<String> iterationNumber = new ObservableValue<>(String.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain iterationNumber} {@linkplain ObservableValue}
@@ -90,7 +90,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     /**
      * Backing field for {@linkplain GetPersonName}
      */
-    private ObservableValue<String> personName = new ObservableValue<String>(String.class);
+    private ObservableValue<String> personName = new ObservableValue<>(String.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain personName} {@linkplain ObservableValue}
@@ -106,7 +106,7 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     /**
      * Backing field for {@linkplain GetDomainOfExpertiseName}
      */
-    private ObservableValue<String> domainOfExpertiseName = new ObservableValue<String>(String.class);
+    private ObservableValue<String> domainOfExpertiseName = new ObservableValue<>(String.class);
     
     /**
      * Gets the {@linkplain Observable} from {@linkplain domainOfExpertiseName} {@linkplain ObservableValue}

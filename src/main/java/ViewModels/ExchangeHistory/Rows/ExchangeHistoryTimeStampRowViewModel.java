@@ -80,5 +80,9 @@ public class ExchangeHistoryTimeStampRowViewModel extends RowViewModel implement
      * Computes this row view model contained rows, unused
      */
     @Override
-    public void ComputeContainedRows() { }
+    public void ComputeContainedRows() 
+    {
+    	// Added comment to satisfy the code smell raised by the rule 1186.
+    	// This method is empty because nothing has to be done there.
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * ElementDefinitionBrowserViewModelTestFixture.java
+ * ElementDefinitionBrowserViewModelTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -60,7 +60,7 @@ import cdp4common.sitedirectorydata.TextParameterType;
 import cdp4common.types.OrderedItemList;
 import cdp4common.types.ValueArray;
 
-public class ElementDefinitionBrowserViewModelTestFixture
+class ElementDefinitionBrowserViewModelTest
 {
     private Iteration iteration;
     private IHubController hubController;
@@ -82,7 +82,7 @@ public class ElementDefinitionBrowserViewModelTestFixture
      * @throws java.lang.Exception
      */
     @BeforeEach
-    public void setUp() throws Exception
+    void setUp() throws Exception
     {        
         this.SetUpModel();
         this.hubController = mock(IHubController.class);
@@ -255,7 +255,7 @@ public class ElementDefinitionBrowserViewModelTestFixture
     }
 
     @Test
-    public void VerifyTreeBuilds() throws Exception
+    void VerifyTreeBuilds() throws Exception
     {
         ObservableValue<OutlineModel> model = this.viewModel.browserTreeModel;
         assertNotNull(model.Value());

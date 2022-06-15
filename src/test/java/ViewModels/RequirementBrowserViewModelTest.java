@@ -1,5 +1,5 @@
 /*
- * RequirementBrowserViewModelTestFixture.java
+ * RequirementBrowserViewModelTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -46,8 +46,7 @@ import cdp4common.engineeringmodeldata.Requirement;
 import cdp4common.engineeringmodeldata.RequirementsGroup;
 import cdp4common.engineeringmodeldata.RequirementsSpecification;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
-
-public class RequirementBrowserViewModelTestFixture
+class RequirementBrowserViewModelTest
 {
     private RequirementBrowserViewModel viewModel;
     private IHubController hubController;
@@ -63,7 +62,7 @@ public class RequirementBrowserViewModelTestFixture
      * @throws java.lang.Exception
      */
     @BeforeEach
-    public void setUp() throws Exception
+    void setUp() throws Exception
     {
         this.hubController = mock(IHubController.class);
 
@@ -102,7 +101,7 @@ public class RequirementBrowserViewModelTestFixture
     }
 
     @Test
-    public void VerifyTreeGetsBuilt() throws Exception
+    void VerifyTreeGetsBuilt() throws Exception
     {
         ObservableValue<OutlineModel> model = this.viewModel.browserTreeModel;
 

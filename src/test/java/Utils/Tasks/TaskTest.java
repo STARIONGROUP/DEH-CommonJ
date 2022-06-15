@@ -1,5 +1,5 @@
 /*
- * TaskTestFixture.java
+ * TaskTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import Utils.Ref;
 import io.reactivex.disposables.Disposable;
 
-class TaskTestFixture
+class TaskTest
 {
     /**
      * @throws java.lang.Exception

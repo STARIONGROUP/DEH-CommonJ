@@ -54,5 +54,9 @@ public class ExchangeHistoryObjectBrowser extends ObjectBrowserBase<IExchangeHis
      * Handles the selection when the user changes it, intended to be virtual
      */
     @Override
-    protected void OnSelectionChanged() { }
+    protected void OnSelectionChanged() 
+    {
+    	// Added comment to satisfy the code smell raised by the rule 1186.
+    	// This method is empty because nothing has to be done there.
+    }
 }

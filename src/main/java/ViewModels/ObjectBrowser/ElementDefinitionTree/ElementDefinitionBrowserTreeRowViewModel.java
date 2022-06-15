@@ -34,12 +34,7 @@ import ViewModels.Rows.BaseTreeRowModel;
 import cdp4common.commondata.ClassKind;
 
 public class ElementDefinitionBrowserTreeRowViewModel extends BaseTreeRowModel implements RowModel
-{
-    /**
-     * The current class logger
-     */
-    private final Logger logger = LogManager.getLogger();
-    
+{    
     /**
      * Gets column count for this tree grid needed to generate all the specified columns and also to compute rows values 
      * 

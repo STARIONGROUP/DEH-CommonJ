@@ -21,14 +21,14 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Service.MappingEngineService.TestRules;
+package Services.MappingEngineService.TestRules;
 
 import java.util.ArrayList;
 
 import Reactive.ObservableCollection;
 import Services.MappingEngineService.MappingRule;
 
-public final class SphereTypedCollectionTestRule extends MappingRule<SphereTypedCollection, ArrayList<Box>>
+public final class SphereCollectionTestRule extends MappingRule<ObservableCollection<Sphere>, ArrayList<Box>>
 {
     /**
      * Transforms a object of type {@linkplain TInput} to another one of type {@linkplain TOutput}
@@ -40,12 +40,12 @@ public final class SphereTypedCollectionTestRule extends MappingRule<SphereTyped
     @Override
     public ArrayList<Box> Transform(Object input)
     {
-        SphereTypedCollection spheres = this.CastInput(input);
+        ObservableCollection<Sphere> spheres = this.CastInput(input);
         ArrayList<Box> output = new ArrayList<Box>();
         
         for (Sphere sphere : spheres)
         {
-            output.add(new Box(42, 42));
+            output.add(new Box(sphere.GetId().getLeastSignificantBits(), (int)sphere.GetName().charAt(0)));
         }
         
         return output;

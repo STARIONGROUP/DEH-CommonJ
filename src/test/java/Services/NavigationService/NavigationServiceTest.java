@@ -1,5 +1,5 @@
 /*
- * NavigationServiceTestFixture.java
+ * NavigationServiceTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,7 +21,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Service.NavigationService;
+package Services.NavigationService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,7 +38,7 @@ import Views.Interfaces.IDialog;
 import Views.Interfaces.IView;
 
 @org.junit.jupiter.api.parallel.Isolated
-class NavigationServiceTestFixture
+class NavigationServiceTest
 {
     private NavigationService navigationService;
 

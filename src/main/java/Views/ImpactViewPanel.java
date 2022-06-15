@@ -37,6 +37,7 @@ import java.util.function.Predicate;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
@@ -68,10 +69,15 @@ import javax.swing.JProgressBar;
 @SuppressWarnings("serial")
 public class ImpactViewPanel extends JPanel
 {
-    /**
+	/**
+	 * The used font
+	 */
+    private static final String TAHOMA = "Tahoma";
+
+	/**
      * The current class {@linkplain Logger}
      */
-    private final Logger logger = LogManager.getLogger();
+    private final transient Logger logger = LogManager.getLogger();
     
     /**
      * The arrows format-able base string
@@ -196,7 +202,7 @@ public class ImpactViewPanel extends JPanel
         transferDirection.add(lblNewLabel_3, gbc_lblNewLabel_3);
                 
         arrowLeft = new JLabel("<html><body>&#x1F872;</body></html>");
-        arrowLeft.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        arrowLeft.setFont(new Font(TAHOMA, Font.PLAIN, 20));
         GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
         gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
         gbc_lblNewLabel.gridx = 1;
@@ -205,7 +211,7 @@ public class ImpactViewPanel extends JPanel
 
         this.switchMappingDirectionButton = new JButton("Switch Transfer Direction");
         this.switchMappingDirectionButton.setToolTipText("Switch Transfer Direction");
-        this.switchMappingDirectionButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        this.switchMappingDirectionButton.setFont(new Font(TAHOMA, Font.PLAIN, 14));
         GridBagConstraints gbc_switchMappingDirectionButton = new GridBagConstraints();
         gbc_switchMappingDirectionButton.insets = new Insets(0, 0, 0, 5);
         gbc_switchMappingDirectionButton.anchor = GridBagConstraints.NORTH;
@@ -214,7 +220,7 @@ public class ImpactViewPanel extends JPanel
         transferDirection.add(this.switchMappingDirectionButton, gbc_switchMappingDirectionButton);
         
         arrowRight = new JLabel("<html><body>&#x1F872;</body></html>");
-        arrowRight.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        arrowRight.setFont(new Font(TAHOMA, Font.PLAIN, 20));
         GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
         gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
         gbc_lblNewLabel_1.gridx = 3;
@@ -251,7 +257,7 @@ public class ImpactViewPanel extends JPanel
         gbc_lblNewLabel_2.gridy = 0;
         panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
         
-        this.mappingConfigurationComboBox = new JComboBox<String>();
+        this.mappingConfigurationComboBox = new JComboBox<>();
         this.mappingConfigurationComboBox.setEditable(true);
         
         this.mappingConfigurationComboBox.setToolTipText("<html><ul>Select an existing configuration from this list or write a name to create a new configuration.</ul>\n"
@@ -272,7 +278,7 @@ public class ImpactViewPanel extends JPanel
         gbc_SaveUriButton.gridy = 0;
         panel.add(this.saveMappingConfigurationButton, gbc_SaveUriButton);
         
-        JTabbedPane hubBrowserTreeViewsContainer = new JTabbedPane(JTabbedPane.TOP);
+        JTabbedPane hubBrowserTreeViewsContainer = new JTabbedPane(SwingConstants.TOP);
                 
         this.elementDefinitionBrowser = new ImpactViewObjectBrowser();
         this.elementDefinitionBrowser.SetContextMenu(this.elementDefinitionContextMenu);
@@ -283,7 +289,7 @@ public class ImpactViewPanel extends JPanel
         this.requirementBrowser.SetContextMenu(this.requirementsSpecificationContextMenu);
         hubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
         
-        this.impactViewsTabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
+        this.impactViewsTabbedPane = new JTabbedPane(SwingConstants.BOTTOM);
         GridBagConstraints gbc_impactViewsTabbedPane = new GridBagConstraints();
         gbc_impactViewsTabbedPane.insets = new Insets(0, 0, 5, 0);
         gbc_impactViewsTabbedPane.fill = GridBagConstraints.BOTH;

@@ -23,12 +23,10 @@
  */
 package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 
-import java.util.ArrayList;
-
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IValueSetRowViewModel;
-import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
+import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ActualFiniteState;
 import cdp4common.engineeringmodeldata.ParameterBase;
 

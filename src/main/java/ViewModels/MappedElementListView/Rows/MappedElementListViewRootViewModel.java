@@ -29,19 +29,18 @@ import Reactive.ObservableCollection;
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 import ViewModels.Rows.MappedElementRowViewModel;
 import cdp4common.commondata.DefinedThing;
-import cdp4common.commondata.Thing;
 
 /**
  * The {@linkplain MappedElementListViewRootViewModel} is the root row view model that contains a collection of {@linkplain MappedElementRowViewModel}
  * 
  * @param <TElement> the type of element the dst adapter works with
  */
-public class MappedElementListViewRootViewModel<TElement> implements IHaveContainedRows<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>>
+public class MappedElementListViewRootViewModel<TElement> implements IHaveContainedRows<MappedElementRowViewModel<DefinedThing, TElement>>
 {
     /**
      * The {@linkplain ObservableCollection} of {@linkplain IElementRowViewModel}
      */
-    private ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> containedRows = new ObservableCollection<>();
+    private ObservableCollection<MappedElementRowViewModel<DefinedThing, TElement>> containedRows = new ObservableCollection<>();
         
     /**
      * Gets the contained row the implementing view model has
@@ -49,7 +48,7 @@ public class MappedElementListViewRootViewModel<TElement> implements IHaveContai
      * @return An {@linkplain ObservableCollection} of {@linkplain IElementRowViewModel}
      */
     @Override
-    public ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> GetContainedRows()
+    public ObservableCollection<MappedElementRowViewModel<DefinedThing, TElement>> GetContainedRows()
     {
         return this.containedRows;
     }
@@ -59,7 +58,7 @@ public class MappedElementListViewRootViewModel<TElement> implements IHaveContai
      * 
      * @param initialCollection the initial {@linkplain Collection} of {@linkplain MappedElementRowViewModel}
      */
-    public MappedElementListViewRootViewModel(Collection<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> initialCollection)
+    public MappedElementListViewRootViewModel(Collection<MappedElementRowViewModel<DefinedThing, TElement>> initialCollection)
     {
         this.containedRows.addAll(initialCollection);
     }
@@ -68,5 +67,9 @@ public class MappedElementListViewRootViewModel<TElement> implements IHaveContai
      * Computes the contained rows of this view model
      */
     @Override
-    public void ComputeContainedRows() { }
+    public void ComputeContainedRows() 
+    {
+    	// Added comment to satisfy the code smell raised by the rule 1186.
+    	// This method is empty because nothing has to be done there.
+    }
 }

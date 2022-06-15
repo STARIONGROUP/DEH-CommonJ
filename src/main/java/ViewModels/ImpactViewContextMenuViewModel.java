@@ -38,11 +38,6 @@ import cdp4common.commondata.Thing;
 public class ImpactViewContextMenuViewModel implements IImpactViewContextMenuViewModel
 {
     /**
-     * This current class {@linkplain Logger}
-     */
-    private Logger logger = LogManager.getLogger();
-    
-    /**
      * The {@linkplain IDstControllerBase}
      */
     private IDstControllerBase<?> dstController;
