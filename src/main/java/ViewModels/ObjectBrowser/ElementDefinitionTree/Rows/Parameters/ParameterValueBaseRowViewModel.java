@@ -158,7 +158,7 @@ public abstract class ParameterValueBaseRowViewModel<TParameter extends Paramete
     /**
      * The {@linkplain ArrayList} of {@linkplain IValueSetRowViewModel}
      */
-    protected ObservableCollection<IValueSetRowViewModel> containedRows = new ObservableCollection<IValueSetRowViewModel>();
+    protected ObservableCollection<IValueSetRowViewModel> containedRows = new ObservableCollection<>();
 
     /**
      * Gets the contained row the implementing view model has
@@ -209,7 +209,7 @@ public abstract class ParameterValueBaseRowViewModel<TParameter extends Paramete
         {
             for (int index = 0; index < numberOfValue; index ++)
             {
-                ParameterValueRowViewModel<TParameter> valueRow = new ParameterValueRowViewModel<TParameter>(this.GetThing(), valueSet, index, this);
+                ParameterValueRowViewModel<TParameter> valueRow = new ParameterValueRowViewModel<>(this.GetThing(), valueSet, index, this);
                 
                 if(parameterType instanceof CompoundParameterType)
                 {
@@ -260,18 +260,19 @@ public abstract class ParameterValueBaseRowViewModel<TParameter extends Paramete
     private void SetSampledFunctionParameterProperties(ValueSet valueSet, int numberOfValue)
     {
         this.valueSwitch = valueSet.getValueSwitch();
-        this.computedValue = String.format("[%sx%s]", valueSet.getComputed().size() / numberOfValue, numberOfValue);
-        this.manualValue = String.format("[%sx%s]", valueSet.getManual().size() / numberOfValue, numberOfValue);
-        this.referenceValue = String.format("[%sx%s]", valueSet.getReference().size() / numberOfValue, numberOfValue);
-        this.formula = String.format("[%sx%s]", valueSet.getFormula().size() / numberOfValue, numberOfValue);
+        String regex = "[%sx%s]";
+		this.computedValue = String.format(regex, valueSet.getComputed().size() / numberOfValue, numberOfValue);
+        this.manualValue = String.format(regex, valueSet.getManual().size() / numberOfValue, numberOfValue);
+        this.referenceValue = String.format(regex, valueSet.getReference().size() / numberOfValue, numberOfValue);
+        this.formula = String.format(regex, valueSet.getFormula().size() / numberOfValue, numberOfValue);
         
         if(valueSet instanceof ParameterValueSetBase)
         {
-            this.publishedValue = String.format("[%sx%s]", ((ParameterValueSetBase)valueSet).getPublished().size() / numberOfValue, numberOfValue);
+            this.publishedValue = String.format(regex, ((ParameterValueSetBase)valueSet).getPublished().size() / numberOfValue, numberOfValue);
         }
         else
         {
-            this.publishedValue = String.format("[%sx%s]", valueSet.getComputed().size() / numberOfValue, numberOfValue);                
+            this.publishedValue = String.format(regex, valueSet.getComputed().size() / numberOfValue, numberOfValue);                
         }
     }
 }

@@ -110,7 +110,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
     /**
      * Backing field for {@link GetAddresses}
      */
-    private List<String> addresses = new ArrayList<String>();
+    private List<String> addresses = new ArrayList<>();
     
     /**
      * Get the collection of server addresses
@@ -199,14 +199,8 @@ public class HubLoginViewModel implements IHubLoginViewModel
     @Override
     public Stream<String> GetEngineeringModels()
     {
-        this.engineeringModelSetups = () -> this.hubController.GetEngineeringModels().stream().sorted(new Comparator<EngineeringModelSetup>()
-        {
-            @Override
-            public int compare(EngineeringModelSetup model0, EngineeringModelSetup model1) 
-            {                
-                return model0.getShortName().compareToIgnoreCase(model1.getShortName());
-            }
-        });
+        this.engineeringModelSetups = () -> this.hubController.GetEngineeringModels().stream().sorted((model0, model1) 
+        		-> model0.getShortName().compareToIgnoreCase(model1.getShortName()));
         
         return this.engineeringModelSetups.get().map(x -> x.getShortName());
     }
@@ -221,7 +215,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
     public Stream<String> GetIterations(String selectedEngineeringModelSetupName)
     {
         EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
-                .filter(x -> x.getShortName() == selectedEngineeringModelSetupName)
+                .filter(x -> x.getShortName().equals(selectedEngineeringModelSetupName))
                 .findFirst()
                 .get();
         
@@ -306,9 +300,9 @@ public class HubLoginViewModel implements IHubLoginViewModel
     public boolean OpenIteration(String engineeringModelSetupName, String iterationSetupDisplayString, String domainOfExpertiseName)
     {
         EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
-                .filter(x -> x.getShortName() == engineeringModelSetupName)
+                .filter(x -> x.getShortName().equals(domainOfExpertiseName))
                 .findFirst()
-                .get();
+                .orElse(null);
         
         Integer selectedIterationNumber = this.ParseIterationSetupDisplayString(iterationSetupDisplayString);
 
@@ -318,9 +312,9 @@ public class HubLoginViewModel implements IHubLoginViewModel
             return false;
         }
                         
-        IterationSetup iterationSetup = this.iterationSetups.get().filter(x -> x.getIterationNumber() == selectedIterationNumber).findFirst().get();
+        IterationSetup iterationSetup = this.iterationSetups.get().filter(x -> x.getIterationNumber() == selectedIterationNumber).findFirst().orElse(null);
         
-        DomainOfExpertise domainOfExpertise = this.domains.get().filter(x -> x.getName() == domainOfExpertiseName).findFirst().get();
+        DomainOfExpertise domainOfExpertise = this.domains.get().filter(x -> x.getName().equals(domainOfExpertiseName)).findFirst().get();
         
         return this.hubController.OpenIteration(engineeringModelSetup, iterationSetup, domainOfExpertise);
     }

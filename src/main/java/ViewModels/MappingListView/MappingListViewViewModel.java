@@ -72,10 +72,10 @@ public abstract class MappingListViewViewModel<TDstController extends IDstContro
         this.dstController.GetHubMapResult().ItemsAdded()
             .subscribe(x -> this.UpdateBrowserTrees(this.GetShouldDisplayTree()));
 
-        this.dstController.GetDstMapResult().IsEmpty()
+        this.dstController.GetDstMapResult().IsEmptyObservable()
             .subscribe(x -> this.UpdateBrowserTrees(this.GetShouldDisplayTree()));
         
-        this.dstController.GetHubMapResult().IsEmpty()
+        this.dstController.GetHubMapResult().IsEmptyObservable()
             .subscribe(x -> this.UpdateBrowserTrees(this.GetShouldDisplayTree()));
     }
 

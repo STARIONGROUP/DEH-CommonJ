@@ -37,7 +37,7 @@ import cdp4common.commondata.ShortNamedThing;
  * @param TInput the input type the rule will process
  * @param TOutput the output type the rule will return
  */
-public abstract class MappingRule<TInput extends Object, TOutput> implements IMappingRule<TInput, TOutput>
+public abstract class MappingRule<TInput extends Object, TOutput> implements IMappingRule<TOutput>
 {
     /**
      * The current class logger

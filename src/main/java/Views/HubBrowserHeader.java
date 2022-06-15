@@ -43,10 +43,15 @@ import javax.swing.SwingConstants;
 @SuppressWarnings("serial")
 public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderViewModel>
 {
-    /**
+	/**
+	 * The used font
+	 */
+    private static final String TAHOMA = "Tahoma";
+
+	/**
      * This view attached {@linkplain IViewModel}
      */
-    private IHubBrowserHeaderViewModel dataContext;
+    private transient IHubBrowserHeaderViewModel dataContext;
     
     /**
      * UI Elements declarations
@@ -71,7 +76,7 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         setLayout(gridBagLayout);
         
         JLabel lblNewLabel = new JLabel("Model:");
-        lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblNewLabel.setFont(new Font(TAHOMA, Font.BOLD, 11));
         GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
         gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
         gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
@@ -89,7 +94,7 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         add(this.modelLabel, gbc_modelLabel);
         
         JLabel lblNewLabel_2 = new JLabel("Data-Source:");
-        lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblNewLabel_2.setFont(new Font(TAHOMA, Font.BOLD, 11));
         GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
         gbc_lblNewLabel_2.fill = GridBagConstraints.VERTICAL;
         gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
@@ -107,7 +112,7 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         add(this.dataSourceLabel, gbc_dataSourceLabel);
         
         JLabel lblNewLabel_1 = new JLabel("Iteration:");
-        lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblNewLabel_1.setFont(new Font(TAHOMA, Font.BOLD, 11));
         GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
         gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
         gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
@@ -126,7 +131,7 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         
         JLabel lblNewLabel_3 = new JLabel("Person:");
         lblNewLabel_3.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblNewLabel_3.setFont(new Font(TAHOMA, Font.BOLD, 11));
         GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
         gbc_lblNewLabel_3.fill = GridBagConstraints.VERTICAL;
         gbc_lblNewLabel_3.anchor = GridBagConstraints.WEST;
@@ -145,7 +150,7 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         
         JLabel lblNewLabel_8 = new JLabel("Domain of Expertise:");
         lblNewLabel_8.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblNewLabel_8.setFont(new Font(TAHOMA, Font.BOLD, 11));
         GridBagConstraints gbc_lblNewLabel_8 = new GridBagConstraints();
         gbc_lblNewLabel_8.fill = GridBagConstraints.VERTICAL;
         gbc_lblNewLabel_8.anchor = GridBagConstraints.WEST;

@@ -1,5 +1,5 @@
 /*
- * HubBrowserHeaderViewModelTestFixture.java
+ * HubBrowserHeaderViewModelTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -45,7 +45,7 @@ import cdp4common.sitedirectorydata.Person;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
-class HubBrowserHeaderViewModelTestFixture
+class HubBrowserHeaderViewModelTest
 {
     private IHubController hubController;
     private HubBrowserHeaderViewModel viewModel;

@@ -42,7 +42,7 @@ public class ParameterGroupRowViewModel extends OwnedDefinedThingRowViewModel<Pa
     /**
      * The {@linkplain ArrayList} of {@linkplain OwnedDefinedThingRowViewModel<?>}
      */
-    private ObservableCollection<OwnedDefinedThingRowViewModel<?>> containedRows = new ObservableCollection<OwnedDefinedThingRowViewModel<?>>();
+    private ObservableCollection<OwnedDefinedThingRowViewModel<?>> containedRows = new ObservableCollection<>();
     
     /**
      * The optional {@linkplain ElementUsage} container, in case the represented group row is a child of an Element Usage row

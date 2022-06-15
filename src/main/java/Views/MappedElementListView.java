@@ -25,10 +25,8 @@ package Views;
 
 import java.awt.Color;
 
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -41,7 +39,7 @@ import ViewModels.MappedElementListView.Interfaces.IMappedElementListViewViewMod
 import ViewModels.Rows.MappedElementRowViewModel;
 import Views.ObjectBrowser.ObjectBrowser;
 import Views.ObjectBrowser.ObjectBrowserBase;
-import cdp4common.commondata.Thing;
+import cdp4common.commondata.DefinedThing;
 
 /**
  * The {@linkplain MappedElementListView} is the {@linkplain ObjectBrowser} for any view 
@@ -98,7 +96,7 @@ public class MappedElementListView<TElement> extends ObjectBrowserBase<IMappedEl
             return;
         }
         
-        dataContext.OnSelectionChanged((MappedElementRowViewModel<? extends Thing, ? extends TElement>)row.getRight());
+        dataContext.OnSelectionChanged((MappedElementRowViewModel<DefinedThing, TElement>)row.getRight());
 
         SwingUtilities.invokeLater(() -> objectBrowserTree.tableChanged(new TableModelEvent(objectBrowserTree.getOutlineModel(), row.getLeft())));
     }

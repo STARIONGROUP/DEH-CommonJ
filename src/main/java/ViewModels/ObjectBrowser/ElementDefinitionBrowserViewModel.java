@@ -76,7 +76,7 @@ public final class ElementDefinitionBrowserViewModel extends ObjectBrowserViewMo
     @Override
     protected void UpdateBrowserTrees(Boolean isConnected)
     {
-        if(isConnected)
+        if(Boolean.TRUE.equals(isConnected))
         {
             this.browserTreeModel.Value(DefaultOutlineModel.createOutlineModel(
                     new ElementDefinitionBrowserTreeViewModel(this.hubController.GetOpenIteration()), 

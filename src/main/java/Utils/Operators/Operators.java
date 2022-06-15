@@ -29,6 +29,13 @@ package Utils.Operators;
 public final class Operators
 {
     /**
+     * Initializes a new {@linkplain Operators}
+     * this constructor is explicitly specifying the static character of this {@linkplain Class} 
+     * since static class don't exist out of the box in java. UNUSED
+     */
+    private Operators() { }
+
+    /**
      * Verifies that the two objects are both null or that the first one isn't null and calls the <code>Object.Equals(a, b)</code> method on <code>a</code>
      * 
      * By default, <code>Object.Equals(a, b)</code> assert that the reference <code>a</code> references the same instance as <code>b</code>

@@ -80,7 +80,7 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
     /**
      * The file name of the local exchange history json file
      */
-    private final String fileName = "ExchangeHistory.json";
+    private static final String fileName = "ExchangeHistory.json";
         
     /**
      * The {@linkplain List} of {@linkplain ExchangeHistoryEntryViewModel}
@@ -187,16 +187,13 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
     @Override
     public void Append(Thing thing, ChangeKind changeKind)
     {
-        NamedThing namedThing;
-        ParameterOrOverrideBase parameter;
-        
-        if(thing instanceof NamedThing && (namedThing = (NamedThing)thing) != null)
+    	if(thing instanceof NamedThing)
         {
-            this.Append(namedThing, changeKind);
+            this.Append((NamedThing)thing, changeKind);
         }
-        else if(thing instanceof ParameterOrOverrideBase && (parameter = (ParameterOrOverrideBase)thing) != null)
+        else if(thing instanceof ParameterOrOverrideBase)
         {
-            this.Append(parameter, changeKind);
+            this.Append((ParameterOrOverrideBase)thing, changeKind);
         }
         else
         {
@@ -323,7 +320,7 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
             this.logger.error(MessageFormat.format("Could not local exchange history file {0} because {1}", 
                     this.localExchangeHistoryServiceFile.getAbsolutePath(), exception));
             
-            return null;
+            return new ExchangeHistoryEntryCollection();
         }
     }
     

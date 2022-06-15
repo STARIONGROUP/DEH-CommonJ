@@ -41,7 +41,7 @@ public class HubBrowserContextMenu extends ContextMenu<IHubBrowserContextMenuVie
     /**
      * The {@linkplain IImpactViewContextMenuViewModel} data context of this view
      */
-    private IHubBrowserContextMenuViewModel dataContext;
+    private transient IHubBrowserContextMenuViewModel dataContext;
     
     /**
      * the {@linkplain JMenuItem} that allows to map the top element

@@ -27,11 +27,20 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import Utils.ImageLoader.ImageLoader;
+
 /**
  * The {@linkplain StreamExtensions} provides extensions on {@linkplain Stream}
  */
 public class StreamExtensions
 {
+    /**
+     * Initializes a new {@linkplain StreamExtensions}
+     * this constructor is explicitly specifying the static character of this {@linkplain Class} 
+     * since static class don't exist out of the box in java. UNUSED
+     */
+    private StreamExtensions() { }
+	
     /**
      * Short method that mimic .net Linq <code>IEnumerable<TResult> OfType<TResult> (this System.Collections.IEnumerable source)</code>
      * 

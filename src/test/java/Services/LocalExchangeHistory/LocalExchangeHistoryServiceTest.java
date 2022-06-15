@@ -1,5 +1,5 @@
 /*
- * LocalExchangeHistoryServiceTestFixture.java
+ * LocalExchangeHistoryServiceTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,32 +21,46 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Service.LocalExchangeHistory;
+package Services.LocalExchangeHistory;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import HubController.IHubController;
+import Services.AdapterInfo.IAdapterInfoService;
 import Services.LocalExchangeHistory.ExchangeHistoryEntryCollection;
+import Services.LocalExchangeHistory.LocalExchangeHistoryService;
 import ViewModels.ExchangeHistory.Rows.ExchangeHistoryEntryRowViewModel;
 import cdp4common.Version;
 
-class LocalExchangeHistoryServiceTestFixture
+class LocalExchangeHistoryServiceTest
 {
+	private LocalExchangeHistoryService service;
+	private IHubController hubController;
+	private IAdapterInfoService adapterInfoService;
+	
     /**
      * @throws java.lang.Exception
      */
     @BeforeEach
     void setUp() throws Exception
     {
+    	this.hubController = mock(IHubController.class);
+    	this.adapterInfoService = mock(IAdapterInfoService.class);
+    	when(this.adapterInfoService.GetVersion()).thenReturn(new Version(1,5,0));
+    	this.service = new LocalExchangeHistoryService(this.hubController, this.adapterInfoService);
     }
-
+    
     @Test
     void VerifySerializingExchangeHistoryEntryViewModel()
     {
@@ -63,5 +77,12 @@ class LocalExchangeHistoryServiceTestFixture
         ExchangeHistoryEntryRowViewModel newEntry = gson.fromJson(json, ExchangeHistoryEntryCollection.class).get(0);
         assertEquals(adapterVersion, newEntry.GetAdapterVersion());
         assertNotSame(adapterVersion, newEntry.GetAdapterVersion());
+    }
+    
+    @Test
+    void VerifyReadAndWrite() 
+    {
+    	assertDoesNotThrow(() -> this.service.Read());
+    	assertDoesNotThrow(() -> this.service.Write());
     }
 }

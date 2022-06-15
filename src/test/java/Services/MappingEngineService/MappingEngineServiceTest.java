@@ -1,5 +1,5 @@
 /*
- * MappingEngineServiceTestFixture.java
+ * MappingEngineServiceTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,13 +21,16 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Service.MappingEngineService;
+package Services.MappingEngineService;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.picocontainer.Characteristics.CACHE;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -35,9 +38,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -45,18 +46,16 @@ import org.picocontainer.Characteristics;
 
 import App.AppContainer;
 import Reactive.ObservableCollection;
-import Service.MappingEngineService.TestRules.Box;
-import Service.MappingEngineService.TestRules.DumbRule;
-import Service.MappingEngineService.TestRules.Sphere;
-import Service.MappingEngineService.TestRules.SphereCollectionTestRule;
-import Service.MappingEngineService.TestRules.SphereTestRule;
-import Service.MappingEngineService.TestRules.SphereTypedCollection;
-import Services.MappingEngineService.IMappingEngineService;
-import Services.MappingEngineService.MappingEngineService;
+import Services.MappingEngineService.TestRules.Box;
+import Services.MappingEngineService.TestRules.DumbRule;
+import Services.MappingEngineService.TestRules.Sphere;
+import Services.MappingEngineService.TestRules.SphereCollectionTestRule;
+import Services.MappingEngineService.TestRules.SphereTestRule;
+import Services.MappingEngineService.TestRules.SphereTypedCollection;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @org.junit.jupiter.api.parallel.Isolated
-class MappingEngineServiceTestFixture
+class MappingEngineServiceTest
 {
     private MappingEngineService engine;
 
@@ -88,8 +87,8 @@ class MappingEngineServiceTestFixture
     {
         Type arrayListType = ((ParameterizedType)new SphereCollectionTestRule().getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         assertNotNull(this.engine);
-        assertEquals(4, this.engine.Rules.size());
-        ArrayList<String> keys = new ArrayList<String>(this.engine.Rules.keySet());
+        assertEquals(4, this.engine.rules.size());
+        ArrayList<String> keys = new ArrayList<String>(this.engine.rules.keySet());
         
         assertTrue(keys.indexOf(arrayListType.toString()) > -1);
         assertTrue(keys.indexOf(Sphere.class.toString().replace("class ", "")) > -1);

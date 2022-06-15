@@ -1,5 +1,5 @@
 /*
- * UserPreferenceServiceTestFixture.java
+ * UserPreferenceServiceTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,7 +21,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Service.UserPreferenceService;
+package Services.UserPreferenceService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +37,7 @@ import Services.UserPreferenceService.SavedServerConnection;
 import Services.UserPreferenceService.UserPreference;
 import Services.UserPreferenceService.UserPreferenceService;
 
-class UserPreferenceServiceTestFixture
+class UserPreferenceServiceTest
 {
     private UserPreferenceService service;
     private File file;

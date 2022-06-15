@@ -54,7 +54,7 @@ public class UserPreferenceService implements IUserPreferenceService
     /**
      * The setting file extension
      */
-    public final String SettingFileExtension = ".settings.json";
+    public static final String SettingFileExtension = ".settings.json";
     
     /**
      * Backing field for {@linkplain GetUserPreference()}

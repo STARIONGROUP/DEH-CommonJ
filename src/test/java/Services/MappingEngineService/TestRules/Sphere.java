@@ -1,5 +1,5 @@
 /*
- * Box.java
+ * Sphere.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,26 +21,38 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Service.MappingEngineService.TestRules;
+package Services.MappingEngineService.TestRules;
 
-public class Box
-{
-    private long length;
-    private int height;
+import java.util.UUID;
 
-    public long GetLength()
+public class Sphere
+{    
+    private UUID id;    
+    private String name;
+
+    public String GetName()
     {
-        return length;
+        return name;
     }
 
-    public int GetHeight()
+    public void SetName(String name)
     {
-        return height;
+        this.name = name;
     }
 
-    public Box(long length, int height)
+    public UUID GetId()
     {
-        this.length = length;
-        this.height = height;
+        return id;
+    }
+
+    public void SetId(UUID id)
+    {
+        this.id = id;
+    }
+
+    public Sphere()
+    {
+        this.id = UUID.randomUUID();
+        this.name = this.id.toString();
     }
 }

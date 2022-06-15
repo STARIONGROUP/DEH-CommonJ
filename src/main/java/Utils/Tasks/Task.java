@@ -47,7 +47,7 @@ public abstract class Task<TResult>
      */
     public static <T> ObservableTask<T> Create(Callable<T> function, Class<T> clazz)
     {
-        CallableTask<T> task = new CallableTask<T>(function, clazz);
+        CallableTask<T> task = new CallableTask<>(function, clazz);
         return task.ObservableFunction;
     }
     
@@ -61,7 +61,7 @@ public abstract class Task<TResult>
      */
     public static <T> ObservableTask<T> Run(Callable<T> function, Class<T> clazz)
     {
-        CallableTask<T> task = new CallableTask<T>(function, clazz);
+        CallableTask<T> task = new CallableTask<>(function, clazz);
         task.Execute();
         return task.ObservableFunction;
     }

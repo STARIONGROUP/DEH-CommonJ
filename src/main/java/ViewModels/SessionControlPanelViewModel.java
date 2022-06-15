@@ -173,7 +173,7 @@ public final class SessionControlPanelViewModel implements ISessionControlPanelV
         {
             this.timer.Value(timer);
             
-            while(!isCancelled.Get())
+            while(Boolean.FALSE.equals(isCancelled.Get()))
             {
                 try
                 {

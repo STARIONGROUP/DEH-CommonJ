@@ -146,7 +146,7 @@ class CallableTask<TResult> extends Task<TResult>
      */
     CallableTask(Callable<TResult> function, Class<TResult> clazz)
     { 
-        this.ObservableFunction = new ObservableTask<TResult>(this);
-        this.function = new FutureTask<TResult>(function);
+        this.ObservableFunction = new ObservableTask<>(this);
+        this.function = new FutureTask<>(function);
     }
 }

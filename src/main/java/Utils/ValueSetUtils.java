@@ -39,6 +39,13 @@ import cdp4common.exceptions.IncompleteModelException;
 public final class ValueSetUtils
 {
     /**
+     * Initializes a new {@linkplain ValueSetUtils}
+     * this constructor is explicitly specifying the static character of this {@linkplain Class} 
+     * since static class don't exist out of the box in java. UNUSED
+     */
+    private ValueSetUtils() { }
+	
+    /**
      * Searches for a {@linkplain ValueSet}
      * for the given {@linkplain Option} and {@linkplain ActualFiniteState} in the value sets of the given {@linkplain ParameterBase}
      * 

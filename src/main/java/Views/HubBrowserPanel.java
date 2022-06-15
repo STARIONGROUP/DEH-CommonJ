@@ -31,6 +31,7 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 
 import Utils.ImageLoader.ImageLoader;
 import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
@@ -163,7 +164,7 @@ public class HubBrowserPanel extends JPanel
         this.hubBrowserHeader = new HubBrowserHeader();
         HubBrowserHeaderContainer.add(this.hubBrowserHeader, hubBrowserHeaderConstraint);
         
-        JTabbedPane HubBrowserTreeViewsContainer = new JTabbedPane(JTabbedPane.TOP);
+        JTabbedPane HubBrowserTreeViewsContainer = new JTabbedPane(SwingConstants.TOP);
         GridBagConstraints gbc_HubBrowserTreeViewsContainer = new GridBagConstraints();
         gbc_HubBrowserTreeViewsContainer.insets = new Insets(0, 0, 5, 0);
         gbc_HubBrowserTreeViewsContainer.fill = GridBagConstraints.BOTH;

@@ -29,7 +29,7 @@ package Services.MappingEngineService;
  * @param TInput the input type the rule will process
  * @param TOutput the output type the rule will return
  */
-public interface IMappingRule<TInput extends Object, TOutput>
+public interface IMappingRule<TOutput>
 {
     /**
      * Transforms a object of type {@linkplain TInput} to another one of type {@linkplain TOutput}

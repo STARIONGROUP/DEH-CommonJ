@@ -50,12 +50,12 @@ public interface IDstControllerBase<TDstElement>
      * 
      * @return an {@linkplain ObservableCollection} of {@linkplain MappedElementRowViewModel}
      */
-    ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> GetDstMapResult();
+    ObservableCollection<MappedElementRowViewModel<DefinedThing, TDstElement>> GetDstMapResult();
 
     /**
      * Gets The {@linkplain ObservableCollection} of Hub map result
      * 
      * @return an {@linkplain ObservableCollection} of {@linkplain MappedElementRowViewModel}
      */
-    ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> GetHubMapResult();
+    ObservableCollection<MappedElementRowViewModel<DefinedThing, TDstElement>> GetHubMapResult();
 }

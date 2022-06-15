@@ -26,8 +26,6 @@ package ViewModels;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.netbeans.swing.outline.OutlineModel;
-
 import HubController.IHubController;
 import Reactive.ObservableValue;
 import ViewModels.Interfaces.IObjectBrowserViewModel;
@@ -39,12 +37,12 @@ import io.reactivex.Observable;
 /**
  * The {@linkplain ObjectBrowserViewModel} is the main view model for the {@linkplain ObjectBrowser} providing the collections to display in the {@linkplain ObjectBrowser}
  */
-public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel<ThingRowViewModel<? extends Thing>> implements IObjectBrowserViewModel
+public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel<ThingRowViewModel<Thing>> implements IObjectBrowserViewModel
 {
     /**
      * Backing field for {@linkplain #GetSelectedElements()}
      */
-    private Collection<ThingRowViewModel<? extends Thing>> selectedElements = new ArrayList<>();
+    private Collection<ThingRowViewModel<Thing>> selectedElements = new ArrayList<>();
     
     /**
      * Gets the current selection of elements 
@@ -52,7 +50,7 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel<
      * @return a {@linkplain Collection} of {@linkplain ThingRowViewModel}
      */
     @Override
-    public Collection<ThingRowViewModel<? extends Thing>> GetSelectedElements()
+    public Collection<ThingRowViewModel<Thing>> GetSelectedElements()
     {
         return this.selectedElements;
     }
@@ -60,7 +58,7 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel<
     /**
      * Backing field for {@linkplain #GetSelectedElement()}
      */
-    private ObservableValue<ThingRowViewModel<? extends Thing>> selectedElement = new ObservableValue<>();
+    private ObservableValue<ThingRowViewModel<Thing>> selectedElement = new ObservableValue<>();
     
     /**
      * Gets the {@linkplain Observable} of {@linkplain IElementRowViewModel} that yields the selected element
@@ -68,7 +66,7 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel<
      * @return an {@linkplain Observable} of {@linkplain ClassRowViewModel}
      */
     @Override
-    public Observable<ThingRowViewModel<? extends Thing>> GetSelectedElement()
+    public Observable<ThingRowViewModel<Thing>> GetSelectedElement()
     {
         return this.selectedElement.Observable();
     }
@@ -90,7 +88,7 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel<
         this.hubController.GetIsSessionOpenObservable()
             .subscribe(x -> this.UpdateBrowserTrees(x), x -> this.logger.catching(x));
         
-        if(this.hubController.GetIsSessionOpen()) 
+        if(Boolean.TRUE.equals(this.hubController.GetIsSessionOpen())) 
         {
             this.UpdateBrowserTrees(true);
         }
@@ -109,7 +107,7 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel<
      * @param selectedRows the collection of selected view model {@linkplain ThingRowViewModel}
      */
     @Override
-    public void OnSelectionChanged(ThingRowViewModel<? extends Thing> selectedRow) 
+    public void OnSelectionChanged(ThingRowViewModel<Thing> selectedRow) 
     {
         if(selectedRow != null)
         {
@@ -123,7 +121,7 @@ public abstract class ObjectBrowserViewModel extends ObjectBrowserBaseViewModel<
      * 
      * @param selectedRows the collection of selected view model {@linkplain ThingRowViewModel}
      */
-    public void OnSelectionChanged(Collection<ThingRowViewModel<? extends Thing>> selectedRows)
+    public void OnSelectionChanged(Collection<ThingRowViewModel<Thing>> selectedRows)
     {
         this.selectedElements.clear();
         this.selectedElements.addAll(selectedRows);

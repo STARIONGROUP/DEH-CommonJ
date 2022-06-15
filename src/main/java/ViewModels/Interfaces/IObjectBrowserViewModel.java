@@ -32,19 +32,19 @@ import cdp4common.commondata.Thing;
  * The {@linkplain IObjectBrowserViewModel} is the interface definition for the {@linkplain ObjectBrowserViewModel} 
  * such as the {@linkplain ElementDefinitionBrowserViewModel} or the {@linkplain RequirementBrowserViewModel}
  */
-public interface IObjectBrowserViewModel extends IObjectBrowserBaseViewModel<ThingRowViewModel<? extends Thing>>
+public interface IObjectBrowserViewModel extends IObjectBrowserBaseViewModel<ThingRowViewModel<Thing>>
 {
     /**
      * Called whenever the selection changes on the bound {@linkplain ObjectBrowser}
      * 
      * @param selectedRows the collection of selected view model {@linkplain ThingRowViewModel}
      */
-    void OnSelectionChanged(Collection<ThingRowViewModel<? extends Thing>> selectedRows);
+    void OnSelectionChanged(Collection<ThingRowViewModel<Thing>> selectedRows);
 
     /**
      * Gets the current selection of elements 
      * 
      * @return a {@linkplain Collection} of {@linkplain ThingRowViewModel}
      */
-    Collection<ThingRowViewModel<? extends Thing>> GetSelectedElements();
+    Collection<ThingRowViewModel<Thing>> GetSelectedElements();
 }
