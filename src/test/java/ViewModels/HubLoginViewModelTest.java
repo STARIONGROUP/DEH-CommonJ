@@ -151,7 +151,7 @@ class HubLoginViewModelTest
     void VerifyGetIterations()
     {
         assertDoesNotThrow(() -> this.viewModel.GetEngineeringModels());
-        assertThrows(NoSuchElementException.class, () -> this.viewModel.GetIterations(""));
+        assertThrows(NullPointerException.class, () -> this.viewModel.GetIterations(""));
         Supplier<Stream<String>> iterations = () -> this.viewModel.GetIterations("model");
         assertEquals(1, iterations.get().count());
         assertEquals(MessageFormat.format("Iteration 0 {0} description",
@@ -162,7 +162,7 @@ class HubLoginViewModelTest
     void VerifyGetDomainOfExpertise()
     {
         assertDoesNotThrow(() -> this.viewModel.GetEngineeringModels());
-        assertThrows(NoSuchElementException.class, () -> this.viewModel.GetIterations(""));
+        assertThrows(NullPointerException.class, () -> this.viewModel.GetIterations(""));
         Pair<Stream<String>, String> result = this.viewModel.GetDomainOfExpertise("model");
         assertNotNull(result);
         assertEquals(this.domainOfExpertise.getName(), result.getRight());
@@ -192,11 +192,7 @@ class HubLoginViewModelTest
                 "domain"));
         
         assertDoesNotThrow(() -> this.viewModel.GetEngineeringModels());
-        assertTrue(() -> 
-            this.viewModel.OpenIteration("model", 
-                    MessageFormat.format("Iteration 0 {0} description", 
-                            OffsetDateTime.MAX.format(DateTimeFormatter.ofPattern("dd-MMM-yy HH:mm:ss"))),
-                            "domain"));
+        assertTrue(() -> this.viewModel.OpenIteration("model", MessageFormat.format("Iteration 0 {0} description",OffsetDateTime.MAX.format(DateTimeFormatter.ofPattern("dd-MMM-yy HH:mm:ss"))), "domain"));
         
     }
 }

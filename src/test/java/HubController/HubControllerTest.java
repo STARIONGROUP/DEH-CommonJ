@@ -73,7 +73,7 @@ class HubControllerTest
     @Test
     void VerifyGetEngineeringModels() throws Exception
     {
-        assertNull(this.controller.GetEngineeringModels());
+        assertEquals(0, this.controller.GetEngineeringModels().size());
         
         this.SetSession();
         SiteDirectory siteDirectory = new SiteDirectory();

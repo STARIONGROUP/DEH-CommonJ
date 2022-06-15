@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
- * Author: Sam GerenÃ©, Alex Vorobiev, Nathanael Smiechowski 
+ * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski 
  *
  * This file is part of DEH-CommonJ
  *
@@ -33,6 +33,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -194,8 +195,8 @@ public class HubLoginViewModel implements IHubLoginViewModel
     @Override
     public Stream<String> GetEngineeringModels()
     {
-        this.engineeringModelSetups = () -> this.hubController.GetEngineeringModels().stream().sorted((model0, model1) 
-        		-> model0.getShortName().compareToIgnoreCase(model1.getShortName()));
+        this.engineeringModelSetups = () -> this.hubController.GetEngineeringModels().stream()
+        		.sorted((model0, model1) -> model0.getShortName().compareToIgnoreCase(model1.getShortName()));
         
         return this.engineeringModelSetups.get().map(x -> x.getShortName());
     }
@@ -210,7 +211,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
     public Stream<String> GetIterations(String selectedEngineeringModelSetupName)
     {
         EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
-                .filter(x -> x.getShortName().equals(selectedEngineeringModelSetupName))
+                .filter(x -> Objects.equals(x.getShortName(), selectedEngineeringModelSetupName))
                 .findFirst()
                 .orElse(null);
         
@@ -295,7 +296,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
     public boolean OpenIteration(String engineeringModelSetupName, String iterationSetupDisplayString, String domainOfExpertiseName)
     {
         EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
-                .filter(x -> x.getShortName().equals(domainOfExpertiseName))
+                .filter(x -> Objects.equals(x.getShortName(), engineeringModelSetupName))
                 .findFirst()
                 .orElse(null);
         
@@ -309,7 +310,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
                         
         IterationSetup iterationSetup = this.iterationSetups.get().filter(x -> x.getIterationNumber() == selectedIterationNumber).findFirst().orElse(null);
         
-        DomainOfExpertise domainOfExpertise = this.domains.get().filter(x -> x.getName().equals(domainOfExpertiseName)).findFirst().orElse(null);
+        DomainOfExpertise domainOfExpertise = this.domains.get().filter(x -> Objects.equals(x.getName(), domainOfExpertiseName)).findFirst().orElse(null);
         
         return this.hubController.OpenIteration(engineeringModelSetup, iterationSetup, domainOfExpertise);
     }
