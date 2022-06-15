@@ -66,9 +66,7 @@ public class LogEntryDialog extends BaseDialog<Pair<String, Boolean>> implements
     private final JPanel contentPanel = new JPanel();
     private JButton cancelButton;
     private JButton okButton;
-    private JLabel lblJustification;
     private JTextArea justificationText;
-    private JScrollPane scrollPane;
 
     /**
      * Initializes a new {@linkplain LogEntryDialog}
@@ -90,21 +88,21 @@ public class LogEntryDialog extends BaseDialog<Pair<String, Boolean>> implements
         this.getContentPane().setLayout(new BorderLayout());
         this.contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         this.getContentPane().add(contentPanel, BorderLayout.CENTER);
-        GridBagLayout gbl_contentPanel = new GridBagLayout();
-        gbl_contentPanel.columnWidths = new int[] {1, 0};
-        gbl_contentPanel.rowHeights = new int[] {30};
-        gbl_contentPanel.columnWeights = new double[]{1.0, 1.0};
-        gbl_contentPanel.rowWeights = new double[]{1.0};
-        contentPanel.setLayout(gbl_contentPanel);
+        GridBagLayout gblContentPanel = new GridBagLayout();
+        gblContentPanel.columnWidths = new int[] {1, 0};
+        gblContentPanel.rowHeights = new int[] {30};
+        gblContentPanel.columnWeights = new double[]{1.0, 1.0};
+        gblContentPanel.rowWeights = new double[]{1.0};
+        contentPanel.setLayout(gblContentPanel);
         
-        lblJustification = new JLabel("Justification:");
+        JLabel lblJustification = new JLabel("Justification:");
         lblJustification.setHorizontalAlignment(SwingConstants.LEFT);
-        GridBagConstraints gbc_lblJustification = new GridBagConstraints();
-        gbc_lblJustification.anchor = GridBagConstraints.NORTH;
-        gbc_lblJustification.insets = new Insets(0, 0, 0, 5);
-        gbc_lblJustification.gridx = 0;
-        gbc_lblJustification.gridy = 0;
-        contentPanel.add(lblJustification, gbc_lblJustification);
+        GridBagConstraints gbcLblJustification = new GridBagConstraints();
+        gbcLblJustification.anchor = GridBagConstraints.NORTH;
+        gbcLblJustification.insets = new Insets(0, 0, 0, 5);
+        gbcLblJustification.gridx = 0;
+        gbcLblJustification.gridy = 0;
+        contentPanel.add(lblJustification, gbcLblJustification);
         
         justificationText = new JTextArea();
         justificationText.setBackground(new Color(255, 255, 255));
@@ -114,18 +112,18 @@ public class LogEntryDialog extends BaseDialog<Pair<String, Boolean>> implements
         justificationText.setRows(3);
         justificationText.setDropMode(DropMode.USE_SELECTION);
         justificationText.setToolTipText("Enter a justification text. If left blank: no LogEntry will be created");
-        GridBagConstraints gbc_justificationText = new GridBagConstraints();
-        gbc_justificationText.fill = GridBagConstraints.BOTH;
-        gbc_justificationText.gridx = 1;
-        gbc_justificationText.gridy = 0;
-        contentPanel.add(justificationText, gbc_justificationText);
+        GridBagConstraints gbcJustificationText = new GridBagConstraints();
+        gbcJustificationText.fill = GridBagConstraints.BOTH;
+        gbcJustificationText.gridx = 1;
+        gbcJustificationText.gridy = 0;
+        contentPanel.add(justificationText, gbcJustificationText);
         
-        scrollPane = new JScrollPane(justificationText);
-        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-        gbc_scrollPane.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane.gridx = 1;
-        gbc_scrollPane.gridy = 0;
-        contentPanel.add(scrollPane, gbc_scrollPane);
+        JScrollPane scrollPane = new JScrollPane(justificationText);
+        GridBagConstraints gbcScrollPane = new GridBagConstraints();
+        gbcScrollPane.fill = GridBagConstraints.BOTH;
+        gbcScrollPane.gridx = 1;
+        gbcScrollPane.gridy = 0;
+        contentPanel.add(scrollPane, gbcScrollPane);
         
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

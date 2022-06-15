@@ -52,7 +52,7 @@ class CallableTask<TResult> extends Task<TResult>
     /**
      * The {@linkplain ObservableTask} that this will return when using the static {@linkplain Task.Run}
      */
-    ObservableTask<TResult> ObservableFunction;
+    ObservableTask<TResult> observableFunction;
 
     /**
      * The {@linkplain ExecutorService} that will execute the {@linkplain observer} and the {@linkplain function}
@@ -69,7 +69,7 @@ class CallableTask<TResult> extends Task<TResult>
      */
     public void Cancel()
     {
-        this.ObservableFunction.Task.Status = TaskStatus.Cancelled;
+        this.observableFunction.task.status = TaskStatus.Cancelled;
         this.function.cancel(true);
     }
 
@@ -104,18 +104,18 @@ class CallableTask<TResult> extends Task<TResult>
     {
         return () -> 
         {
-            this.ObservableFunction.Task.Status = TaskStatus.Running;
+            this.observableFunction.task.status = TaskStatus.Running;
             
             try
             {
-                this.ObservableFunction.Task.result = this.function.get();
-                this.ObservableFunction.Task.Status = TaskStatus.Completed;
-                this.ObservableFunction.OnNext();
+                this.observableFunction.task.result = this.function.get();
+                this.observableFunction.task.status = TaskStatus.Completed;
+                this.observableFunction.OnNext();
             }
             catch (InterruptedException | CancellationException cancellationException)
             {
-                this.ObservableFunction.Task.Status = TaskStatus.Cancelled;
-                this.ObservableFunction.OnNext();
+                this.observableFunction.task.status = TaskStatus.Cancelled;
+                this.observableFunction.OnNext();
             }
             catch (ExecutionException exception) 
             {
@@ -133,9 +133,9 @@ class CallableTask<TResult> extends Task<TResult>
     protected void HandleException(Exception exception)
     {
         this.logger.catching(exception);
-        this.ObservableFunction.Task.Exception = exception;
-        this.ObservableFunction.Task.Status = TaskStatus.Faulted;
-        this.ObservableFunction.OnNext();
+        this.observableFunction.task.Exception = exception;
+        this.observableFunction.task.status = TaskStatus.Faulted;
+        this.observableFunction.OnNext();
     }
     
     /**
@@ -146,7 +146,7 @@ class CallableTask<TResult> extends Task<TResult>
      */
     CallableTask(Callable<TResult> function, Class<TResult> clazz)
     { 
-        this.ObservableFunction = new ObservableTask<>(this);
+        this.observableFunction = new ObservableTask<>(this);
         this.function = new FutureTask<>(function);
     }
 }

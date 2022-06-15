@@ -33,7 +33,6 @@ import ViewModels.Interfaces.IMappedElementRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Rows.RowViewModel;
 import cdp4common.commondata.DefinedThing;
-import cdp4common.commondata.NamedThing;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.Relationship;
 import io.reactivex.Observable;
@@ -129,7 +128,7 @@ public abstract class MappedElementRowViewModel<TThing extends DefinedThing, TDs
     /**
      * Backing field for {@linkplain GetShouldCreateNewTargetElement} and {@linkplain SetShouldCreateNewTargetElement}
      */
-    protected ObservableValue<Boolean> ShouldCreateNewTargetElement = new ObservableValue<>(false, Boolean.class);
+    protected ObservableValue<Boolean> shouldCreateNewTargetElement = new ObservableValue<>(false, Boolean.class);
     
     /**
      * Gets a value indicating whether this row represents a mapping done to a new element
@@ -138,7 +137,7 @@ public abstract class MappedElementRowViewModel<TThing extends DefinedThing, TDs
      */
     public Observable<Boolean> GetShouldCreateNewTargetElement()
     {
-        return this.ShouldCreateNewTargetElement.Observable();
+        return this.shouldCreateNewTargetElement.Observable();
     }
     
     /**
@@ -148,7 +147,7 @@ public abstract class MappedElementRowViewModel<TThing extends DefinedThing, TDs
      */
     public void SetShouldCreateNewTargetElement(boolean shouldCreateNewTargetElement)
     {
-        this.ShouldCreateNewTargetElement.Value(shouldCreateNewTargetElement);
+        this.shouldCreateNewTargetElement.Value(shouldCreateNewTargetElement);
     }
     
     /**
@@ -240,10 +239,10 @@ public abstract class MappedElementRowViewModel<TThing extends DefinedThing, TDs
     {
         if(this.mappingDirection == MappingDirection.FromDstToHub)
         {
-            return this.dstElement != null && (this.hubElement != null || this.ShouldCreateNewTargetElement.Value());
+            return this.dstElement != null && (this.hubElement != null || this.shouldCreateNewTargetElement.Value());
         }
         
-        return this.hubElement != null && (this.dstElement != null || this.ShouldCreateNewTargetElement.Value());
+        return this.hubElement != null && (this.dstElement != null || this.shouldCreateNewTargetElement.Value());
     }
     
 
@@ -254,7 +253,7 @@ public abstract class MappedElementRowViewModel<TThing extends DefinedThing, TDs
      */
     public boolean GetShouldCreateNewTargetElementValue()
     {
-        return this.ShouldCreateNewTargetElement.Value();
+        return this.shouldCreateNewTargetElement.Value();
     }
     
     /**
@@ -311,13 +310,13 @@ public abstract class MappedElementRowViewModel<TThing extends DefinedThing, TDs
     }
     
     /**
-     * Gets the element representation based on {@linkplain #ShouldCreateNewTargetElement}
+     * Gets the element representation based on {@linkplain #shouldCreateNewTargetElement}
      * 
      * @param representation the existing {@linkplain String} representation to format
      */
     private String GetElementRepresentation(String representation)
     {
-        if(this.ShouldCreateNewTargetElement.Value().booleanValue())
+        if(this.shouldCreateNewTargetElement.Value().booleanValue())
         {
             return String.format("%s *", representation);   
         }

@@ -25,8 +25,6 @@ package Views.MappingList;
 
 import java.awt.Color;
 
-import javax.swing.JLabel;
-import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -61,7 +59,7 @@ public abstract class MappingListView extends ObjectBrowserBase<IMappingListView
         this.objectBrowserTree.setCellSelectionEnabled(false);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         this.objectBrowserTree.setDefaultRenderer(String.class, centerRenderer);
         
         this.objectBrowserTree.setRootVisible(false);

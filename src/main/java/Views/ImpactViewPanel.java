@@ -70,9 +70,9 @@ import javax.swing.JProgressBar;
 public class ImpactViewPanel extends JPanel
 {
 	/**
-	 * The used font
+	 * The name of the font
 	 */
-    private static final String TAHOMA = "Tahoma";
+    private static final String FONTNAME = "Tahoma";
 
 	/**
      * The current class {@linkplain Logger}
@@ -140,17 +140,11 @@ public class ImpactViewPanel extends JPanel
     private JLabel arrowLeft;
     private JLabel arrowRight;
     private JTabbedPane impactViewsTabbedPane;
-    private JPanel panel;
     private JComboBox<String> mappingConfigurationComboBox;
-    private JLabel lblNewLabel_2;
     private JButton saveMappingConfigurationButton;
-    private JPanel panel_1;
     private JProgressBar progressBar;
     private JButton cancelButton;
     private JButton transferButton;
-    private JLabel lblNewLabel_3;
-    private JLabel lblNewLabel_4;
-    private JPanel dstImpactContainer;
     private JPanel dstImpactViewPanel;
         
     /**
@@ -179,83 +173,83 @@ public class ImpactViewPanel extends JPanel
         setLayout(gridBagLayout);
         
         JPanel transferDirection = new JPanel();
-        GridBagConstraints gbc_transferDirection = new GridBagConstraints();
-        gbc_transferDirection.anchor = GridBagConstraints.NORTH;
-        gbc_transferDirection.insets = new Insets(10, 10, 5, 10);
-        gbc_transferDirection.fill = GridBagConstraints.HORIZONTAL;
-        gbc_transferDirection.gridx = 0;
-        gbc_transferDirection.gridy = 0;
-        add(transferDirection, gbc_transferDirection);        
-        GridBagLayout gbl_transferDirection = new GridBagLayout();
-        gbl_transferDirection.columnWidths = new int[] {0, 1, 1, 1, 0};
-        gbl_transferDirection.rowHeights = new int[] {0};
-        gbl_transferDirection.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0};
-        gbl_transferDirection.rowWeights = new double[]{0.0};
-        transferDirection.setLayout(gbl_transferDirection);
+        GridBagConstraints gbcTransferDirection = new GridBagConstraints();
+        gbcTransferDirection.anchor = GridBagConstraints.NORTH;
+        gbcTransferDirection.insets = new Insets(10, 10, 5, 10);
+        gbcTransferDirection.fill = GridBagConstraints.HORIZONTAL;
+        gbcTransferDirection.gridx = 0;
+        gbcTransferDirection.gridy = 0;
+        add(transferDirection, gbcTransferDirection);        
+        GridBagLayout gblTransferDirection = new GridBagLayout();
+        gblTransferDirection.columnWidths = new int[] {0, 1, 1, 1, 0};
+        gblTransferDirection.rowHeights = new int[] {0};
+        gblTransferDirection.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0};
+        gblTransferDirection.rowWeights = new double[]{0.0};
+        transferDirection.setLayout(gblTransferDirection);
         
-        lblNewLabel_3 = new JLabel("");
-        lblNewLabel_3.setIcon(ImageLoader.GetDstIcon());
-        GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-        gbc_lblNewLabel_3.insets = new Insets(0, 0, 0, 5);
-        gbc_lblNewLabel_3.gridx = 0;
-        gbc_lblNewLabel_3.gridy = 0;
-        transferDirection.add(lblNewLabel_3, gbc_lblNewLabel_3);
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(ImageLoader.GetDstIcon());
+        GridBagConstraints gbcLblNewLabel = new GridBagConstraints();
+        gbcLblNewLabel.insets = new Insets(0, 0, 0, 5);
+        gbcLblNewLabel.gridx = 0;
+        gbcLblNewLabel.gridy = 0;
+        transferDirection.add(lblNewLabel, gbcLblNewLabel);
                 
         arrowLeft = new JLabel("<html><body>&#x1F872;</body></html>");
-        arrowLeft.setFont(new Font(TAHOMA, Font.PLAIN, 20));
-        GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-        gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
-        gbc_lblNewLabel.gridx = 1;
-        gbc_lblNewLabel.gridy = 0;
-        transferDirection.add(arrowLeft, gbc_lblNewLabel);
+        arrowLeft.setFont(new Font(FONTNAME, Font.PLAIN, 20));
+        GridBagConstraints gbcArrowLeft = new GridBagConstraints();
+        gbcArrowLeft.insets = new Insets(0, 0, 0, 5);
+        gbcArrowLeft.gridx = 1;
+        gbcArrowLeft.gridy = 0;
+        transferDirection.add(arrowLeft, gbcArrowLeft);
 
         this.switchMappingDirectionButton = new JButton("Switch Transfer Direction");
         this.switchMappingDirectionButton.setToolTipText("Switch Transfer Direction");
-        this.switchMappingDirectionButton.setFont(new Font(TAHOMA, Font.PLAIN, 14));
-        GridBagConstraints gbc_switchMappingDirectionButton = new GridBagConstraints();
-        gbc_switchMappingDirectionButton.insets = new Insets(0, 0, 0, 5);
-        gbc_switchMappingDirectionButton.anchor = GridBagConstraints.NORTH;
-        gbc_switchMappingDirectionButton.gridx = 2;
-        gbc_switchMappingDirectionButton.gridy = 0;
-        transferDirection.add(this.switchMappingDirectionButton, gbc_switchMappingDirectionButton);
+        this.switchMappingDirectionButton.setFont(new Font(FONTNAME, Font.PLAIN, 14));
+        GridBagConstraints gbcSwitchMappingDirectionButton = new GridBagConstraints();
+        gbcSwitchMappingDirectionButton.insets = new Insets(0, 0, 0, 5);
+        gbcSwitchMappingDirectionButton.anchor = GridBagConstraints.NORTH;
+        gbcSwitchMappingDirectionButton.gridx = 2;
+        gbcSwitchMappingDirectionButton.gridy = 0;
+        transferDirection.add(this.switchMappingDirectionButton, gbcSwitchMappingDirectionButton);
         
         arrowRight = new JLabel("<html><body>&#x1F872;</body></html>");
-        arrowRight.setFont(new Font(TAHOMA, Font.PLAIN, 20));
-        GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-        gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
-        gbc_lblNewLabel_1.gridx = 3;
-        gbc_lblNewLabel_1.gridy = 0;
-        transferDirection.add(arrowRight, gbc_lblNewLabel_1);
+        arrowRight.setFont(new Font(FONTNAME, Font.PLAIN, 20));
+        GridBagConstraints gbcArrowRight = new GridBagConstraints();
+        gbcArrowRight.insets = new Insets(0, 0, 0, 5);
+        gbcArrowRight.gridx = 3;
+        gbcArrowRight.gridy = 0;
+        transferDirection.add(arrowRight, gbcArrowRight);
         
-        lblNewLabel_4 = new JLabel("");
-        lblNewLabel_4.setIcon(ImageLoader.GetIcon("icon16.png"));
-        GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
-        gbc_lblNewLabel_4.gridx = 4;
-        gbc_lblNewLabel_4.gridy = 0;
-        transferDirection.add(lblNewLabel_4, gbc_lblNewLabel_4);
+        JLabel lblNewLabel4 = new JLabel("");
+        lblNewLabel4.setIcon(ImageLoader.GetIcon("icon16.png"));
+        GridBagConstraints gbcMblNewLabel4 = new GridBagConstraints();
+        gbcMblNewLabel4.gridx = 4;
+        gbcMblNewLabel4.gridy = 0;
+        transferDirection.add(lblNewLabel4, gbcMblNewLabel4);
         
-        panel = new JPanel();
-        GridBagConstraints gbc_panel = new GridBagConstraints();
-        gbc_panel.anchor = GridBagConstraints.NORTH;
-        gbc_panel.insets = new Insets(5, 10, 5, 10);
-        gbc_panel.fill = GridBagConstraints.HORIZONTAL;
-        gbc_panel.gridx = 0;
-        gbc_panel.gridy = 1;
-        add(panel, gbc_panel);
-        GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[]{0, 0, 0};
-        gbl_panel.rowHeights = new int[]{0, 0};
-        gbl_panel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-        gbl_panel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-        panel.setLayout(gbl_panel);
+        JPanel panel = new JPanel();
+        GridBagConstraints gbcPanel = new GridBagConstraints();
+        gbcPanel.anchor = GridBagConstraints.NORTH;
+        gbcPanel.insets = new Insets(5, 10, 5, 10);
+        gbcPanel.fill = GridBagConstraints.HORIZONTAL;
+        gbcPanel.gridx = 0;
+        gbcPanel.gridy = 1;
+        add(panel, gbcPanel);
+        GridBagLayout gblPanel = new GridBagLayout();
+        gblPanel.columnWidths = new int[]{0, 0, 0};
+        gblPanel.rowHeights = new int[]{0, 0};
+        gblPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+        gblPanel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+        panel.setLayout(gblPanel);
         
-        lblNewLabel_2 = new JLabel("Current Saved Mapping Configuration");
-        GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-        gbc_lblNewLabel_2.insets = new Insets(0, 0, 0, 5);
-        gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
-        gbc_lblNewLabel_2.gridx = 0;
-        gbc_lblNewLabel_2.gridy = 0;
-        panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
+        JLabel lblNewLabel2 = new JLabel("Current Saved Mapping Configuration");
+        GridBagConstraints gbcLblNewLabel2 = new GridBagConstraints();
+        gbcLblNewLabel2.insets = new Insets(0, 0, 0, 5);
+        gbcLblNewLabel2.anchor = GridBagConstraints.EAST;
+        gbcLblNewLabel2.gridx = 0;
+        gbcLblNewLabel2.gridy = 0;
+        panel.add(lblNewLabel2, gbcLblNewLabel2);
         
         this.mappingConfigurationComboBox = new JComboBox<>();
         this.mappingConfigurationComboBox.setEditable(true);
@@ -263,20 +257,20 @@ public class ImpactViewPanel extends JPanel
         this.mappingConfigurationComboBox.setToolTipText("<html><ul>Select an existing configuration from this list or write a name to create a new configuration.</ul>\n"
                 + "<ul>Then hit the save button to create/load the Mapping Configuration</ul></html>");
         
-        GridBagConstraints gbc_comboBox = new GridBagConstraints();
-        gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-        gbc_comboBox.gridx = 1;
-        gbc_comboBox.gridy = 0;
-        panel.add(mappingConfigurationComboBox, gbc_comboBox);
+        GridBagConstraints gbcComboBox = new GridBagConstraints();
+        gbcComboBox.fill = GridBagConstraints.HORIZONTAL;
+        gbcComboBox.gridx = 1;
+        gbcComboBox.gridy = 0;
+        panel.add(mappingConfigurationComboBox, gbcComboBox);
         
         this.saveMappingConfigurationButton = new JButton("\uD83D\uDCBE");
         this.saveMappingConfigurationButton.setToolTipText("Create and/or Load this new mapping configuration");
-        GridBagConstraints gbc_SaveUriButton = new GridBagConstraints();
-        gbc_SaveUriButton.fill = GridBagConstraints.BOTH;
-        gbc_SaveUriButton.insets = new Insets(10, 10, 10, 10);
-        gbc_SaveUriButton.gridx = 2;
-        gbc_SaveUriButton.gridy = 0;
-        panel.add(this.saveMappingConfigurationButton, gbc_SaveUriButton);
+        GridBagConstraints gbcSaveUriButton = new GridBagConstraints();
+        gbcSaveUriButton.fill = GridBagConstraints.BOTH;
+        gbcSaveUriButton.insets = new Insets(10, 10, 10, 10);
+        gbcSaveUriButton.gridx = 2;
+        gbcSaveUriButton.gridy = 0;
+        panel.add(this.saveMappingConfigurationButton, gbcSaveUriButton);
         
         JTabbedPane hubBrowserTreeViewsContainer = new JTabbedPane(SwingConstants.TOP);
                 
@@ -290,79 +284,79 @@ public class ImpactViewPanel extends JPanel
         hubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
         
         this.impactViewsTabbedPane = new JTabbedPane(SwingConstants.BOTTOM);
-        GridBagConstraints gbc_impactViewsTabbedPane = new GridBagConstraints();
-        gbc_impactViewsTabbedPane.insets = new Insets(0, 0, 5, 0);
-        gbc_impactViewsTabbedPane.fill = GridBagConstraints.BOTH;
-        gbc_impactViewsTabbedPane.gridx = 0;
-        gbc_impactViewsTabbedPane.gridy = 2;
-        this.add(this.impactViewsTabbedPane, gbc_impactViewsTabbedPane);
+        GridBagConstraints gbcImpactViewsTabbedPane = new GridBagConstraints();
+        gbcImpactViewsTabbedPane.insets = new Insets(0, 0, 5, 0);
+        gbcImpactViewsTabbedPane.fill = GridBagConstraints.BOTH;
+        gbcImpactViewsTabbedPane.gridx = 0;
+        gbcImpactViewsTabbedPane.gridy = 2;
+        this.add(this.impactViewsTabbedPane, gbcImpactViewsTabbedPane);
         
         this.impactViewsTabbedPane.addTab("Hub Impact", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), hubBrowserTreeViewsContainer, null);
         
-        dstImpactContainer = new JPanel();
+        JPanel dstImpactContainer = new JPanel();
         impactViewsTabbedPane.addTab("Dst Impact", null, dstImpactContainer, null);
-        GridBagLayout gbl_dstImpactContainer = new GridBagLayout();
-        gbl_dstImpactContainer.columnWidths = new int[]{0, 0};
-        gbl_dstImpactContainer.rowHeights = new int[]{0, 0};
-        gbl_dstImpactContainer.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_dstImpactContainer.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-        dstImpactContainer.setLayout(gbl_dstImpactContainer);
+        GridBagLayout gblDstImpactContainer = new GridBagLayout();
+        gblDstImpactContainer.columnWidths = new int[]{0, 0};
+        gblDstImpactContainer.rowHeights = new int[]{0, 0};
+        gblDstImpactContainer.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gblDstImpactContainer.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+        dstImpactContainer.setLayout(gblDstImpactContainer);
         
         dstImpactViewPanel = new JPanel();
-        GridBagConstraints gbc_dstImpactViewPanel = new GridBagConstraints();
-        gbc_dstImpactViewPanel.fill = GridBagConstraints.BOTH;
-        gbc_dstImpactViewPanel.gridx = 0;
-        gbc_dstImpactViewPanel.gridy = 0;
+        GridBagConstraints gbcDstImpactViewPanel = new GridBagConstraints();
+        gbcDstImpactViewPanel.fill = GridBagConstraints.BOTH;
+        gbcDstImpactViewPanel.gridx = 0;
+        gbcDstImpactViewPanel.gridy = 0;
         
-        dstImpactContainer.add(dstImpactViewPanel, gbc_dstImpactViewPanel);
-        GridBagLayout gbl_dstImpactViewPanel = new GridBagLayout();
-        gbl_dstImpactViewPanel.columnWidths = new int[]{0};
-        gbl_dstImpactViewPanel.rowHeights = new int[]{0};
-        gbl_dstImpactViewPanel.columnWeights = new double[]{Double.MIN_VALUE};
-        gbl_dstImpactViewPanel.rowWeights = new double[]{Double.MIN_VALUE};
-        dstImpactViewPanel.setLayout(gbl_dstImpactViewPanel);
+        dstImpactContainer.add(dstImpactViewPanel, gbcDstImpactViewPanel);
+        GridBagLayout gblDstImpactViewPanel = new GridBagLayout();
+        gblDstImpactViewPanel.columnWidths = new int[]{0};
+        gblDstImpactViewPanel.rowHeights = new int[]{0};
+        gblDstImpactViewPanel.columnWeights = new double[]{Double.MIN_VALUE};
+        gblDstImpactViewPanel.rowWeights = new double[]{Double.MIN_VALUE};
+        dstImpactViewPanel.setLayout(gblDstImpactViewPanel);
         
-        panel_1 = new JPanel();
-        GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-        gbc_panel_1.insets = new Insets(5, 10, 10, 10);
-        gbc_panel_1.anchor = GridBagConstraints.SOUTH;
-        gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
-        gbc_panel_1.gridx = 0;
-        gbc_panel_1.gridy = 3;
-        add(panel_1, gbc_panel_1);
-        GridBagLayout gbl_panel_1 = new GridBagLayout();
-        gbl_panel_1.columnWidths = new int[]{0, 0, 0};
-        gbl_panel_1.rowHeights = new int[]{0, 0, 0};
-        gbl_panel_1.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-        gbl_panel_1.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-        panel_1.setLayout(gbl_panel_1);
+        JPanel panel1 = new JPanel();
+        GridBagConstraints gbcPanel1 = new GridBagConstraints();
+        gbcPanel1.insets = new Insets(5, 10, 10, 10);
+        gbcPanel1.anchor = GridBagConstraints.SOUTH;
+        gbcPanel1.fill = GridBagConstraints.HORIZONTAL;
+        gbcPanel1.gridx = 0;
+        gbcPanel1.gridy = 3;
+        add(panel1, gbcPanel1);
+        GridBagLayout gblPanel1 = new GridBagLayout();
+        gblPanel1.columnWidths = new int[]{0, 0, 0};
+        gblPanel1.rowHeights = new int[]{0, 0, 0};
+        gblPanel1.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+        gblPanel1.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        panel1.setLayout(gblPanel1);
         
         progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
         progressBar.setForeground(Color.decode("#00D8FF"));
 
-        GridBagConstraints gbc_progressBar = new GridBagConstraints();
-        gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
-        gbc_progressBar.insets = new Insets(0, 0, 5, 0);
-        gbc_progressBar.gridwidth = 2;
-        gbc_progressBar.gridx = 0;
-        gbc_progressBar.gridy = 0;
-        panel_1.add(progressBar, gbc_progressBar);
+        GridBagConstraints gbcProgressBar = new GridBagConstraints();
+        gbcProgressBar.fill = GridBagConstraints.HORIZONTAL;
+        gbcProgressBar.insets = new Insets(0, 0, 5, 0);
+        gbcProgressBar.gridwidth = 2;
+        gbcProgressBar.gridx = 0;
+        gbcProgressBar.gridy = 0;
+        panel1.add(progressBar, gbcProgressBar);
         
         cancelButton = new JButton("Cancel");
         cancelButton.setEnabled(false);
-        GridBagConstraints gbc_cancelButton = new GridBagConstraints();
-        gbc_cancelButton.insets = new Insets(0, 0, 0, 5);
-        gbc_cancelButton.gridx = 0;
-        gbc_cancelButton.gridy = 1;
-        panel_1.add(cancelButton, gbc_cancelButton);
+        GridBagConstraints gbcCancelButton = new GridBagConstraints();
+        gbcCancelButton.insets = new Insets(0, 0, 0, 5);
+        gbcCancelButton.gridx = 0;
+        gbcCancelButton.gridy = 1;
+        panel1.add(cancelButton, gbcCancelButton);
         
         transferButton = new JButton("Transfer");
-        GridBagConstraints gbc_transferButton = new GridBagConstraints();
-        gbc_transferButton.fill = GridBagConstraints.HORIZONTAL;
-        gbc_transferButton.gridx = 1;
-        gbc_transferButton.gridy = 1;
-        panel_1.add(transferButton, gbc_transferButton);
+        GridBagConstraints gbcTransferButton = new GridBagConstraints();
+        gbcTransferButton.fill = GridBagConstraints.HORIZONTAL;
+        gbcTransferButton.gridx = 1;
+        gbcTransferButton.gridy = 1;
+        panel1.add(transferButton, gbcTransferButton);
     }
 
     /**
@@ -523,7 +517,7 @@ public class ImpactViewPanel extends JPanel
      */
     public void SetTransferIsInProgress(boolean isTransferInProgress)
     {
-        this.progressBar.setVisible(isTransferInProgress);;
+        this.progressBar.setVisible(isTransferInProgress);
         this.cancelButton.setEnabled(isTransferInProgress);
     }
     

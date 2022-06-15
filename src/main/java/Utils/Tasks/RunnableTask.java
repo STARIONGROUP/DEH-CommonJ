@@ -51,7 +51,7 @@ class RunnableTask extends CallableTask<TaskStatus>
     @Override
     protected void HandleException(Exception exception)
     {
-        this.ObservableFunction.Task.result = TaskStatus.Faulted;
+        this.observableFunction.task.result = TaskStatus.Faulted;
         super.HandleException(exception);
     }
 }

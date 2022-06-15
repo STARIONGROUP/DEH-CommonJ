@@ -23,13 +23,17 @@
  */
 package Utils.Tasks;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Utils.Ref;
-import io.reactivex.disposables.Disposable;
 
 class TaskTest
 {
@@ -48,16 +52,8 @@ class TaskTest
         
         Task.Run(() ->
         {
-            try
-            {
-                Thread.sleep(1 * 1000);
-                return true;
-            } 
-            catch (InterruptedException exception)
-            {
-                exception.printStackTrace();
-                return false;
-            }            
+        	await().during(1, TimeUnit.SECONDS).until(() -> true);	
+        	return true;
         }, Boolean.class)
         .Observable()
         .subscribe(x -> 
@@ -66,7 +62,7 @@ class TaskTest
         });
         
         assertFalse(refCompleted.Get());
-        Thread.sleep(2 * 1000);
+        await().atMost(2, TimeUnit.SECONDS).until(() -> refCompleted.Get());
         assertTrue(refCompleted.Get());
     }
 
@@ -77,15 +73,8 @@ class TaskTest
         
         Task.Run(() -> 
         {
-            try
-            {
-                Thread.sleep(1 * 1000);
-                return;
-            } 
-            catch (InterruptedException exception)
-            {
-                exception.printStackTrace();
-            }            
+        	await().during(1, TimeUnit.SECONDS).until(() -> true);	
+            return;
         })
         .Observable()
         .subscribe(x -> 
@@ -94,7 +83,7 @@ class TaskTest
         });
         
         assertFalse(refCompleted.Get());
-        Thread.sleep(2 * 1000);
+        await().atMost(2, TimeUnit.SECONDS).until(() -> refCompleted.Get());
         assertTrue(refCompleted.Get());
     }
     
@@ -105,16 +94,8 @@ class TaskTest
         
         Task.Run(() -> 
         {
-            try
-            {
-                Thread.sleep(1 * 1000);
-                throw new NullPointerException();
-                
-            } 
-            catch (InterruptedException exception)
-            {
-                exception.printStackTrace();
-            }
+        	await().during(1, TimeUnit.SECONDS).until(() -> true);	
+            throw new NullPointerException();
         })
         .Observable()
         .subscribe(x -> 
@@ -123,7 +104,7 @@ class TaskTest
         });
         
         assertEquals(TaskStatus.Iddle, refCompleted.Get());
-        Thread.sleep(2 * 1000);
+        await().atMost(2, TimeUnit.SECONDS).until(() -> refCompleted.Get() == TaskStatus.Faulted);
         assertEquals(TaskStatus.Faulted, refCompleted.Get());
     }
     
@@ -134,17 +115,9 @@ class TaskTest
         
         ObservableTask<Boolean> task = Task.Create(() -> 
         {
-            try
-            {
-                System.out.println("called");
-                Thread.sleep(50 * 1000);
-                return true;
-            } 
-            catch (InterruptedException exception)
-            {
-                exception.printStackTrace();
-                return false;
-            } 
+            System.out.println("called");
+            await().during(50, TimeUnit.SECONDS).until(() -> true);
+            return true;
         }, Boolean.class);
         
         task.Observable()
@@ -154,12 +127,12 @@ class TaskTest
         });
         
         task.Run();
-        Thread.sleep(1000);
+        await().during(1, TimeUnit.SECONDS).until(() -> true);
         task.Cancel();
 
-        Thread.sleep(1000);
+        await().atMost(2, TimeUnit.SECONDS).until(() -> refCompleted.Get() == null);
         assertEquals(null, refCompleted.Get());
-        assertEquals(TaskStatus.Cancelled, task.Task.GetStatus());
+        assertEquals(TaskStatus.Cancelled, task.task.GetStatus());
         assertEquals(null, refCompleted.Get());
     }
 }

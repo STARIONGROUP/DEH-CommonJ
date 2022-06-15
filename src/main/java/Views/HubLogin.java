@@ -63,9 +63,9 @@ import javax.swing.JPasswordField;
 public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boolean>
 {
 	/**
-	 * The used font 
+	 * The name of the font 
 	 */
-    private static final String TAHOMA = "Tahoma";
+    private static final String FONTNAME = "Tahoma";
 
 	/**
      * The current class log4J {@linkplain Logger}
@@ -119,7 +119,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
         gblContentPanel.rowWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
         contentPanel.setLayout(gblContentPanel);
         JLabel lblConnections = new JLabel("Connections");
-        lblConnections.setFont(new Font(TAHOMA, Font.PLAIN, 16));
+        lblConnections.setFont(new Font(FONTNAME, Font.PLAIN, 16));
         GridBagConstraints gbcLblConnections = new GridBagConstraints();
         gbcLblConnections.gridwidth = 2;
         gbcLblConnections.insets = new Insets(0, 0, 5, 0);
@@ -154,7 +154,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
         gblLoginPanelContainer.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         this.loginPanelContainer.setLayout(gblLoginPanelContainer);
         JLabel lblLogin = new JLabel("Login");
-        lblLogin.setFont(new Font(TAHOMA, Font.BOLD, 16));
+        lblLogin.setFont(new Font(FONTNAME, Font.BOLD, 16));
         GridBagConstraints gbcLblLogin = new GridBagConstraints();
         gbcLblLogin.fill = GridBagConstraints.VERTICAL;
         gbcLblLogin.insets = new Insets(0, 0, 5, 5);
@@ -232,7 +232,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
         this.sessionPanelContainer.setEnabled(false);
         this.sessionPanelContainer.setLayout(gblSession);
         JLabel sessionLabel = new JLabel("Session");
-        sessionLabel.setFont(new Font(TAHOMA, Font.BOLD, 16));
+        sessionLabel.setFont(new Font(FONTNAME, Font.BOLD, 16));
         GridBagConstraints sessionLabelConstraints = new GridBagConstraints();
         sessionLabelConstraints.fill = GridBagConstraints.VERTICAL;
         sessionLabelConstraints.insets = new Insets(0, 0, 5, 5);

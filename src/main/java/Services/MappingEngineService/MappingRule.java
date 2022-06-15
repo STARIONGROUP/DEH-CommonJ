@@ -42,7 +42,7 @@ public abstract class MappingRule<TInput extends Object, TOutput> implements IMa
     /**
      * The current class logger
      */
-    protected Logger Logger = LogManager.getLogger();
+    protected Logger logger = LogManager.getLogger();
         
     /**
      * To overcome the inability to use TInput and reflection in the {@linkplain MappingEngine},

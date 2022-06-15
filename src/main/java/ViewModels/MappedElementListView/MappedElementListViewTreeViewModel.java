@@ -31,7 +31,6 @@ import ViewModels.MappedElementListView.Rows.MappedElementListViewRootViewModel;
 import ViewModels.ObjectBrowser.BrowserTreeBaseViewModel;
 import ViewModels.Rows.MappedElementRowViewModel;
 import cdp4common.commondata.DefinedThing;
-import cdp4common.commondata.Thing;
 
 /**
  * The {@linkplain MappedElementListViewTreeViewModel} is the {@linkplain TreeModel} for the Capella object browser

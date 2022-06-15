@@ -30,12 +30,9 @@ import javax.swing.tree.TreeModel;
 import org.apache.commons.lang3.tuple.Triple;
 
 import Enumerations.MappingDirection;
-import ViewModels.MappedElementListView.Rows.MappedElementListViewRootViewModel;
+import ViewModels.MappedElementListView.MappedElementListViewTreeViewModel;
 import ViewModels.MappingListView.Rows.MappingRootRowViewModel;
 import ViewModels.ObjectBrowser.BrowserTreeBaseViewModel;
-import ViewModels.Rows.MappedElementRowViewModel;
-import cdp4common.commondata.DefinedThing;
-import cdp4common.commondata.NamedThing;
 import cdp4common.commondata.Thing;
 
 /**

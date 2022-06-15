@@ -104,11 +104,8 @@ public abstract class MappingConfigurationDialog
     private ObjectBrowserBase<IObjectBrowserBaseViewModel<TRowViewModel>, ? extends IContextMenuViewModel> dstObjectBrowser;
     private boolean hasBeenPaintedOnce;
     private JSplitPane mainSplitPane;
-    private JPanel hubBrowserPanel;
-    private JTabbedPane hubBrowserTreeViewsContainer;
     private JCheckBox mapToNewElementCheckBox;
     private JButton resetButton;
-    private JPanel mappedElementsPanel;
     
     /**
      * Initializes a new {@linkplain CapellaDstToHubMappingConfigurationDialog}
@@ -154,12 +151,12 @@ public abstract class MappingConfigurationDialog
         this.getContentPane().setLayout(new BorderLayout());
         this.contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(this.contentPanel, BorderLayout.CENTER);
-        GridBagLayout gbl_contentPanel = new GridBagLayout();
-        gbl_contentPanel.columnWidths = new int[] {};
-        gbl_contentPanel.rowHeights = new int[] {0};
-        gbl_contentPanel.columnWeights = new double[]{1.0};
-        gbl_contentPanel.rowWeights = new double[]{1.0};
-        this.contentPanel.setLayout(gbl_contentPanel);
+        GridBagLayout gblContentPanel = new GridBagLayout();
+        gblContentPanel.columnWidths = new int[] {};
+        gblContentPanel.rowHeights = new int[] {0};
+        gblContentPanel.columnWeights = new double[]{1.0};
+        gblContentPanel.rowWeights = new double[]{1.0};
+        this.contentPanel.setLayout(gblContentPanel);
         
         this.mainSplitPane = new JSplitPane();
         this.mainSplitPane.setDividerLocation(0.5);
@@ -170,113 +167,113 @@ public abstract class MappingConfigurationDialog
         this.browserSplitPane.setDividerLocation(0.5);
         this.mainSplitPane.setLeftComponent(this.browserSplitPane);
         
-        this.hubBrowserPanel = new JPanel();
+        JPanel hubBrowserPanel = new JPanel();
         
         if(mappingDirection == MappingDirection.FromDstToHub)
         {
             this.browserSplitPane.setLeftComponent(this.dstObjectBrowser);
-            this.browserSplitPane.setRightComponent(this.hubBrowserPanel);
+            this.browserSplitPane.setRightComponent(hubBrowserPanel);
         }
         else
         {
             this.browserSplitPane.setRightComponent(this.dstObjectBrowser);
-            this.browserSplitPane.setLeftComponent(this.hubBrowserPanel);            
+            this.browserSplitPane.setLeftComponent(hubBrowserPanel);            
         }
                 
-        GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[]{0, 0};
-        gbl_panel.rowHeights = new int[]{0, 0, 0};
-        gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_panel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-        this.hubBrowserPanel.setLayout(gbl_panel);
+        GridBagLayout gblPanel = new GridBagLayout();
+        gblPanel.columnWidths = new int[]{0, 0};
+        gblPanel.rowHeights = new int[]{0, 0, 0};
+        gblPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gblPanel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+        hubBrowserPanel.setLayout(gblPanel);
                 
-        this.hubBrowserTreeViewsContainer = new JTabbedPane(SwingConstants.TOP);
-        GridBagConstraints gbc_hubBrowserTreeViewsContainer = new GridBagConstraints();
-        gbc_hubBrowserTreeViewsContainer.insets = new Insets(0, 0, 5, 0);
-        gbc_hubBrowserTreeViewsContainer.fill = GridBagConstraints.BOTH;
-        gbc_hubBrowserTreeViewsContainer.gridx = 0;
-        gbc_hubBrowserTreeViewsContainer.gridy = 0;
+        JTabbedPane hubBrowserTreeViewsContainer = new JTabbedPane(SwingConstants.TOP);
+        GridBagConstraints gbcHubBrowserTreeViewsContainer = new GridBagConstraints();
+        gbcHubBrowserTreeViewsContainer.insets = new Insets(0, 0, 5, 0);
+        gbcHubBrowserTreeViewsContainer.fill = GridBagConstraints.BOTH;
+        gbcHubBrowserTreeViewsContainer.gridx = 0;
+        gbcHubBrowserTreeViewsContainer.gridy = 0;
         
         this.elementDefinitionBrowser = new ObjectBrowser();
         this.elementDefinitionBrowser.setBackground(Color.WHITE);
-        this.hubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
+        hubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
         
         this.requirementBrowser = new ObjectBrowser();
-        this.hubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
+        hubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
         
-        this.hubBrowserPanel.add(this.hubBrowserTreeViewsContainer, gbc_hubBrowserTreeViewsContainer);
+        hubBrowserPanel.add(hubBrowserTreeViewsContainer, gbcHubBrowserTreeViewsContainer);
         
         this.mapToNewElementCheckBox = new JCheckBox("Map the current selected row to a new Hub element");
         this.mapToNewElementCheckBox.setHorizontalAlignment(SwingConstants.LEFT);
         
-        GridBagConstraints gbc_mapToNewHubElementCheckBox = new GridBagConstraints();
-        gbc_mapToNewHubElementCheckBox.anchor = GridBagConstraints.WEST;
-        gbc_mapToNewHubElementCheckBox.gridx = 0;
-        gbc_mapToNewHubElementCheckBox.gridy = 1;
+        GridBagConstraints gbcMapToNewHubElementCheckBox = new GridBagConstraints();
+        gbcMapToNewHubElementCheckBox.anchor = GridBagConstraints.WEST;
+        gbcMapToNewHubElementCheckBox.gridx = 0;
+        gbcMapToNewHubElementCheckBox.gridy = 1;
         
-        this.hubBrowserPanel.add(this.mapToNewElementCheckBox, gbc_mapToNewHubElementCheckBox);
+        hubBrowserPanel.add(this.mapToNewElementCheckBox, gbcMapToNewHubElementCheckBox);
         
-        this.mappedElementsPanel = new JPanel();
+        JPanel mappedElementsPanel = new JPanel();
 
         GridBagLayout mappedElementsPanelLayout = new GridBagLayout();
-        gbl_panel.columnWidths = new int[]{0, 0};
-        gbl_panel.rowHeights = new int[]{0, 0, 0};
-        gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_panel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-        this.mappedElementsPanel.setLayout(mappedElementsPanelLayout);
+        gblPanel.columnWidths = new int[]{0, 0};
+        gblPanel.rowHeights = new int[]{0, 0, 0};
+        gblPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gblPanel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+        mappedElementsPanel.setLayout(mappedElementsPanelLayout);
         
         this.mappedElementListView.setBackground(Color.WHITE);
         
-        this.mappedElementsPanel.add(this.mappedElementListView);
+        mappedElementsPanel.add(this.mappedElementListView);
         
-        this.mainSplitPane.setRightComponent(this.mappedElementsPanel);
-        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-        gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-        gbc_scrollPane.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane.gridx = 0;
-        gbc_scrollPane.gridy = 0;
+        this.mainSplitPane.setRightComponent(mappedElementsPanel);
+        GridBagConstraints gbcScrollPane = new GridBagConstraints();
+        gbcScrollPane.insets = new Insets(0, 0, 5, 0);
+        gbcScrollPane.fill = GridBagConstraints.BOTH;
+        gbcScrollPane.gridx = 0;
+        gbcScrollPane.gridy = 0;
         mappedElementsPanel.setLayout(new BoxLayout(mappedElementsPanel, BoxLayout.Y_AXIS));
                 
-        GridBagConstraints gbc_splitPane = new GridBagConstraints();
-        gbc_splitPane.fill = GridBagConstraints.BOTH;
-        gbc_splitPane.gridx = 0;
-        gbc_splitPane.gridy = 0;
-        this.contentPanel.add(mainSplitPane, gbc_splitPane);
+        GridBagConstraints gbcSplitPane = new GridBagConstraints();
+        gbcSplitPane.fill = GridBagConstraints.BOTH;
+        gbcSplitPane.gridx = 0;
+        gbcSplitPane.gridy = 0;
+        this.contentPanel.add(mainSplitPane, gbcSplitPane);
         
         JPanel buttonPane = new JPanel();
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
-        GridBagLayout gbl_buttonPane = new GridBagLayout();
-        gbl_buttonPane.columnWidths = new int[] {1, 588, 1, 1, 1, 1};
-        gbl_buttonPane.rowHeights = new int[]{23, 0};
-        gbl_buttonPane.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-        gbl_buttonPane.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-        buttonPane.setLayout(gbl_buttonPane);
+        GridBagLayout gblButtonPane = new GridBagLayout();
+        gblButtonPane.columnWidths = new int[] {1, 588, 1, 1, 1, 1};
+        gblButtonPane.rowHeights = new int[]{23, 0};
+        gblButtonPane.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+        gblButtonPane.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+        buttonPane.setLayout(gblButtonPane);
         
         resetButton = new JButton("Reset");
         resetButton.setToolTipText("Reset  to the default mapping.");
-        GridBagConstraints gbc_resetButton = new GridBagConstraints();
-        gbc_resetButton.insets = new Insets(0, 5, 10, 5);
-        gbc_resetButton.gridx = 0;
-        gbc_resetButton.gridy = 0;
-        buttonPane.add(resetButton, gbc_resetButton);
+        GridBagConstraints gbcResetButton = new GridBagConstraints();
+        gbcResetButton.insets = new Insets(0, 5, 10, 5);
+        gbcResetButton.gridx = 0;
+        gbcResetButton.gridy = 0;
+        buttonPane.add(resetButton, gbcResetButton);
         
         this.okButton = new JButton("Next");
         this.okButton.setToolTipText("Map the current elements");
         this.okButton.setActionCommand("OK");
-        GridBagConstraints gbc_okButton = new GridBagConstraints();
-        gbc_okButton.insets = new Insets(0, 5, 10, 5);
-        gbc_okButton.gridx = 2;
-        gbc_okButton.gridy = 0;
-        buttonPane.add(this.okButton, gbc_okButton);
+        GridBagConstraints gbcOkButton = new GridBagConstraints();
+        gbcOkButton.insets = new Insets(0, 5, 10, 5);
+        gbcOkButton.gridx = 2;
+        gbcOkButton.gridy = 0;
+        buttonPane.add(this.okButton, gbcOkButton);
         
         this.cancelButton = new JButton("Cancel");
         this.cancelButton.setToolTipText("Close this dialog and abort the mapping");
         this.cancelButton.setActionCommand("Cancel");
-        GridBagConstraints gbc_cancelButton = new GridBagConstraints();
-        gbc_cancelButton.insets = new Insets(0, 5, 10, 5);
-        gbc_cancelButton.gridx = 3;
-        gbc_cancelButton.gridy = 0;
-        buttonPane.add(this.cancelButton, gbc_cancelButton);
+        GridBagConstraints gbcCancelButton = new GridBagConstraints();
+        gbcCancelButton.insets = new Insets(0, 5, 10, 5);
+        gbcCancelButton.gridx = 3;
+        gbcCancelButton.gridy = 0;
+        buttonPane.add(this.cancelButton, gbcCancelButton);
         
         this.addComponentListener(new @ExludeFromCodeCoverageGeneratedReport ComponentAdapter() 
         {

@@ -23,8 +23,6 @@
  */
 package ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters;
 
-import java.util.ArrayList;
-
 import ViewModels.ObjectBrowser.Interfaces.IHaveContainedRows;
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IValueSetRowViewModel;

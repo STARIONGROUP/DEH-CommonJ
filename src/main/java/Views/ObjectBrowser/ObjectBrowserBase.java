@@ -40,8 +40,6 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
 import org.netbeans.swing.outline.Outline;
 import org.netbeans.swing.outline.OutlineModel;
 
@@ -98,7 +96,7 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
     /**
      * Initializes a new {@linkplain ObjectBrowser}
      */
-    public ObjectBrowserBase()
+    protected ObjectBrowserBase()
     {
         this.InitializeComponents();
     }
@@ -123,21 +121,21 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
 
         JPanel panel = new JPanel();
 
-        GridBagConstraints gbc_panel = new GridBagConstraints();
-        gbc_panel.fill = GridBagConstraints.BOTH;
-        gbc_panel.gridx = 0;
-        gbc_panel.gridy = 0;
-        add(panel, gbc_panel);
-        GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[]
+        GridBagConstraints gbcPanel = new GridBagConstraints();
+        gbcPanel.fill = GridBagConstraints.BOTH;
+        gbcPanel.gridx = 0;
+        gbcPanel.gridy = 0;
+        add(panel, gbcPanel);
+        GridBagLayout gblPanel = new GridBagLayout();
+        gblPanel.columnWidths = new int[]
         { 0 };
-        gbl_panel.rowHeights = new int[]
+        gblPanel.rowHeights = new int[]
         { 0 };
-        gbl_panel.columnWeights = new double[]
+        gblPanel.columnWeights = new double[]
         { 1.0 };
-        gbl_panel.rowWeights = new double[]
+        gblPanel.rowWeights = new double[]
         { 1.0 };
-        panel.setLayout(gbl_panel);
+        panel.setLayout(gblPanel);
 
         this.objectBrowserTree = new Outline();
         this.objectBrowserTree.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -149,12 +147,12 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
         this.objectBrowserTree.setGridColor(Color.WHITE);
         this.objectBrowserTree.setRenderDataProvider(new ObjectBrowserRenderDataProvider());
         this.objectBrowserTree.setRootVisible(true);
-        GridBagConstraints gbc_scrollView = new GridBagConstraints();
-        gbc_scrollView.fill = GridBagConstraints.BOTH;
-        gbc_scrollView.gridx = 0;
-        gbc_scrollView.gridy = 0;
+        GridBagConstraints gbcScrollView = new GridBagConstraints();
+        gbcScrollView.fill = GridBagConstraints.BOTH;
+        gbcScrollView.gridx = 0;
+        gbcScrollView.gridy = 0;
         JScrollPane scrollView = new JScrollPane(this.objectBrowserTree);
-        panel.add(scrollView, gbc_scrollView);
+        panel.add(scrollView, gbcScrollView);
     }
     
     /**

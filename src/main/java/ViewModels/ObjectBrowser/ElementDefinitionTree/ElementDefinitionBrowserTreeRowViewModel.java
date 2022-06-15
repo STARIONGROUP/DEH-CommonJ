@@ -23,15 +23,12 @@
  */
 package ViewModels.ObjectBrowser.ElementDefinitionTree;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.netbeans.swing.outline.RowModel;
 
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterValueBaseRowViewModel;
 import ViewModels.ObjectBrowser.Rows.IterationRowViewModel;
 import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
 import ViewModels.Rows.BaseTreeRowModel;
-import cdp4common.commondata.ClassKind;
 
 public class ElementDefinitionBrowserTreeRowViewModel extends BaseTreeRowModel implements RowModel
 {    

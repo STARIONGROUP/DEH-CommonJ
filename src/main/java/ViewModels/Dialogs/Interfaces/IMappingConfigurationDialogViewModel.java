@@ -34,7 +34,6 @@ import ViewModels.MappedElementListView.Interfaces.IMappedElementListViewViewMod
 import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import ViewModels.Rows.MappedElementRowViewModel;
 import cdp4common.commondata.DefinedThing;
-import cdp4common.commondata.Thing;
 import io.reactivex.Observable;
 
 /**

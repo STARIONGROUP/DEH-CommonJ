@@ -23,9 +23,6 @@
  */
 package ViewModels;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import DstController.IDstControllerBase;
 import ViewModels.Interfaces.IImpactViewContextMenuViewModel;
 import Views.ContextMenu.ImpactViewContextMenu;
