@@ -33,6 +33,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Services.UserPreferenceService.SavedServerConnection;
 import Services.UserPreferenceService.UserPreference;
 import Services.UserPreferenceService.UserPreferenceService;
 
@@ -83,15 +84,15 @@ class UserPreferenceServiceTestFixture
     void VerifyRead() throws Exception
     {        
         UserPreference userPreference = this.service.Read();
-        assertTrue(userPreference.SavedServerUri.isEmpty());
+        assertTrue(userPreference.savedServerConections.isEmpty());
     }
     
     @Test
     void VerifyWrite() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException
     {
         UserPreference userPreference = this.service.Read();
-        userPreference.SavedServerUri.add("http://tes.t");
-        userPreference.SavedServerUri.add("http://veri.f");
+        userPreference.savedServerConections.add(new SavedServerConnection("http://tes.t"));
+        userPreference.savedServerConections.add(new SavedServerConnection("http://veri.f"));
         assertDoesNotThrow(() -> this.service.Save());
         this.service = new UserPreferenceService();
         this.SetTestFile();
@@ -100,7 +101,7 @@ class UserPreferenceServiceTestFixture
         UserPreference userPreferenceNew = this.service.GetUserPreference();
         assertNotSame(userPreference, userPreferenceNew);
         assertDoesNotThrow(() -> this.service.Read());
-        assertEquals(2, userPreference.SavedServerUri.size());
+        assertEquals(2, userPreference.savedServerConections.size());
     }
     
     void SetTestFile() throws NoSuchFieldException, SecurityException, IOException, IllegalArgumentException, IllegalAccessException

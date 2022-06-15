@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.swing.JComboBox;
@@ -44,6 +45,7 @@ import org.apache.logging.log4j.Logger;
 
 import HubController.IHubController;
 import Services.UserPreferenceService.IUserPreferenceService;
+import Services.UserPreferenceService.SavedServerConnection;
 import ViewModels.Interfaces.IHubLoginViewModel;
 import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
@@ -131,7 +133,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
         this.hubController = hubController;
         this.userPreferenceService = userPreferenceService;
         
-        this.addresses.addAll(this.userPreferenceService.GetUserPreference().SavedServerUri);        
+        this.addresses.addAll(this.userPreferenceService.GetUserPreference().savedServerConections.stream().map(x -> x.uri).collect(Collectors.toList()));        
     }
     
     /**
@@ -172,7 +174,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
     @Override
     public void DoSaveTheCurrentSelectedUri(String uri)
     {
-        this.userPreferenceService.GetUserPreference().SavedServerUri.add(uri);
+        this.userPreferenceService.GetUserPreference().savedServerConections.add(new SavedServerConnection(uri));
         this.userPreferenceService.Save();
     }
     

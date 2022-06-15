@@ -1,5 +1,5 @@
 /*
- * UserPreference.java
+ * SavedServerConnection.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -23,16 +23,28 @@
  */
 package Services.UserPreferenceService;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * The {@linkplain UserPreference} holds different preferences for the user saved as Json and handled by the {@linkplain UserPreferenceService} 
+ * The {@linkplain SavedServerConnection} represents one uri with it's associated server type
  */
-public class UserPreference
+public class SavedServerConnection
 {
     /**
-     * Gets or sets server Uri
+     * The type of server
      */
-    public List<SavedServerConnection> savedServerConections = new ArrayList<>();
+    public String serverType = "Cdp4WebServices";
+    
+    /**
+     * The uri
+     */
+    public String uri;
+    
+    /**
+     * Initializes a new {@linkplain SavedServerConnection}
+     * 
+     * @param uri the {@linkplain String} uri
+     */
+    public SavedServerConnection(String uri)
+    {
+        this.uri = uri;
+    }
 }
