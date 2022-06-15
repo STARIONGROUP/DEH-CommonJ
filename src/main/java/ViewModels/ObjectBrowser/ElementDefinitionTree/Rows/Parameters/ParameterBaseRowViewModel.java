@@ -134,7 +134,7 @@ public abstract class ParameterBaseRowViewModel<TParameter extends ParameterBase
             .distinct()
             .forEach(x -> 
             {
-                OptionRowViewModel<TParameter> optionRow = new OptionRowViewModel<TParameter>(this.GetThing(), x, this);                
+                OptionRowViewModel<TParameter> optionRow = new OptionRowViewModel<>(this.GetThing(), x, this);                
                 this.ComputeContainedRowsWithStateAndOptionRows(optionRow, null);
                 this.containedRows.add(optionRow);
             });
@@ -151,7 +151,7 @@ public abstract class ParameterBaseRowViewModel<TParameter extends ParameterBase
         
         for (ActualFiniteState actualFiniteState : this.stateDependencies)
         {
-            ActualFiniteStateRowViewModel<TParameter> stateRow = new ActualFiniteStateRowViewModel<TParameter>(this.GetThing(), actualFiniteState, this);
+            ActualFiniteStateRowViewModel<TParameter> stateRow = new ActualFiniteStateRowViewModel<>(this.GetThing(), actualFiniteState, this);
             this.ComputeContainedRowsWithStateAndOptionRows(optionRow, stateRow);
             containedRows.add(stateRow);
         }

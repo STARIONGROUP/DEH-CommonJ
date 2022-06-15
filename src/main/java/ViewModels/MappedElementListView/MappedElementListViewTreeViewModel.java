@@ -45,7 +45,7 @@ public class MappedElementListViewTreeViewModel<TElement> extends BrowserTreeBas
      * 
      * @param mappedElements the {@linkplain Collection} of {@linkplain MappedElementRowViewModel}
      */
-    public MappedElementListViewTreeViewModel(Collection<MappedElementRowViewModel<? extends DefinedThing, ? extends TElement>> mappedElements)
+    public MappedElementListViewTreeViewModel(Collection<MappedElementRowViewModel<DefinedThing, TElement>> mappedElements)
     {
         this.root = new MappedElementListViewRootViewModel<TElement>(mappedElements);
     }

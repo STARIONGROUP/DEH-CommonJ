@@ -41,7 +41,7 @@ public class ImpactViewContextMenu extends ContextMenu<IImpactViewContextMenuVie
     /**
      * The {@linkplain IImpactViewContextMenuViewModel} data context of this view
      */
-    private IImpactViewContextMenuViewModel dataContext;
+    private transient IImpactViewContextMenuViewModel dataContext;
     
     /**
      * the {@linkplain JMenuItem} that allows to select all select-able things
@@ -63,10 +63,10 @@ public class ImpactViewContextMenu extends ContextMenu<IImpactViewContextMenuVie
      */
     public ImpactViewContextMenu() 
     {
-        this.selectAll = new JMenuItem(String.format("Select all Mapped Elements for Transfer", this.classKind));
+        this.selectAll = new JMenuItem("Select all Mapped Elements for Transfer");
         this.selectAll.setIcon(ImageLoader.GetIcon("icon16.png"));
         this.add(this.selectAll);
-        this.deselectAll = new JMenuItem(String.format("Deselect all Mapped Elements for Transfer", this.classKind));
+        this.deselectAll = new JMenuItem("Deselect all Mapped Elements for Transfer");
         this.deselectAll.setIcon(ImageLoader.GetIcon("icon16.png"));
         this.add(this.deselectAll);
     }

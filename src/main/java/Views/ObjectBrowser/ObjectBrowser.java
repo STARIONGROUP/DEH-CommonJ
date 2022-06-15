@@ -73,11 +73,11 @@ public class ObjectBrowser extends ObjectBrowserBase<IObjectBrowserViewModel, IC
     {
         int[] selectedRowIndexes = objectBrowserTree.getSelectedRows();
         
-        ArrayList<ThingRowViewModel<? extends Thing>> selectedThings = new ArrayList<>();
+        ArrayList<ThingRowViewModel<Thing>> selectedThings = new ArrayList<>();
         
         for (int rowIndex : selectedRowIndexes)
         {
-            selectedThings.add((ThingRowViewModel<? extends Thing>) objectBrowserTree.getValueAt(rowIndex, 0));
+            selectedThings.add((ThingRowViewModel<Thing>) objectBrowserTree.getValueAt(rowIndex, 0));
         }
 
         dataContext.OnSelectionChanged(selectedThings);
@@ -91,8 +91,8 @@ public class ObjectBrowser extends ObjectBrowserBase<IObjectBrowserViewModel, IC
         int selectedRowIndex = objectBrowserTree.getSelectedRow();
         
         @SuppressWarnings("unchecked")
-        Pair<Integer, ThingRowViewModel<? extends Thing>> row = Pair.of(selectedRowIndex,
-                (ThingRowViewModel<? extends Thing>) objectBrowserTree.getValueAt(selectedRowIndex, 0));
+        Pair<Integer, ThingRowViewModel<Thing>> row = Pair.of(selectedRowIndex,
+                (ThingRowViewModel<Thing>) objectBrowserTree.getValueAt(selectedRowIndex, 0));
 
         dataContext.OnSelectionChanged(row.getRight());
     }

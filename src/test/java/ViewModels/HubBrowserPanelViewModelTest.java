@@ -1,5 +1,5 @@
 /*
- * HubBrowserPanelViewModelTestFixture.java
+ * HubBrowserPanelViewModelTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -37,7 +37,7 @@ import ViewModels.Interfaces.IHubBrowserHeaderViewModel;
 import ViewModels.Interfaces.IRequirementBrowserViewModel;
 import ViewModels.Interfaces.ISessionControlPanelViewModel;
 
-class HubBrowserPanelViewModelTestFixture
+class HubBrowserPanelViewModelTest
 {
     private INavigationService navigationService;
     private IHubController hubController;

@@ -124,7 +124,8 @@ public final class ImageLoader
     {
         String iconFileName;
         
-        switch(classKind)
+        String parameterIcon = "parameter.png";
+		switch(classKind)
         {
             case ElementBase:
                 iconFileName = "elementdefinition.png";
@@ -136,16 +137,16 @@ public final class ImageLoader
                 iconFileName = "elementusage.png";
                 break;
             case Parameter:
-                iconFileName = "parameter.png";
+                iconFileName = parameterIcon;
                 break;
             case ParameterBase:
-                iconFileName = "parameter.png";
+                iconFileName = parameterIcon;
                 break;
             case ParameterGroup:
                 iconFileName = "parametergroup.png";
                 break;
             case ParameterOrOverrideBase:
-                iconFileName = "parameter.png";
+                iconFileName = parameterIcon;
                 break;
             case ParameterOverride:
                 iconFileName = "parameteroverride.png";

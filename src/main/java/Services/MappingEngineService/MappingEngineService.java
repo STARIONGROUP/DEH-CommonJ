@@ -57,7 +57,7 @@ public final class MappingEngineService implements IMappingEngineService
      * Gets a Dictionary that contains all the available {@linkplain IMappingRule} based on the provided assembly
      * where the Key is the Input type as string of the Value of a corresponding {@linkplain IMappingRule}
      */
-    public Map<String, IMappingRule<?,?>> Rules = new HashMap<>();
+    Map<String, MappingRule<?,?>> rules = new HashMap<>();
     
     /**
      * Initializes a new {@linkplain MappingEngine}
@@ -78,12 +78,12 @@ public final class MappingEngineService implements IMappingEngineService
     @Override
     public Object Map(Object input)
     {
-        if(this.Rules.isEmpty())
+        if(this.rules.isEmpty())
         {
             return null;
         }
 
-        IMappingRule<?, ?> foundRule = this.Rules.getOrDefault(this.GetKeyFromObject(input), null);
+        MappingRule<?, ?> foundRule = this.rules.getOrDefault(this.GetKeyFromObject(input), null);
 
         if(foundRule != null)
         {
@@ -132,11 +132,11 @@ public final class MappingEngineService implements IMappingEngineService
     {
         for (Class<?> classRule : this.GetAvailableMappingRules(ruleAssembly))
         {
-            IMappingRule<?, ?> ruleInstance = this.InitializeRule(classRule);
+            MappingRule<?, ?> ruleInstance = this.InitializeRule(classRule);
             
             if(ruleInstance != null)
             {
-               this.Rules.putIfAbsent(this.GetKeyFromObject(classRule), ruleInstance);
+               this.rules.putIfAbsent(this.GetKeyFromObject(classRule), ruleInstance);
             }            
         }
     }
@@ -148,7 +148,7 @@ public final class MappingEngineService implements IMappingEngineService
      * @param classRule the class rule to initialize
      * @return an instance of the {@linkplain classRule}
      */
-    private IMappingRule<?,?> InitializeRule(Class<?> classRule)
+    private MappingRule<?,?> InitializeRule(Class<?> classRule)
     {
         try
         {  
@@ -157,14 +157,14 @@ public final class MappingEngineService implements IMappingEngineService
                 return null;
             }
             
-            IMappingRule<?,?> mappingRule = (IMappingRule<?,?>)AppContainer.Container.getComponent(classRule.getName());
+            MappingRule<?,?> mappingRule = (MappingRule<?,?>)AppContainer.Container.getComponent(classRule.getName());
                         
             if (mappingRule != null)
             {
                 return mappingRule;
             }
             
-            return (IMappingRule<?, ?>) classRule.newInstance();
+            return (MappingRule<?, ?>) classRule.newInstance();
         }
         catch (Exception exception)
         {

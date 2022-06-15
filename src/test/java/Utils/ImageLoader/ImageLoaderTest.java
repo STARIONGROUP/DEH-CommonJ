@@ -1,5 +1,5 @@
 /*
- * Sphere.java
+ * ImageLoaderTest.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,38 +21,32 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Service.MappingEngineService.TestRules;
+package Utils.ImageLoader;
 
-import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class Sphere
-{    
-    private UUID id;    
-    private String name;
+import org.junit.jupiter.api.Test;
 
-    public String GetName()
+import cdp4common.commondata.ClassKind;
+
+class ImageLoaderTest
+{
+    @Test
+    void VerifyGetIcon()
     {
-        return name;
+        for (ClassKind classKind : ClassKind.values())
+        {
+            assertNotNull(ImageLoader.GetIcon(classKind));
+        }
+        
+        assertNull(ImageLoader.GetDstIcon());
+        assertNotNull(ImageLoader.GetIcon("icon32.png"));
+        assertNotNull(ImageLoader.GetIcon());
     }
-
-    public void SetName(String name)
+    
+    @Test
+    void VerifyGetIcon32()
     {
-        this.name = name;
-    }
-
-    public UUID GetId()
-    {
-        return id;
-    }
-
-    public void SetId(UUID id)
-    {
-        this.id = id;
-    }
-
-    public Sphere()
-    {
-        this.id = UUID.randomUUID();
-        this.name = this.id.toString();
+        assertNotNull(ImageLoader.GetIcon());
     }
 }

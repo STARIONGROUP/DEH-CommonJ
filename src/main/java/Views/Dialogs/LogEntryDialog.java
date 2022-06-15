@@ -58,7 +58,7 @@ public class LogEntryDialog extends BaseDialog<Pair<String, Boolean>> implements
     /**
      * This view attached {@linkplain #IViewModel}
      */
-    private ILogEntryDialogViewModel dataContext;
+    private transient ILogEntryDialogViewModel dataContext;
     
     /**
      * View element declarations

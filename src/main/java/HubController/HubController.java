@@ -200,7 +200,7 @@ public class HubController implements IHubController
      */
     public Collection<ReferenceDataLibrary> OpenReferenceDataLibraries()
     {
-        if(this.isSessionOpen)
+        if(Boolean.TRUE.equals(this.isSessionOpen))
         {
             return this.session.getOpenReferenceDataLibraries();
         }
@@ -259,7 +259,7 @@ public class HubController implements IHubController
             return siteDirectory.getModel();
         }
         
-        return null;
+        return new ContainerList<>(siteDirectory);
     }
 
     /**
@@ -367,7 +367,7 @@ public class HubController implements IHubController
     @Override
     public void Close()
     {
-        if (!this.isSessionOpen)
+        if (Boolean.FALSE.equals(this.isSessionOpen))
         {
             this.logger.info("At first a connection should be opened.");
             return;
@@ -605,7 +605,7 @@ public class HubController implements IHubController
     {
         Pair<String, Boolean> dialogResult = this.navigationService.ShowDialog(new LogEntryDialog());
         
-        if(dialogResult.getRight() != true)
+        if(!Boolean.TRUE.equals(dialogResult.getRight()))
         {
             return false;
         }

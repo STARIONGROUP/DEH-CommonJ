@@ -1,5 +1,5 @@
 /*
- * ImageLoaderTestFixture.java
+ * Box.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,32 +21,26 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Utils.ImageLoader;
+package Services.MappingEngineService.TestRules;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
-
-import cdp4common.commondata.ClassKind;
-
-class ImageLoaderTestFixture
+public class Box
 {
-    @Test
-    void VerifyGetIcon()
+    private long length;
+    private int height;
+
+    public long GetLength()
     {
-        for (ClassKind classKind : ClassKind.values())
-        {
-            assertNotNull(ImageLoader.GetIcon(classKind));
-        }
-        
-        assertNull(ImageLoader.GetDstIcon());
-        assertNotNull(ImageLoader.GetIcon("icon32.png"));
-        assertNotNull(ImageLoader.GetIcon());
+        return length;
     }
-    
-    @Test
-    void VerifyGetIcon32()
+
+    public int GetHeight()
     {
-        assertNotNull(ImageLoader.GetIcon());
+        return height;
+    }
+
+    public Box(long length, int height)
+    {
+        this.length = length;
+        this.height = height;
     }
 }

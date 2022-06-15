@@ -47,5 +47,9 @@ public class MappingListViewRequirementRowViewModel extends MappingListViewConta
      * Computes the contained rows
      */
     @Override
-    public void ComputeContainedRows() { }
+    public void ComputeContainedRows() 
+    {
+    	// Added comment to satisfy the code smell raised by the rule 1186.
+    	// This method is empty because nothing has to be done there.
+    }
 }

@@ -42,7 +42,7 @@ import io.reactivex.subjects.PublishSubject;
  * 
  * @param TValue the type of the collection this holds
  */
-public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TValue>> implements List<TValue>, Collection<TValue>, RandomAccess, Cloneable
+public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TValue>> implements List<TValue>, Collection<TValue>, RandomAccess
 {
     /**
      * The {@linkplain PublisherSubject} that serves to raise the OnNext event when an item is added to the collection
@@ -101,7 +101,7 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
     @SuppressWarnings("unchecked")
     public boolean remove(Object value)
     {
-        return this.Remove((TValue) value);
+        return this.RemoveOne((TValue) value);
     }
     
     /**
@@ -110,7 +110,7 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
      * @param value the {@linkplain TValue}
      * @return An value indication whether the removal went through
      */
-    public boolean Remove(TValue value)
+    public boolean RemoveOne(TValue value)
     {
         boolean result = this.value.remove(value);
         
@@ -184,7 +184,7 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
      * 
      * @return An {@linkplain Observable} of {@linkplain Boolean}
      */
-    public Observable<Boolean> IsEmpty()
+    public Observable<Boolean> IsEmptyObservable()
     {
         return isEmpty.hide();
     }
@@ -509,7 +509,7 @@ public class ObservableCollection<TValue> extends ObservableValue<ArrayList<TVal
     {
         Objects.requireNonNull(filter);
         
-        ArrayList<TValue> toRemove = new ArrayList<TValue>();
+        ArrayList<TValue> toRemove = new ArrayList<>();
         
         final Iterator<TValue> iterator = iterator();
         

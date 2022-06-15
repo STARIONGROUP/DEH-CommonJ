@@ -106,19 +106,19 @@ public interface IMappingConfigurationDialogViewModel<TSourceElement, TDstElemen
      * 
      * @param mappedElement the {@linkplain MappedElementRowViewModel} that is to be selected
      */
-    void SetSelectedMappedElement(MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement> mappedElement);
+    void SetSelectedMappedElement(MappedElementRowViewModel<DefinedThing, TDstElement> mappedElement);
 
     /**
      * The selected {@linkplain MappedElementRowViewModel}
      * 
      * @return a {@linkplain Observable} of {@linkplain MappedElementRowViewModel}
      */
-    Observable<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> GetSelectedMappedElement();
+    Observable<MappedElementRowViewModel<DefinedThing, TDstElement>> GetSelectedMappedElement();
 
     /**
      * Gets the collection of mapped element
      * 
      * @return {@linkplain ObservableCollection} of {@linkplain MappedElementRowViewModel}
      */
-    ObservableCollection<MappedElementRowViewModel<? extends DefinedThing, ? extends TDstElement>> GetMappedElementCollection();
+    ObservableCollection<MappedElementRowViewModel<DefinedThing, TDstElement>> GetMappedElementCollection();
 }

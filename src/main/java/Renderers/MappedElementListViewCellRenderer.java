@@ -36,6 +36,7 @@ import ViewModels.Rows.MappedElementRowViewModel;
  * The MappedElementListViewCellRenderer is the {@linkplain TableCellRenderer} for the {@linkplain MappedElementListView}
  */
 @SuppressWarnings("serial")
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class MappedElementListViewCellRenderer extends JLabel implements TableCellRenderer
 {
     /**
@@ -64,11 +65,9 @@ public class MappedElementListViewCellRenderer extends JLabel implements TableCe
     {
         Object row = table.getModel().getValueAt(rowIndex, 0);
 
-        MappedElementRowViewModel<?, ?> rowViewModel;
-        
-        if(row instanceof MappedElementRowViewModel && (rowViewModel = (MappedElementRowViewModel<?, ?>)row) != null)
+        if(row instanceof MappedElementRowViewModel)
         {
-            this.UpdateRowStatus(rowViewModel);   
+            this.UpdateRowStatus((MappedElementRowViewModel<?, ?>)row);   
         }
         
         if(isSelected)

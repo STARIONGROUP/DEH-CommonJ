@@ -36,6 +36,7 @@ import ViewModels.Rows.MappedElementRowViewModel;
 /**
  * The {@linkplain MappedElementListViewRendererDataProvider} is the renderer for the {@linkplain MappedElementListView}
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class MappedElementListViewRendererDataProvider extends ObjectBrowserRenderDataProvider
 {
     /**

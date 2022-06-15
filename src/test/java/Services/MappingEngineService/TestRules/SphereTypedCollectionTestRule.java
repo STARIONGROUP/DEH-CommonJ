@@ -1,5 +1,5 @@
 /*
- * DumbRule.java
+ * SphereCollectionTestRule.java
  *
  * Copyright (c) 2020-2021 RHEA System S.A.
  *
@@ -21,15 +21,32 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package Service.MappingEngineService.TestRules;
+package Services.MappingEngineService.TestRules;
+
+import java.util.ArrayList;
 
 import Services.MappingEngineService.MappingRule;
 
-public class DumbRule extends MappingRule<DumbRule, String>
+public final class SphereTypedCollectionTestRule extends MappingRule<SphereTypedCollection, ArrayList<Box>>
 {
+    /**
+     * Transforms a object of type {@linkplain TInput} to another one of type {@linkplain TOutput}
+     * 
+     * @param input the input object to transform
+     * @param clazz the input object type
+     * @return a {@linkplain TOutput} object
+     */
     @Override
-    public String Transform(Object input)
+    public ArrayList<Box> Transform(Object input)
     {
-        return null;
+        SphereTypedCollection spheres = this.CastInput(input);
+        ArrayList<Box> output = new ArrayList<Box>();
+        
+        for (Sphere sphere : spheres)
+        {
+            output.add(new Box(42, 42));
+        }
+        
+        return output;
     }
 }

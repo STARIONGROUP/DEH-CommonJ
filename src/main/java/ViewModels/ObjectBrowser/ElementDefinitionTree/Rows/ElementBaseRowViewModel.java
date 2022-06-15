@@ -39,7 +39,7 @@ public abstract class ElementBaseRowViewModel<TElement extends ElementBase> exte
     /**
      * The {@linkplain ArrayList} of {@linkplain OwnedDefinedThingRowViewModel}
      */
-    protected ObservableCollection<OwnedDefinedThingRowViewModel<?>> containedRows = new ObservableCollection<OwnedDefinedThingRowViewModel<?>>();
+    protected ObservableCollection<OwnedDefinedThingRowViewModel<?>> containedRows = new ObservableCollection<>();
 
     /**
      * Gets the contained row the implementing view model has
