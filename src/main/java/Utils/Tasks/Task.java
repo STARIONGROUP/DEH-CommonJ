@@ -48,7 +48,7 @@ public abstract class Task<TResult>
     public static <T> ObservableTask<T> Create(Callable<T> function, Class<T> clazz)
     {
         CallableTask<T> task = new CallableTask<>(function, clazz);
-        return task.ObservableFunction;
+        return task.observableFunction;
     }
     
     /**
@@ -63,7 +63,7 @@ public abstract class Task<TResult>
     {
         CallableTask<T> task = new CallableTask<>(function, clazz);
         task.Execute();
-        return task.ObservableFunction;
+        return task.observableFunction;
     }
 
     /**
@@ -76,7 +76,7 @@ public abstract class Task<TResult>
     {
         RunnableTask task = new RunnableTask(function);
         task.Execute();        
-        return task.ObservableFunction;
+        return task.observableFunction;
     }
     
     /**
@@ -97,7 +97,7 @@ public abstract class Task<TResult>
     /**
      * The {@linkplain TaskStatus}
      */
-    protected TaskStatus Status;
+    protected TaskStatus status;
 
     /**
      * Gets the {@linkplain TaskStatus}
@@ -106,7 +106,7 @@ public abstract class Task<TResult>
      */
     public TaskStatus GetStatus()
     {
-        return this.Status;  
+        return this.status;  
     }
     
     /**

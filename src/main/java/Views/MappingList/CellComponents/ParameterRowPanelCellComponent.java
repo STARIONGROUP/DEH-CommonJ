@@ -77,19 +77,19 @@ public class ParameterRowPanelCellComponent extends JPanel
         
         this.parameterName = new JLabel("");
         this.parameterName.setHorizontalAlignment(SwingConstants.RIGHT);
-        GridBagConstraints gbc_parameterName = new GridBagConstraints();
-        gbc_parameterName.anchor = GridBagConstraints.WEST;
-        gbc_parameterName.fill = GridBagConstraints.VERTICAL;
-        gbc_parameterName.insets = new Insets(0, 0, 0, 5);
-        gbc_parameterName.gridx = 0;
-        gbc_parameterName.gridy = 0;
-        this.add(this.parameterName, gbc_parameterName);
+        GridBagConstraints gbcParameterName = new GridBagConstraints();
+        gbcParameterName.anchor = GridBagConstraints.WEST;
+        gbcParameterName.fill = GridBagConstraints.VERTICAL;
+        gbcParameterName.insets = new Insets(0, 0, 0, 5);
+        gbcParameterName.gridx = 0;
+        gbcParameterName.gridy = 0;
+        this.add(this.parameterName, gbcParameterName);
         
         this.value = new JLabel("");
-        GridBagConstraints gbc_value = new GridBagConstraints();
-        gbc_value.fill = GridBagConstraints.BOTH;
-        gbc_value.gridx = 1;
-        gbc_value.gridy = 0;
-        this.add(this.value, gbc_value);
+        GridBagConstraints gbcValue = new GridBagConstraints();
+        gbcValue.fill = GridBagConstraints.BOTH;
+        gbcValue.gridx = 1;
+        gbcValue.gridy = 0;
+        this.add(this.value, gbcValue);
     }
 }

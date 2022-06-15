@@ -29,7 +29,7 @@ import org.netbeans.swing.outline.OutlineModel;
 
 import ViewModels.ObjectBrowserBaseViewModel;
 import ViewModels.ObjectBrowser.Interfaces.IRowBaseViewModel;
-import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
+import Views.ObjectBrowser.ObjectBrowser;
 import io.reactivex.Observable;
 
 /**

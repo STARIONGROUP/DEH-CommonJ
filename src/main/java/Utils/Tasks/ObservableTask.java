@@ -34,7 +34,7 @@ public class ObservableTask<TResult>
     /**
      * The {@linkplain TValue} result of the {@linkplain Task}
      */
-    protected Task<TResult> Task;
+    protected Task<TResult> task;
     
     /**
      * The {@linkplain PublisherSubject} that serves to raise the OnNext event
@@ -48,7 +48,7 @@ public class ObservableTask<TResult>
      */
     ObservableTask(Task<TResult> task)
     {
-        this.Task = task;
+        this.task = task;
     }
         
     /**
@@ -64,11 +64,11 @@ public class ObservableTask<TResult>
     /**
      * Raises the onNext
      * 
-     * @param Task the {@linkplain TValue} to assign
+     * @param task the {@linkplain TValue} to assign
      */
     void OnNext() 
     {
-        subject.onNext(this.Task);     
+        subject.onNext(this.task);     
     }
     
     /**
@@ -76,7 +76,7 @@ public class ObservableTask<TResult>
      */
     public void Cancel()
     {
-        this.Task.Cancel();
+        this.task.Cancel();
     }
 
     /**
@@ -84,6 +84,6 @@ public class ObservableTask<TResult>
      */
     public void Run()
     {
-        this.Task.Execute();
+        this.task.Execute();
     }
 }

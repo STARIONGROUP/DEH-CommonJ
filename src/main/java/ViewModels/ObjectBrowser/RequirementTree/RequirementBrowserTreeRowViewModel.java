@@ -23,8 +23,6 @@
  */
 package ViewModels.ObjectBrowser.RequirementTree;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.netbeans.swing.outline.RowModel;
 
 import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementBaseTreeElementViewModel;

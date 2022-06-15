@@ -29,7 +29,6 @@ import java.util.function.Function;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.TableCellRenderer;
 
 import ViewModels.MappingListView.Rows.MappingListViewContainerBaseRowViewModel;
 import Views.MappingList.MappingListView;

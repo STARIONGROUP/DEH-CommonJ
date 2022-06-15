@@ -25,7 +25,6 @@ package ViewModels.ObjectBrowser.ElementDefinitionTree;
 
 import javax.swing.tree.TreeModel;
 
-import HubController.IHubController;
 import ViewModels.ObjectBrowser.BrowserTreeViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.IterationElementDefinitionRowViewModel;
 import cdp4common.engineeringmodeldata.Iteration;

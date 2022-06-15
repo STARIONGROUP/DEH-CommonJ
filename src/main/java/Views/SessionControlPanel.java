@@ -23,31 +23,27 @@
  */
 package Views;
 
-import javax.swing.JPanel;
-
-import Views.Interfaces.IView;
-import javax.swing.JButton;
-
-import java.awt.Component;
 import java.awt.Font;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
-import javax.swing.JSpinner;
-
-import ViewModels.Interfaces.ISessionControlPanelViewModel;
-import ViewModels.Interfaces.IViewModel;
-
-import javax.swing.JProgressBar;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ItemEvent;
 
-import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.text.DefaultFormatter;
+
+import ViewModels.Interfaces.ISessionControlPanelViewModel;
+import ViewModels.Interfaces.IViewModel;
+import Views.Interfaces.IView;
+import cdp4dal.Session;
 
 /**
  * The {@linkplain SessionControlPanel} is the view that contains the common {@linkplain Session} control such as refresh reload
@@ -57,9 +53,9 @@ import javax.swing.text.DefaultFormatter;
 public class SessionControlPanel extends JPanel implements IView<ISessionControlPanelViewModel>
 {
 	/**
-	 * The used font
+	 * The name of the font
 	 */
-    private static final String TAHOMA = "Tahoma";
+    private static final String FONTNAME = "Tahoma";
 
 	/**
      * The {@link ISessionControlPanelViewModel} as the data context of this view
@@ -99,55 +95,55 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
         
         this.connectButton = new JButton("Connect");
         this.connectButton.setToolTipText("Connect to a Hub data source");
-        this.connectButton.setFont(new Font(TAHOMA, Font.PLAIN, 14));
-        GridBagConstraints gbc_connectButton = new GridBagConstraints();
-        gbc_connectButton.anchor = GridBagConstraints.EAST;
-        gbc_connectButton.insets = new Insets(0, 0, 5, 5);
-        gbc_connectButton.gridx = 0;
-        gbc_connectButton.gridy = 0;
-        add(this.connectButton, gbc_connectButton);
+        this.connectButton.setFont(new Font(FONTNAME, Font.PLAIN, 14));
+        GridBagConstraints gbcConnectButton = new GridBagConstraints();
+        gbcConnectButton.anchor = GridBagConstraints.EAST;
+        gbcConnectButton.insets = new Insets(0, 0, 5, 5);
+        gbcConnectButton.gridx = 0;
+        gbcConnectButton.gridy = 0;
+        add(this.connectButton, gbcConnectButton);
         
         this.reloadButton = new JButton("Reload");
         this.reloadButton.setToolTipText("Reload all the data from the Hub");
-        this.reloadButton.setFont(new Font(TAHOMA, Font.PLAIN, 14));
-        GridBagConstraints gbc_reloadButton = new GridBagConstraints();
-        gbc_reloadButton.insets = new Insets(0, 0, 5, 5);
-        gbc_reloadButton.gridx = 1;
-        gbc_reloadButton.gridy = 0;
-        add(this.reloadButton, gbc_reloadButton);
+        this.reloadButton.setFont(new Font(FONTNAME, Font.PLAIN, 14));
+        GridBagConstraints gbcReloadButton = new GridBagConstraints();
+        gbcReloadButton.insets = new Insets(0, 0, 5, 5);
+        gbcReloadButton.gridx = 1;
+        gbcReloadButton.gridy = 0;
+        add(this.reloadButton, gbcReloadButton);
         
         this.refreshButton = new JButton("Refresh");
         this.refreshButton.setToolTipText("Refresh the connection to the Hub");
-        this.refreshButton.setFont(new Font(TAHOMA, Font.PLAIN, 14));
-        GridBagConstraints gbc_refreshButton = new GridBagConstraints();
-        gbc_refreshButton.insets = new Insets(0, 0, 5, 5);
-        gbc_refreshButton.gridx = 2;
-        gbc_refreshButton.gridy = 0;
-        add(this.refreshButton, gbc_refreshButton);
+        this.refreshButton.setFont(new Font(FONTNAME, Font.PLAIN, 14));
+        GridBagConstraints gbcRefreshButton = new GridBagConstraints();
+        gbcRefreshButton.insets = new Insets(0, 0, 5, 5);
+        gbcRefreshButton.gridx = 2;
+        gbcRefreshButton.gridy = 0;
+        add(this.refreshButton, gbcRefreshButton);
         
         JPanel panel = new JPanel();
         panel.setVisible(false);
-        GridBagConstraints gbc_panel = new GridBagConstraints();
-        gbc_panel.anchor = GridBagConstraints.WEST;
-        gbc_panel.insets = new Insets(0, 0, 5, 0);
-        gbc_panel.gridx = 3;
-        gbc_panel.gridy = 0;
-        add(panel, gbc_panel);
-        GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[]{85, 30, 0};
-        gbl_panel.rowHeights = new int[]{23, 0, 0};
-        gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-        gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-        panel.setLayout(gbl_panel);
+        GridBagConstraints gbcPanel = new GridBagConstraints();
+        gbcPanel.anchor = GridBagConstraints.WEST;
+        gbcPanel.insets = new Insets(0, 0, 5, 0);
+        gbcPanel.gridx = 3;
+        gbcPanel.gridy = 0;
+        add(panel, gbcPanel);
+        GridBagLayout gblPanel = new GridBagLayout();
+        gblPanel.columnWidths = new int[]{85, 30, 0};
+        gblPanel.rowHeights = new int[]{23, 0, 0};
+        gblPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        gblPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        panel.setLayout(gblPanel);
         
         this.autoRefreshCheckBox = new JCheckBox("auto refresh");
         this.autoRefreshCheckBox.setToolTipText("Check on to turn on the auto refresh feature");
-        GridBagConstraints gbc_autoRefreshCheckBox = new GridBagConstraints();
-        gbc_autoRefreshCheckBox.anchor = GridBagConstraints.NORTHWEST;
-        gbc_autoRefreshCheckBox.insets = new Insets(0, 0, 5, 5);
-        gbc_autoRefreshCheckBox.gridx = 0;
-        gbc_autoRefreshCheckBox.gridy = 0;
-        panel.add(this.autoRefreshCheckBox, gbc_autoRefreshCheckBox);
+        GridBagConstraints gbcAutoRefreshCheckBox = new GridBagConstraints();
+        gbcAutoRefreshCheckBox.anchor = GridBagConstraints.NORTHWEST;
+        gbcAutoRefreshCheckBox.insets = new Insets(0, 0, 5, 5);
+        gbcAutoRefreshCheckBox.gridx = 0;
+        gbcAutoRefreshCheckBox.gridy = 0;
+        panel.add(this.autoRefreshCheckBox, gbcAutoRefreshCheckBox);
         
         this.autoRefreshTime = new JSpinner();
         autoRefreshTime.setEnabled(false);
@@ -158,20 +154,20 @@ public class SessionControlPanel extends JPanel implements IView<ISessionControl
         DefaultFormatter formatter = (DefaultFormatter) field.getFormatter();
         formatter.setCommitsOnValidEdit(true);
         
-        GridBagConstraints gbc_autoRefreshTime = new GridBagConstraints();
-        gbc_autoRefreshTime.fill = GridBagConstraints.HORIZONTAL;
-        gbc_autoRefreshTime.insets = new Insets(0, 0, 5, 0);
-        gbc_autoRefreshTime.gridx = 1;
-        gbc_autoRefreshTime.gridy = 0;
-        panel.add(this.autoRefreshTime, gbc_autoRefreshTime);
+        GridBagConstraints gbcAutoRefreshTime = new GridBagConstraints();
+        gbcAutoRefreshTime.fill = GridBagConstraints.HORIZONTAL;
+        gbcAutoRefreshTime.insets = new Insets(0, 0, 5, 0);
+        gbcAutoRefreshTime.gridx = 1;
+        gbcAutoRefreshTime.gridy = 0;
+        panel.add(this.autoRefreshTime, gbcAutoRefreshTime);
         
         this.autoRefreshProgressBar = new JProgressBar();
-        GridBagConstraints gbc_autoRefreshProgressBar = new GridBagConstraints();
-        gbc_autoRefreshProgressBar.fill = GridBagConstraints.HORIZONTAL;
-        gbc_autoRefreshProgressBar.gridwidth = 2;
-        gbc_autoRefreshProgressBar.gridx = 0;
-        gbc_autoRefreshProgressBar.gridy = 1;
-        panel.add(this.autoRefreshProgressBar, gbc_autoRefreshProgressBar);
+        GridBagConstraints gbcAutoRefreshProgressBar = new GridBagConstraints();
+        gbcAutoRefreshProgressBar.fill = GridBagConstraints.HORIZONTAL;
+        gbcAutoRefreshProgressBar.gridwidth = 2;
+        gbcAutoRefreshProgressBar.gridx = 0;
+        gbcAutoRefreshProgressBar.gridy = 1;
+        panel.add(this.autoRefreshProgressBar, gbcAutoRefreshProgressBar);
     }
     
     /**

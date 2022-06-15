@@ -25,17 +25,7 @@ package Views.MappingList.CellComponents;
 
 import javax.swing.JTextArea;
 
-import ViewModels.MappingListView.Rows.MappingListViewBaseRowViewModel;
 import ViewModels.MappingListView.Rows.MappingListViewContainerBaseRowViewModel;
-import ViewModels.MappingListView.Rows.HubRows.MappingListViewElementDefinitionRowViewModel;
-import cdp4common.engineeringmodeldata.ElementDefinition;
-import cdp4common.engineeringmodeldata.Parameter;
-import cdp4common.engineeringmodeldata.ParameterValueSet;
-import cdp4common.sitedirectorydata.TextParameterType;
-import cdp4common.types.ValueArray;
-
-import java.awt.GridBagLayout;
-import java.util.Arrays;
 
 /**
 * The {@linkplain RequirementCellComponent} is used to render cells in the mapping list view that represents a requirement

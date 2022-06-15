@@ -36,12 +36,12 @@ public abstract class ImpactViewPanelViewModel
     /**
      * The current instance class {@linkplain Logger}
      */
-    protected Logger Logger = LogManager.getLogger();
+    protected Logger logger = LogManager.getLogger();
     
     /**
      * The {@linkplain IHubController}
      */
-    protected IHubController HubController;
+    protected IHubController hubController;
 
     /**
      * Initializes a new {@linkplain ImpactViewPanelViewModel}
@@ -50,6 +50,6 @@ public abstract class ImpactViewPanelViewModel
      */
     protected ImpactViewPanelViewModel(IHubController hubController)
     {
-        this.HubController = hubController;
+        this.hubController = hubController;
     }
 }

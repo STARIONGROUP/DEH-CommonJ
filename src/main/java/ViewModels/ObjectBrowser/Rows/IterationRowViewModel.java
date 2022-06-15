@@ -57,7 +57,7 @@ public abstract class IterationRowViewModel<TContainedRows extends IRowViewModel
      * @param thing the {@link Iteration}     * 
      * @param parentViewModel the {@linkplain IRowViewModel} parent viewModel
      */
-    public IterationRowViewModel(Iteration thing)
+    protected IterationRowViewModel(Iteration thing)
     {
         super(thing, null);
     }

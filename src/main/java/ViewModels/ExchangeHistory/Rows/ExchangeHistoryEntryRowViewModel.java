@@ -23,11 +23,9 @@
  */
 package ViewModels.ExchangeHistory.Rows;
 
-import ViewModels.ObjectBrowser.Interfaces.IRowBaseViewModel;
-import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
 import java.util.Date;
 
-import ViewModels.ObjectBrowser.Rows.RowViewModel;
+import ViewModels.ObjectBrowser.Interfaces.IRowBaseViewModel;
 import cdp4common.Version;
 
 /**

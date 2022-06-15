@@ -27,8 +27,6 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import Utils.ImageLoader.ImageLoader;
-
 /**
  * The {@linkplain StreamExtensions} provides extensions on {@linkplain Stream}
  */

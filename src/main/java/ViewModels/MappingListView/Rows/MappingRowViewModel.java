@@ -27,10 +27,10 @@ import org.apache.commons.lang3.tuple.Triple;
 
 import Enumerations.MappingDirection;
 import ViewModels.ObjectBrowser.Interfaces.IRowBaseViewModel;
-import ViewModels.Rows.MappedElementRowViewModel;
 import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
+import cdp4common.engineeringmodeldata.Requirement;
 
 /**
  * The {@linkplain MappingRowViewModel} represents a mapping row

@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.jayway.awaitility.Awaitility;
+import org.awaitility.Awaitility;
 
 import HubController.IHubController;
 import Services.NavigationService.INavigationService;
@@ -77,10 +77,10 @@ class SessionControlPanelViewModelTest
         this.viewModel.GetTimeObservable().subscribe(x -> observedTicks.add(x));
         this.viewModel.SetAutoRefresh(5);
 
-        Awaitility.await().atMost(7, SECONDS).until(() ->
+        Awaitility.await().atMost(8, SECONDS).until(() ->
         {
-            assertEquals(8, observedTicks.size());
-            verify(this.hubController, times(1)).Refresh();
+        	return observedTicks.size() == 8;
         });
+        verify(this.hubController, times(1)).Refresh();
     }
 }

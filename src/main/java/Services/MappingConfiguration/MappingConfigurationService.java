@@ -73,12 +73,12 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     /**
      * The {@linkplain IHubController}
      */
-    protected IHubController HubController;
+    protected IHubController hubController;
 
     /**
      * The collection of id correspondence as {@linkplain ImmutableTriple} of {@code Pair<UUID correspondenceId, ExternalIdentifier externalIdentifier, UUID internalId>}
      */
-    protected ArrayList<ImmutableTriple<UUID, TExternalIdentifier, UUID>> Correspondences = new ArrayList<>();
+    protected ArrayList<ImmutableTriple<UUID, TExternalIdentifier, UUID>> correspondences = new ArrayList<>();
 
     /**
      * Backing field for {@linkplain GetExternalIdentifierMap}
@@ -122,12 +122,12 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     /**
      * Initializes a new {@linkplain MappingConfigurationService}
      * 
-     * @param HubController the {@linkplain IHubController}
+     * @param hubController the {@linkplain IHubController}
      * @param externalIdentifierClass the {@linkplain Class} of {@linkplain #TExternalIdentifier}
      */
     protected MappingConfigurationService(IHubController hubController, Class<TExternalIdentifier> externalIdentifierClass)
     {
-        this.HubController = hubController;
+        this.hubController = hubController;
         this.externalIdentifierClass = externalIdentifierClass;
     }
     
@@ -144,7 +144,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
         
         Ref<ExternalIdentifierMap> refExternalIdentifierMap = new Ref<>(ExternalIdentifierMap.class);        
         
-        if(this.HubController.TryGetThingById(this.externalIdentifierMap.getIid(), refExternalIdentifierMap))
+        if(this.hubController.TryGetThingById(this.externalIdentifierMap.getIid(), refExternalIdentifierMap))
         {
             this.SetExternalIdentifierMap(refExternalIdentifierMap.Get().clone(true));
             return;
@@ -201,7 +201,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
         identifierMap.setName(newName);
         identifierMap.setExternalModelName(StringUtils.isBlank(modelName) ? newName : modelName);
         identifierMap.setExternalToolName(toolName);
-        identifierMap.setOwner(this.HubController.GetCurrentDomainOfExpertise());
+        identifierMap.setOwner(this.hubController.GetCurrentDomainOfExpertise());
         
         if(addTheTemporyMapping)
         {
@@ -216,11 +216,11 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
      */
     private void ParseIdCorrespondence()
     {
-        this.Correspondences.clear();
+        this.correspondences.clear();
 
         StopWatch timer = StopWatch.createStarted();
 
-        this.Correspondences.addAll(this.externalIdentifierMap
+        this.correspondences.addAll(this.externalIdentifierMap
                 .getCorrespondence()
                 .stream()
                 .map(x -> ImmutableTriple.of(x.getIid(), new Gson().fromJson(x.getExternalId(), this.externalIdentifierClass), x.getInternalThing()))
@@ -228,7 +228,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
 
         timer.stop();
         
-        this.Logger.info(String.format("%s ExternalIdentifiers deserialized in %s ms", this.Correspondences.size(), timer.getTime(TimeUnit.MILLISECONDS)));
+        this.Logger.info(String.format("%s ExternalIdentifiers deserialized in %s ms", this.correspondences.size(), timer.getTime(TimeUnit.MILLISECONDS)));
     }
 
     /**
@@ -277,7 +277,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
             extraFilter = x -> x != null;
         }
         
-        Optional<UUID> correspondenceIid = this.Correspondences.stream()
+        Optional<UUID> correspondenceIid = this.correspondences.stream()
             .filter(x -> AreTheseEquals(x.getRight(), internalId) 
                     && AreTheseEquals(externalIdentifier.Identifier, x.getMiddle().Identifier)
                     && externalIdentifier.MappingDirection == x.getMiddle().MappingDirection)
