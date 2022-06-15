@@ -24,11 +24,11 @@
 package ViewModels.MappingListView.Rows;
 
 import java.awt.Color;
-import java.net.URL;
 
 import javax.swing.Icon;
 
 import ViewModels.ObjectBrowser.RenderDataProvider.ObjectBrowserRenderDataProvider;
+import Views.MappedElementListView;
 
 /**
  * The {@linkplain MappingListViewCellRendererDataProvider} is the renderer for the {@linkplain MappedElementListView}

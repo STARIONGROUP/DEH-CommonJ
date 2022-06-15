@@ -25,13 +25,11 @@ package ViewModels.MappingListView.Rows.HubRows;
 
 import javax.swing.tree.TreeModel;
 
-import HubController.IHubController;
 import ViewModels.MappingListView.Rows.MappingListViewContainerBaseRowViewModel;
 import ViewModels.ObjectBrowser.BrowserTreeViewModel;
-import ViewModels.ObjectBrowser.RequirementTree.Rows.IterationRequirementRowViewModel;
+import Views.MappingList.MappingListView;
 import cdp4common.commondata.DefinedThing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
-import cdp4common.engineeringmodeldata.Iteration;
 import cdp4common.engineeringmodeldata.Requirement;
 
 /**

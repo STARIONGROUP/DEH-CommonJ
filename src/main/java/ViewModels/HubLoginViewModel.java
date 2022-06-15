@@ -79,11 +79,6 @@ public class HubLoginViewModel implements IHubLoginViewModel
     private boolean isLoginSuccessful;
     
     /**
-     * The default {@link DomainOfExpertise} 
-     */
-    private DomainOfExpertise defaultDomain;
-    
-    /**
      * The {@link GetEngineeringModelSetups}
      */
     private Supplier<Stream<DomainOfExpertise>> domains;
@@ -217,7 +212,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
         EngineeringModelSetup engineeringModelSetup = this.engineeringModelSetups.get()
                 .filter(x -> x.getShortName().equals(selectedEngineeringModelSetupName))
                 .findFirst()
-                .get();
+                .orElse(null);
         
         this.iterationSetups = () -> engineeringModelSetup
             .getIterationSetup()
@@ -280,12 +275,12 @@ public class HubLoginViewModel implements IHubLoginViewModel
             return defaultResult;
         }
         
-        this.defaultDomain = participant.getPerson().getDefaultDomain();
+        DomainOfExpertise defaultDomain = participant.getPerson().getDefaultDomain();
         
         this.domains = () -> participant.getDomain().stream()
                 .sorted((x, y) -> x.getName().compareToIgnoreCase(y.getName()));
         
-        return Pair.of(this.domains.get().map(x -> x.getName()),  this.defaultDomain != null ? this.defaultDomain.getName() : "");
+        return Pair.of(this.domains.get().map(x -> x.getName()),  defaultDomain != null ? defaultDomain.getName() : "");
     }
 
     /**
@@ -314,7 +309,7 @@ public class HubLoginViewModel implements IHubLoginViewModel
                         
         IterationSetup iterationSetup = this.iterationSetups.get().filter(x -> x.getIterationNumber() == selectedIterationNumber).findFirst().orElse(null);
         
-        DomainOfExpertise domainOfExpertise = this.domains.get().filter(x -> x.getName().equals(domainOfExpertiseName)).findFirst().get();
+        DomainOfExpertise domainOfExpertise = this.domains.get().filter(x -> x.getName().equals(domainOfExpertiseName)).findFirst().orElse(null);
         
         return this.hubController.OpenIteration(engineeringModelSetup, iterationSetup, domainOfExpertise);
     }

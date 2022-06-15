@@ -25,7 +25,6 @@ package Views.ContextMenu;
 
 import javax.swing.JPopupMenu;
 
-import ViewModels.Interfaces.IImpactViewContextMenuViewModel;
 import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IView;
 

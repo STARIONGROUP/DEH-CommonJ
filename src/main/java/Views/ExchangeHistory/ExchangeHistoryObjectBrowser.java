@@ -28,7 +28,6 @@ import java.awt.Color;
 import ViewModels.ExchangeHistory.ExchangeHistoryRenderDataProvider;
 import ViewModels.ExchangeHistory.Interfaces.IExchangeHistoryDialogViewModel;
 import ViewModels.Interfaces.IContextMenuViewModel;
-import ViewModels.Interfaces.IHubBrowserContextMenuViewModel;
 import Views.ObjectBrowser.ObjectBrowser;
 import Views.ObjectBrowser.ObjectBrowserBase;
 

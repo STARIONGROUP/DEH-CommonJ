@@ -24,9 +24,6 @@
 package ViewModels.ObjectBrowser.Interfaces;
 
 import Reactive.ObservableCollection;
-import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementBaseTreeElementViewModel;
-import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementGroupRowViewModel;
-import ViewModels.ObjectBrowser.RequirementTree.Rows.RequirementRowViewModel;
 
 /**
  * The {@linkplain IHaveContainedRows} is the interface definition for object browser row view models that have contained rows

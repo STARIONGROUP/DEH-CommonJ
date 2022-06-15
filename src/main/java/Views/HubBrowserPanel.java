@@ -128,32 +128,32 @@ public class HubBrowserPanel extends JPanel
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 2.0, 0.0};
         setLayout(gridBagLayout);
         
-        JPanel SessionControlContainer = new JPanel();
-        GridBagConstraints gbc_SessionControlContainer = new GridBagConstraints();
-        gbc_SessionControlContainer.anchor = GridBagConstraints.NORTH;
-        gbc_SessionControlContainer.insets = new Insets(0, 0, 5, 0);
-        gbc_SessionControlContainer.fill = GridBagConstraints.HORIZONTAL;
-        gbc_SessionControlContainer.gridx = 0;
-        gbc_SessionControlContainer.gridy = 0;
-        add(SessionControlContainer, gbc_SessionControlContainer);
-        SessionControlContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        JPanel sessionControlContainer = new JPanel();
+        GridBagConstraints gbcSessionControlContainer = new GridBagConstraints();
+        gbcSessionControlContainer.anchor = GridBagConstraints.NORTH;
+        gbcSessionControlContainer.insets = new Insets(0, 0, 5, 0);
+        gbcSessionControlContainer.fill = GridBagConstraints.HORIZONTAL;
+        gbcSessionControlContainer.gridx = 0;
+        gbcSessionControlContainer.gridy = 0;
+        add(sessionControlContainer, gbcSessionControlContainer);
+        sessionControlContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
         sessionControlPanel = new SessionControlPanel();
-        SessionControlContainer.add(sessionControlPanel);
+        sessionControlContainer.add(sessionControlPanel);
         
-        JPanel HubBrowserHeaderContainer = new JPanel();
-        GridBagConstraints gbc_HubBrowserHeaderContainer = new GridBagConstraints();
-        gbc_HubBrowserHeaderContainer.fill = GridBagConstraints.BOTH;
-        gbc_HubBrowserHeaderContainer.insets = new Insets(0, 0, 5, 0);
-        gbc_HubBrowserHeaderContainer.gridx = 0;
-        gbc_HubBrowserHeaderContainer.gridy = 1;
-        add(HubBrowserHeaderContainer, gbc_HubBrowserHeaderContainer);
-        GridBagLayout gbl_HubBrowserHeaderContainer = new GridBagLayout();
-        gbl_HubBrowserHeaderContainer.columnWidths = new int[]{189, 0};
-        gbl_HubBrowserHeaderContainer.rowHeights = new int[]{14, 0};
-        gbl_HubBrowserHeaderContainer.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_HubBrowserHeaderContainer.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-        HubBrowserHeaderContainer.setLayout(gbl_HubBrowserHeaderContainer);
+        JPanel hubBrowserHeaderContainer = new JPanel();
+        GridBagConstraints gbcHubBrowserHeaderContainer = new GridBagConstraints();
+        gbcHubBrowserHeaderContainer.fill = GridBagConstraints.BOTH;
+        gbcHubBrowserHeaderContainer.insets = new Insets(0, 0, 5, 0);
+        gbcHubBrowserHeaderContainer.gridx = 0;
+        gbcHubBrowserHeaderContainer.gridy = 1;
+        add(hubBrowserHeaderContainer, gbcHubBrowserHeaderContainer);
+        GridBagLayout gblHubBrowserHeaderContainer = new GridBagLayout();
+        gblHubBrowserHeaderContainer.columnWidths = new int[]{189, 0};
+        gblHubBrowserHeaderContainer.rowHeights = new int[]{14, 0};
+        gblHubBrowserHeaderContainer.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gblHubBrowserHeaderContainer.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+        hubBrowserHeaderContainer.setLayout(gblHubBrowserHeaderContainer);
         
         GridBagConstraints hubBrowserHeaderConstraint = new GridBagConstraints();
         hubBrowserHeaderConstraint.insets = new Insets(0, 10, 0, 10);
@@ -162,23 +162,23 @@ public class HubBrowserPanel extends JPanel
         hubBrowserHeaderConstraint.gridx = 0;
         hubBrowserHeaderConstraint.gridy = 0;
         this.hubBrowserHeader = new HubBrowserHeader();
-        HubBrowserHeaderContainer.add(this.hubBrowserHeader, hubBrowserHeaderConstraint);
+        hubBrowserHeaderContainer.add(this.hubBrowserHeader, hubBrowserHeaderConstraint);
         
-        JTabbedPane HubBrowserTreeViewsContainer = new JTabbedPane(SwingConstants.TOP);
-        GridBagConstraints gbc_HubBrowserTreeViewsContainer = new GridBagConstraints();
-        gbc_HubBrowserTreeViewsContainer.insets = new Insets(0, 0, 5, 0);
-        gbc_HubBrowserTreeViewsContainer.fill = GridBagConstraints.BOTH;
-        gbc_HubBrowserTreeViewsContainer.gridx = 0;
-        gbc_HubBrowserTreeViewsContainer.gridy = 2;
-        this.add(HubBrowserTreeViewsContainer, gbc_HubBrowserTreeViewsContainer);
+        JTabbedPane hubBrowserTreeViewsContainer = new JTabbedPane(SwingConstants.TOP);
+        GridBagConstraints gbcHubBrowserTreeViewsContainer = new GridBagConstraints();
+        gbcHubBrowserTreeViewsContainer.insets = new Insets(0, 0, 5, 0);
+        gbcHubBrowserTreeViewsContainer.fill = GridBagConstraints.BOTH;
+        gbcHubBrowserTreeViewsContainer.gridx = 0;
+        gbcHubBrowserTreeViewsContainer.gridy = 2;
+        this.add(hubBrowserTreeViewsContainer, gbcHubBrowserTreeViewsContainer);
         
         this.elementDefinitionBrowser = new ObjectBrowser();
         this.elementDefinitionBrowser.setBackground(Color.WHITE);
         this.elementDefinitionBrowser.SetContextMenu(new HubBrowserContextMenu(IElementDefinitionBrowserViewModel.class));
-        HubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
+        hubBrowserTreeViewsContainer.addTab("Element Definitions", ImageLoader.GetIcon(ClassKind.Iteration), this.elementDefinitionBrowser, null);
         
         this.requirementBrowser = new ObjectBrowser();
         this.requirementBrowser.SetContextMenu(new HubBrowserContextMenu(IRequirementBrowserViewModel.class));
-        HubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
+        hubBrowserTreeViewsContainer.addTab("Requirements", ImageLoader.GetIcon(ClassKind.RequirementsSpecification), this.requirementBrowser, null);
     }
 }

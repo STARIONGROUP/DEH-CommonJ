@@ -30,7 +30,6 @@ import org.netbeans.swing.outline.DefaultOutlineModel;
 
 import HubController.IHubController;
 import ViewModels.ObjectBrowserViewModel;
-import ViewModels.Interfaces.IContextMenuViewModel;
 import ViewModels.Interfaces.IElementDefinitionBrowserViewModel;
 import ViewModels.Interfaces.IHubBrowserContextMenuViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.ElementDefinitionBrowserTreeRowViewModel;

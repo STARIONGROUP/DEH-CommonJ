@@ -26,11 +26,11 @@ package ViewModels.MappedElementListView.Interfaces;
 import java.util.Collection;
 
 import org.netbeans.swing.outline.OutlineModel;
+
 import ViewModels.Interfaces.IObjectBrowserBaseViewModel;
-import ViewModels.ObjectBrowser.Interfaces.IRowViewModel;
+import ViewModels.MappedElementListView.MappedElementListViewViewModel;
 import ViewModels.Rows.MappedElementRowViewModel;
 import cdp4common.commondata.DefinedThing;
-import cdp4common.commondata.Thing;
 import io.reactivex.Observable;
 
 /**

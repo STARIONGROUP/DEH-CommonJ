@@ -26,10 +26,8 @@ package ViewModels.MappingListView.Renderers;
 import java.awt.Component;
 import java.util.function.Function;
 
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
 import ViewModels.MappingListView.Rows.MappingListViewContainerBaseRowViewModel;
 import Views.MappingList.MappingListView;

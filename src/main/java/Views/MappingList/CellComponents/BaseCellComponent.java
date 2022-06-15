@@ -76,13 +76,13 @@ public abstract class BaseCellComponent extends JPanel
         this.setLayout(gridBagLayout);
         
         this.rootLabel = new JLabel("");
-        GridBagConstraints gbc_rootLabel = new GridBagConstraints();
-        gbc_rootLabel.anchor = GridBagConstraints.WEST;
-        gbc_rootLabel.gridwidth = 2;
-        gbc_rootLabel.insets = new Insets(0, 0, 5, 0);
-        gbc_rootLabel.gridx = 0;
-        gbc_rootLabel.gridy = 0;
-        this.add(this.rootLabel, gbc_rootLabel);
+        GridBagConstraints gbcRootLabel = new GridBagConstraints();
+        gbcRootLabel.anchor = GridBagConstraints.WEST;
+        gbcRootLabel.gridwidth = 2;
+        gbcRootLabel.insets = new Insets(0, 0, 5, 0);
+        gbcRootLabel.gridx = 0;
+        gbcRootLabel.gridy = 0;
+        this.add(this.rootLabel, gbcRootLabel);
 
         this.valueContainer = new JPanel();
         this.valueContainer.setBackground(Color.WHITE);
@@ -90,24 +90,24 @@ public abstract class BaseCellComponent extends JPanel
         
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        GridBagConstraints gbc_list = new GridBagConstraints();
-        gbc_list.anchor = GridBagConstraints.NORTHEAST;
-        gbc_list.insets = new Insets(0, 0, 5, 0);
-        gbc_list.fill = GridBagConstraints.BOTH;
-        gbc_list.gridx = 1;
-        gbc_list.gridy = 1;
+        GridBagConstraints gbcList = new GridBagConstraints();
+        gbcList.anchor = GridBagConstraints.NORTHEAST;
+        gbcList.insets = new Insets(0, 0, 5, 0);
+        gbcList.fill = GridBagConstraints.BOTH;
+        gbcList.gridx = 1;
+        gbcList.gridy = 1;
                 
         JPanel flow = new JPanel();
         flow.setBackground(Color.WHITE);
-        FlowLayout fl_flow = new FlowLayout();
-        fl_flow.setAlignment(FlowLayout.LEFT);
-        flow.setLayout(fl_flow);
+        FlowLayout flFlow = new FlowLayout();
+        flFlow.setAlignment(FlowLayout.LEFT);
+        flow.setLayout(flFlow);
         flow.add(this.valueContainer);
         scrollPane.add(flow);
         scrollPane.getViewport().setBackground(Color.WHITE);
         scrollPane.setViewportView(flow);
         
-        this.add(scrollPane, gbc_list);
+        this.add(scrollPane, gbcList);
     }
     
     /**
