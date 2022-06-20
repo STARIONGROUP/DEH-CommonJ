@@ -187,6 +187,7 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
              * @param event the {@linkplain MouseEvent}
              */
             @Override
+            @Annotations.ExludeFromCodeCoverageGeneratedReport
             public void mouseClicked(MouseEvent event)
             {
                 OnSelectionChanged();

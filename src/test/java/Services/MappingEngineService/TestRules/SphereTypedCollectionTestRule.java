@@ -42,10 +42,9 @@ public final class SphereTypedCollectionTestRule extends MappingRule<SphereTyped
         SphereTypedCollection spheres = this.CastInput(input);
         ArrayList<Box> output = new ArrayList<Box>();
         
-        for (Sphere sphere : spheres)
-        {
-            output.add(new Box(42, 42));
-        }
+        for (int i = 0; i < spheres.size(); i++) {
+			output.add(new Box(42, 42));
+		}
         
         return output;
     }

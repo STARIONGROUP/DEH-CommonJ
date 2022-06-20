@@ -235,6 +235,7 @@ public class HubController implements IHubController
      * @return A {@link Boolean} indicating whether opening the session succeeded
      */
     @Override
+    @Annotations.ExludeFromCodeCoverageGeneratedReport
     public Boolean Open(Credentials credentials)
     {
         this.session = new SessionImpl(new CdpServicesDal(), credentials); 
@@ -651,6 +652,7 @@ public class HubController implements IHubController
      * @throws TransactionException
      */
     @Override
+    @Annotations.ExludeFromCodeCoverageGeneratedReport
     public Pair<Iteration, ThingTransaction> GetIterationTransaction() throws TransactionException
     {
         Iteration iterationClone = this.GetOpenIteration().clone(false);

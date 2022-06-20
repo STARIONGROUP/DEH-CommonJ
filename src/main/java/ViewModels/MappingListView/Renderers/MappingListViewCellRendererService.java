@@ -38,6 +38,7 @@ import Views.MappingList.CellComponents.RequirementCellComponent;
 /**
  * The {@linkplain MappingListViewCellRendererService} is there to provide the cell's renderer components to display in the mapping list view
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class MappingListViewCellRendererService
 {
     /**

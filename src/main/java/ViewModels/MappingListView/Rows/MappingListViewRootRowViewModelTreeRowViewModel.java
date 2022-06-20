@@ -30,6 +30,7 @@ import ViewModels.Rows.BaseTreeRowModel;
 /**
  * The {@linkplain MappingListViewRootRowViewModelTreeRowViewModel} is the {@linkplain RowModel} for a MappingListViewElementDefinition row browser
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class MappingListViewRootRowViewModelTreeRowViewModel extends BaseTreeRowModel implements RowModel
 {
     /**

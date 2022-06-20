@@ -44,6 +44,7 @@ import cdp4common.commondata.ClassKind;
  * The {@linkplain BaseCellComponent} is the base view for the {@linkplain ElementCellComponent} and the {@linkplain RequirementCellComponent}
  */
 @SuppressWarnings("serial")
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public abstract class BaseCellComponent extends JPanel
 {
     /**

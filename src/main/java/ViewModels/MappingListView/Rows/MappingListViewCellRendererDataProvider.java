@@ -33,6 +33,7 @@ import Views.MappedElementListView;
 /**
  * The {@linkplain MappingListViewCellRendererDataProvider} is the renderer for the {@linkplain MappedElementListView}
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class MappingListViewCellRendererDataProvider extends ObjectBrowserRenderDataProvider
 {
     /**
