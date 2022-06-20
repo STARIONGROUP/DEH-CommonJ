@@ -61,7 +61,7 @@ class MappingConfigurationServiceTest
 	{
 		this.hubController = mock(IHubController.class);
 
-		this.service = new MappingConfigurationService<>(this.hubController, ExternalIdentifier.class)
+		this.service = new MappingConfigurationService<Sphere, ExternalIdentifier>(this.hubController, ExternalIdentifier.class)
 		{
 			@Override
 			public ExternalIdentifierMap CreateExternalIdentifierMap(String newName, String modelName,
