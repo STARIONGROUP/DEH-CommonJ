@@ -27,6 +27,8 @@ import java.awt.Color;
 
 import javax.swing.Icon;
 
+import org.netbeans.swing.outline.RenderDataProvider;
+
 import ViewModels.ObjectBrowser.RenderDataProvider.ObjectBrowserRenderDataProvider;
 import Views.MappedElementListView;
 
@@ -34,7 +36,7 @@ import Views.MappedElementListView;
  * The {@linkplain MappingListViewCellRendererDataProvider} is the renderer for the {@linkplain MappedElementListView}
  */
 @Annotations.ExludeFromCodeCoverageGeneratedReport
-public class MappingListViewCellRendererDataProvider extends ObjectBrowserRenderDataProvider
+public class MappingListViewCellRendererDataProvider extends ObjectBrowserRenderDataProvider implements RenderDataProvider
 {
     /**
      * Gets the specified row view model node name
@@ -52,19 +54,7 @@ public class MappingListViewCellRendererDataProvider extends ObjectBrowserRender
         
         return "";
     }
-    
-    /**
-     * Gets an value indicating to the tree whether the display name for this object should use HTMLrendering
-     * 
-     * @param rowViewModel the row view model
-     * @return a {@linkplain boolean}
-     */
-    @Override
-    public boolean isHtmlDisplayName(Object rowViewModel)
-    {
-        return true;
-    }
-
+  
     /**
      * Gets the background color to be used for rendering this node. Returns
      * null if the standard table background or selected color should be used.
@@ -74,31 +64,6 @@ public class MappingListViewCellRendererDataProvider extends ObjectBrowserRender
      */
     @Override
     public Color getBackground(Object rowViewModel)
-    {
-        return null;
-    }
-
-    /**
-     * Gets the foreground color to be used for rendering this node. Returns
-     * null if the standard table foreground or selected color should be used.
-     * 
-     * @param rowViewModel the row view model
-     * @return a {@linkplain Color}
-     */
-    @Override
-    public Color getForeground(Object rowViewModel)
-    {
-        return null;
-    }
-
-    /**
-     * Gets a description for this object suitable for use in a tool tip. 
-     * 
-     * @param rowViewModel the row view model
-     * @return a {@linkplain String}
-     */
-    @Override
-    public String getTooltipText(Object rowViewModel)
     {
         return null;
     }
