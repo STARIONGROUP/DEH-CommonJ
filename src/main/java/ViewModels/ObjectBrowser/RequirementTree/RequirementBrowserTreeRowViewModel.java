@@ -64,7 +64,7 @@ public class RequirementBrowserTreeRowViewModel extends BaseTreeRowModel impleme
                 case 0 : return element.GetName();
                 case 1 : return element.GetDefinition();           
                 case 2 : return element.GetOwnerShortName();     
-                default : assert false;
+                default : return "";
             }
         }
         
@@ -80,15 +80,7 @@ public class RequirementBrowserTreeRowViewModel extends BaseTreeRowModel impleme
     @Override
     public Class<?> getColumnClass(int column)
     {
-        switch (column)
-        {
-            case 0 : return String.class;
-            case 1 : return String.class;
-            case 2 : return String.class;
-            default : assert false;
-        }
-        
-        return null;
+    	return column > 2 ? null : String.class;
     }
 
     /**
@@ -105,9 +97,7 @@ public class RequirementBrowserTreeRowViewModel extends BaseTreeRowModel impleme
             case 0 : return "Name";
             case 1 : return "Definition";
             case 2 : return "Owner Name";
-            default : assert false;
+            default : return null;
         }
-        
-        return null;
     }
 }

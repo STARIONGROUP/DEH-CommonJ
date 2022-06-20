@@ -121,12 +121,12 @@ public class HubBrowserPanel extends JPanel
      */
     private void initialize()
     {
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{0, 0};
-        gridBagLayout.rowHeights = new int[] {40, 80, 187, 0};
-        gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 2.0, 0.0};
-        setLayout(gridBagLayout);
+        GridBagLayout gridLayout = new GridBagLayout();
+        gridLayout.columnWidths = new int[]{0, 0};
+        gridLayout.rowHeights = new int[] {40, 80, 187, 0};
+        gridLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gridLayout.rowWeights = new double[]{0.0, 0.0, 2.0, 0.0};
+        setLayout(gridLayout);
         
         JPanel sessionControlContainer = new JPanel();
         GridBagConstraints gbcSessionControlContainer = new GridBagConstraints();
