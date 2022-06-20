@@ -23,7 +23,9 @@
  */
 package Services.NavigationService;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.swing.JFrame;
 
@@ -32,7 +34,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import App.AppContainer;
-import Services.NavigationService.NavigationService;
 import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IDialog;
 import Views.Interfaces.IView;
@@ -76,6 +77,7 @@ class NavigationServiceTest
         assertDoesNotThrow(() -> this.navigationService.Show(new FakeWindow() {}));
     }
 
+    @Annotations.ExludeFromCodeCoverageGeneratedReport
     private IDialog<IViewModel, Boolean> GenerateDialog()
     {
         return new IDialog<IViewModel, Boolean>() {

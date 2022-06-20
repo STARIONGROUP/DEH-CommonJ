@@ -32,6 +32,7 @@ import cdp4common.Version;
 /**
  * The {@linkplain MappedElementListViewTreeRowViewModel} is the {@linkplain RowModel} implementation for the {@linkplain CapellaObjectBrowser}
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class LocalExchangeHistoryTreeRowViewModel extends BaseTreeRowModel implements RowModel
 {
     /**

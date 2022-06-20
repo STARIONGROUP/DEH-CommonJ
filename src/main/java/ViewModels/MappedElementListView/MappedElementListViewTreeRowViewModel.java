@@ -33,6 +33,7 @@ import ViewModels.Rows.MappedElementRowViewModel;
 /**
  * The {@linkplain MappedElementListViewTreeRowViewModel} is the {@linkplain RowModel} implementation for the {@linkplain CapellaObjectBrowser}
  */
+ @Annotations.ExludeFromCodeCoverageGeneratedReport
 public class MappedElementListViewTreeRowViewModel extends BaseTreeRowModel implements RowModel
 {    
     /**

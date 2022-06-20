@@ -36,6 +36,7 @@ import cdp4common.engineeringmodeldata.Requirement;
  * The MappedElementListViewCellRenderer is the {@linkplain TableCellRenderer} for the {@linkplain MappedElementListView} where the represented element is an {@linkplain ElementDefinition}
  */
 @SuppressWarnings("serial")
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class MappingListViewDefinedThingCellRenderer extends MappingListViewElementBaseCellRenderer<DefinedThing>
 {
     /**

@@ -33,6 +33,7 @@ import cdp4common.engineeringmodeldata.Requirement;
  * The MappingListViewDefinedThingCellEditor is the {@linkplain DefaultTableCellEditor} for the 
  * {@linkplain MappedElementListView} where the represented element is an {@linkplain DefinedThing}
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 @SuppressWarnings("serial")
 public class MappingListViewDefinedThingCellEditor extends MappingListViewElementBaseCellEditor<DefinedThing>
 {

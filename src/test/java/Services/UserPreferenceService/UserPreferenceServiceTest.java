@@ -23,7 +23,11 @@
  */
 package Services.UserPreferenceService;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,10 +36,6 @@ import java.lang.reflect.Field;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import Services.UserPreferenceService.SavedServerConnection;
-import Services.UserPreferenceService.UserPreference;
-import Services.UserPreferenceService.UserPreferenceService;
 
 class UserPreferenceServiceTest
 {

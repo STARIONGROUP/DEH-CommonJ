@@ -35,6 +35,7 @@ import ViewModels.ExchangeHistory.Rows.ExchangeHistoryTimeStampRowViewModel;
 /**
  * The {@linkplain ExchangeHistoryRenderDataProvider} is the {@linkplain RenderDataProvider} for {@linkplain ExchangeHistoryDialog} object browser
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class ExchangeHistoryRenderDataProvider implements RenderDataProvider
 {    
     /**
@@ -105,8 +106,8 @@ public class ExchangeHistoryRenderDataProvider implements RenderDataProvider
     }
 
     /**
-     * Gets the background color to be used for rendering this node. Returns
-     * null if the standard table background or selected color should be used.
+     * Gets the icon to be used for rendering this node. Returns
+     * null if the row corresponds to a {@linkplain ExchangeHistoryTimeStampRowViewModel}
      * 
      * @param rowViewModel the row view model
      * @return a {@linkplain Icon}

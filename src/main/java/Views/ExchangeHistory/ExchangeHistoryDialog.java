@@ -39,6 +39,7 @@ import Views.Interfaces.IDialog;
  * The {@linkplain ExchangeHistoryDialog} is the view that displays all exchange history entries
  */
 @SuppressWarnings("serial")
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class ExchangeHistoryDialog extends BaseDialog<Boolean> implements IDialog<IExchangeHistoryDialogViewModel, Boolean>
 {
     /**

@@ -25,11 +25,16 @@ package ViewModels.ObjectBrowser.ElementDefinitionTree;
 
 import org.netbeans.swing.outline.RowModel;
 
+import ViewModels.ObjectBrowser.ElementDefinitionBrowserViewModel;
 import ViewModels.ObjectBrowser.ElementDefinitionTree.Rows.Parameters.ParameterValueBaseRowViewModel;
 import ViewModels.ObjectBrowser.Rows.IterationRowViewModel;
 import ViewModels.ObjectBrowser.Rows.OwnedDefinedThingRowViewModel;
 import ViewModels.Rows.BaseTreeRowModel;
 
+/**
+ * The {@linkplain ElementDefinitionBrowserTreeRowViewModel} is the {@linkplain RowModel} for the {@linkplain ElementDefinitionBrowserViewModel}
+ */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class ElementDefinitionBrowserTreeRowViewModel extends BaseTreeRowModel implements RowModel
 {    
     /**
