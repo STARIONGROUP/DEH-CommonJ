@@ -23,8 +23,8 @@
 */
 package ViewModels.MappingListView;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -65,7 +65,7 @@ class MappingListViewViewModelTest
 		when(this.dstController.GetHubMapResult()).thenReturn(this.hubMapResult);
 		when(this.hubController.GetIsSessionOpen()).thenReturn(false, true, false, true);
 
-		this.viewModel = new MappingListViewViewModel<>(this.dstController, this.hubController)
+		this.viewModel = new MappingListViewViewModel<IDstControllerBase<Sphere>>(this.dstController, this.hubController)
 		{
 			@Override
 			protected void UpdateBrowserTrees(Boolean isConnected)
