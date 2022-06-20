@@ -52,7 +52,7 @@ import cdp4dal.exceptions.TransactionException;
 import cdp4dal.operations.ThingTransaction;
 
 /**
- * The {@linkplain MappingConfigurationService} is the base abstract class for concrete implementations in adapters 
+ * The {@linkplain MappingConfigurationServiceTest} is the base abstract class for concrete implementations in adapters 
  * that take care of handling all operation related to saving and loading configured mapping.
  * 
  * @param <TDstElement> the type of element the dst adapter works with
@@ -68,7 +68,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     /**
      * The current class {@linkplain Logger}
      */
-    protected Logger Logger = LogManager.getLogger();
+    protected Logger logger = LogManager.getLogger();
     
     /**
      * The {@linkplain IHubController}
@@ -86,7 +86,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     private ExternalIdentifierMap externalIdentifierMap = new ExternalIdentifierMap();
         
     /**
-     * Gets the {@linkplain ExternalIdentifierMap} the {@linkplain MappingConfigurationService} works with
+     * Gets the {@linkplain ExternalIdentifierMap} the {@linkplain MappingConfigurationServiceTest} works with
      * 
      * @return a {@linkplain ExternalIdentifierMap}
      */
@@ -120,7 +120,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     }
     
     /**
-     * Initializes a new {@linkplain MappingConfigurationService}
+     * Initializes a new {@linkplain MappingConfigurationServiceTest}
      * 
      * @param hubController the {@linkplain IHubController}
      * @param externalIdentifierClass the {@linkplain Class} of {@linkplain #TExternalIdentifier}
@@ -150,7 +150,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
             return;
         }
         
-        this.Logger.error(String.format("The %s was unable to reload the ExternalIdentifierMap from the cache.", this.getClass().getSimpleName()));
+        this.logger.error(String.format("The %s was unable to reload the ExternalIdentifierMap from the cache.", this.getClass().getSimpleName()));
     }
         
     /**
@@ -165,7 +165,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     {
         if(this.IsTheCurrentIdentifierMapTemporary())
         {
-            this.Logger.error(String.format("The current mapping (%s correspondences) will not be saved, "
+            this.logger.error(String.format("The current mapping (%s correspondences) will not be saved, "
                     + "as it is tempary until the user creates one or loads an existing one.",
                     this.externalIdentifierMap.getCorrespondence().size()));
             
@@ -228,7 +228,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
 
         timer.stop();
         
-        this.Logger.info(String.format("%s ExternalIdentifiers deserialized in %s ms", this.correspondences.size(), timer.getTime(TimeUnit.MILLISECONDS)));
+        this.logger.info(String.format("%s ExternalIdentifiers deserialized in %s ms", this.correspondences.size(), timer.getTime(TimeUnit.MILLISECONDS)));
     }
 
     /**
@@ -258,7 +258,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
         }
         catch (InstantiationException | IllegalAccessException exception)
         {
-            this.Logger.catching(exception);
+            this.logger.catching(exception);
         }      
     }
     

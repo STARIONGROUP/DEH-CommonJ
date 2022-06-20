@@ -36,7 +36,7 @@ import cdp4dal.exceptions.TransactionException;
 import cdp4dal.operations.ThingTransaction;
 
 /**
- * The {@linkplain IMappingConfigurationService} is the interface definition for the {@linkplain MappingConfigurationService}
+ * The {@linkplain IMappingConfigurationService} is the interface definition for the {@linkplain MappingConfigurationServiceTest}
  * 
  * @param <TExternalIdentifier> the type of {@linkplain ExternalIdentifier} the dst adapter uses
  */
@@ -82,7 +82,7 @@ public interface IMappingConfigurationService<TExternalIdentifier extends Extern
     void SetExternalIdentifierMap(ExternalIdentifierMap externalIdentifierMap);
 
     /**
-     * Gets the {@linkplain ExternalIdentifierMap} the {@linkplain MappingConfigurationService} works with
+     * Gets the {@linkplain ExternalIdentifierMap} the {@linkplain MappingConfigurationServiceTest} works with
      * 
      * @return a {@linkplain ExternalIdentifierMap}
      */

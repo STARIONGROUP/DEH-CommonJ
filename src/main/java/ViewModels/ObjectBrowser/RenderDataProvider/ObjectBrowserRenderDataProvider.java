@@ -43,6 +43,7 @@ import cdp4common.commondata.ClassKind;
  * The {@linkplain ObjectBrowserRenderDataProvider} is the {@linkplain RenderDataProvider} for the element definition tree
  * It is used mainly for styling the tree
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class ObjectBrowserRenderDataProvider implements RenderDataProvider
 {
     /**

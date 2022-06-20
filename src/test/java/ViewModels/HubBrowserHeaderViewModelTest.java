@@ -23,12 +23,11 @@
  */
 package ViewModels;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -42,8 +41,6 @@ import cdp4common.sitedirectorydata.DomainOfExpertise;
 import cdp4common.sitedirectorydata.EngineeringModelSetup;
 import cdp4common.sitedirectorydata.IterationSetup;
 import cdp4common.sitedirectorydata.Person;
-import io.reactivex.Scheduler;
-import io.reactivex.schedulers.Schedulers;
 
 class HubBrowserHeaderViewModelTest
 {
@@ -62,13 +59,15 @@ class HubBrowserHeaderViewModelTest
         iterationSetup.setIterationNumber(42);
         EngineeringModelSetup engineeringModelSetup = new EngineeringModelSetup();
         engineeringModelSetup.setName("model");
-        EngineeringModel engineeringModel = new EngineeringModel();
-        engineeringModel.setEngineeringModelSetup(engineeringModelSetup);
         
-        this.iteration = new Iteration();
-        this.iteration.setIterationSetup(iterationSetup);
-        
-        engineeringModel.getIteration().add(iteration);
+        try (EngineeringModel engineeringModel = new EngineeringModel()) {
+			engineeringModel.setEngineeringModelSetup(engineeringModelSetup);
+			
+			this.iteration = new Iteration();
+			this.iteration.setIterationSetup(iterationSetup);
+			
+			engineeringModel.getIteration().add(iteration);
+		}
         
         this.hubController = mock(IHubController.class);
                 

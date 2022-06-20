@@ -36,6 +36,7 @@ import ViewModels.MappingListView.Rows.MappingRowViewModel;
 /**
  * The {@linkplain MappingListViewRendererDataProvider} is the {@linkplain RenderDataProvider} for {@linkplain RenderDataProvider} object browser
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class MappingListViewRendererDataProvider implements RenderDataProvider
 {
     /**

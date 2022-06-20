@@ -47,7 +47,6 @@ import cdp4common.commondata.DefinedThing;
 import cdp4common.commondata.Thing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 import cdp4common.engineeringmodeldata.Requirement;
-import cdp4common.engineeringmodeldata.RequirementsSpecification;
 import io.reactivex.Observable;
 
 /**
@@ -245,11 +244,6 @@ public abstract class MappingConfigurationDialogViewModel<TSourceElement, TDstEl
                 && this.selectedMappedElement.Value().GetTThingClass().isAssignableFrom(ElementDefinition.class))
         {
             this.SetHubElement(thing, ElementDefinition.class);
-        }
-        else if(thing instanceof RequirementsSpecification
-                && this.selectedMappedElement.Value().GetTThingClass().isAssignableFrom(RequirementsSpecification.class))
-        {
-            this.SetHubElement(thing, RequirementsSpecification.class);
         }
         else if(thing instanceof Requirement
                 && this.selectedMappedElement.Value().GetTThingClass().isAssignableFrom(Requirement.class))

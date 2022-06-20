@@ -32,10 +32,11 @@ import cdp4common.commondata.DefinedThing;
 import cdp4common.engineeringmodeldata.ElementDefinition;
 
 /**
- * The {@linkplain MappedElementListViewTreeRowViewModel} is the {@linkplain RowModel} implementation for the {@linkplain CapellaObjectBrowser}
+ * The {@linkplain MappedElementListViewTreeRowViewModel} is the {@linkplain RowModel} implementation for the {@linkplain MappingListViewViewModel}
  * 
  * @param <TDstElement> the type of DST element that maps to an {@linkplain ElementDefinition}
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class MappingListViewTreeRowViewModel<TDstElement> extends BaseTreeRowModel implements RowModel
 {
     /**

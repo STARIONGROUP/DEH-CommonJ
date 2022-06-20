@@ -31,6 +31,7 @@ import ViewModels.Rows.BaseTreeRowModel;
 /**
  * The {@linkplain RequirementBrowserTreeRowViewModel} is the {@linkplain RowModel} for the requirements browser
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class RequirementBrowserTreeRowViewModel extends BaseTreeRowModel implements RowModel
 {
     /**

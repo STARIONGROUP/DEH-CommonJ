@@ -83,30 +83,18 @@ public class ObservableValue<TValue>
     }
 
     /**
-     * Sets the value
+     * Sets the value. Does not fire "onNext" if value equals null due to Rx implementation.
      * 
      * @param value the {@linkplain TValue} to assign
      */
     public void Value(TValue value) 
     {
-        try
-        {
-            if(value == null)
-            {
-                subject.onNext(this.value);
-            }
-            
-            this.value = value;
+    	this.value = value;
+
+    	if(this.value != null)
+    	{
             subject.onNext(value);
-            
-        } 
-        catch (Exception exception)
-        {
-            PublishSubject<TValue> newSubject = GetNewSubject();
-            this.subject.onErrorResumeNext(newSubject);
-            this.subject.onError(exception);
-            this.subject = newSubject;
-        }        
+    	}
     }
 
     /**
@@ -146,15 +134,5 @@ public class ObservableValue<TValue>
      */
     public ObservableValue()
     {
-    }
-
-    /**
-     * Gets a new {@linkplain PublishSubject}
-     * 
-     * @return a {@linkplain PublishSubject}
-     */
-    private PublishSubject<TValue> GetNewSubject()
-    {
-        return PublishSubject.create();
     }
 }

@@ -24,8 +24,9 @@
 package ViewModels;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -34,10 +35,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import org.awaitility.Awaitility;
 
 import HubController.IHubController;
 import Services.NavigationService.INavigationService;
@@ -58,8 +58,18 @@ class SessionControlPanelViewModelTest
         this.hubController = mock(IHubController.class);    
         this.navigationService = mock(INavigationService.class);
         when(this.navigationService.ShowDialog(any(HubLogin.class))).thenReturn(true);
+        when(this.hubController.GetIsSessionOpen()).thenReturn(false, true);
+        when(this.hubController.Refresh()).thenReturn(true);
+        when(this.hubController.Reload()).thenReturn(true);
         
         this.viewModel = new SessionControlPanelViewModel(this.hubController, this.navigationService);
+    }
+    
+    @Test
+    void VerifyIsConnected()
+    {
+    	assertFalse(this.viewModel.GetIsConnected());
+    	assertTrue(this.viewModel.GetIsConnected());
     }
 
     @Test
@@ -82,5 +92,14 @@ class SessionControlPanelViewModelTest
         	return observedTicks.size() == 8;
         });
         verify(this.hubController, times(1)).Refresh();
+    }
+    
+    @Test
+    void VerifySessionRefresh() 
+    {
+    	assertDoesNotThrow(() -> this.viewModel.Refresh());
+    	assertDoesNotThrow(() -> this.viewModel.Reload());
+    	verify(this.hubController, times(1)).Refresh();
+    	verify(this.hubController, times(1)).Reload();
     }
 }
