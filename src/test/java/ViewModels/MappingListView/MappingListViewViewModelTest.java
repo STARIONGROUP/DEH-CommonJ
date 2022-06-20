@@ -3,7 +3,7 @@
 *
 * Copyright (c) 2020-2022 RHEA System S.A.
 *
-* Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski, Antoine Théate
+* Author: Sam GerenÃ©, Alex Vorobiev, Nathanael Smiechowski, Antoine ThÃ©ate
 *
 * This file is part of DEH-CommonJ
 *
@@ -65,8 +65,7 @@ class MappingListViewViewModelTest
 		when(this.dstController.GetHubMapResult()).thenReturn(this.hubMapResult);
 		when(this.hubController.GetIsSessionOpen()).thenReturn(false, true, false, true);
 
-		this.viewModel = new MappingListViewViewModel<>(this.dstController,
-				this.hubController)
+		this.viewModel = new MappingListViewViewModel<>(this.dstController, this.hubController)
 		{
 			@Override
 			protected void UpdateBrowserTrees(Boolean isConnected)
