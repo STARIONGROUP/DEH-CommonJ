@@ -67,4 +67,14 @@ public interface INavigationService
      * @return a {@link TResult} instance
      */
     <TViewModel extends IViewModel, TResult> TResult ShowDialog(IDialog<TViewModel, TResult> window, TViewModel viewModel);
+    
+    /**
+     *  Shows a confirm dialog and returns the dialog result
+     * 
+     * @param message The message to display 
+     * @param title The title of the dialog
+     * @param options The options to apply for confirmation
+     * @return The confirm dialog result
+     */
+    int ShowConfirmDialog(String message, String title, int options);
 }

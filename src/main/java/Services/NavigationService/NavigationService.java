@@ -24,6 +24,7 @@
 package Services.NavigationService;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -119,4 +120,19 @@ public final class NavigationService implements INavigationService
         
         window.SetDataContext(viewModel);
     }
+
+    /**
+     *  Shows a confirm dialog and returns the dialog result
+     * 
+     * @param message The message to display 
+     * @param title The title of the dialog
+     * @param options The options to apply for confirmation
+     * @return The confirm dialog result
+     */
+	@Override
+	@Annotations.ExludeFromCodeCoverageGeneratedReport
+	public int ShowConfirmDialog(String message, String title, int options)
+	{
+		return JOptionPane.showConfirmDialog(null, message, title, options);
+	}
 }
