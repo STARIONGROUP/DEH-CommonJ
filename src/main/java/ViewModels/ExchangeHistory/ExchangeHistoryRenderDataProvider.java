@@ -29,6 +29,7 @@ import org.netbeans.swing.outline.RenderDataProvider;
 
 import Renderers.DefaultRenderDataProvider;
 import Utils.ImageLoader.ImageLoader;
+import ViewModels.ExchangeHistory.Rows.ExchangeHistoryEntryRowViewModel;
 import ViewModels.ExchangeHistory.Rows.ExchangeHistoryTimeStampRowViewModel;
 import Views.ExchangeHistory.ExchangeHistoryDialog;
 
@@ -53,6 +54,10 @@ public class ExchangeHistoryRenderDataProvider extends DefaultRenderDataProvider
 		{
 			return String.format("<html><b>%s</b></html>",
 					((ExchangeHistoryTimeStampRowViewModel) rowViewModel).GetName());
+		}
+		else if (rowViewModel instanceof ExchangeHistoryEntryRowViewModel && ((ExchangeHistoryEntryRowViewModel)rowViewModel).GetNodeName() != null)
+		{
+		    return ((ExchangeHistoryEntryRowViewModel)rowViewModel).GetNodeName();
 		}
 
 		return "";
