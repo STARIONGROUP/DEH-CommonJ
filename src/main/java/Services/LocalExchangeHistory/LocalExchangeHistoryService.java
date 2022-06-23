@@ -151,7 +151,7 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
         String newValueString = String.format("%s %s [%s]", prefix, newValueRepresentation, scale);
         String valueToUpdateString = String.format("%s %s [%s]", prefix, oldValueRepresentation, scale);
         
-        this.Append(String.format("Value: [%s] from Parameter [%s] has been updated to [%s]", valueToUpdateString, parameter.modelCode(null), newValueString));
+        this.Append(parameter.modelCode(null), String.format("Value: [%s] from Parameter [%s] has been updated to [%s]", valueToUpdateString, parameter.modelCode(null), newValueString));
     }
     
     /**
@@ -197,7 +197,7 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
         }
         else
         {
-            this.Append(String.format("%s %s with Id: %s has been %sD", thing.getClassKind(), thing.getUserFriendlyName(), thing.getIid(), changeKind));
+            this.Append(thing.getUserFriendlyName(), String.format("%s %s with Id: %s has been %sD", thing.getClassKind(), thing.getUserFriendlyName(), thing.getIid(), changeKind));
         }
     }
 
@@ -209,7 +209,7 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
      */
     private void Append(NamedThing thing, ChangeKind changeKind)
     {
-        this.Append(String.format("%s %s has been %sD", ((Thing)thing).getClassKind(), thing.getName(), changeKind));
+        this.Append(thing.getName(), String.format("%s %s has been %sD", ((Thing)thing).getClassKind(), thing.getName(), changeKind));
     }
     
     /**
@@ -221,21 +221,23 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
     @Override
     public void Append(ParameterOrOverrideBase parameter, ChangeKind changeKind)
     {
-        this.Append(String.format("%s [%s] from [%s] has been %sD", parameter.getClassKind(), parameter.getParameterType().getName(), parameter.modelCode(null), changeKind));
+        this.Append(parameter.modelCode(null), String.format("%s [%s] from [%s] has been %sD", parameter.getClassKind(), parameter.getParameterType().getName(), parameter.modelCode(null), changeKind));
     }
 
     /**
      * Append to the history
      * 
      * @param message the {@linkplain String} message
+     * @param nodeName the {@linkplain String} node name to display for the node column
      */
     @Override
-    public void Append(String message)
+    public void Append(String nodeName, String message)
     {
         ExchangeHistoryEntryRowViewModel entry = new ExchangeHistoryEntryRowViewModel();
         entry.SetMessage(message);
         entry.SetPerson(this.hubController.GetActivePerson().getName());
         entry.SetDomain(this.hubController.GetCurrentDomainOfExpertise().getShortName());
+        entry.SetNodeName(nodeName);
         
         this.pendingEntries.add(entry);
     }
@@ -303,7 +305,7 @@ public class LocalExchangeHistoryService implements ILocalExchangeHistoryService
             int read = reader.read(data);
             
             this.logger.info(String.format("%s bytes read from the UserPreference file", read));
-                        
+
             String dataString = new String(data, StandardCharsets.UTF_8);
             
             ExchangeHistoryEntryCollection result = this.jsonConverter.fromJson(dataString, ExchangeHistoryEntryCollection.class);
