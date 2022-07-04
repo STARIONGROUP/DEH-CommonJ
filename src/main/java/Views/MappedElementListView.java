@@ -29,6 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.swing.outline.Outline;
 
 import Annotations.ExludeFromCodeCoverageGeneratedReport;
 import Renderers.MappedElementListViewCellRenderer;
@@ -67,7 +68,7 @@ public class MappedElementListView<TElement> extends ObjectBrowserBase<IMappedEl
         
         this.objectBrowserTree.setSelectionBackground(new Color(104, 143, 184));
     }
-
+    
     /**
      * Sets the DataContext
      * 
@@ -99,5 +100,13 @@ public class MappedElementListView<TElement> extends ObjectBrowserBase<IMappedEl
         dataContext.OnSelectionChanged((MappedElementRowViewModel<DefinedThing, TElement>)row.getRight());
 
         SwingUtilities.invokeLater(() -> objectBrowserTree.tableChanged(new TableModelEvent(objectBrowserTree.getOutlineModel(), row.getLeft())));
+    }
+
+    /**
+     * Gets the ObjectBrowser {@linkplain Outline}
+     */
+    public Outline GetObjectBrowser()
+    {
+        return this.objectBrowserTree;        
     }
 }

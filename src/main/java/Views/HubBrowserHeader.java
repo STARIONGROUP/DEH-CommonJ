@@ -176,8 +176,21 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
     {
         this.dataContext = viewModel;
         this.Bind();
+        this.UpdateProperties();
     }
     
+    /**
+     * Update this view properties
+     */
+    private void UpdateProperties()
+    {
+        this.modelLabel.setText(this.dataContext.GetEngineeringModelName().Value());
+        this.dataSourceLabel.setText(this.dataContext.GetDataSource().Value());
+        this.iterationLabel.setText(this.dataContext.GetIterationNumber().Value());
+        this.personLabel.setText(this.dataContext.GetPersonName().Value());
+        this.domainOfExpertiseLabel.setText(this.dataContext.GetDomainOfExpertiseName().Value());
+    }
+
     /**
     * Gets the DataContext
     * 
@@ -197,10 +210,10 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
     @Override
     public void Bind()
     {
-        this.dataContext.GetEngineeringModelName().subscribe(x -> this.modelLabel.setText(x));
-        this.dataContext.GetDataSource().subscribe(x -> this.dataSourceLabel.setText(x));
-        this.dataContext.GetIterationNumber().subscribe(x -> this.iterationLabel.setText(x));
-        this.dataContext.GetPersonName().subscribe(x -> this.personLabel.setText(x));
-        this.dataContext.GetDomainOfExpertiseName().subscribe(x -> this.domainOfExpertiseLabel.setText(x));
+        this.dataContext.GetEngineeringModelName().Observable().subscribe(x -> this.modelLabel.setText(x));
+        this.dataContext.GetDataSource().Observable().subscribe(x -> this.dataSourceLabel.setText(x));
+        this.dataContext.GetIterationNumber().Observable().subscribe(x -> this.iterationLabel.setText(x));
+        this.dataContext.GetPersonName().Observable().subscribe(x -> this.personLabel.setText(x));
+        this.dataContext.GetDomainOfExpertiseName().Observable().subscribe(x -> this.domainOfExpertiseLabel.setText(x));
     }
 }

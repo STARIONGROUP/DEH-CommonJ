@@ -27,7 +27,6 @@ import HubController.IHubController;
 import Reactive.ObservableValue;
 import ViewModels.Interfaces.IHubBrowserHeaderViewModel;
 import cdp4common.engineeringmodeldata.EngineeringModel;
-import io.reactivex.Observable;
 
 /**
  * The {@linkplain HubBrowserHeaderViewModel} is the main view model for {@linkplain HubBrowserHeader}
@@ -45,14 +44,14 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     private ObservableValue<String> engineeringModelName = new ObservableValue<>(String.class);
     
     /**
-     * Gets the {@linkplain Observable} from {@linkplain engineeringModelName} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from {@linkplain engineeringModelName} {@linkplain ObservableValue}
      * 
-     * @return a {@linkplain Observable}
+     * @return a {@linkplain ObservableValue}
      */
     @Override
-    public Observable<String> GetEngineeringModelName()
+    public ObservableValue<String> GetEngineeringModelName()
     {
-        return this.engineeringModelName.Observable();
+        return this.engineeringModelName;
     }
     
     /**
@@ -61,14 +60,14 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     private ObservableValue<String> dataSource = new ObservableValue<>(String.class);
     
     /**
-     * Gets the {@linkplain Observable} from {@linkplain dataSource} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from {@linkplain dataSource} {@linkplain ObservableValue}
      * 
-     * @return a {@linkplain Observable}
+     * @return a {@linkplain ObservableValue}
      */
     @Override
-    public Observable<String> GetDataSource()
+    public ObservableValue<String> GetDataSource()
     {
-        return this.dataSource.Observable();
+        return this.dataSource;
     }
     
     /**
@@ -77,14 +76,14 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     private ObservableValue<String> iterationNumber = new ObservableValue<>(String.class);
     
     /**
-     * Gets the {@linkplain Observable} from {@linkplain iterationNumber} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from {@linkplain iterationNumber} {@linkplain ObservableValue}
      * 
-     * @return a {@linkplain Observable}
+     * @return a {@linkplain ObservableValue}
      */
     @Override
-    public Observable<String> GetIterationNumber()
+    public ObservableValue<String> GetIterationNumber()
     {
-        return this.iterationNumber.Observable();
+        return this.iterationNumber;
     }
     
     /**
@@ -93,14 +92,14 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     private ObservableValue<String> personName = new ObservableValue<>(String.class);
     
     /**
-     * Gets the {@linkplain Observable} from {@linkplain personName} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from {@linkplain personName} {@linkplain ObservableValue}
      * 
-     * @return a {@linkplain Observable}
+     * @return a {@linkplain ObservableValue}
      */
     @Override
-    public Observable<String> GetPersonName()
+    public ObservableValue<String> GetPersonName()
     {
-        return this.personName.Observable();
+        return this.personName;
     }
     
     /**
@@ -109,14 +108,14 @@ public final class HubBrowserHeaderViewModel implements IHubBrowserHeaderViewMod
     private ObservableValue<String> domainOfExpertiseName = new ObservableValue<>(String.class);
     
     /**
-     * Gets the {@linkplain Observable} from {@linkplain domainOfExpertiseName} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from {@linkplain domainOfExpertiseName} {@linkplain ObservableValue}
      * 
-     * @return a {@linkplain Observable}
+     * @return a {@linkplain ObservableValue}
      */
     @Override
-    public Observable<String> GetDomainOfExpertiseName()
+    public ObservableValue<String> GetDomainOfExpertiseName()
     {
-        return this.domainOfExpertiseName.Observable();
+        return this.domainOfExpertiseName;
     }
 
     /**

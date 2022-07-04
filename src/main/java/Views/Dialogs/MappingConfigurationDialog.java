@@ -92,7 +92,7 @@ public abstract class MappingConfigurationDialog
     /**
      * The {@linkplain MappedElementListView} view for the {@linkplain MappedElementRowViewModel}
      */
-    private MappedElementListView<TDstElement> mappedElementListView;
+    protected MappedElementListView<TDstElement> mappedElementListView;
 
     /**
      * View components declarations

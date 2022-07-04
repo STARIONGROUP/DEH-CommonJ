@@ -105,4 +105,24 @@ public interface IMappingConfigurationService<TExternalIdentifier extends Extern
      * @return a {@linkplain boolean}
      */
     boolean IsTheCurrentIdentifierMapTemporary();
+
+    /**
+     * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
+     * 
+     * @param internalId the internal thing {@linkplain UUID}
+     * @param externalIdentifier the {@linkplain #TExternalIdentifier}
+     * @param filter a {@linkplain Predicate} to find any existing mapping
+     * @param extraFilter a extra filter {@linkplain Predicate}
+     */
+    void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> filter, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter);
+
+    /**
+     * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
+     * 
+     * @param internalId the {@linkplain UUID} that identifies the thing to correspond to
+     * @param externalId the {@linkplain Object} that identifies the object to correspond to
+     * @param mappingDirection the {@linkplain MappingDirection} the mapping belongs to
+     * @param filter a {@linkplain Predicate} to find any existing mapping
+     */
+    void AddToExternalIdentifierMap(UUID internalId, Object externalId, MappingDirection mappingDirection, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> filter);
 }

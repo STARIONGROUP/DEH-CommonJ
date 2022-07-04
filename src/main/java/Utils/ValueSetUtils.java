@@ -28,7 +28,9 @@ import java.util.stream.Collectors;
 
 import cdp4common.engineeringmodeldata.ActualFiniteState;
 import cdp4common.engineeringmodeldata.Option;
+import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.engineeringmodeldata.ParameterBase;
+import cdp4common.engineeringmodeldata.ParameterValueSet;
 import cdp4common.engineeringmodeldata.ValueSet;
 import cdp4common.exceptions.Cdp4ModelValidationException;
 import cdp4common.exceptions.IncompleteModelException;
@@ -93,11 +95,48 @@ public final class ValueSetUtils
             }            
         }
             
-        if(list.size() <= 1)
+        if(list.size() <= 1 || parameter.getOriginal() != null)
         {
             return list.get(0);
         }
         
         throw new Cdp4ModelValidationException(String.format("Multiple ValueSets found for %s", baseErrorMessage));
+    }
+    
+    /**
+     * Computes the parameter value to display based on the provided {@linkplain Parameter} and {@linkplain Option} and {@linkplain }
+     * 
+     * @param parameter the {@linkplain Parameter}
+     * @param option the {@linkplain Option} the queried {@linkplain ValueSet} depends on
+     * @param state the {@linkplain ActualFiniteState}  the queried {@linkplain ValueSet} depends on
+     * @return a {@linkplain String}
+     */
+    public static String GetParameterValue(Parameter parameter, Option option, ActualFiniteState actualFiniteState)
+    {
+        return ValueSetUtils.GetParameterValue(parameter, ValueSetUtils.QueryParameterBaseValueSet(parameter, option, actualFiniteState));
+    }
+
+    /**
+     * Computes the parameter value to display based on the provided {@linkplain Parameter} and {@linkplain ParameterValueSet}
+     * 
+     * @param parameter the {@linkplain Parameter}
+     * @param parameterValueSet the {@linkplain ValueSet}
+     * @return a {@linkplain String}
+     */
+    public static String GetParameterValue(Parameter parameter, ValueSet parameterValueSet)
+    {
+        String value = 
+                parameterValueSet.getActualValue().size() == 1 
+                ? parameterValueSet.getActualValue().get(0)
+                : String.format("[%sx%s]", parameterValueSet.getActualValue().size() / parameter.getParameterType().getNumberOfValues(), parameter.getParameterType().getNumberOfValues());
+                
+        String scale = null;
+        
+        if(parameter.getScale() != null)
+        {
+            scale = String.format("[%s]", parameter.getScale().getShortName());
+        }
+        
+        return String.format("%s %s", value, scale != null ? scale : "");
     }
 }
