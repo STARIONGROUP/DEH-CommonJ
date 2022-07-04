@@ -33,6 +33,7 @@ import ViewModels.ObjectBrowser.Interfaces.IValueSetRowViewModel;
 import cdp4common.engineeringmodeldata.ActualFiniteState;
 import cdp4common.engineeringmodeldata.ActualFiniteStateList;
 import cdp4common.engineeringmodeldata.Option;
+import cdp4common.engineeringmodeldata.Parameter;
 import cdp4common.engineeringmodeldata.ParameterBase;
 import cdp4common.engineeringmodeldata.ParameterOrOverrideBase;
 
@@ -67,7 +68,11 @@ public abstract class ParameterBaseRowViewModel<TParameter extends ParameterBase
     {
         super.UpdateProperties();
         this.SetName(this.GetThing().getParameterType().getName());
-        this.stateDependencies = this.GetThing().getStateDependence() != null ? this.GetThing().getStateDependence().getActualState() : Collections.emptyList();
+        
+        this.stateDependencies = this.GetThing().getStateDependence() != null
+            ? this.GetThing().getStateDependence().getActualState() 
+            : Collections.emptyList();
+        
         this.ComputeContainedRows();
     }
     

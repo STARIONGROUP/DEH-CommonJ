@@ -98,11 +98,11 @@ class HubBrowserHeaderViewModelTest
         ArrayList<String> domainResult = new ArrayList<String>();
         ArrayList<String> dataSourceResult = new ArrayList<String>();
         
-        this.viewModel.GetEngineeringModelName().subscribe(x -> modelResults.add(x));
-        this.viewModel.GetIterationNumber().subscribe(x -> iterationResults.add(x));
-        this.viewModel.GetPersonName().subscribe(x -> personResult.add(x));
-        this.viewModel.GetDomainOfExpertiseName().subscribe(x -> domainResult.add(x));
-        this.viewModel.GetDataSource().subscribe(x -> dataSourceResult.add(x));
+        this.viewModel.GetEngineeringModelName().Observable().subscribe(x -> modelResults.add(x));
+        this.viewModel.GetIterationNumber().Observable().subscribe(x -> iterationResults.add(x));
+        this.viewModel.GetPersonName().Observable().subscribe(x -> personResult.add(x));
+        this.viewModel.GetDomainOfExpertiseName().Observable().subscribe(x -> domainResult.add(x));
+        this.viewModel.GetDataSource().Observable().subscribe(x -> dataSourceResult.add(x));
 
         this.isSessionOpen.Value(false);
         this.isSessionOpen.Value(true);

@@ -27,14 +27,23 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellRenderer;
@@ -178,7 +187,7 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
 
         this.GetDataContext().GetShouldRefreshTree().filter(x -> x).subscribe(x -> SwingUtilities.invokeLater(
                 () -> objectBrowserTree.tableChanged(new TableModelEvent(this.objectBrowserTree.getOutlineModel()))));
-
+        
         this.objectBrowserTree.addMouseListener(new MouseAdapter()
         {
             /**
@@ -275,6 +284,45 @@ public abstract class ObjectBrowserBase<TViewModel extends IObjectBrowserBaseVie
     public void SetContextMenu(ContextMenu<? extends TContextMenuViewModel> contextMenu)
     {
         this.objectBrowserTree.setComponentPopupMenu(contextMenu);
+        
+        if(contextMenu != null)
+        {            
+            this.objectBrowserTree.getComponentPopupMenu().addPopupMenuListener(new PopupMenuListener() 
+            {
+                /**
+                 * Occurs when the pop-up menu will become visible
+                 * 
+                 * @param e the {@linkplain PopupMenuEvent}
+                 */
+                @Override
+                public void popupMenuWillBecomeVisible(PopupMenuEvent e)
+                {
+                    OnSelectionChanged();             
+                }
+
+                /**
+                 * Occurs when the pop-up menu will become invisible. Unused.
+                 * 
+                 * @param e the {@linkplain PopupMenuEvent}
+                 */
+                @Override
+                public void popupMenuWillBecomeInvisible(PopupMenuEvent e) 
+                {
+                    //Unused
+                }
+
+                /**
+                 * Occurs when the pop-up menu will become invisible. Unused.
+                 * 
+                 * @param e the {@linkplain PopupMenuEvent}
+                 */
+                @Override
+                public void popupMenuCanceled(PopupMenuEvent e) 
+                {
+                    //Unused
+                }
+            });
+        }
     }
 
     /**

@@ -24,11 +24,15 @@
 package ViewModels.MappedElementListView;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.netbeans.swing.outline.RowModel;
 
 import Enumerations.MappingDirection;
 import ViewModels.Rows.BaseTreeRowModel;
 import ViewModels.Rows.MappedElementRowViewModel;
+import cdp4common.commondata.DefinedThing;
+import cdp4common.engineeringmodeldata.ElementDefinition;
 
 /**
  * The {@linkplain MappedElementListViewTreeRowViewModel} is the {@linkplain RowModel} implementation for the {@linkplain CapellaObjectBrowser}
@@ -77,6 +81,28 @@ public class MappedElementListViewTreeRowViewModel extends BaseTreeRowModel impl
         return "-";
     }
 
+    /**
+     * Gets a value indicating whether the specified (by the provided {@linkplain node} and {@linkplain column}) cell is editable
+     * 
+     * @param node the row view model
+     * @param column the column index
+     * @return a {@linkplain boolean}
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean isCellEditable(Object rowViewModel, int column)
+    {
+        if(column == 0 && rowViewModel instanceof MappedElementRowViewModel)
+        {            
+            MappedElementRowViewModel<DefinedThing, ?> mappedElementDefinition = (MappedElementRowViewModel<DefinedThing, ?>)rowViewModel;
+            
+            return mappedElementDefinition.GetHubElement() instanceof ElementDefinition 
+                    && mappedElementDefinition.GetMappingDirection() == MappingDirection.FromHubToDst;
+        }
+        
+        return false;
+    }
+    
     /**
      * Gets the column {@linkplain Class} for the specified {@linkplain column}
      * 

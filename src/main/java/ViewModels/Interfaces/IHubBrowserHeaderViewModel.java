@@ -32,37 +32,37 @@ import io.reactivex.Observable;
 public interface IHubBrowserHeaderViewModel extends IViewModel
 {
     /**
-     * Gets the {@linkplain Observable} from {@linkplain domainOfExpertiseName} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from {@linkplain domainOfExpertiseName} {@linkplain ObservableValue}
      * 
      * @return a {@linkplain Observable}
      */
-    Observable<String> GetDomainOfExpertiseName();
+    ObservableValue<String> GetDomainOfExpertiseName();
 
     /**
-     * Gets the {@linkplain Observable} from {@linkplain personName} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from {@linkplain personName} {@linkplain ObservableValue}
      * 
-     * @return a {@linkplain Observable}
+     * @return a {@linkplain ObservableValue}
      */
-    Observable<String> GetPersonName();
+    ObservableValue<String> GetPersonName();
 
     /**
-     * Gets the {@linkplain Observable} from {@linkplain iterationNumber} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from {@linkplain iterationNumber} {@linkplain ObservableValue}
      * 
-     * @return a {@linkplain Observable}
+     * @return a {@linkplain ObservableValue}
      */
-    Observable<String> GetIterationNumber();
+    ObservableValue<String> GetIterationNumber();
 
     /**
-     * Gets the {@linkplain Observable} from {@linkplain dataSource} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from {@linkplain dataSource} {@linkplain ObservableValue}
      * 
-     * @return a {@linkplain Observable}
+     * @return a {@linkplain ObservableValue}
      */
-    Observable<String> GetDataSource();
+    ObservableValue<String> GetDataSource();
 
     /**
-     * Gets the {@linkplain Observable} from {@linkplain engineeringModelName} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from {@linkplain engineeringModelName} {@linkplain ObservableValue}
      * 
-     * @return a {@linkplain Observable}
+     * @return a {@linkplain ObservableValue}
      */
-    Observable<String> GetEngineeringModelName();
+    ObservableValue<String> GetEngineeringModelName();
 }

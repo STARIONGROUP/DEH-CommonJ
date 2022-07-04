@@ -23,31 +23,19 @@
  */
 package Renderers;
 
-import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import ViewModels.Rows.MappedElementRowViewModel;
+import Views.MappedElementListView;
 
 /**
  * The MappedElementListViewCellRenderer is the {@linkplain TableCellRenderer} for the {@linkplain MappedElementListView}
  */
-@SuppressWarnings("serial")
 @Annotations.ExludeFromCodeCoverageGeneratedReport
-public class MappedElementListViewCellRenderer extends JLabel implements TableCellRenderer
+public class MappedElementListViewCellRenderer  implements TableCellRenderer
 {
-    /**
-     * Initializes a new {@linkplain MappedElementListViewCellRenderer}
-     */
-    public MappedElementListViewCellRenderer()
-    {
-        this.setOpaque(true);
-        this.setBackground(Color.WHITE);
-    }
-
     /**
      * Returns the component used for drawing the cell. This method is
      * used to configure the renderer appropriately before drawing.
@@ -58,59 +46,11 @@ public class MappedElementListViewCellRenderer extends JLabel implements TableCe
      * @param hasFocus a value indicating whether the current row has focus
      * @param row the row number
      * @param columnIndex the column number
-     * @return a {@linkplain JComboBox}
+     * @return a {@linkplain Component}
      */
     @Override
     public Component getTableCellRendererComponent(JTable table, Object cellValue, boolean isSelected, boolean hasFocus, int rowIndex, int columnIndex)
     {
-        Object row = table.getModel().getValueAt(rowIndex, 0);
-
-        if(row instanceof MappedElementRowViewModel)
-        {
-            this.UpdateRowStatus((MappedElementRowViewModel<?, ?>)row);   
-        }
-        
-        if(isSelected)
-        {
-            this.setBackground(new Color(104, 143, 184));
-        }
-        else
-        {
-            this.setBackground(Color.WHITE);
-        }
-        
-        this.setText(cellValue.toString());
-        return this;
-    }
-    
-    /**
-     * Updates the provided {@linkplain MappedElementRowViewModel} row status
-     * 
-     * @param rowViewModel the {@linkplain MappedElementRowViewModel} row view model
-     */
-    private void UpdateRowStatus(MappedElementRowViewModel<?, ?> rowViewModel)
-    {
-        if(rowViewModel.GetRowStatus() != null)
-        {
-            switch(rowViewModel.GetRowStatus())
-            {
-                case ExisitingElement:
-                    this.setForeground(Color.decode("#17418f"));
-                    this.setForeground(Color.decode("#17418f"));
-                    break;
-                case ExistingMapping:
-                    this.setForeground(Color.decode("#a8601d"));
-                    this.setForeground(Color.decode("#a8601d"));
-                    break;
-                case NewElement:
-                    this.setForeground(Color.decode("#226b1e"));
-                    this.setForeground(Color.decode("#226b1e"));
-                    break;
-                default:
-                    this.setForeground(Color.BLACK);
-                    this.setForeground(Color.BLACK);
-                    break;            
-            }
-        }
+        return MappedElementListViewBaseCellRendererProvider.Current.GetComponent(table, cellValue, isSelected, rowIndex, columnIndex);
     }
 }

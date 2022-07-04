@@ -57,33 +57,9 @@ public class MappingListViewElementDefinitionRowViewModel extends MappingListVie
             {
                 this.containedRows.add(
                     new MappingListViewBaseRowViewModel(parameter.getIid().toString(), this.GetParameterName(parameter, parameterValueSet),
-                            this.GetParameterValue(parameter, parameterValueSet), ClassKind.Parameter));
+                            Utils.ValueSetUtils.GetParameterValue(parameter, parameterValueSet), ClassKind.Parameter));
             }
         }
-    }
-
-    /**
-     * Computes the parameter value to display based on the provided {@linkplain Parameter} and {@linkplain ParameterValueSet}
-     * 
-     * @param parameter the {@linkplain Parameter}
-     * @param parameterValueSet the {@linkplain ParameterValueSet}
-     * @return a {@linkplain String}
-     */
-    private String GetParameterValue(Parameter parameter, ParameterValueSet parameterValueSet)
-    {
-        String value = 
-                parameterValueSet.getActualValue().size() == 1 
-                ? parameterValueSet.getActualValue().get(0)
-                : String.format("[%sx%s]", parameterValueSet.getActualValue().size() / parameter.getParameterType().getNumberOfValues(), parameter.getParameterType().getNumberOfValues());
-                
-        String scale = null;
-        
-        if(parameter.getScale() != null)
-        {
-            scale = String.format("[%s]", parameter.getScale().getShortName());
-        }
-        
-        return String.format("%s %s", value, scale != null ? scale : "");        
     }
 
     /**

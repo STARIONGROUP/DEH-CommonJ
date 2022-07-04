@@ -159,6 +159,6 @@ class MappingConfigurationServiceTest
 		this.service.AddToExternalIdentifierMap(internalId, externalIdentifier,
 				(Predicate<ImmutableTriple<UUID, ExternalIdentifier, UUID>>) null);
 
-		assertEquals(3, this.service.GetExternalIdentifierMap().getCorrespondence().size());
+		assertEquals(4, this.service.GetExternalIdentifierMap().getCorrespondence().size());
 	}
 }

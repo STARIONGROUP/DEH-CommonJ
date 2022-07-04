@@ -249,18 +249,46 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     @Override
     public void AddToExternalIdentifierMap(UUID internalId, Object externalId, MappingDirection mappingDirection)
     {
+        this.AddToExternalIdentifierMap(internalId, this.InitializeExternalIdentifier(externalId, mappingDirection), x -> x != null);
+    }
+    
+
+    /**
+     * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
+     * 
+     * @param internalId the {@linkplain UUID} that identifies the thing to correspond to
+     * @param externalId the {@linkplain Object} that identifies the object to correspond to
+     * @param mappingDirection the {@linkplain MappingDirection} the mapping belongs to
+     * @param filter a {@linkplain Predicate} to find any existing mapping
+     */
+    @Override
+    public void AddToExternalIdentifierMap(UUID internalId, Object externalId, MappingDirection mappingDirection, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> filter)
+    {
+        this.AddToExternalIdentifierMap(internalId, this.InitializeExternalIdentifier(externalId, mappingDirection), filter, x -> x != null);
+    }
+
+    /**
+     * Initializes a new {@linkplain #TExternalIdentifier} based on the provided external id and the {@linkplain MappingDirection}
+     * 
+     * @param externalId the {@linkplain Object} external identifier
+     * @param mappingDirection the {@linkplain MappingDirection}
+     */
+    private TExternalIdentifier InitializeExternalIdentifier(Object externalId, MappingDirection mappingDirection)
+    {
         try
         {
             TExternalIdentifier externalIdentifier = this.externalIdentifierClass.newInstance(); 
             externalIdentifier.Identifier = externalId;
             externalIdentifier.MappingDirection = mappingDirection;
-            this.AddToExternalIdentifierMap(internalId, externalIdentifier, x -> x != null);   
+            return externalIdentifier;
         }
         catch (InstantiationException | IllegalAccessException exception)
         {
             this.logger.catching(exception);
-        }      
+            return null;
+        }
     }
+    
     
     /**
      * Adds one correspondence to the {@linkplain ExternalIdentifierMap} 
@@ -271,6 +299,26 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
      */
     @Override
     public void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter)
+    {        
+        Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> filter = x -> AreTheseEquals(x.getRight(), internalId)
+                && AreTheseEquals(externalIdentifier.Identifier, x.getMiddle().Identifier)
+                && externalIdentifier.MappingDirection == x.getMiddle().MappingDirection;
+
+        this.AddToExternalIdentifierMap(internalId, externalIdentifier, filter, extraFilter);
+    }
+
+    /**
+     * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
+     * 
+     * @param internalId the internal thing {@linkplain UUID}
+     * @param externalIdentifier the {@linkplain #TExternalIdentifier}
+     * @param filter a {@linkplain Predicate} to find any existing mapping
+     * @param extraFilter a extra filter {@linkplain Predicate}
+     */
+    @Override
+    public void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier,
+            Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> filter,
+            Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter)
     {
         if(extraFilter == null)
         {
@@ -278,27 +326,14 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
         }
         
         Optional<UUID> correspondenceIid = this.correspondences.stream()
-            .filter(x -> AreTheseEquals(x.getRight(), internalId) 
-                    && AreTheseEquals(externalIdentifier.Identifier, x.getMiddle().Identifier)
-                    && externalIdentifier.MappingDirection == x.getMiddle().MappingDirection)
+            .filter(filter)
             .filter(extraFilter)
             .map(x -> x.left)
             .findFirst();
         
         if(correspondenceIid.isPresent())
         {
-            Optional<IdCorrespondence> existingCorrespondence = this.externalIdentifierMap
-                    .getCorrespondence()
-                    .stream()
-                    .filter(e -> AreTheseEquals(correspondenceIid.get(), e.getIid()))
-                    .findFirst();
-            
-            if (existingCorrespondence.isPresent())
-            {
-                existingCorrespondence.get().setInternalThing(internalId);
-                existingCorrespondence.get().setExternalId(new Gson().toJson(externalIdentifier));
-                return;
-            }
+            this.TryUpdateExistingCorrespondence(internalId, externalIdentifier, correspondenceIid.get());
         }
         
         IdCorrespondence idCorrespondence = new IdCorrespondence();
@@ -307,5 +342,30 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
         idCorrespondence.setInternalThing(internalId);
                 
         this.externalIdentifierMap.getCorrespondence().add(idCorrespondence);
+    }
+
+    /**
+     * Adds one correspondence to the {@linkplain ExternalIdentifierMap} 
+     * 
+     * @param internalId The thing that the ExternalIdentifier corresponds to
+     * @param externalIdentifier The external thing that the internal id corresponds to
+     * @return a value indicating whether the existing correspondence was updated
+     */
+    public boolean TryUpdateExistingCorrespondence(UUID internalId, TExternalIdentifier externalIdentifier, UUID correspondenceIid)
+    {
+        Optional<IdCorrespondence> existingCorrespondence = this.externalIdentifierMap
+                .getCorrespondence()
+                .stream()
+                .filter(e -> AreTheseEquals(correspondenceIid, e.getIid()))
+                .findFirst();
+        
+        if (existingCorrespondence.isPresent())
+        {
+            existingCorrespondence.get().setInternalThing(internalId);
+            existingCorrespondence.get().setExternalId(new Gson().toJson(externalIdentifier));
+            return true;
+        }
+        
+        return false;
     }
 }
