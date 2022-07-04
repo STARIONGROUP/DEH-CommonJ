@@ -34,6 +34,31 @@ import cdp4common.Version;
 public class ExchangeHistoryEntryRowViewModel implements IRowBaseViewModel
 {
     /**
+     * Backing field for {@linkplain #GetNodeName()} and {@linkplain #SetNodeName(nodeName)}
+     */
+    private String nodeName;
+
+    /**
+     * Gets the adapter {@linkplain String}
+     *
+     * @return the adapter {@linkplain String} value
+     */
+    public String GetNodeName()
+    {
+        return this.nodeName;
+    }
+
+    /**
+     * Sets the adapter {@linkplain String}
+     *
+     * @param version the new {@linkplain String}
+     */
+    public void SetNodeName(String nodeName)
+    {
+        this.nodeName = nodeName;
+    }
+    
+    /**
      * Backing field for {@linkplain #GetAdapterVersion()} and {@linkplain #SetAdapterVersion(Version)}
      */
     private Version adapterVersion;

@@ -119,7 +119,7 @@ class LocalExchangeHistoryServiceTest
     {
     	assertDoesNotThrow(() -> this.service.Read());
     	assertDoesNotThrow(() -> this.service.Write());
-    	this.service.Append("A exchange history entry");
+    	this.service.Append("node name", "A exchange history entry");
     	assertDoesNotThrow(() -> this.service.Write());
     }
     

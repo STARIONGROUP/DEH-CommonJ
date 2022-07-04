@@ -52,13 +52,6 @@ public interface ILocalExchangeHistoryService
     void Write();
 
     /**
-     * Append to the history
-     * 
-     * @param message the {@linkplain String} message
-     */
-    void Append(String message);
-
-    /**
      * Append to the history an entry that relates of a {@linkplain ChangeKind} on the provided {@linkplain ParameterOrOverrideBase}
      * 
      * @param parameter the changed {@linkplain ParameterOrOverrideBase}
@@ -81,4 +74,12 @@ public interface ILocalExchangeHistoryService
      * @param newValue the {@linkplain ValueSet} that contains the new value
      */
     void Append(ParameterValueSetBase valueToUpdate, ValueSet newValue);
+
+    /**
+     * Append to the history
+     * 
+     * @param message the {@linkplain String} message
+     * @param nodeName the {@linkplain String} node name to display for the node column
+     */
+    void Append(String nodeName, String message);
 }
