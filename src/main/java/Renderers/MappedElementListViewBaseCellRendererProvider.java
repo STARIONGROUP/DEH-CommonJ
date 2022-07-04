@@ -38,6 +38,7 @@ import ViewModels.Rows.MappedElementRowViewModel;
 /**
  * The {@linkplain MappedElementListViewBaseRenderer} for {@linkplain MappedElementListViewCellRenderer}
  */
+@Annotations.ExludeFromCodeCoverageGeneratedReport
 public class MappedElementListViewBaseCellRendererProvider
 {
     /**
