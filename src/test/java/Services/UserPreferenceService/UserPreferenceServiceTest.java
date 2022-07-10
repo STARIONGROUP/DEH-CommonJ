@@ -61,7 +61,7 @@ class UserPreferenceServiceTest
         
         try
         {
-            Field sessionField = UserPreferenceService.class.getDeclaredField("userPreferenceFile");
+            Field sessionField = UserPreferenceBaseService.class.getDeclaredField("userPreferenceFile");
             sessionField.setAccessible(true);
             file = (File) sessionField.get(this.service);
         }
@@ -104,7 +104,7 @@ class UserPreferenceServiceTest
     {
         this.file = new File("target", "Test.js");
         file.createNewFile();
-        Field field = UserPreferenceService.class.getDeclaredField("userPreferenceFile");
+        Field field = UserPreferenceBaseService.class.getDeclaredField("userPreferenceFile");
         field.setAccessible(true);
 
         field.set(this.service, file);
