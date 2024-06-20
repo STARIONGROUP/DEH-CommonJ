@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -78,7 +79,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     /**
      * The collection of id correspondence as {@linkplain ImmutableTriple} of {@code Pair<UUID correspondenceId, ExternalIdentifier externalIdentifier, UUID internalId>}
      */
-    protected ArrayList<ImmutableTriple<UUID, TExternalIdentifier, UUID>> correspondences = new ArrayList<>();
+    protected ArrayList<MutableTriple<UUID, TExternalIdentifier, UUID>> correspondences = new ArrayList<>();
 
     /**
      * Backing field for {@linkplain GetExternalIdentifierMap}
@@ -166,7 +167,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
         if(this.IsTheCurrentIdentifierMapTemporary())
         {
             this.logger.error(String.format("The current mapping (%s correspondences) will not be saved, "
-                    + "as it is tempary until the user creates one or loads an existing one.",
+                    + "as it is temporary until the user creates one or loads an existing one.",
                     this.externalIdentifierMap.getCorrespondence().size()));
             
             return;
@@ -212,7 +213,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     }
     
     /**
-     * Parses the {@linkplain ExternalIdentifierMap} Correspondences and adds these to the {@linkplain Correspondences} collection
+     * Parses the {@linkplain ExternalIdentifierMap} Correspondences and adds these to the correspondences collection
      */
     private void ParseIdCorrespondence()
     {
@@ -223,7 +224,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
         this.correspondences.addAll(this.externalIdentifierMap
                 .getCorrespondence()
                 .stream()
-                .map(x -> ImmutableTriple.of(x.getIid(), new Gson().fromJson(x.getExternalId(), this.externalIdentifierClass), x.getInternalThing()))
+                .map(x -> MutableTriple.of(x.getIid(), new Gson().fromJson(x.getExternalId(), this.externalIdentifierClass), x.getInternalThing()))
                 .collect(Collectors.toList()));
 
         timer.stop();
@@ -248,11 +249,14 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
      */
     @Override
     public void AddToExternalIdentifierMap(UUID internalId, Object externalId, MappingDirection mappingDirection)
-    {
-        this.AddToExternalIdentifierMap(internalId, this.InitializeExternalIdentifier(externalId, mappingDirection), x -> x != null);
+    {        
+        Predicate<MutableTriple<UUID, TExternalIdentifier, UUID>> filter = x -> AreTheseEquals(x.getRight(), internalId)
+                && AreTheseEquals(externalId, x.getMiddle().Identifier)
+                && mappingDirection == x.getMiddle().MappingDirection;
+
+        this.AddToExternalIdentifierMap(internalId, this.InitializeExternalIdentifier(externalId, mappingDirection), filter);
     }
     
-
     /**
      * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
      * 
@@ -262,13 +266,13 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
      * @param filter a {@linkplain Predicate} to find any existing mapping
      */
     @Override
-    public void AddToExternalIdentifierMap(UUID internalId, Object externalId, MappingDirection mappingDirection, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> filter)
+    public void AddToExternalIdentifierMap(UUID internalId, Object externalId, MappingDirection mappingDirection, Predicate<MutableTriple<UUID, TExternalIdentifier, UUID>> filter)
     {
-        this.AddToExternalIdentifierMap(internalId, this.InitializeExternalIdentifier(externalId, mappingDirection), filter, x -> x != null);
+        this.AddToExternalIdentifierMap(internalId, this.InitializeExternalIdentifier(externalId, mappingDirection), filter, null);
     }
-
+    
     /**
-     * Initializes a new {@linkplain #TExternalIdentifier} based on the provided external id and the {@linkplain MappingDirection}
+     * Initializes a new {@linkplain TExternalIdentifier} based on the provided external id and the {@linkplain MappingDirection}
      * 
      * @param externalId the {@linkplain Object} external identifier
      * @param mappingDirection the {@linkplain MappingDirection}
@@ -288,52 +292,52 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
             return null;
         }
     }
-    
-    
+        
     /**
      * Adds one correspondence to the {@linkplain ExternalIdentifierMap} 
      * 
      * @param internalId The thing that the ExternalIdentifier corresponds to
      * @param externalIdentifier The external thing that the internal id corresponds to
-     * @param extraFilter A {@linkplain Predicate} that allows to filter on other properties while this method checks for existing mapping
+     * @param filter A {@linkplain Predicate} that allows to filter on existing correspondence
      */
     @Override
-    public void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter)
-    {        
-        Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> filter = x -> AreTheseEquals(x.getRight(), internalId)
-                && AreTheseEquals(externalIdentifier.Identifier, x.getMiddle().Identifier)
-                && externalIdentifier.MappingDirection == x.getMiddle().MappingDirection;
-
-        this.AddToExternalIdentifierMap(internalId, externalIdentifier, filter, extraFilter);
+    public void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier, Predicate<MutableTriple<UUID, TExternalIdentifier, UUID>> filter)
+    {
+        this.AddToExternalIdentifierMap(internalId, externalIdentifier, filter, null);
     }
 
     /**
      * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
      * 
      * @param internalId the internal thing {@linkplain UUID}
-     * @param externalIdentifier the {@linkplain #TExternalIdentifier}
+     * @param externalIdentifier the {@linkplain TExternalIdentifier}
      * @param filter a {@linkplain Predicate} to find any existing mapping
      * @param extraFilter a extra filter {@linkplain Predicate}
      */
     @Override
     public void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier,
-            Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> filter,
-            Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter)
+            Predicate<MutableTriple<UUID, TExternalIdentifier, UUID>> filter,
+            Predicate<MutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter)
     {
         if(extraFilter == null)
         {
             extraFilter = x -> x != null;
         }
         
-        Optional<UUID> correspondenceIid = this.correspondences.stream()
+        Optional<MutableTriple<UUID, TExternalIdentifier, UUID>> correspondence = this.correspondences.stream()
             .filter(filter)
             .filter(extraFilter)
-            .map(x -> x.left)
             .findFirst();
         
-        if(correspondenceIid.isPresent())
+        if(correspondence.isPresent())
         {
-            this.TryUpdateExistingCorrespondence(internalId, externalIdentifier, correspondenceIid.get());
+            if(!this.TryUpdateExistingCorrespondence(internalId, externalIdentifier, correspondence.get().left))
+            {
+                correspondence.get().middle = externalIdentifier;
+                correspondence.get().right = internalId;
+            }
+            
+            return;
         }
         
         IdCorrespondence idCorrespondence = new IdCorrespondence();

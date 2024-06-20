@@ -30,10 +30,10 @@ jobs:
       uses: GabrielBB/xvfb-action@v1
       with:
         run: mvn -B -Daspectj.tests.verbose=false verify --file pom.xml
-    - name: Set up JDK 11 for scan
+    - name: Set up JDK 17 for scan
       uses: actions/setup-java@v2
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'temurin'
         cache: maven
     - name: Cache SonarCloud packages
@@ -54,4 +54,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        run: mvn clean verify sonar:sonar -Dsonar.projectKey=RHEAGROUP_DEH-CommonJ -Dsonar.java.source=1.8
+        run: mvn clean verify sonar:sonar -Dsonar.projectKey=STARIONGROUP_DEH-CommonJ -Dsonar.java.source=1.8

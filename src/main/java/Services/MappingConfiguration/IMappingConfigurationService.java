@@ -27,6 +27,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.MutableTriple;
 
 import Enumerations.MappingDirection;
 import cdp4common.engineeringmodeldata.ExternalIdentifierMap;
@@ -49,7 +50,7 @@ public interface IMappingConfigurationService<TExternalIdentifier extends Extern
      * @param externalIdentifier The external thing that the internal id corresponds to
      * @param extraFilter A {@linkplain Predicate} that allows to filter on other properties while this method checks for existing mapping
      */
-    void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter);
+    void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier, Predicate<MutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter);
 
     /**
      * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
@@ -114,7 +115,7 @@ public interface IMappingConfigurationService<TExternalIdentifier extends Extern
      * @param filter a {@linkplain Predicate} to find any existing mapping
      * @param extraFilter a extra filter {@linkplain Predicate}
      */
-    void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> filter, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter);
+    void AddToExternalIdentifierMap(UUID internalId, TExternalIdentifier externalIdentifier, Predicate<MutableTriple<UUID, TExternalIdentifier, UUID>> filter, Predicate<MutableTriple<UUID, TExternalIdentifier, UUID>> extraFilter);
 
     /**
      * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
@@ -124,5 +125,5 @@ public interface IMappingConfigurationService<TExternalIdentifier extends Extern
      * @param mappingDirection the {@linkplain MappingDirection} the mapping belongs to
      * @param filter a {@linkplain Predicate} to find any existing mapping
      */
-    void AddToExternalIdentifierMap(UUID internalId, Object externalId, MappingDirection mappingDirection, Predicate<ImmutableTriple<UUID, TExternalIdentifier, UUID>> filter);
+    void AddToExternalIdentifierMap(UUID internalId, Object externalId, MappingDirection mappingDirection, Predicate<MutableTriple<UUID, TExternalIdentifier, UUID>> filter);
 }

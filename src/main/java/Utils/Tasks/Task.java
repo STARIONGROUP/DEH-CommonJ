@@ -75,7 +75,7 @@ public abstract class Task<TResult>
     public static ObservableTask<TaskStatus> Run(Runnable function)
     {
         RunnableTask task = new RunnableTask(function);
-        task.Execute();        
+        task.Execute();   
         return task.observableFunction;
     }
     

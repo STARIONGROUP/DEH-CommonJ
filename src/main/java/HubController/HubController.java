@@ -36,11 +36,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import cdp4common.engineeringmodeldata.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -54,10 +54,6 @@ import static Utils.Operators.Operators.AreTheseEquals;
 import cdp4common.commondata.DeprecatableThing;
 import cdp4common.commondata.LogLevelKind;
 import cdp4common.commondata.Thing;
-import cdp4common.engineeringmodeldata.EngineeringModel;
-import cdp4common.engineeringmodeldata.ExternalIdentifierMap;
-import cdp4common.engineeringmodeldata.Iteration;
-import cdp4common.engineeringmodeldata.ModelLogEntry;
 import cdp4common.sitedirectorydata.*;
 import cdp4common.types.CacheKey;
 import cdp4common.types.ContainerList;
@@ -72,6 +68,8 @@ import cdp4dal.operations.TransactionContextResolver;
 import cdp4servicesdal.CdpServicesDal;
 import io.reactivex.Observable;
 import javassist.NotFoundException;
+
+import javax.annotation.Nullable;
 
 /**
  * Definition of the {@link HubController} which is responsible to provides {@link Session} related functionalities
@@ -89,10 +87,15 @@ public class HubController implements IHubController
     private final INavigationService navigationService;
   
     /**
-     * Backing field for {@link IsSessionOpen}
+     * Backing field for {@linkplain #GetIsSessionOpen()}
      */ 
     private DomainOfExpertise currentDomainOfExpertise;
-    
+
+    /**
+     * Backing field for {@linkplain #GetOption()}
+     */
+    private ObservableValue<Option> selectedOption = new ObservableValue<>();
+
     /**
      * Gets the current {@linkplain DomainOfExpertise}
      */
@@ -103,7 +106,7 @@ public class HubController implements IHubController
     }
 
     /**
-     * Backing field for {@link IsSessionOpen}
+     * Backing field for {@linkplain #GetIsSessionOpen()}
      */
     private Boolean isSessionOpen = false;
     
@@ -119,12 +122,12 @@ public class HubController implements IHubController
     }
     
     /**
-     * Backing field for {@linkplain IsSessionOpenObservable}
+     * Backing field for {@linkplain #GetIsSessionOpenObservable()}
      */
     private ObservableValue<Boolean> isSessionOpenObservable = new ObservableValue<>(Boolean.class);
     
     /**
-     * Gets the {@linkplain Observable} from {@linkplain isSessionOpen} boolean field
+     * Gets the {@linkplain Observable} from {@linkplain #GetIsSessionOpen} boolean field
      * 
      * @return an {@linkplain Observable} wrapping a value indicating whether the {@linkplain Session} is open
      */
@@ -135,13 +138,13 @@ public class HubController implements IHubController
     }
         
     /**
-     * Backing field for {@linkplain GetSessionEventObservable}
+     * Backing field for {@linkplain #GetIsSessionOpenObservable()}
      */
     private ObservableValue<Boolean> sessionEvent = new ObservableValue<>(false, Boolean.class);
     
 
     /**
-     * Gets the {@linkplain Observable} from {@linkplain isSessionOpen} boolean field
+     * Gets the {@linkplain Observable} from {@linkplain #GetIsSessionOpen} boolean field
      * 
      * @return an {@linkplain Observable} wrapping a value indicating whether the session has been refreshed or reloaded
      */
@@ -152,7 +155,7 @@ public class HubController implements IHubController
     }
     
     /**
-     * Sets the {@linkplain isSessionOpen} and call OnNext on {@linkplain isSessionOpenObservable}
+     * Sets the {@linkplain #isSessionOpen} and call OnNext on {@linkplain #isSessionOpenObservable}
      * 
      * @param value the {@linkplain Boolean} new value
      */
@@ -194,9 +197,9 @@ public class HubController implements IHubController
     }
     
     /**
-     * Gets the open {@linkplain ReferenceDataLibraries}
+     * Gets the open {@linkplain ReferenceDataLibrary}
      * 
-     * @return a {@linkplain Collection} of {@linkplain ReferenceDataLibraries}
+     * @return a {@linkplain Collection} of {@linkplain ReferenceDataLibrary}
      */
     public Collection<ReferenceDataLibrary> OpenReferenceDataLibraries()
     {
@@ -209,7 +212,7 @@ public class HubController implements IHubController
     }
     
     /**
-     * Gets the DEHP {@linkplain ReferenceDataLibraries} or the open model one
+     * Gets the DEHP {@linkplain ReferenceDataLibrary} or the open model one
      * 
      * @return the {@linkplain ReferenceDataLibrary}
      */
@@ -314,8 +317,8 @@ public class HubController implements IHubController
     /**
      * Reads an {@link Iteration} and set the active {@link DomainOfExpertise} for the {@link Iteration}
      * 
-     * @param The {@link Iteration} to read
-     * @param The {@link Domain} that reads the {@link Iteration}
+     * @param iteration The {@link Iteration} to read
+     * @param domain The {@link DomainOfExpertise} that reads the {@link Iteration}
      * @throws NotFoundException 
      */
     @Override
@@ -391,7 +394,7 @@ public class HubController implements IHubController
     /**
      * Reloads the {@link Session}
      * 
-     * @return A value indicating whether the {@link future} completed with success
+     * @return A value indicating whether the {@link CompletableFuture} completed with success
      */
     @Override
     public boolean Reload()
@@ -405,7 +408,7 @@ public class HubController implements IHubController
     /**
      * Reloads the {@link Session}
      * 
-     * @return A value indicating whether the {@link future} completed with success
+     * @return A value indicating whether the {@link CompletableFuture} completed with success
      */
     @Override
     public boolean Refresh()
@@ -429,10 +432,10 @@ public class HubController implements IHubController
     }
     
     /**
-     * Calls the {@link future} wrapped in try block and return a {@link Boolean}
+     * Calls the {@linkplain CompletableFuture} wrapped in try block and return a {@link Boolean}
      * 
-     * @param future a {@link CompletableFuture}
-     * @return A value indicating whether the {@link future} completed with success
+     * @param future a {@linkplain CompletableFuture}
+     * @return A value indicating whether the {@link CompletableFuture} completed with success
      */
     private boolean RefreshOrReload(CompletableFuture<Void> future)
     {
@@ -570,7 +573,7 @@ public class HubController implements IHubController
 
         Optional<Object> optionalThing = this.OpenReferenceDataLibraries().stream()
                 .flatMap(collectionSelector)
-                .filter((Predicate<? super Object>) predicate)
+                .filter((Predicate<Object>) predicate)
                 .filter(x -> !((DeprecatableThing)x).isDeprecated())
                 .findFirst();
         
@@ -595,7 +598,7 @@ public class HubController implements IHubController
     }    
 
     /**
-     * Tries to create a {@linkplain LogEntry} base on the input from the {@linkplain LogEntryDialog}
+     * Tries to create a {@linkplain ModelLogEntry} base on the input from the {@linkplain LogEntryDialog}
      * 
      * @param transaction the {@linkplain ThingTransaction}
      * @return a value indicating whether the whole transaction should be cancelled based on the dialog result
@@ -614,13 +617,46 @@ public class HubController implements IHubController
         this.RegisterLogEntry(dialogResult.getLeft(), transaction);
         return true;
     }
-    
+
+    /**
+     * The selected {@linkplain Option}
+     *
+     * @param option The selected option
+     */
+    @Override
+    public void SetSelectedOption(Option option)
+    {
+        this.selectedOption.Value(option);
+    }
+
+    /**
+     * The selected {@linkplain Option}
+     *
+     * @return The current option observable
+     */
+    @Override
+    public Observable<Option> GetOptionObservable()
+    {
+        return this.selectedOption.Observable();
+    }
+
+    /**
+     * The selected {@linkplain Option}
+     *
+     * @return The current option
+     */
+    @Override
+    public Option GetOption()
+    {
+        return this.selectedOption.Value();
+    }
+
     /**
      * Adds a new {@linkplain ModelLogEntry} record to the {@linkplain EngineeringModel}
      *  and registers the change to the provided {@linkplain ThingTransaction}
      * 
      * @param content the {@linkplain String} content
-     * @param the {@linkplain ThingTransaction}
+     * @param transaction the {@linkplain ThingTransaction}
      * @throws TransactionException 
      */
     @Override

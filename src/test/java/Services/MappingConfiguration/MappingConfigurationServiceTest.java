@@ -36,6 +36,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.MutableTriple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -139,6 +140,7 @@ class MappingConfigurationServiceTest
 	{
 		this.service.AddToExternalIdentifierMap(UUID.randomUUID(), UUID.randomUUID().toString(),
 				MappingDirection.FromDstToHub);
+		
 		assertEquals(1, this.service.GetExternalIdentifierMap().getCorrespondence().size());
 
 		UUID internalId = UUID.randomUUID();
@@ -147,18 +149,18 @@ class MappingConfigurationServiceTest
 		externalIdentifier.Identifier = externalId;
 
 		this.service.AddToExternalIdentifierMap(internalId, externalIdentifier,
-				(Predicate<ImmutableTriple<UUID, ExternalIdentifier, UUID>>) null);
+				(Predicate<MutableTriple<UUID, ExternalIdentifier, UUID>>) x -> x != null);
 		assertEquals(2, this.service.GetExternalIdentifierMap().getCorrespondence().size());
 
 		externalIdentifier.MappingDirection = MappingDirection.FromHubToDst;
 		this.service.AddToExternalIdentifierMap(internalId, externalIdentifier,
-				(Predicate<ImmutableTriple<UUID, ExternalIdentifier, UUID>>) null);
+				(Predicate<MutableTriple<UUID, ExternalIdentifier, UUID>>) x -> x != null);
 		assertEquals(3, this.service.GetExternalIdentifierMap().getCorrespondence().size());
 
 		this.service.SetExternalIdentifierMap(this.service.CreateExternalIdentifierMap("map", externalId, true));
 		this.service.AddToExternalIdentifierMap(internalId, externalIdentifier,
-				(Predicate<ImmutableTriple<UUID, ExternalIdentifier, UUID>>) null);
+				(Predicate<MutableTriple<UUID, ExternalIdentifier, UUID>>)  x -> x != null);
 
-		assertEquals(4, this.service.GetExternalIdentifierMap().getCorrespondence().size());
+		assertEquals(3, this.service.GetExternalIdentifierMap().getCorrespondence().size());
 	}
 }

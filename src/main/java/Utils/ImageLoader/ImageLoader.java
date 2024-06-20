@@ -23,6 +23,9 @@
  */
 package Utils.ImageLoader;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.swing.Icon;
@@ -125,6 +128,7 @@ public final class ImageLoader
         String iconFileName;
         
         String parameterIcon = "parameter.png";
+
 		switch(classKind)
         {
             case ElementBase:
@@ -166,6 +170,9 @@ public final class ImageLoader
             case Requirement:
                 iconFileName = "requirement.png";
                 break;
+            case Relationship:
+                iconFileName = "relationship.png";
+                break;
             case RequirementsGroup:
                 iconFileName = "parametergroup.png";
                 break;
@@ -176,4 +183,31 @@ public final class ImageLoader
         
         return GetIcon(ThingFolder, iconFileName);
     }
+
+    /**
+     * Rotates the provided ImageIcon by the specified angle.
+     *
+     * @param icon The ImageIcon to rotate
+     * @param degrees The angle of rotation in degrees
+     * @return A new ImageIcon with the rotated image
+     */
+    public static ImageIcon GetRotatedIcon(ImageIcon icon, double degrees)
+    {
+        // Create a blank image with the same dimensions as the original icon
+        BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+
+        // Rotate the image
+        AffineTransform transform = new AffineTransform();
+        transform.rotate(Math.toRadians(degrees), icon.getIconWidth() / 2.0, icon.getIconHeight() / 2.0);
+        g2d.setTransform(transform);
+
+        // Draw the icon onto the image
+        icon.paintIcon(null, g2d, 0, 0);
+
+        // Dispose the graphics context and return the rotated image icon
+        g2d.dispose();
+        return new ImageIcon(image);
+    }
+
 }

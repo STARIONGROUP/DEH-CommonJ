@@ -60,7 +60,7 @@ public final class MappingEngineService implements IMappingEngineService
     Map<String, MappingRule<?,?>> rules = new HashMap<>();
     
     /**
-     * Initializes a new {@linkplain MappingEngine}
+     * Initializes a new {@linkplain MappingEngineService}
      * 
      * @param assembly the {@linkplain Package}
      */
@@ -70,7 +70,7 @@ public final class MappingEngineService implements IMappingEngineService
     }
     
     /**
-     * Maps the provided {@linkplain input} to another type if a rule is found
+     * Maps the provided input to another type if a rule is found
      * 
      * @param input the input to be mapped
      * @return the output of the rule
@@ -94,7 +94,7 @@ public final class MappingEngineService implements IMappingEngineService
     }
 
     /**
-     * Gets the key as it is used in the {@linkplain Rules} as key
+     * Gets the key as it is used in the Rules as key
      * 
      * @param object the {@linkplain Object} input
      * @return a {@linkplain String}
@@ -146,7 +146,7 @@ public final class MappingEngineService implements IMappingEngineService
      * In case the rule is registered in the container, in order for the container to resolve it register it with the fully qualified class name
      * 
      * @param classRule the class rule to initialize
-     * @return an instance of the {@linkplain classRule}
+     * @return an instance of the class Rule
      */
     private MappingRule<?,?> InitializeRule(Class<?> classRule)
     {
@@ -175,7 +175,7 @@ public final class MappingEngineService implements IMappingEngineService
     }
     
     /**
-     * Gets the available {@linkplain Mapping rules}
+     * Gets the available Mapping rules
      * 
      * @param packageName the package name where mapping rules are implemented
      * @return a {@linkplain Set} of class
@@ -184,7 +184,8 @@ public final class MappingEngineService implements IMappingEngineService
     private Set<Class<? extends IMappingRule>> GetAvailableMappingRules(String packageName) 
     {
         Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
-        
+        // String a = Reflection.getPackageName(this.getClass().getName());
+
         return reflections.getSubTypesOf(MappingRule.class)
                 .stream()
                 .filter(x -> !java.lang.reflect.Modifier.isAbstract(x.getModifiers()))

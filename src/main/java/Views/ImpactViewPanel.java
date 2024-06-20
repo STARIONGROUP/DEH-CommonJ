@@ -28,18 +28,17 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
+import Utils.Ref;
+import cdp4common.engineeringmodeldata.ExternalIdentifierMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,10 +57,6 @@ import ViewModels.Interfaces.IImpactViewContextMenuViewModel;
 
 import Utils.Tasks.*;
 
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JProgressBar;
-
 /**
  * The {@linkplain ImpactViewPanel} is the view that displays the impact views
  */
@@ -78,19 +73,14 @@ public class ImpactViewPanel extends JPanel
      * The current class {@linkplain Logger}
      */
     private final transient Logger logger = LogManager.getLogger();
-    
-    /**
-     * The arrows format-able base string
-     */
-    private static final String ArrowBaseString = "<html><body>&#x1F87%s;</body></html>";
-    
+
     /**
      * The base text for the transfer button
      */
     private static final String TransferButtonBaseText = "Transfer %s";
         
     /**
-     * Backing field for {@link ConnectButton}
+     * Backing field for {@link #switchMappingDirectionButton}
      */
     private JButton switchMappingDirectionButton;
         
@@ -98,7 +88,12 @@ public class ImpactViewPanel extends JPanel
      * The element definitions {@linkplain ObjectBrowser}
      */
     private ObjectBrowser elementDefinitionBrowser;
-    
+
+    /**
+     * The loaded {@linkplain ImageIcon} arrow
+     */
+    private ImageIcon arrowImageIcon = ImageLoader.GetIcon("arrow32.png");
+
     /**
      * Gets the element definitions {@linkplain ObjectBrowser} 
      * 
@@ -133,7 +128,22 @@ public class ImpactViewPanel extends JPanel
      * The {@linkplain ContextMenu} that is to be used on the {@linkplain RequirementsSpecification} impact tree
      */
     private ImpactViewContextMenu requirementsSpecificationContextMenu;
-    
+
+    /**
+     *  Timer for animation
+     */
+    private Timer animationTimer;
+
+    /**
+     * Animation duration in milliseconds
+     */
+    private static final int ANIMATION_DURATION = 250;
+
+    /**
+     * Current rotation angle
+     */
+    private int currentRotation = 0;
+
     /**
      * View components declaration
      */
@@ -179,7 +189,7 @@ public class ImpactViewPanel extends JPanel
         gbcTransferDirection.fill = GridBagConstraints.HORIZONTAL;
         gbcTransferDirection.gridx = 0;
         gbcTransferDirection.gridy = 0;
-        add(transferDirection, gbcTransferDirection);        
+        this.add(transferDirection, gbcTransferDirection);
         GridBagLayout gblTransferDirection = new GridBagLayout();
         gblTransferDirection.columnWidths = new int[] {0, 1, 1, 1, 0};
         gblTransferDirection.rowHeights = new int[] {0};
@@ -187,21 +197,19 @@ public class ImpactViewPanel extends JPanel
         gblTransferDirection.rowWeights = new double[]{0.0};
         transferDirection.setLayout(gblTransferDirection);
         
-        JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(ImageLoader.GetDstIcon());
+        JLabel lblNewLabel = new JLabel(ImageLoader.GetIcon("dst32.png"));
         GridBagConstraints gbcLblNewLabel = new GridBagConstraints();
         gbcLblNewLabel.insets = new Insets(0, 0, 0, 5);
         gbcLblNewLabel.gridx = 0;
         gbcLblNewLabel.gridy = 0;
         transferDirection.add(lblNewLabel, gbcLblNewLabel);
-                
-        arrowLeft = new JLabel("<html><body>&#x1F872;</body></html>");
-        arrowLeft.setFont(new Font(FONTNAME, Font.PLAIN, 20));
+
+        this.arrowLeft = new JLabel(this.arrowImageIcon);
         GridBagConstraints gbcArrowLeft = new GridBagConstraints();
         gbcArrowLeft.insets = new Insets(0, 0, 0, 5);
         gbcArrowLeft.gridx = 1;
         gbcArrowLeft.gridy = 0;
-        transferDirection.add(arrowLeft, gbcArrowLeft);
+        transferDirection.add(this.arrowLeft, gbcArrowLeft);
 
         this.switchMappingDirectionButton = new JButton("Switch Transfer Direction");
         this.switchMappingDirectionButton.setToolTipText("Switch Transfer Direction");
@@ -213,16 +221,14 @@ public class ImpactViewPanel extends JPanel
         gbcSwitchMappingDirectionButton.gridy = 0;
         transferDirection.add(this.switchMappingDirectionButton, gbcSwitchMappingDirectionButton);
         
-        arrowRight = new JLabel("<html><body>&#x1F872;</body></html>");
-        arrowRight.setFont(new Font(FONTNAME, Font.PLAIN, 20));
+        this.arrowRight = new JLabel(this.arrowImageIcon);
         GridBagConstraints gbcArrowRight = new GridBagConstraints();
         gbcArrowRight.insets = new Insets(0, 0, 0, 5);
         gbcArrowRight.gridx = 3;
         gbcArrowRight.gridy = 0;
-        transferDirection.add(arrowRight, gbcArrowRight);
+        transferDirection.add(this.arrowRight, gbcArrowRight);
         
-        JLabel lblNewLabel4 = new JLabel("");
-        lblNewLabel4.setIcon(ImageLoader.GetIcon("icon16.png"));
+        JLabel lblNewLabel4 = new JLabel(ImageLoader.GetIcon("icon32.png"));
         GridBagConstraints gbcMblNewLabel4 = new GridBagConstraints();
         gbcMblNewLabel4.gridx = 4;
         gbcMblNewLabel4.gridy = 0;
@@ -360,9 +366,9 @@ public class ImpactViewPanel extends JPanel
     }
 
     /**
-     * Sets the impact view view for the Dst model impact
+     * Sets the impact-view view for the Dst model impact
      * 
-     * @param the {@linkplain ObjectBrowserBase} view to set
+     * @param dstObjectBrowser The {@linkplain ObjectBrowserBase} view to set
      */
     public void SetDstImpactViewView(ObjectBrowserBase<?,?> dstObjectBrowser)
     {
@@ -378,7 +384,7 @@ public class ImpactViewPanel extends JPanel
     }
     
     /**
-     * Attach a {@linkplain ActionListener} for the {@linkplain switchMappingDirectionButton}
+     * Attach a {@linkplain ActionListener} for the {@linkplain #switchMappingDirectionButton}
      * 
      * @param handler the {@linkplain Callable} of {@linkplain MappingDirection}
      */
@@ -399,7 +405,7 @@ public class ImpactViewPanel extends JPanel
     }
     
     /**
-     * Set the collection source of the {@linkplain ComboBox} that lists all available {@linkplain ExternalIdentifierMap}
+     * Set the collection source of the {@linkplain JComboBox} that lists all available {@linkplain ExternalIdentifierMap}
      * 
      * @param configurations the {@linkplain List} of configurations name
      */
@@ -414,7 +420,7 @@ public class ImpactViewPanel extends JPanel
     }
         
     /**
-     * Attach a {@linkplain ActionListener} for the {@linkplain switchMappingDirectionButton}
+     * Attach a {@linkplain ActionListener} for the {@linkplain #switchMappingDirectionButton}
      * 
      * @param handler the {@linkplain Function} of {@linkplain String} representing the current mapping configuration.
      * The {@linkplain Function} returns a value indicating whether the loaded configuration is new.
@@ -442,7 +448,7 @@ public class ImpactViewPanel extends JPanel
     }
     
     /**
-     * Attach a {@linkplain ActionListener} for the {@linkplain switchMappingDirectionButton}
+     * Attach a {@linkplain ActionListener} for the {@linkplain #switchMappingDirectionButton}
      * 
      * @param handler the {@linkplain Callable} of {@linkplain Boolean}
      */
@@ -482,18 +488,59 @@ public class ImpactViewPanel extends JPanel
      */
     private void UpdateVisualDirection(MappingDirection newDirection)
     {
-        if(newDirection == MappingDirection.FromHubToDst)
-        {
-            this.arrowLeft.setText(String.format(ArrowBaseString, 0));
-            this.arrowRight.setText(String.format(ArrowBaseString, 0));
-            this.impactViewsTabbedPane.setSelectedIndex(1);
+//        if(newDirection == MappingDirection.FromHubToDst)
+//        {
+//            this.arrowLeft.setText(String.format(ArrowBaseString, 0));
+//            this.arrowRight.setText(String.format(ArrowBaseString, 0));
+//            this.impactViewsTabbedPane.setSelectedIndex(1);
+//        }
+//        else if(newDirection == MappingDirection.FromDstToHub)
+//        {
+//            this.arrowLeft.setText(String.format(ArrowBaseString, 2));
+//            this.arrowRight.setText(String.format(ArrowBaseString, 2));
+//            this.impactViewsTabbedPane.setSelectedIndex(0);
+//        }
+        int targetRotation; // Target rotation angle based on the new direction
+
+        if (newDirection == MappingDirection.FromHubToDst) {
+            targetRotation = 180; // Rotate left arrow by 180 degrees
+            this.impactViewsTabbedPane.setSelectedIndex(1); // Activate Dst Impact tab
+        } else if (newDirection == MappingDirection.FromDstToHub) {
+            targetRotation = 0; // Rotate left arrow back to 0 degrees
+            this.impactViewsTabbedPane.setSelectedIndex(0); // Activate Hub Impact tab
+        } else {
+            return; // No need to animate if direction is unchanged
         }
-        else if(newDirection == MappingDirection.FromDstToHub)
-        {
-            this.arrowLeft.setText(String.format(ArrowBaseString, 2));
-            this.arrowRight.setText(String.format(ArrowBaseString, 2));
-            this.impactViewsTabbedPane.setSelectedIndex(0);
+
+        // Initialize animation timer
+        if (animationTimer != null && animationTimer.isRunning()) {
+            animationTimer.stop(); // Stop any existing animation
         }
+
+        // Calculate rotation step based on animation duration
+        final int steps = ANIMATION_DURATION / 20; // Dividing by 20 for smoother animation
+        final int stepRotation = (targetRotation - currentRotation) / steps;
+
+        Ref<Integer> stepCount = new Ref<>(Integer.class, 0);
+
+        // Create animation timer
+        animationTimer = new Timer(20, e ->
+        {
+            currentRotation += stepRotation; // Update current rotation
+            stepCount.Set(stepCount.Get() + 1);
+
+            // Rotate arrows
+            arrowLeft.setIcon(ImageLoader.GetRotatedIcon(this.arrowImageIcon, currentRotation));
+            arrowRight.setIcon(ImageLoader.GetRotatedIcon(this.arrowImageIcon, currentRotation));
+
+            if (stepCount.Get() >= steps)
+            {
+                animationTimer.stop();
+            }
+        });
+
+        // Start animation timer
+        animationTimer.start();
     }
     
     /**
