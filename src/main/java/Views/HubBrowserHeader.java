@@ -23,18 +23,13 @@
  */
 package Views;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import ViewModels.Interfaces.IHubBrowserHeaderViewModel;
 import ViewModels.Interfaces.IViewModel;
 import Views.Interfaces.IView;
 
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.awt.Font;
-import java.awt.Insets;
-import javax.swing.SwingConstants;
+import java.awt.*;
 
 /**
  * The {@linkplain HubBrowserHeader} is the hub session information display
@@ -48,7 +43,7 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
 	 */
     private static final String FONTNAME = "Tahoma";
 
-	/**
+    /**
      * This view attached {@linkplain IViewModel}
      */
     private transient IHubBrowserHeaderViewModel dataContext;
@@ -61,11 +56,26 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
     private JLabel iterationLabel;
     private JLabel personLabel;
     private JLabel domainOfExpertiseLabel;
-    
+    private JComboBox<String> optionsComboBox;
+    private JLabel labelDataSource;
+    private JLabel labelIteration;
+    private JLabel labelModel;
+    private JLabel labelPerson;
+    private JLabel labelOptions;
+    private JLabel labelDomainOfExpertise;
+
     /**
      * Initializes a new {@linkplain HubBrowserHeader}
      */
     public HubBrowserHeader()
+    {
+        this.Initialize();
+    }
+
+    /**
+     * Initializes this view components
+     */
+    private void Initialize()
     {
         this.setBounds(0, 0, 500, 250);
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -73,98 +83,119 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-        setLayout(gridBagLayout);
-        
-        JLabel lblModel = new JLabel("Model:");
-        lblModel.setFont(new Font(FONTNAME, Font.BOLD, 11));
+        this.setLayout(gridBagLayout);
+
+        this.labelModel = new JLabel("Model:");
+        this.labelModel.setFont(new Font(FONTNAME, Font.BOLD, 11));
         GridBagConstraints gbcLblModel = new GridBagConstraints();
         gbcLblModel.fill = GridBagConstraints.VERTICAL;
         gbcLblModel.anchor = GridBagConstraints.WEST;
         gbcLblModel.insets = new Insets(5, 0, 5, 5);
         gbcLblModel.gridx = 0;
         gbcLblModel.gridy = 0;
-        add(lblModel, gbcLblModel);
-        
+        this.add(this.labelModel, gbcLblModel);
+
         this.modelLabel = new JLabel("");
         GridBagConstraints gbcModelLabel = new GridBagConstraints();
         gbcModelLabel.fill = GridBagConstraints.BOTH;
         gbcModelLabel.insets = new Insets(0, 0, 5, 5);
         gbcModelLabel.gridx = 1;
         gbcModelLabel.gridy = 0;
-        add(this.modelLabel, gbcModelLabel);
-        
-        JLabel lblDataSource = new JLabel("Data-Source:");
-        lblDataSource.setFont(new Font(FONTNAME, Font.BOLD, 11));
+        this.add(this.modelLabel, gbcModelLabel);
+
+        this.labelDataSource = new JLabel("Data-Source:");
+        labelDataSource.setFont(new Font(FONTNAME, Font.BOLD, 11));
         GridBagConstraints gbcLblDataSource = new GridBagConstraints();
         gbcLblDataSource.fill = GridBagConstraints.VERTICAL;
         gbcLblDataSource.anchor = GridBagConstraints.WEST;
         gbcLblDataSource.insets = new Insets(0, 0, 5, 5);
         gbcLblDataSource.gridx = 2;
         gbcLblDataSource.gridy = 0;
-        add(lblDataSource, gbcLblDataSource);
-        
+        this.add(labelDataSource, gbcLblDataSource);
+
         this.dataSourceLabel = new JLabel("");
         GridBagConstraints gbcDataSourceLabel = new GridBagConstraints();
         gbcDataSourceLabel.fill = GridBagConstraints.BOTH;
         gbcDataSourceLabel.insets = new Insets(0, 0, 5, 0);
         gbcDataSourceLabel.gridx = 3;
         gbcDataSourceLabel.gridy = 0;
-        add(this.dataSourceLabel, gbcDataSourceLabel);
-        
-        JLabel lblIteration = new JLabel("Iteration:");
-        lblIteration.setFont(new Font(FONTNAME, Font.BOLD, 11));
+        this.add(this.dataSourceLabel, gbcDataSourceLabel);
+
+        this.labelIteration = new JLabel("Iteration:");
+        this.labelIteration.setFont(new Font(FONTNAME, Font.BOLD, 11));
         GridBagConstraints gbcLblIteration = new GridBagConstraints();
         gbcLblIteration.anchor = GridBagConstraints.WEST;
         gbcLblIteration.insets = new Insets(0, 0, 5, 5);
         gbcLblIteration.fill = GridBagConstraints.VERTICAL;
         gbcLblIteration.gridx = 0;
         gbcLblIteration.gridy = 1;
-        add(lblIteration, gbcLblIteration);
-        
+        this.add(this.labelIteration, gbcLblIteration);
+
         this.iterationLabel = new JLabel("");
         GridBagConstraints gbcIterationLabel = new GridBagConstraints();
         gbcIterationLabel.fill = GridBagConstraints.BOTH;
         gbcIterationLabel.insets = new Insets(0, 0, 5, 5);
         gbcIterationLabel.gridx = 1;
         gbcIterationLabel.gridy = 1;
-        add(this.iterationLabel, gbcIterationLabel);
-        
-        JLabel lblPerson = new JLabel("Person:");
-        lblPerson.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblPerson.setFont(new Font(FONTNAME, Font.BOLD, 11));
+        this.add(this.iterationLabel, gbcIterationLabel);
+
+        this.labelPerson = new JLabel("Person:");
+        this.labelPerson.setHorizontalAlignment(SwingConstants.RIGHT);
+        this.labelPerson.setFont(new Font(FONTNAME, Font.BOLD, 11));
         GridBagConstraints gbcLblPerson = new GridBagConstraints();
         gbcLblPerson.fill = GridBagConstraints.VERTICAL;
         gbcLblPerson.anchor = GridBagConstraints.WEST;
         gbcLblPerson.insets = new Insets(0, 0, 5, 5);
         gbcLblPerson.gridx = 2;
         gbcLblPerson.gridy = 1;
-        add(lblPerson, gbcLblPerson);
-        
+        this.add(this.labelPerson, gbcLblPerson);
+
         this.personLabel = new JLabel("");
         GridBagConstraints gbcPersonLabel = new GridBagConstraints();
         gbcPersonLabel.fill = GridBagConstraints.BOTH;
         gbcPersonLabel.insets = new Insets(0, 0, 5, 0);
         gbcPersonLabel.gridx = 3;
         gbcPersonLabel.gridy = 1;
-        add(this.personLabel, gbcPersonLabel);
-        
-        JLabel lblDomainOfExpertise = new JLabel("Domain of Expertise:");
-        lblDomainOfExpertise.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblDomainOfExpertise.setFont(new Font(FONTNAME, Font.BOLD, 11));
+        this.add(this.personLabel, gbcPersonLabel);
+
+        this.labelOptions = new JLabel("Option:");
+        this.labelOptions.setHorizontalAlignment(SwingConstants.RIGHT);
+        this.labelOptions.setFont(new Font(FONTNAME, Font.BOLD, 11));
+        GridBagConstraints gridBagConstraintsLabelOptions = new GridBagConstraints();
+        gridBagConstraintsLabelOptions.fill = GridBagConstraints.VERTICAL;
+        gridBagConstraintsLabelOptions.anchor = GridBagConstraints.WEST;
+        gridBagConstraintsLabelOptions.insets = new Insets(0, 0, 5, 5);
+        gridBagConstraintsLabelOptions.gridx = 0;
+        gridBagConstraintsLabelOptions.gridy = 2;
+        this.add(this.labelOptions, gridBagConstraintsLabelOptions);
+
+        this.optionsComboBox = new JComboBox<>();
+        this.optionsComboBox.setMinimumSize(new Dimension(150, 50));
+        GridBagConstraints gridBagConstraintsOptions = new GridBagConstraints();
+        gridBagConstraintsOptions.fill = GridBagConstraints.WEST;
+        gridBagConstraintsLabelOptions.insets = new Insets(0, 0, 5, 10);
+        gridBagConstraintsLabelOptions.anchor = GridBagConstraints.WEST;
+        gridBagConstraintsOptions.gridx = 1;
+        gridBagConstraintsOptions.gridy = 2;
+        this.add(this.optionsComboBox, gridBagConstraintsOptions);
+
+        this.labelDomainOfExpertise = new JLabel("Domain of Expertise:");
+        this.labelDomainOfExpertise.setHorizontalAlignment(SwingConstants.RIGHT);
+        this.labelDomainOfExpertise.setFont(new Font(FONTNAME, Font.BOLD, 11));
         GridBagConstraints gbcLblDomainOfExpertise = new GridBagConstraints();
         gbcLblDomainOfExpertise.fill = GridBagConstraints.VERTICAL;
         gbcLblDomainOfExpertise.anchor = GridBagConstraints.WEST;
         gbcLblDomainOfExpertise.insets = new Insets(0, 0, 0, 5);
         gbcLblDomainOfExpertise.gridx = 2;
         gbcLblDomainOfExpertise.gridy = 2;
-        add(lblDomainOfExpertise, gbcLblDomainOfExpertise);
-        
+        this.add(this.labelDomainOfExpertise, gbcLblDomainOfExpertise);
+
         this.domainOfExpertiseLabel = new JLabel("");
         GridBagConstraints gbcDomainOfExpertiseLabel = new GridBagConstraints();
         gbcDomainOfExpertiseLabel.fill = GridBagConstraints.BOTH;
         gbcDomainOfExpertiseLabel.gridx = 3;
         gbcDomainOfExpertiseLabel.gridy = 2;
-        add(this.domainOfExpertiseLabel, gbcDomainOfExpertiseLabel);
+        this.add(this.domainOfExpertiseLabel, gbcDomainOfExpertiseLabel);
     }
 
     /**
@@ -184,11 +215,16 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
      */
     private void UpdateProperties()
     {
+        this.optionsComboBox.removeAllItems();
+        this.optionsComboBox.setVisible(false);
+
         this.modelLabel.setText(this.dataContext.GetEngineeringModelName().Value());
         this.dataSourceLabel.setText(this.dataContext.GetDataSource().Value());
         this.iterationLabel.setText(this.dataContext.GetIterationNumber().Value());
         this.personLabel.setText(this.dataContext.GetPersonName().Value());
         this.domainOfExpertiseLabel.setText(this.dataContext.GetDomainOfExpertiseName().Value());
+        this.dataContext.GetAvailableOptions().forEach(x -> this.optionsComboBox.addItem(x));
+        this.dataContext.GetSelectedOption().subscribe(x -> this.optionsComboBox.setSelectedItem(x));
     }
 
     /**
@@ -204,8 +240,6 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
     
     /**
      * Binds the <code>TViewModel viewModel</code> to the implementing view
-     * 
-     * @param <code>viewModel</code> the view model to bind
      */
     @Override
     public void Bind()
@@ -215,5 +249,19 @@ public class HubBrowserHeader extends JPanel implements IView<IHubBrowserHeaderV
         this.dataContext.GetIterationNumber().Observable().subscribe(x -> this.iterationLabel.setText(x));
         this.dataContext.GetPersonName().Observable().subscribe(x -> this.personLabel.setText(x));
         this.dataContext.GetDomainOfExpertiseName().Observable().subscribe(x -> this.domainOfExpertiseLabel.setText(x));
+
+        this.dataContext.GetAvailableOptions().IsEmptyObservable().subscribe(x ->
+        {
+            this.optionsComboBox.removeAllItems();
+            this.optionsComboBox.setVisible(false);
+        });
+
+        this.dataContext.GetAvailableOptions().ItemsAdded().subscribe(x ->
+        {
+            x.forEach(o -> this.optionsComboBox.addItem(o));
+            this.optionsComboBox.setVisible(true);
+        });
+
+        this.optionsComboBox.addActionListener(x -> this.dataContext.SetSelectedOption(this.optionsComboBox.getSelectedItem()));
     }
 }

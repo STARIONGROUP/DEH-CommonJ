@@ -29,6 +29,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletionException;
 import java.util.function.Predicate;
 
+import cdp4common.engineeringmodeldata.Option;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.ImmutableMap;
@@ -231,6 +232,20 @@ public interface IHubController
     Collection<ExternalIdentifierMap> GetAvailableExternalIdentifierMap(String toolName);
 
     /**
+     * The selected {@linkplain Option}
+     *
+     * @return The current option observable
+     */
+    Observable<Option> GetOptionObservable();
+
+    /**
+     * The selected {@linkplain Option}
+     *
+     * @return The current option
+     */
+    Option GetOption();
+
+    /**
      * Adds a new <see cref="ModelLogEntry"/> record to the <see cref="EngineeringModel.LogEntry"/> 
      * list of the current <see cref="OpenIteration"/> and registers the change to a <see cref="ThingTransaction"/>
      * @throws TransactionException 
@@ -244,5 +259,12 @@ public interface IHubController
      * @return a value indicating whether the whole transaction should be cancelled based on the dialog result
      * @throws TransactionException 
      */
-    boolean TrySupplyAndCreateLogEntry(ThingTransaction transaction) throws TransactionException;    
+    boolean TrySupplyAndCreateLogEntry(ThingTransaction transaction) throws TransactionException;
+
+    /**
+     * The selected {@linkplain Option}
+     *
+     * @param option The selected option
+     */
+    void SetSelectedOption(Option option);
 }

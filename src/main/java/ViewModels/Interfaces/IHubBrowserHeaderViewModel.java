@@ -23,8 +23,12 @@
  */
 package ViewModels.Interfaces;
 
+import Reactive.ObservableCollection;
 import Reactive.ObservableValue;
+import ViewModels.HubBrowserHeaderViewModel;
 import io.reactivex.Observable;
+
+import java.util.Collection;
 
 /**
  * The {@linkplain IHubBrowserHeaderViewModel} is the main interface definition for {@linkplain HubBrowserHeaderViewModel}
@@ -32,37 +36,58 @@ import io.reactivex.Observable;
 public interface IHubBrowserHeaderViewModel extends IViewModel
 {
     /**
-     * Gets the {@linkplain ObservableValue} from {@linkplain domainOfExpertiseName} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from domainOfExpertiseName {@linkplain ObservableValue}
      * 
      * @return a {@linkplain Observable}
      */
     ObservableValue<String> GetDomainOfExpertiseName();
 
     /**
-     * Gets the {@linkplain ObservableValue} from {@linkplain personName} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from personName {@linkplain ObservableValue}
      * 
      * @return a {@linkplain ObservableValue}
      */
     ObservableValue<String> GetPersonName();
 
     /**
-     * Gets the {@linkplain ObservableValue} from {@linkplain iterationNumber} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from iterationNumber {@linkplain ObservableValue}
      * 
      * @return a {@linkplain ObservableValue}
      */
     ObservableValue<String> GetIterationNumber();
 
     /**
-     * Gets the {@linkplain ObservableValue} from {@linkplain dataSource} {@linkplain ObservableValue}
+     * Gets an {@linkplain Observable} yielding the selected option
+     *
+     * @return An {@linkplain Observable} of string
+     */
+    Observable<String> GetSelectedOption();
+
+    /**
+     * Gets the {@linkplain ObservableValue} holding the selected option
+     *
+     * @param optionName The option name string as {@linkplain Object}
+     */
+    void SetSelectedOption(Object optionName);
+
+    /**
+     * Gets the {@linkplain ObservableValue} from dataSource {@linkplain ObservableValue}
      * 
      * @return a {@linkplain ObservableValue}
      */
     ObservableValue<String> GetDataSource();
 
     /**
-     * Gets the {@linkplain ObservableValue} from {@linkplain engineeringModelName} {@linkplain ObservableValue}
+     * Gets the {@linkplain ObservableValue} from engineeringModelName {@linkplain ObservableValue}
      * 
      * @return a {@linkplain ObservableValue}
      */
     ObservableValue<String> GetEngineeringModelName();
+
+    /**
+     * The {@linkplain ObservableCollection} of available options
+     *
+     * @return A {@linkplain Collection} of string
+     */
+    ObservableCollection<String> GetAvailableOptions();
 }

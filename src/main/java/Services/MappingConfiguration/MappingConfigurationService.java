@@ -167,7 +167,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
         if(this.IsTheCurrentIdentifierMapTemporary())
         {
             this.logger.error(String.format("The current mapping (%s correspondences) will not be saved, "
-                    + "as it is tempary until the user creates one or loads an existing one.",
+                    + "as it is temporary until the user creates one or loads an existing one.",
                     this.externalIdentifierMap.getCorrespondence().size()));
             
             return;
@@ -213,7 +213,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     }
     
     /**
-     * Parses the {@linkplain ExternalIdentifierMap} Correspondences and adds these to the {@linkplain Correspondences} collection
+     * Parses the {@linkplain ExternalIdentifierMap} Correspondences and adds these to the correspondences collection
      */
     private void ParseIdCorrespondence()
     {
@@ -272,7 +272,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
     }
     
     /**
-     * Initializes a new {@linkplain #TExternalIdentifier} based on the provided external id and the {@linkplain MappingDirection}
+     * Initializes a new {@linkplain TExternalIdentifier} based on the provided external id and the {@linkplain MappingDirection}
      * 
      * @param externalId the {@linkplain Object} external identifier
      * @param mappingDirection the {@linkplain MappingDirection}
@@ -310,7 +310,7 @@ public abstract class MappingConfigurationService<TDstElement, TExternalIdentifi
      * Adds one correspondence to the {@linkplain ExternalIdentifierMap}
      * 
      * @param internalId the internal thing {@linkplain UUID}
-     * @param externalIdentifier the {@linkplain #TExternalIdentifier}
+     * @param externalIdentifier the {@linkplain TExternalIdentifier}
      * @param filter a {@linkplain Predicate} to find any existing mapping
      * @param extraFilter a extra filter {@linkplain Predicate}
      */

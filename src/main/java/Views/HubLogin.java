@@ -73,7 +73,7 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
     private final transient Logger logger = LogManager.getLogger();
     
     /**
-     * Backing field for {@linkplain GetDialogResult()}
+     * Backing field for {@linkplain #GetDialogResult()}
      */
     private Boolean dialogResult;
 
@@ -318,8 +318,6 @@ public class HubLogin extends JDialog implements IDialog<IHubLoginViewModel, Boo
     
     /**
      * Binds the <code>TViewModel viewModel</code> to the implementing view
-     * 
-     * @param <code>viewModel</code> the view model to bind
      */
     public void Bind()
     {
