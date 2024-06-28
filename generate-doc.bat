@@ -2,7 +2,7 @@
 
 REM generate-doc.bat
 REM
-REM Copyright (c) 2020-2022 RHEA System S.A.
+REM Copyright (c) 2020-2024 Starion Group S.A.
 REM
 REM Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski, Théate Antoine
 REM

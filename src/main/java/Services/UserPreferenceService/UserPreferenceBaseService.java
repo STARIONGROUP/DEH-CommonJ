@@ -1,7 +1,7 @@
 /*
  * UserPreferenceBaseService.java
  *
- * Copyright (c) 2020-2022 RHEA System S.A.
+ * Copyright (c) 2020-2024 Starion Group S.A.
  *
  * Author: Sam Gerené, Alex Vorobiev, Nathanael Smiechowski, Antoine Théate
  *
@@ -163,7 +163,7 @@ public abstract class UserPreferenceBaseService<TUserPreference>
     private File GetSettingFile()
     {
         File file = new File(System.getProperty("user.home"));
-        file = new File(file, ".rheagroup");
+        file = new File(file, ".stariongroup");
         this.TryCreateDirectoryOrFile(file);
         file = new File(file, "DEHAdapterSettingFile");
         this.TryCreateDirectoryOrFile(file);
