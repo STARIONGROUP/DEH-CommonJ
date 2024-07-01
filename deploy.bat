@@ -3,7 +3,7 @@
 
 REM deploy.bat
 REM
-REM Copyright (c) 2020-2021 RHEA System S.A.
+REM Copyright (c) 2020-2024 Starion Group S.A.
 REM
 REM Author: Sam Gerene, Alex Vorobiev, Nathanael Smiechowski 
 REM
@@ -62,7 +62,7 @@ echo ==================================^> Installing the DEH-CommonJ library in 
 echo ===============================================================^>
 echo.
 
-call mvn install:install-file -Dfile=target\DEHCommonJ.jar -DgroupId=com.rheagroup -DartifactId=DEHCommonJ -Dversion=%version%  -Dpackaging=jar -DgeneratePom=true
+call mvn install:install-file -Dfile=target\DEHCommonJ.jar -DgroupId=eu.stariongroup -DartifactId=DEHCommonJ -Dversion=%version%  -Dpackaging=jar -DgeneratePom=true
 echo Exit Code = %ERRORLEVEL%
 if not "%ERRORLEVEL%" == "0" goto QUIT
 echo DEHCommonJ library has been built
@@ -74,7 +74,7 @@ echo.
 echo ==================================^> Copying files to the specified directory
 echo ===============================================================^>
 echo.
-set "basePath=%HOMEPATH%\.m2\repository\com\rheagroup\DEHCommonJ\%version%\"
+set "basePath=%HOMEPATH%\.m2\repository\eu\stariongroup\DEHCommonJ\%version%\"
 set "pathToNewBuild=%basePath%DEHCommonJ-%version%.jar"
 set "pathToSources=target\DEHCommonJ-%version%-sources.jar"
 
