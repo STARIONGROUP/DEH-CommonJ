@@ -114,9 +114,10 @@ public class MappedElementListViewTreeRowViewModel extends BaseTreeRowModel impl
     {
         switch (column)
         {
-            case 0 : return String.class;
-            case 1 : return String.class;
-            case 2 : return String.class;
+            case 0 :
+            case 2 :
+            case 1 :
+                return String.class;
             default : return null;
         }
     }
