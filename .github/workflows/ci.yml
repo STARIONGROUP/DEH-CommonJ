@@ -23,12 +23,12 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn -B -DskipTests package --file pom.xml
+      run: mvn -B -DskipTests -Dgpg.skip=true package --file pom.xml
 
     - name: Test
       uses: GabrielBB/xvfb-action@v1
       with:
-        run: mvn -B -Daspectj.tests.verbose=false verify --file pom.xml
+        run: mvn -B -Daspectj.tests.verbose=false -Dgpg.skip=true verify --file pom.xml
 
     - name: Set up JDK 17 for scan
       uses: actions/setup-java@v4
@@ -59,6 +59,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        run: mvn clean verify sonar:sonar \
+        run: mvn clean verify -Dgpg.skip=true sonar:sonar \
           -Dsonar.projectKey=STARIONGROUP_DEH-CommonJ \
           -Dsonar.java.source=1.8
